@@ -1,0 +1,14 @@
+D:\Code\L\Lab1.5\obj\Debug\Lab1.5.csprojAssemblyReference.cache
+D:\Code\L\Lab1.5\obj\Debug\Lab1.5.csproj.CoreCompileInputs.cache
+D:\Code\L\Lab1.5\bin\Debug\Lab1.5.exe.config
+D:\Code\L\Lab1.5\bin\Debug\Lab1.5.exe
+D:\Code\L\Lab1.5\bin\Debug\Lab1.5.pdb
+D:\Code\L\Lab1.5\obj\Debug\Lab1.5.exe
+D:\Code\L\Lab1.5\obj\Debug\Lab1.5.pdb
+D:\Code\L\PIOG\Lab1.5\bin\Debug\Lab1.5.exe.config
+D:\Code\L\PIOG\Lab1.5\bin\Debug\Lab1.5.exe
+D:\Code\L\PIOG\Lab1.5\bin\Debug\Lab1.5.pdb
+D:\Code\L\PIOG\Lab1.5\obj\Debug\Lab1.5.csprojAssemblyReference.cache
+D:\Code\L\PIOG\Lab1.5\obj\Debug\Lab1.5.csproj.CoreCompileInputs.cache
+D:\Code\L\PIOG\Lab1.5\obj\Debug\Lab1.5.exe
+D:\Code\L\PIOG\Lab1.5\obj\Debug\Lab1.5.pdb
