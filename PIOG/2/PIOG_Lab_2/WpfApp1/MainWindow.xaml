@@ -5,9 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="120" Width="310" MinWidth="310" MinHeight="120">
     <Grid>
-        <Button x:Name="ButStart" Content="Star" HorizontalAlignment="Left" Margin="369,214,0,0" VerticalAlignment="Top" Width="75" Click="ButStart_Click"/>
+        <Label Content="A" HorizontalAlignment="Left" Height="20" Margin="12,11,0,0" VerticalAlignment="Top" Width="20" FontSize="9"/>
+        <Label Content="B" HorizontalAlignment="Left" Height="20" Margin="12,66,0,0" VerticalAlignment="Top" Width="20" FontSize="9"/>
+        <Button x:Name="addition" Content="+" HorizontalAlignment="Left" Height="25" Margin="37,36,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="1.04,-0.067" Click="addition_Click"/>
+        <Button x:Name="subtraction" Content="-" HorizontalAlignment="Left" Height="25" Margin="62,36,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="1.04,-0.067" Click="subtraction_Click"/>
+        <Button x:Name="multip" Content="*" HorizontalAlignment="Left" Height="25" Margin="87,36,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="1.04,-0.067" Click="multip_Click"/>
+        <Button x:Name="division" Content="/" HorizontalAlignment="Left" Height="25" Margin="112,36,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="1.04,-0.067" Click="division_Click"/>
+        <Label Content="=" HorizontalAlignment="Left" Height="25" Margin="142,36,0,0" VerticalAlignment="Top" Width="25" FontSize="9"/>
+        <TextBox x:Name="a_var" HorizontalAlignment="Left" Height="20" Margin="37,11,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100"/>
+        <TextBox x:Name="b_var" HorizontalAlignment="Left" Height="20" Margin="37,66,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="100"/>
+        <Label x:Name="Output" Content="" HorizontalAlignment="Left" Height="25" Margin="167,36,0,0" VerticalAlignment="Top" Width="125"/>
+
 
     </Grid>
 </Window>

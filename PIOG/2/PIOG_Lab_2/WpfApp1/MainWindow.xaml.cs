@@ -30,14 +30,45 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        public double a;
+        public double b;
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void ButStart_Click(object sender, RoutedEventArgs e)
+        private void addition_Click(object sender, RoutedEventArgs e)
         {
-
+            a = double.Parse(a_var.Text);
+            b = double.Parse(b_var.Text);
+            double c = a + b;
+            Output.Content = c;
         }
+
+        private void subtraction_Click(object sender, RoutedEventArgs e)
+        {
+            a = double.Parse(a_var.Text);
+            b = double.Parse(b_var.Text);
+            double c = a - b;
+            Output.Content = c;
+        }
+
+        private void division_Click(object sender, RoutedEventArgs e)
+        {
+            a = double.Parse(a_var.Text);
+            b = double.Parse(b_var.Text);
+            double c = a / b;
+            Output.Content = c;
+        }
+
+        private void multip_Click(object sender, RoutedEventArgs e)
+        {
+            a = double.Parse(a_var.Text);
+            b = double.Parse(b_var.Text);
+            double c = a * b;
+            Output.Content = c;
+        }
+
+        
     }
 }
