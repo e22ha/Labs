@@ -20,9 +20,12 @@ namespace Lab1._7
             o = O;
             math = Math;
         }
-        public void WriteUserInfo()   // метод для вывода
+        public void WriteUserInfo(int chek)   // метод для вывода
         {
+            if( math >= chek)
             Console.WriteLine("ФИО: {0} {1} {2}, Math: {3}", name, lastName, o, math);
+            
+        
         }
         public static student Reg()
         {
@@ -42,6 +45,7 @@ namespace Lab1._7
         static void Main()
         {
             List<student> myList = new List<student>();
+            List<student> aList = new List<student>();
            
             for (int i = 1; i <= 10; i++)
             {
@@ -54,11 +58,14 @@ namespace Lab1._7
                 }
                 else{ i =i + 11; }
             }
+            Console.WriteLine("Введите нижнюю границу отметки: ");
+            int chek = int.Parse(Console.ReadLine());
             for (int i = 0; i < myList.Count; i++)
             {
                 var item = myList[i];
-                item.WriteUserInfo();
+                item.WriteUserInfo(chek);
             }
+           
 
             Console.ReadKey();
         }
