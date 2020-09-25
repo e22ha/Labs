@@ -20,7 +20,7 @@ namespace INF_Lab_1._3
 //младшему разряду числа, представленного в двоичной форме, единицу.
         static void Main(string[] args)
         {
-            Console.Write("Введите число от 128 до -127: ");
+            Console.Write("Введите число от 127 до -128: ");
             int a = int.Parse(Console.ReadLine());
             printM(intToBin(a));
             Console.ReadKey();
@@ -39,14 +39,55 @@ namespace INF_Lab_1._3
             }
             Console.WriteLine();
         }
+        static int[] Invert(int[] n)
+        {
+            for (int i = 0; i <= 7; i++)
+            {
+                if (n[i] == 0)
+                {
+                    n[i] = 1;
+                }
+                else
+                {
+                    n[i] = 0;
+                }
+            }
+            return n;
+        }
         static int[] SByteToBin(sbyte n)
         {
             int[] m = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
-            for (int i = 7; i >= 0; i--)
+            double z = (double)n;
+            if (n >= 0) 
             {
-                sbyte a = 1;//00000001
-                m[i] = (n & a);
-                n = (sbyte)(n >> 1);
+                for (int i = 7; i >= 0; i--)
+                {
+                    double a = z % 2;
+                    m[i] = (int)a;
+                    z = (z / 2);
+                }
+            }
+            else
+            {
+                for (int i = 7; i >= 0; i--)
+                {
+                    double a = z % 2;
+                    m[i] = (int)a;
+                    z = Math.Abs(z / 2);
+                }
+                Invert(m);
+                m[7] = m[7] + 1;
+
+                for (int i = 7; i > 0; i--)
+                {
+                    if (m[i] == 2)
+                    {
+                        m[i] = 0;
+                        m[i - 1] = m[i - 1] + 1;
+                    }
+                }
+                
+
             }
             return m;
         }

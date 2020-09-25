@@ -5,3 +5,10 @@ D:\Code\L\INF\INF_Lab_1.4\obj\Debug\INF_Lab_1.4.csproj.CoreCompileInputs.cache
 D:\Code\L\INF\INF_Lab_1.4\obj\Debug\INF_Lab_1.4.exe
 D:\Code\L\INF\INF_Lab_1.4\obj\Debug\INF_Lab_1.4.pdb
 D:\Code\L\INF\INF_Lab_1.4\obj\Debug\INF_Lab_1.4.csprojAssemblyReference.cache
+D:\Code\L\Labs\INF\INF_Lab_1.4\bin\Debug\INF_Lab_1.4.exe.config
+D:\Code\L\Labs\INF\INF_Lab_1.4\bin\Debug\INF_Lab_1.4.exe
+D:\Code\L\Labs\INF\INF_Lab_1.4\bin\Debug\INF_Lab_1.4.pdb
+D:\Code\L\Labs\INF\INF_Lab_1.4\obj\Debug\INF_Lab_1.4.csprojAssemblyReference.cache
+D:\Code\L\Labs\INF\INF_Lab_1.4\obj\Debug\INF_Lab_1.4.csproj.CoreCompileInputs.cache
+D:\Code\L\Labs\INF\INF_Lab_1.4\obj\Debug\INF_Lab_1.4.exe
+D:\Code\L\Labs\INF\INF_Lab_1.4\obj\Debug\INF_Lab_1.4.pdb

@@ -48,7 +48,17 @@ namespace INF_Lab_1._4
         }
         static int[] strToBin(string n)
         {
-            int[] m = n.ToCharArray().Select(i => int.Parse(i.ToString())).ToArray();
+            int[] m = new int[8]{0,0,0,0,0,0,0,0};
+            int k = n.Length;
+
+            
+
+            for (int i = 8-k; i <= 7; i++)
+            {
+               int a = int.Parse( n[i - (8 - k)].ToString());
+               m[i] = a;
+            } 
+                
             return m;
         }
         static SByte BinToSByte(int[] n)

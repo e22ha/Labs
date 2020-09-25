@@ -18,7 +18,7 @@ namespace INF_Lab_1
 
         static void Main(string[] args)
         {
-            Console.Write("Введите число от 128 до -127: ");
+            Console.Write("Введите число от 127 до -128: ");
             int a = int.Parse(Console.ReadLine());
             sbyte r = (sbyte)(a);
             
@@ -48,7 +48,7 @@ namespace INF_Lab_1
             for (int i = 7; i >= 0; i--)
             {
                 sbyte a = 1;//00000001
-                m[i] = (n & a);
+                m[i] = n & a;
                 n = (sbyte)(n >> 1);
             }
             return m;

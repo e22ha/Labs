@@ -1,0 +1,15 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="200" Width="500" MinWidth="350" MinHeight="200">
+    <Grid>
+        <Button x:Name="start" Content="Add line" HorizontalAlignment="Left" Margin="69,98,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <TextBox x:Name="input" HorizontalAlignment="Left" Height="19" Margin="10,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204"/>
+        <ListBox x:Name="output" HorizontalAlignment="Left" Height="151" Margin="233,10,0,0" VerticalAlignment="Top" Width="250"/>
+
+    </Grid>
+</Window>
