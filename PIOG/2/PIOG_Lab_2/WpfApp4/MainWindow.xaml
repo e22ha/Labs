@@ -1,0 +1,19 @@
+﻿<Window x:Class="WpfApp4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp4"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <ComboBox HorizontalAlignment="Left" Height="0" Margin="200,160,0,0" VerticalAlignment="Top" Width="6"/>
+        <ComboBox x:Name="Year_choice" HorizontalAlignment="Left" Margin="44,138,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Year_choice_SelectionChanged"/>
+        <ComboBox x:Name="Month_choice" HorizontalAlignment="Left" Margin="200,138,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Month_choice_SelectionChanged"/>
+        <ComboBox x:Name="Day_Choice" HorizontalAlignment="Left" Margin="366,138,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="Day_Choice_SelectionChanged"/>
+        <Label x:Name="Year" Content="Год:&#xD;&#xA;" HorizontalAlignment="Left" Margin="44,107,0,0" VerticalAlignment="Top" Height="26" Width="49"/>
+        <Label x:Name="Mo" Content="Месяц:" HorizontalAlignment="Left" Margin="200,107,0,0" VerticalAlignment="Top" Width="76"/>
+        <Label x:Name="day" Content="День:&#xD;&#xA;" HorizontalAlignment="Left" Margin="366,107,0,0" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
