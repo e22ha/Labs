@@ -14,6 +14,8 @@
         <Label x:Name="Year" Content="Год:&#xD;&#xA;" HorizontalAlignment="Left" Margin="44,107,0,0" VerticalAlignment="Top" Height="26" Width="49"/>
         <Label x:Name="Mo" Content="Месяц:" HorizontalAlignment="Left" Margin="200,107,0,0" VerticalAlignment="Top" Width="76"/>
         <Label x:Name="day" Content="День:&#xD;&#xA;" HorizontalAlignment="Left" Margin="366,107,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="go" Content="Go" HorizontalAlignment="Left" Height="22" Margin="505,138,0,0" VerticalAlignment="Top" Width="110" Click="go_Click"/>
+        <TextBlock x:Name="output" HorizontalAlignment="Left" Height="131" Margin="465,165,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="150"/>
 
     </Grid>
 </Window>

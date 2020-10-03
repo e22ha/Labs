@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.SqlServer.Server;
 
 namespace WpfApp4
 {
@@ -21,6 +22,11 @@ namespace WpfApp4
     /// </summary>
     public partial class MainWindow : Window
     {
+        public int da;
+        public int mo;
+        public int ya;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,7 +36,7 @@ namespace WpfApp4
             }
             Month_choice.IsEnabled = false;
             Day_Choice.IsEnabled = false;
-
+            
             
         }
 
@@ -43,6 +49,7 @@ namespace WpfApp4
             {
                 Month_choice.Items.Add(m[i]);
             }
+            ya = int.Parse(Year_choice.SelectedItem.ToString());
             Month_choice.IsEnabled = true;
         }
 
@@ -82,15 +89,29 @@ namespace WpfApp4
                     Day_Choice.Items.Add(i);
                 }
             }
+            mo = Month_choice.SelectedIndex + 1;
             Day_Choice.IsEnabled = true;
 
         }
 
         private void Day_Choice_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            da = int.Parse(Day_Choice.SelectedItem.ToString());
         }
 
-       
-    }
+
+        private void go_Click(object sender, RoutedEventArgs e)
+        {
+            output.Text = null;
+            DateTime datanow = DateTime.Today.Date;
+            int nYear = datanow.Year;
+            int nMo = datanow.Month;
+            int nDay = datanow.Day;
+
+            DateTime choosedata = new DateTime(ya, mo, da);
+            
+            string dayOf = datanow.Subtract(choosedata).Days.ToString();
+            output.Text = "Years: "+(nYear-choosedata.Year)+" Months: "+(nMo-choosedata.Month)+" Days: "+(nDay-choosedata.Day);
+        }
+    } 
 }
