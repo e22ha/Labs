@@ -124,7 +124,7 @@ namespace WpfApp4
             if (outDay <0)
             {
                 outMonth--;
-                if ((outMonth == 1) | (outMonth == 3) | (outMonth == 5) | (outMonth == 7) | (outMonth == 8) | (outMonth == 10) | (outMonth == 12))
+                if ((outMonth == 0) | (outMonth == 1) | (outMonth == 3) | (outMonth == 5) | (outMonth == 7) | (outMonth == 8) | (outMonth == 10) | (outMonth == 12))
                 {
                     outDay = 31 + outDay;
                 }
@@ -143,6 +143,14 @@ namespace WpfApp4
             }
 
             output.Text = "Years: "+(outYear)+"; Months: "+(outMonth)+"; Days: "+(outDay);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Day_Choice.IsEnabled = false;
+            Month_choice.IsEnabled = false;
+            Day_Choice.Items.Clear();
+            Month_choice.Items.Clear();
         }
     } 
 }
