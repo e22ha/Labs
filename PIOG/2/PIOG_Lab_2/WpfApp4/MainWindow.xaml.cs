@@ -111,7 +111,38 @@ namespace WpfApp4
             DateTime choosedata = new DateTime(ya, mo, da);
             
             string dayOf = datanow.Subtract(choosedata).Days.ToString();
-            output.Text = "Years: "+(nYear-choosedata.Year)+" Months: "+(nMo-choosedata.Month)+" Days: "+(nDay-choosedata.Day);
+            var outYear = nYear - choosedata.Year;
+            var outMonth = nMo - choosedata.Month;
+            var outDay = nDay - choosedata.Day;
+           
+            if (outMonth <0)
+            {
+                outYear --;
+                outMonth = 12 + outMonth;
+            }
+            
+            if (outDay <0)
+            {
+                outMonth--;
+                if ((outMonth == 1) | (outMonth == 3) | (outMonth == 5) | (outMonth == 7) | (outMonth == 8) | (outMonth == 10) | (outMonth == 12))
+                {
+                    outDay = 31 + outDay;
+                }
+                else if ((outMonth == 2)&(outYear % 4 == 0))
+                {
+                    outDay = 29 + outDay;
+                }
+                else if ((outMonth == 2) & (outYear % 4 != 0))
+                {
+                    outDay = 28 + outDay;
+                }
+                else
+                {
+                    outDay = 30 + outDay;
+                }
+            }
+
+            output.Text = "Years: "+(outYear)+"; Months: "+(outMonth)+"; Days: "+(outDay);
         }
     } 
 }
