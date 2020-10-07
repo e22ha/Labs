@@ -11,7 +11,7 @@
         <Button x:Name="Start" Content="Start" HorizontalAlignment="Left" Margin="169,52,0,0" VerticalAlignment="Top" Width="129" Height="23" Click="Start_Click"/>
         <Button x:Name="Remember" Content="Remember" HorizontalAlignment="Left" Margin="169,81,0,0" VerticalAlignment="Top" Width="129" Height="23" Click="Remember_Click"/>
         <Button x:Name="Stop" Content="Stop" HorizontalAlignment="Left" Margin="169,110,0,0" VerticalAlignment="Top" Width="129" Height="24" Click="Stop_Click"/>
-        <Label x:Name="output" Content="" HorizontalAlignment="Left" Height="27" Margin="169,10,0,0" VerticalAlignment="Top" Width="103"/>
+        <Label x:Name="output" Content="00:00:00:00" HorizontalAlignment="Left" Height="27" Margin="169,17,0,0" VerticalAlignment="Top" Width="103"/>
         <CheckBox x:Name="check" Content="" HorizontalAlignment="Left" Margin="277,21,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.468,-2.354" Checked="check_Checked"/>
 
     </Grid>
