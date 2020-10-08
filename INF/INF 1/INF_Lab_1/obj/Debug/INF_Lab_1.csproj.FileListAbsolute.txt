@@ -1,0 +1,14 @@
+D:\Code\L\INF\INF_Lab_1\bin\Debug\INF_Lab_1.exe.config
+D:\Code\L\INF\INF_Lab_1\bin\Debug\INF_Lab_1.exe
+D:\Code\L\INF\INF_Lab_1\bin\Debug\INF_Lab_1.pdb
+D:\Code\L\INF\INF_Lab_1\obj\Debug\INF_Lab_1.csprojAssemblyReference.cache
+D:\Code\L\INF\INF_Lab_1\obj\Debug\INF_Lab_1.csproj.CoreCompileInputs.cache
+D:\Code\L\INF\INF_Lab_1\obj\Debug\INF_Lab_1.exe
+D:\Code\L\INF\INF_Lab_1\obj\Debug\INF_Lab_1.pdb
+D:\Code\L\Labs\INF\INF_Lab_1\bin\Debug\INF_Lab_1.exe.config
+D:\Code\L\Labs\INF\INF_Lab_1\bin\Debug\INF_Lab_1.exe
+D:\Code\L\Labs\INF\INF_Lab_1\bin\Debug\INF_Lab_1.pdb
+D:\Code\L\Labs\INF\INF_Lab_1\obj\Debug\INF_Lab_1.csprojAssemblyReference.cache
+D:\Code\L\Labs\INF\INF_Lab_1\obj\Debug\INF_Lab_1.csproj.CoreCompileInputs.cache
+D:\Code\L\Labs\INF\INF_Lab_1\obj\Debug\INF_Lab_1.exe
+D:\Code\L\Labs\INF\INF_Lab_1\obj\Debug\INF_Lab_1.pdb

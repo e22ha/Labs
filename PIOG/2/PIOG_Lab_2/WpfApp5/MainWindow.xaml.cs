@@ -34,9 +34,9 @@ namespace WpfApp5
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
-            long tick = DateTime.Now.Ticks - date.Ticks;
+            long tick = DateTime.Now.Second - date.Second;
            
-            outWatch = outWatch.AddTicks(tick);
+            outWatch = outWatch.AddSeconds(tick);
             
             output.Content = String.Format("{0:HH:mm:ss:ff}", outWatch); 
         }
@@ -48,7 +48,7 @@ namespace WpfApp5
             date = DateTime.Now;
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(Timer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0,10);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1,0);
             dispatcherTimer.Start();
 
         }
@@ -62,13 +62,13 @@ namespace WpfApp5
             int data = (int)outWatch.Second;
             data = data + (int)(outWatch.Minute * 60);
             data = data + (int)(outWatch.Hour * 60*60);
-            if (ch == false)
+            if (check.IsChecked == false)
             {
             
                 memory.Items.Add(output.Content.ToString());
 
             }
-            if (ch == true)
+            if (check.IsChecked == true)
             {
                 memory.Items.Add(data.ToString() + " сек");
             }

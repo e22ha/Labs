@@ -8,8 +8,10 @@
         Title="MainWindow" Height="250" Width="300">
     <Grid>
         <Menu HorizontalAlignment="Left" Height="48" Margin="10,10,0,0" VerticalAlignment="Top" Width="72">
-            <Button x:Name="Load" Content="Загрузить" Click="Load_Click"/>
-            <Button x:Name="Save" Content="Сохранить" Click="Save_Click"/>
+            <MenuItem Header="File">
+                <MenuItem x:Name="S" Header="Save" Click="Save_Click"/>
+                <MenuItem Header="Open" Click="Load_Click"/>
+            </MenuItem>
         </Menu>
 
     </Grid>

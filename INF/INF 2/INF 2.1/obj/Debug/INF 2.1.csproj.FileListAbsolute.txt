@@ -1,0 +1,7 @@
+D:\Code\L\Labs\INF\INF 2\INF 2.1\bin\Debug\INF 2.1.exe.config
+D:\Code\L\Labs\INF\INF 2\INF 2.1\bin\Debug\INF 2.1.exe
+D:\Code\L\Labs\INF\INF 2\INF 2.1\bin\Debug\INF 2.1.pdb
+D:\Code\L\Labs\INF\INF 2\INF 2.1\obj\Debug\INF 2.1.csprojAssemblyReference.cache
+D:\Code\L\Labs\INF\INF 2\INF 2.1\obj\Debug\INF 2.1.csproj.CoreCompileInputs.cache
+D:\Code\L\Labs\INF\INF 2\INF 2.1\obj\Debug\INF 2.1.exe
+D:\Code\L\Labs\INF\INF 2\INF 2.1\obj\Debug\INF 2.1.pdb
