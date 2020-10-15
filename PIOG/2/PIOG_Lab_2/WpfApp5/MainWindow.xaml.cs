@@ -34,9 +34,8 @@ namespace WpfApp5
         }
         private void Timer_Tick(object sender, EventArgs e)
         {
-            long tick = DateTime.Now.Second - date.Second;
            
-            outWatch = outWatch.AddSeconds(tick);
+            outWatch = outWatch.AddSeconds(1);
             
             output.Content = String.Format("{0:HH:mm:ss:ff}", outWatch); 
         }
@@ -48,7 +47,7 @@ namespace WpfApp5
             date = DateTime.Now;
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(Timer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1,0);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
             dispatcherTimer.Start();
 
         }
