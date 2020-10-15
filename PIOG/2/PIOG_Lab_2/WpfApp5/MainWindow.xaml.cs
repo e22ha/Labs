@@ -21,8 +21,6 @@ namespace WpfApp5
     public partial class MainWindow : Window
     {
         System.Windows.Threading.DispatcherTimer dispatcherTimer;
-        DateTime date;
-        bool ch = false;
         
         DateTime outWatch = new DateTime();
 
@@ -37,14 +35,13 @@ namespace WpfApp5
            
             outWatch = outWatch.AddSeconds(1);
             
-            output.Content = String.Format("{0:HH:mm:ss:ff}", outWatch); 
+            output.Content = String.Format("{0:HH:mm:ss}", outWatch); 
         }
 
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             outWatch = new DateTime();
-            date = DateTime.Now;
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(Timer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
@@ -74,16 +71,16 @@ namespace WpfApp5
         }
 
 
-        private void check_Checked(object sender, RoutedEventArgs e)
-        {
-            if (ch == false)
-            {
-                ch = true;
-            }
-            else
-            {
-                ch = false;
-            }
-        }
+        ///private void check_Checked(object sender, RoutedEventArgs e)
+        ///{
+        ///    if (ch == false)
+        ///    {
+        ///        ch = true;
+        ///    }
+        ///    else
+        ///    {
+        ///        ch = false;
+        ///    }
+        ///}
     }
 }

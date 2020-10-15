@@ -25,14 +25,14 @@ namespace INF_2._2
         }
         static int[] strToBin(string n)
         {
-            int[] m = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] m = new int[9] {0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int k = n.Length;
 
 
 
-            for (int i = 8 - k; i <= 7; i++)
+            for (int i = 9 - k; i <= 8; i++)
             {
-                int a = int.Parse(n[i - (8 - k)].ToString());
+                int a = int.Parse(n[i - (9 - k)].ToString());
                 m[i] = a;
             }
 
@@ -40,10 +40,10 @@ namespace INF_2._2
         }
         static int[] masSub(int[] a, int[] b)
         {
-            int[] s = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] s = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             b = Invert(b);
             addone(b);
-            for (int i = 7; i >= 0; i--)
+            for (int i = 8; i >= 1; i--)
             {
                 s[i] = a[i] + b[i] + s[i];
                 if (s[i] == 3)
@@ -51,13 +51,10 @@ namespace INF_2._2
                     s[i] = 1;
                     s[i - 1] = 1;
                 }
-                else if ((s[i] > 1) & (i!=0))
+                else if (s[i] > 1)
                 {
                     s[i] = 0;
                     s[i - 1] = 1;
-                }else if (s[i] > 1)
-                {
-                    s[i] = 0;
                 }
             }
 
@@ -66,7 +63,7 @@ namespace INF_2._2
 
         static void printM(int[] m)
         {
-            for (int i = 0; i < m.Length; i++)
+            for (int i = 1; i < m.Length; i++)
             {
                 Console.Write(m[i].ToString() + "");
             }
@@ -75,7 +72,7 @@ namespace INF_2._2
 
         static int[] Invert(int[] n)
         {
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 9; i++)
             {
                 if (n[i] == 0)
                 {
@@ -90,9 +87,9 @@ namespace INF_2._2
             return n;
         }
         static void addone(int[] m) {
-            m[7] = m[7] + 1;
+            m[8] = m[8] + 1;
 
-            for (int i = 7; i >= 0; i--)
+            for (int i = 8; i >= 0; i--)
             {
                 if (m[i] == 2)
                 {

@@ -13,52 +13,37 @@ namespace INF_2._3
             Console.Write("First: ");
             string strA = Console.ReadLine();
             int[] a = strToBin(strA);
-            Console.Write("Sec: ");
+            Console.Write("Sub: ");
             string strB = Console.ReadLine();
             int[] b = strToBin(strB);
-            int[] rec = masMul(a, b);
-            printM(rec);
+            int[] sum = masSub(a, b);
+            printM(sum);
 
 
             Console.ReadKey();
 
         }
-
-        private static int[] masMul(int[] a, int[] b)
-        {
-            int[] s = new int[] { };
-            
-            return s;
-        }
-
         static int[] strToBin(string n)
         {
-            int[] m = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] m = new int[9] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
             int k = n.Length;
 
 
 
-            for (int i = 8 - k; i <= 7; i++)
+            for (int i = 9 - k; i <= 8; i++)
             {
-                int a = int.Parse(n[i - (8 - k)].ToString());
+                int a = int.Parse(n[i - (9 - k)].ToString());
                 m[i] = a;
             }
 
             return m;
         }
-        static void printM(int[] m)
+        static int[] masSub(int[] a, int[] b)
         {
-            for (int i = 0; i < m.Length; i++)
-            {
-                Console.Write(m[i].ToString() + "");
-            }
-            Console.WriteLine();
-        }
-        static int[] masAdd(int[] a, int[] b)
-        {
-            int[] s = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-
-            for (int i = 7; i >= 0; i--)
+            int[] s = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            b = Invert(b);
+            addone(b);
+            for (int i = 8; i >= 1; i--)
             {
                 s[i] = a[i] + b[i] + s[i];
                 if (s[i] == 3)
@@ -66,7 +51,7 @@ namespace INF_2._3
                     s[i] = 1;
                     s[i - 1] = 1;
                 }
-                if (s[i] > 1)
+                else if (s[i] > 1)
                 {
                     s[i] = 0;
                     s[i - 1] = 1;
@@ -75,5 +60,46 @@ namespace INF_2._3
 
             return s;
         }
+
+        static void printM(int[] m)
+        {
+            for (int i = 1; i < m.Length; i++)
+            {
+                Console.Write(m[i].ToString() + "");
+            }
+            Console.WriteLine();
+        }
+
+        static int[] Invert(int[] n)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                if (n[i] == 0)
+                {
+                    n[i] = 1;
+                }
+                else
+                {
+                    n[i] = 0;
+                }
+            }
+
+            return n;
+        }
+        static void addone(int[] m)
+        {
+            m[8] = m[8] + 1;
+
+            for (int i = 8; i >= 0; i--)
+            {
+                if (m[i] == 2)
+                {
+                    m[i] = 0;
+                    m[i - 1] = +1;
+                }
+                else break;
+            }
+        }
     }
 }
+
