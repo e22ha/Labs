@@ -30,7 +30,7 @@ namespace INF_2._2
 
 
 
-            for (int i = 9 - k; i <= 8; i++)
+            for (int i = m.Length - k; i <= 8; i++)
             {
                 int a = int.Parse(n[i - (9 - k)].ToString());
                 m[i] = a;
@@ -87,9 +87,9 @@ namespace INF_2._2
             return n;
         }
         static void addone(int[] m) {
-            m[8] = m[8] + 1;
+            m[m.Length-1] = m[m.Length-1] + 1;
 
-            for (int i = 8; i >= 0; i--)
+            for (int i = m.Length-1; i >= 0; i--)
             {
                 if (m[i] == 2)
                 {
