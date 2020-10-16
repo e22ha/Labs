@@ -36,20 +36,27 @@ namespace INF_2._3
 
         private static int[] multip(int[] a, int[] b)
         {
-            int[] mul = new int[a.Length + b.Length - 1];
+            int[] mul = new int[16];
 
-
+            for (int i =b.Length-1; i >= 0; i--)
+            {
+                if (b[i]==1) 
+                    mul = sum(a, mul);
+                    
+                a = sdvig(a);
+                
+            }
 
             return mul;
         }
         private static int[] strToBin(string n)
         {
-            int[] m = new int[9] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            int[] m = new int[16];
             int k = n.Length;
 
 
 
-            for (int i = m.Length - k; i <= 8; i++)
+            for (int i = m.Length - k; i < m.Length; i++)
             {
                 int a = int.Parse(n[i - (m.Length - k)].ToString());
                 m[i] = a;
@@ -60,7 +67,11 @@ namespace INF_2._3
 
         private static int[] sdvig(int[] n)
         {
-
+            for (int i = 1; i < n.Length; i++)
+            {
+                n[i - 1] = n[i];
+            }
+            n[n.Length - 1] = 0;
             return n;
         }
 
@@ -69,7 +80,7 @@ namespace INF_2._3
         {
             int k = 1;
 
-            for (int i = start; i >=0; i++)
+            for (int i = start; i >=0; i--)
             {
                 n[i] += k;
                 k = 0;
@@ -86,7 +97,7 @@ namespace INF_2._3
 
         private static int[] sum(int[] a, int[] b)
         {
-            for (int i = 7; i >=0; i--)
+            for (int i = 15; i >=0; i--)
             {
                 if (b[i] ==1)
                 {
