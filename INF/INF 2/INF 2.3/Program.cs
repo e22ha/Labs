@@ -15,7 +15,7 @@ namespace INF_2._3
             Console.Write("First: ");
             string strA = Console.ReadLine();
             int[] a = strToBin(strA);
-            Console.Write("Sub: ");
+            Console.Write("Second: ");
             string strB = Console.ReadLine();
             int[] b = strToBin(strB);
             int[] result = multip(a, b);
@@ -38,11 +38,12 @@ namespace INF_2._3
         {
             int[] mul = new int[16];
 
-            for (int i =b.Length-1; i >= 0; i--)
+            for (int i =15; i >= 0; i--)
             {
-                if (b[i]==1) 
+                if (b[i] == 1)
+                {
                     mul = sum(a, mul);
-                    
+                }
                 a = sdvig(a);
                 
             }
