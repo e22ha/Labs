@@ -133,7 +133,12 @@ namespace BinCalc
 
         private void plus_Click(object sender, RoutedEventArgs e)
         {
-            int[] c = sum(A, B);
+            int[] copyA = new int[8];
+            int[] copyB = new int[8];
+            A.CopyTo(copyA, 0);
+            B.CopyTo(copyB, 0);
+            
+            int[] c = sum(copyA, copyB);
             string s = "";
             for (int i = 0; i < 8; i++)
             {
@@ -141,8 +146,6 @@ namespace BinCalc
             }
             result.Content = s;
         }
-
-
 
         private static int[] addOne(int[] n, int start)
         {
@@ -178,9 +181,13 @@ namespace BinCalc
 
         private void minus_Click(object sender, RoutedEventArgs e)
         {
-            invert(B);
-            addOne(B,7);
-            int[] c = sum(A, B);
+            int[] copyA = new int[8];
+            int[] copyB = new int[8];
+            A.CopyTo(copyA, 0);
+            B.CopyTo(copyB, 0);
+            invert(copyB);
+            addOne(copyB,7);
+            int[] c = sum(copyA, copyB);
             string s = "";
             for (int i = 0; i < 8; i++)
             {
@@ -206,16 +213,22 @@ namespace BinCalc
 
         private void mul_Click(object sender, RoutedEventArgs e)
         {
-            int[] res = sbyteToBin((sbyte)(binToDec(A)*binToDec(B)));
-            //for (int i = 7; i >= 0; i--)
-            //{
-            //    if (B[i] == 1)
-            //    {
-            //        int[] C = sdvig(A);
-            //        res = sum(res, C);
-            //    }
-            //    A = sdvig(A);
-            //}
+            int[] copyA = new int[8];
+            int[] copyB = new int[8];
+
+            A.CopyTo(copyA, 0);
+            B.CopyTo(copyB, 0);
+
+            int[] res = new int[8]; ; //sbyteToBin((sbyte)(binToDec(A)*binToDec(B)));
+            
+            for (int i = 7; i >= 0; i--)
+            {
+                if (copyB[i] == 1)
+                {
+                    res = sum(res,copyA);
+                }
+                copyA = sdvig(copyA);
+            }
 
             
 
@@ -225,6 +238,7 @@ namespace BinCalc
                 s += res[i].ToString();
             }
             result.Content = s;
+            
         }
 
         private int[] sdvig(int[] a)
