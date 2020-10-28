@@ -1,0 +1,15 @@
+D:\Code\Lab-timer\lab-timer\bin\Debug\lab-timer.exe.config
+D:\Code\Lab-timer\lab-timer\bin\Debug\lab-timer.exe
+D:\Code\Lab-timer\lab-timer\bin\Debug\lab-timer.pdb
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer.csprojAssemblyReference.cache
+D:\Code\Lab-timer\lab-timer\obj\Debug\MainWindow.g.cs
+D:\Code\Lab-timer\lab-timer\obj\Debug\App.g.cs
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer_MarkupCompile.cache
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer_MarkupCompile.lref
+D:\Code\Lab-timer\lab-timer\obj\Debug\MainWindow.baml
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer.g.resources
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab_timer.Properties.Resources.resources
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer.csproj.GenerateResource.cache
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer.csproj.CoreCompileInputs.cache
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer.exe
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer.pdb

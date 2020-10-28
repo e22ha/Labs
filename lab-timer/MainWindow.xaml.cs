@@ -23,6 +23,7 @@ namespace lab_timer
         public MainWindow()
         {
             InitializeComponent();
+            TIME.Content = "00:00:00:00";
         }
     }
 }
