@@ -46,7 +46,7 @@
         </Grid>
 
         <Grid Name="Buttons" Background="Transparent" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button x:Name="add" Content="add" HorizontalAlignment="Left" Height="55" Margin="110,35,0,0" VerticalAlignment="Top" Width="380"/>
+            <Button x:Name="add" Content="add" HorizontalAlignment="Left" Height="55" Margin="110,35,0,0" VerticalAlignment="Top" Width="380" Click="add_Click"/>
             <Button x:Name="change" Content="change" HorizontalAlignment="Left" Height="44" Margin="110,95,0,0" VerticalAlignment="Top" Width="380"/>
             <Button x:Name="remove" Content="remove" HorizontalAlignment="Left" Height="44" Margin="110,144,0,0" VerticalAlignment="Top" Width="380"/>
         </Grid>
@@ -56,7 +56,7 @@
         </Grid>
 
         <Grid Name="Timers" Background="Transparent" Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2">
-            <ListBox x:Name="tlist" HorizontalAlignment="Left" Height="412" Margin="10,10,0,0" VerticalAlignment="Top" Width="424"/>
+            <ListBox x:Name="tlist" HorizontalAlignment="Left" Height="412" Margin="10,10,0,0" VerticalAlignment="Top" Width="424" SelectionChanged="tlist_SelectionChanged"/>
         </Grid>
 
         <Grid Name="Bottom" Background="Transparent" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4">
