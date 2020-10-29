@@ -94,5 +94,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\таймеры.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="трей.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\трей.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

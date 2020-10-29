@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
-        Title="Timer" Height="560" Width="960" ResizeMode="NoResize">
+        Title="Timer" Height="560" Width="960" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -14,28 +14,52 @@
             <ColumnDefinition Width="230"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="70"/>
             <RowDefinition Height="220"/>
             <RowDefinition Height="210"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
 
-        <Grid Name="LocalTime" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-
+        <Grid x:Name="ToolBar" Background="Transparent" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" MouseDown="toolbar_MouseDown">
+            <Menu HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="134">
+                <MenuItem Header="File" Height="25" Width="42">
+                    <MenuItem Header="New"/>
+                    <MenuItem Header="Load"/>
+                    <MenuItem Header="Save"/>
+                </MenuItem>
+            </Menu>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="48">
+                <Image x:Name="MinButton" Height="20" Width="20" Margin="2" MouseDown="MinButton_MouseDown" Source="Source/трей.png"/>
+                <Image x:Name="ExitButton" Height="20" Width="20" Margin="2" Source="Source/close.png" MouseDown="ExitButton_MouseDown"/>
+            </StackPanel>
         </Grid>
-        <Grid Name="Countdown" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
 
+        <Grid Name="LocalTime" Background="Transparent" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label x:Name="timenow" Content="14:15:56  30.10.20" Height="30" Margin="40,42,40,0" Width="420" FontSize="18" HorizontalContentAlignment="Center"/>
+            <Label x:Name="txt" Content="Сейчас" Height="30" Margin="40,12,40,29" Width="420" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
         </Grid>
-        <Grid Name="Buttons" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button x:Name="add" Content="" HorizontalAlignment="Left" Height="55" Margin="110,35,0,0" VerticalAlignment="Top" Width="380"/>
-            <Button x:Name="change" Content="" HorizontalAlignment="Left" Height="44" Margin="110,95,0,0" VerticalAlignment="Top" Width="380"/>
-            <Button x:Name="remove" Content="" HorizontalAlignment="Left" Height="44" Margin="110,144,0,0" VerticalAlignment="Top" Width="380"/>
-        </Grid>
-        <Grid Name="Headline" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
 
+        <Grid Name="Countdown" Background="Transparent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label x:Name="timecd" Content="00:00:00" Height="120" Margin="40,19,40,82" Width="420" FontSize="72" HorizontalContentAlignment="Center"/>
+            <Label x:Name="dayscd" Content="0 days" Height="60" Margin="40,139,40,22" Width="420" FontSize="36" HorizontalContentAlignment="Center"/>
         </Grid>
-        <Grid Name="Timers" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2">
 
+        <Grid Name="Buttons" Background="Transparent" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <Button x:Name="add" Content="add" HorizontalAlignment="Left" Height="55" Margin="110,35,0,0" VerticalAlignment="Top" Width="380"/>
+            <Button x:Name="change" Content="change" HorizontalAlignment="Left" Height="44" Margin="110,95,0,0" VerticalAlignment="Top" Width="380"/>
+            <Button x:Name="remove" Content="remove" HorizontalAlignment="Left" Height="44" Margin="110,144,0,0" VerticalAlignment="Top" Width="380"/>
+        </Grid>
+
+        <Grid Name="Headline" Background="Transparent" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
+            <Image HorizontalAlignment="Left" Height="70" Margin="10,0,0,0" VerticalAlignment="Top" Width="450" Source="таймеры.png"/>
+        </Grid>
+
+        <Grid Name="Timers" Background="Transparent" Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2">
+            <ListBox x:Name="tlist" HorizontalAlignment="Left" Height="412" Margin="10,10,0,0" VerticalAlignment="Top" Width="424"/>
+        </Grid>
+
+        <Grid Name="Bottom" Background="Transparent" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4">
         </Grid>
     </Grid>
 </Window>
