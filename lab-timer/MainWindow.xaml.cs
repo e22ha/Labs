@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace lab_timer
 {
@@ -20,10 +21,31 @@ namespace lab_timer
     /// </summary>
     public partial class MainWindow : Window
     {
+        DateTime d1;
+        TimeSpan ts;
+        private DispatcherTimer dispatcherTimer;
+
         public MainWindow()
         {
             InitializeComponent();
+            //устанавливается дата - 28.02.2020 21:30:10
+            DateTime d1 = new DateTime(2020, 2, 28, 21, 30, 10);
+            
+            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(Timer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
+            dispatcherTimer.Start();
+
         }
+
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            d1 = d1.AddSeconds(-1);
+            timecd.Content = String.Format("{0:HH:mm:ss}", d1);
+        }
+
+
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -41,6 +63,16 @@ namespace lab_timer
             {
                 this.DragMove();
             }
+        }
+
+        private void add_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
