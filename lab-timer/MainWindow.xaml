@@ -21,7 +21,7 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="ToolBar" Background="Transparent" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" MouseDown="toolbar_MouseDown">
+        <Grid x:Name="ToolBar" Background="Transparent" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" MouseDown="ToolBar_MouseDown">
             <Menu HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="134">
                 <MenuItem Header="File" Height="25" Width="42">
                     <MenuItem Header="New"/>
@@ -29,6 +29,7 @@
                     <MenuItem Header="Save"/>
                 </MenuItem>
             </Menu>
+            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="48">
                 <Image x:Name="MinButton" Height="20" Width="20" Margin="2" MouseDown="MinButton_MouseDown" Source="Source/трей.png"/>
                 <Image x:Name="ExitButton" Height="20" Width="20" Margin="2" Source="Source/close.png" MouseDown="ExitButton_MouseDown"/>
@@ -52,7 +53,7 @@
         </Grid>
 
         <Grid Name="Headline" Background="Transparent" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-            <Image HorizontalAlignment="Left" Height="70" Margin="10,0,0,0" VerticalAlignment="Top" Width="450" Source="таймеры.png"/>
+            <Image Height="70" Margin="10,0,10,0" Width="450" Source="Source/таймеры.png"/>
         </Grid>
 
         <Grid Name="Timers" Background="Transparent" Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2">
