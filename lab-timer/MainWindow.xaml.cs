@@ -29,19 +29,15 @@ namespace lab_timer
         {
             InitializeComponent();
             //устанавливается дата - 28.02.2020 21:30:10
-            DateTime d1 = new DateTime(2020, 2, 28, 21, 30, 10);
             
-            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-            dispatcherTimer.Tick += new EventHandler(Timer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
-            dispatcherTimer.Start();
+            
 
         }
 
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            d1 = d1.AddSeconds(-1);
+            d1 = d1.AddSeconds(1);
             timecd.Content = String.Format("{0:HH:mm:ss}", d1);
         }
 
@@ -67,7 +63,24 @@ namespace lab_timer
 
         private void add_Click(object sender, RoutedEventArgs e)
         {
-
+            //создание нового окна (название класса – то, что было указано при добавлении окна)
+            AddTimer add_timer = new AddTimer();
+            //вызов окна + проверка, отработало ли окно корректно
+            if (add_timer.ShowDialog() == true)
+            {
+                //поскольку переменная current, окна add_timer была объявлена как public
+                //можно обратиться к ней напрямую и получить необходимые данные
+                d1 = add_timer.current;
+            }
+            else //если окно отработало с результатом false
+            {
+                //либо вывести сообщение, что данные не были получены
+                //либо ничего не делать
+            }
+            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(Timer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
+            dispatcherTimer.Start();
         }
 
         private void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
