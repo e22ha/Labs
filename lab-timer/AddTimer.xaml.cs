@@ -23,7 +23,24 @@ namespace lab_timer
         public AddTimer()
         {
             InitializeComponent();
+            
         }
-              
+
+        
+
+        private void exit_Click(object sender, RoutedEventArgs e)
+        {
+            if ((Hour.Text.Length != 0) & (Min.Text.Length != 0) & (Sec.Text.Length != 0))
+            {
+
+                int H = int.Parse(Hour.Text);
+                int M = int.Parse(Min.Text);
+                int S = int.Parse(Sec.Text);
+                current = new DateTime(1, 1, 1, H, M, S);
+            }
+            //при нажатии кнопки “Закрыть” происходит
+            //закрытие окна с отметкой об не успешном завершении работы
+            this.DialogResult = false;
+        }
     }
 }

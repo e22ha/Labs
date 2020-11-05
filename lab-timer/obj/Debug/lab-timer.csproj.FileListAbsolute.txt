@@ -28,5 +28,5 @@ C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\lab-timer.g.resourc
 C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\lab_timer.Properties.Resources.resources
 C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\lab-timer.csproj.GenerateResource.cache
 C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\lab-timer.csproj.CoreCompileInputs.cache
-C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\AddTimer.g.cs
-C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\AddTimer.baml
+D:\Code\Lab-timer\lab-timer\obj\Debug\AddTimer.g.cs
+D:\Code\Lab-timer\lab-timer\obj\Debug\AddTimer.baml

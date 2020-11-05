@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="AddTimer" Height="450" Width="800">
     <Grid>
-        
+        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="72,88,0,0" Text="  "/>
+        <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="23" Margin="48,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text=""/>
+        <TextBox x:Name="Min" HorizontalAlignment="Left" Height="23" Margin="213,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text=""/>
+        <TextBox x:Name="Sec" HorizontalAlignment="Left" Height="23" Margin="392,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="exit" Content="Готово" HorizontalAlignment="Left" Height="88" Margin="333,258,0,0" VerticalAlignment="Top" Width="179" Click="exit_Click"/>
+
     </Grid>
 </Window>
