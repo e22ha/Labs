@@ -29,17 +29,12 @@ namespace lab_timer
         {
             InitializeComponent();
             //устанавливается дата - 28.02.2020 21:30:10
-            
-            
+
+
 
         }
 
 
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            d1 = d1.AddSeconds(1);
-            timecd.Content = String.Format("{0:HH:mm:ss}", d1);
-        }
 
 
 
@@ -77,11 +72,49 @@ namespace lab_timer
                 //либо вывести сообщение, что данные не были получены
                 //либо ничего не делать
             }
+
+        }
+
+        private void countdown(DateTime dnow, DateTime dfinish)
+        {
+            DateTime zero = new DateTime(0, 0, 0, 0, 0, 0);
+            TimeSpan dnowTime = dnow.Subtract(zero);
+            DateTime intervalDate = dfinish.Subtract(dnowTime);
+
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(Timer_Tick);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 1);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
+
+            void Timer_Tick(object sender, EventArgs e)
+            {
+                while (intervalDate.Year != 0)
+                {
+                    intervalDate.AddSeconds(-1);
+                } while (intervalDate.Month != 0)
+                {
+                    intervalDate.AddSeconds(-1);
+                } while (intervalDate.Day != 0)
+                {
+                    intervalDate.AddSeconds(-1);
+                } while (intervalDate.Hour != 0)
+                {
+                    intervalDate.AddSeconds(-1);
+                } while (intervalDate.Minute != 0)
+                {
+                    intervalDate.AddSeconds(-1);
+                } while (intervalDate.Second != 0)
+                {
+                    intervalDate.AddSeconds(-1);
+                }
+                if (intervalDate == zero)
+                {
+                    //вызов сообщения об окаончании даты
+                }
+            }
         }
+
+
 
         private void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
