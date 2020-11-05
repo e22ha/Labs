@@ -22,8 +22,8 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="ToolBar" Background="Transparent" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" MouseDown="ToolBar_MouseDown">
-            <Menu HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="134">
-                <MenuItem Header="File" Height="25" Width="42">
+            <Menu HorizontalAlignment="Left" Height="25" Background="White" VerticalAlignment="Top" Width="134" Foreground="Black">
+                <MenuItem Header="File" Background="White" Height="25" Width="42">
                     <MenuItem Header="New"/>
                     <MenuItem Header="Load"/>
                     <MenuItem Header="Save"/>
