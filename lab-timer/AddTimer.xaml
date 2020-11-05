@@ -5,13 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
-        Title="AddTimer" Height="450" Width="800">
+        Title="AddTimer" Height="585" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="72,88,0,0" Text="  "/>
-        <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="23" Margin="48,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text=""/>
-        <TextBox x:Name="Min" HorizontalAlignment="Left" Height="23" Margin="213,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text=""/>
-        <TextBox x:Name="Sec" HorizontalAlignment="Left" Height="23" Margin="392,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="exit" Content="Готово" HorizontalAlignment="Left" Height="88" Margin="333,258,0,0" VerticalAlignment="Top" Width="179" Click="exit_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="310"/>
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="380"/>
+            <RowDefinition Height="170"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
 
+        <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" MouseDown="ToolBar_MouseDown">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="25">
+                <Image x:Name="ExitButton" Height="20" Width="20" Margin="2" MouseDown="ExitButton_MouseDown">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="Source/defolt_exit.jpg"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding IsMouseOver, ElementName=ExitButton}" Value="True">
+                                    <Setter Property="Source" Value="Source/exit.jpg"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="Main" Background="Transparent" Grid.Row="1" Grid.Column="1">
+            <Calendar HorizontalAlignment="Left" Margin="60,194,0,0" VerticalAlignment="Top" Height="165" Width="180"/>
+            <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="36" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
+            <TextBox x:Name="Min" HorizontalAlignment="Left" Height="36" Margin="109,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
+            <TextBox x:Name="Sec" HorizontalAlignment="Left" Height="36" Margin="208,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92"/>
+            <TextBox HorizontalAlignment="Left" Height="36" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290"/>
+            <Label Content="Название:" HorizontalAlignment="Left" Height="33" Margin="10,5,0,0" VerticalAlignment="Top" Width="104" FontWeight="Bold" FontSize="18"/>
+            <Label Content="Часы:" HorizontalAlignment="Left" Height="28" Margin="10,95,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>
+            <Label Content="Минуты:" HorizontalAlignment="Left" Height="28" Margin="109,95,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>
+            <Label Content="Секунды:" HorizontalAlignment="Left" Height="28" Margin="208,95,0,0" VerticalAlignment="Top" Width="92" FontSize="14"/>
+        </Grid>
+
+        <Grid x:Name="Buttons" Background="Transparent" Grid.Row="2" Grid.Column="1">
+            <Image x:Name="Done" Height="80" Margin="15,21,15,65" Width="280" Source="Source/add_but.png" Stretch="Fill" MouseDown="Done_MouseDown_1"/>
+            <Image x:Name="Cancel" Height="38" Margin="56,110,56,20" Width="198" Source="Source/exit_but.png" Stretch="Fill" MouseDown="Cancel_MouseDown"/>
+        </Grid>
     </Grid>
+
 </Window>

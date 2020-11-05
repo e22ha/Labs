@@ -23,12 +23,12 @@ namespace lab_timer
         public AddTimer()
         {
             InitializeComponent();
-            
+
         }
 
-        
 
-        private void exit_Click(object sender, RoutedEventArgs e)
+
+        private void Done_MouseDown(object sender, RoutedEventArgs e)
         {
             if ((Hour.Text.Length != 0) & (Min.Text.Length != 0) & (Sec.Text.Length != 0))
             {
@@ -41,6 +41,11 @@ namespace lab_timer
             //при нажатии кнопки “Закрыть” происходит
             //закрытие окна с отметкой об не успешном завершении работы
             this.DialogResult = false;
+        }
+
+        private void Cancel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

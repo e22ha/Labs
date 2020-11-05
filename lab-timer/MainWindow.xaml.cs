@@ -30,7 +30,7 @@ namespace lab_timer
             InitializeComponent();
             //устанавливается дата - 28.02.2020 21:30:10
 
-
+            timenow.Content = DateTime.Now.ToString("HH:mm:ss");
 
         }
 
@@ -56,7 +56,7 @@ namespace lab_timer
             }
         }
 
-        private void add_Click(object sender, RoutedEventArgs e)
+        private void Add_MouseDown(object sender, RoutedEventArgs e)
         {
             //создание нового окна (название класса – то, что было указано при добавлении окна)
             AddTimer add_timer = new AddTimer();
@@ -117,6 +117,16 @@ namespace lab_timer
 
 
         private void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Del_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void Change_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
         }
