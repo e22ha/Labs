@@ -37,7 +37,7 @@
         </Grid>
 
         <Grid x:Name="Main" Background="Transparent" Grid.Row="1" Grid.Column="1">
-            <Calendar HorizontalAlignment="Left" Margin="60,194,0,0" VerticalAlignment="Top" Height="165" Width="180"/>
+            <Calendar HorizontalAlignment="Left" Margin="65,190,65,0" VerticalAlignment="Top" Height="165" Width="180"/>
             <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="36" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
             <TextBox x:Name="Min" HorizontalAlignment="Left" Height="36" Margin="109,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
             <TextBox x:Name="Sec" HorizontalAlignment="Left" Height="36" Margin="208,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92"/>
