@@ -30,3 +30,5 @@ C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\lab-timer.csproj.Ge
 C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\lab-timer.csproj.CoreCompileInputs.cache
 D:\Code\Lab-timer\lab-timer\obj\Debug\AddTimer.g.cs
 D:\Code\Lab-timer\lab-timer\obj\Debug\AddTimer.baml
+C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\AddTimer.g.cs
+C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\AddTimer.baml

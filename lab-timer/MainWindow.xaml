@@ -21,22 +21,44 @@
             <RowDefinition Height="35"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="ToolBar" Background="Transparent" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" MouseDown="ToolBar_MouseDown">
-            <Menu HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="134">
-                <MenuItem Header="File" Height="25" Width="42">
-                    <MenuItem Header="New"/>
-                    <MenuItem Header="Load"/>
-                    <MenuItem Header="Save"/>
+        <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" MouseDown="ToolBar_MouseDown">
+            <Menu HorizontalAlignment="Left" Height="25" Background="#353535" VerticalAlignment="Top" Width="134" Foreground="Black">
+                <MenuItem Header="File" Background="#353535" Height="25" Width="42" Foreground="White">
+                    <MenuItem Header="New" Background="#353535"/>
+                    <MenuItem Header="Load" Background="#353535"/>
+                    <MenuItem Header="Save" Background="#353535"/>
                 </MenuItem>
             </Menu>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="48">
-                <Image x:Name="MinButton" Height="20" Width="20" Margin="2" MouseDown="MinButton_MouseDown" Source="Source/трей.png"/>
-                <Image x:Name="ExitButton" Height="20" Width="20" Margin="2" Source="Source/close.png" MouseDown="ExitButton_MouseDown"/>
+                <Image x:Name="MinButton" Height="20" Width="20" Margin="2" MouseDown="MinButton_MouseDown">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="Source/defolt_min.jpg"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding IsMouseOver, ElementName=MinButton}" Value="True">
+                                    <Setter Property="Source" Value="Source/min.jpg"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+                <Image x:Name="ExitButton" Height="20" Width="20" Margin="2" MouseDown="ExitButton_MouseDown">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="Source/defolt_exit.jpg"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding IsMouseOver, ElementName=ExitButton}" Value="True">
+                                    <Setter Property="Source" Value="Source/exit.jpg"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
             </StackPanel>
         </Grid>
 
         <Grid Name="LocalTime" Background="Transparent" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            <Label x:Name="timenow" Content="14:15:56  30.10.20" Height="30" Margin="40,42,40,0" Width="420" FontSize="18" HorizontalContentAlignment="Center"/>
+            <Label x:Name="timenow" Content="00:00:00" Margin="40,36,40,0" Width="420" FontSize="18" HorizontalContentAlignment="Center"/>
             <Label x:Name="txt" Content="Сейчас" Height="30" Margin="40,12,40,29" Width="420" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
         </Grid>
 
@@ -46,13 +68,13 @@
         </Grid>
 
         <Grid Name="Buttons" Background="Transparent" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <Button x:Name="add" Content="add" HorizontalAlignment="Left" Height="55" Margin="110,35,0,0" VerticalAlignment="Top" Width="380" Click="add_Click"/>
-            <Button x:Name="change" Content="change" HorizontalAlignment="Left" Height="44" Margin="110,95,0,0" VerticalAlignment="Top" Width="380"/>
-            <Button x:Name="remove" Content="remove" HorizontalAlignment="Left" Height="44" Margin="110,144,0,0" VerticalAlignment="Top" Width="380"/>
+            <Image x:Name="Add" HorizontalAlignment="Left" Height="160" Margin="170,25,170,25" Width="160" Source="Source/add_button.png" MouseDown="Add_MouseDown"/>
+            <Image x:Name="Change" HorizontalAlignment="Left" Height="120" Margin="45,57,0,33" Width="120" Source="Source/change_button.png" MouseDown="Change_MouseDown"/>
+            <Image x:Name="Del" HorizontalAlignment="Left" Height="110" Margin="330,67,0,33" Width="110" Source="Source/del_button.png" MouseDown="Del_MouseDown"/>
         </Grid>
 
         <Grid Name="Headline" Background="Transparent" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-            <Image HorizontalAlignment="Left" Height="70" Margin="10,0,0,0" VerticalAlignment="Top" Width="450" Source="Source/таймеры.png"/>
+            <Image HorizontalAlignment="Center" Height="68" VerticalAlignment="Top" Width="226" Source="Source/таймеры.png" Margin="115,2,119,0"/>
         </Grid>
 
         <Grid Name="Timers" Background="Transparent" Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2">
