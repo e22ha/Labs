@@ -28,7 +28,6 @@ namespace lab_timer
         public MainWindow()
         {
             InitializeComponent();
-            //устанавливается дата - 28.02.2020 21:30:10
 
             timenow.Content = DateTime.Now.ToString("HH:mm:ss");
 

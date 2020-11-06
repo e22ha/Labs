@@ -34,7 +34,7 @@ namespace lab_timer
                 int H = int.Parse(Hour.Text);
                 int M = int.Parse(Min.Text);
                 int S = int.Parse(Sec.Text);
-                current = new DateTime(1, 1, 1, H, M, S);
+                current = new DateTime(Calendar.DisplayDate.Year, Calendar.DisplayDate.Month, Calendar.DisplayDate.Day,H,M,S);
             }
             //при нажатии кнопки “Закрыть” происходит
             //закрытие окна с отметкой об не успешном завершении работы
@@ -43,7 +43,7 @@ namespace lab_timer
 
         private void Cancel_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            this.Close();
         }
         
         private void ToolBar_MouseDown(object sender, MouseButtonEventArgs e)
