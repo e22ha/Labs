@@ -30,12 +30,16 @@ namespace lab_timer
             InitializeComponent();
 
             timenow.Content = DateTime.Now.ToString("HH:mm:ss");
-
+            dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(Time_);
+            dispatcherTimer.Interval = new TimeSpan(0, 0,1);
+            dispatcherTimer.Start();
         }
 
-
-
-
+        private void Time_(object sender, EventArgs e)
+        {
+            timenow.Content = DateTime.Now.ToString("HH:mm:ss");
+        }
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
