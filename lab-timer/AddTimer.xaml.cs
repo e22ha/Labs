@@ -26,8 +26,6 @@ namespace lab_timer
 
         }
 
-
-
         private void Done_MouseDown(object sender, RoutedEventArgs e)
         {
             if ((Hour.Text.Length != 0) & (Min.Text.Length != 0) & (Sec.Text.Length != 0))
@@ -46,6 +44,19 @@ namespace lab_timer
         private void Cancel_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
+        }
+        
+        private void ToolBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
         }
     }
 }
