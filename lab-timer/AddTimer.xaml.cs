@@ -26,7 +26,7 @@ namespace lab_timer
 
         }
 
-        private void Done_MouseDown(object sender, RoutedEventArgs e)
+        private void Done_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if ((Hour.Text.Length != 0) & (Min.Text.Length != 0) & (Sec.Text.Length != 0))
             {
