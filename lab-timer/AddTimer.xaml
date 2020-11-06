@@ -49,7 +49,7 @@
         </Grid>
 
         <Grid x:Name="Buttons" Background="Transparent" Grid.Row="2" Grid.Column="1">
-            <Image x:Name="Done" Height="80" Margin="15,21,15,65" Width="280" Source="Source/add_but.png" Stretch="Fill" MouseDown="Done_MouseDown_1"/>
+            <Image x:Name="Done" Height="80" Margin="15,21,15,65" Width="280" Source="Source/add_but.png" Stretch="Fill" MouseDown="Done_MouseDown"/>
             <Image x:Name="Cancel" Height="38" Margin="56,110,56,20" Width="198" Source="Source/exit_but.png" Stretch="Fill" MouseDown="Cancel_MouseDown"/>
         </Grid>
     </Grid>
