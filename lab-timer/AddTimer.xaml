@@ -41,7 +41,7 @@
             <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="36" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
             <TextBox x:Name="Min" HorizontalAlignment="Left" Height="36" Margin="109,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
             <TextBox x:Name="Sec" HorizontalAlignment="Left" Height="36" Margin="208,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92"/>
-            <TextBox HorizontalAlignment="Left" Height="36" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290"/>
+            <TextBox x:Name="name" HorizontalAlignment="Left" Height="36" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290"/>
             <Label Content="Название:" HorizontalAlignment="Left" Height="33" Margin="10,5,0,0" VerticalAlignment="Top" Width="104" FontWeight="Bold" FontSize="18"/>
             <Label Content="Часы:" HorizontalAlignment="Left" Height="28" Margin="10,95,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>
             <Label Content="Минуты:" HorizontalAlignment="Left" Height="28" Margin="109,95,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>

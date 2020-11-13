@@ -21,6 +21,8 @@ namespace lab_timer
     /// </summary>
     public partial class MainWindow : Window
     {
+        Dictionary<string, DateTime> dicDate = new Dictionary<string, DateTime>();
+
         DateTime d1;
         TimeSpan ts;
         private DispatcherTimer dispatcherTimer;
@@ -32,7 +34,7 @@ namespace lab_timer
             timenow.Content = DateTime.Now.ToString("HH:mm:ss");
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(Time_);
-            dispatcherTimer.Interval = new TimeSpan(0, 0,1);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
         }
 
@@ -66,16 +68,35 @@ namespace lab_timer
             //вызов окна + проверка, отработало ли окно корректно
             if (add_timer.ShowDialog() == true)
             {
-                //поскольку переменная current, окна add_timer была объявлена как public
-                //можно обратиться к ней напрямую и получить необходимые данные
-                d1 = add_timer.current;
+                
+                
+
+                    int H = int.Parse(add_timer.Hour.Text);
+                    int M = int.Parse(add_timer.Min.Text);
+                    int S = int.Parse(add_timer.Sec.Text);
+                    DateTime dateTime = new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S);
+                
+                //при нажатии кнопки “Закрыть” происходит
+                //закрытие окна с отметкой об не успешном завершении работы
+                if (dicDate.TryGetValue(add_timer.name.Text,out dateTime)==false)
+                {
+                    dicDate.Add(add_timer.name.Text.ToString(), new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S));
+                }
             }
             else //если окно отработало с результатом false
             {
                 //либо вывести сообщение, что данные не были получены
                 //либо ничего не делать
             }
+            tlist.Items.Add(add_timer.name.Text);
+        }
 
+        private bool diffDateTime(DateTime d1, DateTime d2)
+        {
+            if (d1 == d2)
+            {
+                return true;
+            }return false;
         }
 
         private void countdown(DateTime dnow, DateTime dfinish)
@@ -121,12 +142,20 @@ namespace lab_timer
 
         private void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (tlist.SelectedIndex> -1)
+            {
+                timecd.Content = dicDate[tlist.SelectedValue.ToString()].ToString("hh:mm:ss");
+                
+            }
         }
 
         private void Del_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            if (tlist.SelectedIndex > -1)
+            {
+                dicDate.Remove(tlist.SelectedValue.ToString());
+                tlist.Items[tlist.SelectedIndex]=null;
+            }
         }
 
         private void Change_MouseDown(object sender, MouseButtonEventArgs e)
