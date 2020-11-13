@@ -31,7 +31,6 @@ namespace lab_timer
         private void Done_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.DialogResult = true;
-            
         }
 
         private void Cancel_MouseDown(object sender, MouseButtonEventArgs e)

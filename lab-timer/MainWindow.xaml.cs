@@ -133,7 +133,7 @@ namespace lab_timer
                 }
                 if (intervalDate == zero)
                 {
-                    //вызов сообщения об окаончании даты
+                    MessageBox.Show("Всё!");
                 }
             }
         }
@@ -144,8 +144,24 @@ namespace lab_timer
         {
             if (tlist.SelectedIndex> -1)
             {
-                timecd.Content = dicDate[tlist.SelectedValue.ToString()].ToString("hh:mm:ss");
-                
+                dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+                dispatcherTimer.Tick += new EventHandler(Time_dif);
+                dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
+                dispatcherTimer.Start();
+                TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+                timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
+                dayscd.Content = dif.Days;
+            }
+        }
+
+        private void Time_dif(object sender, EventArgs e)
+        {
+            TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+            timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
+            dayscd.Content = dif.Days;
+            if (dif.TotalMilliseconds == 0)
+            {
+                MessageBox.Show("Всё!");
             }
         }
 
