@@ -150,7 +150,7 @@ namespace lab_timer
                 dispatcherTimer.Start();
                 TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
                 timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
-                dayscd.Content = dif.Days;
+                dayscd.Content = $"{dif.Days} days";
             }
         }
 
@@ -158,7 +158,7 @@ namespace lab_timer
         {
             TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
             timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
-            dayscd.Content = dif.Days;
+            dayscd.Content = $"{dif.Days} days";
             if (dif.TotalMilliseconds == 0)
             {
                 MessageBox.Show("Всё!");

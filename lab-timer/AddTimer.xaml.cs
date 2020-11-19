@@ -26,6 +26,7 @@ namespace lab_timer
             Hour.Text = "0";
             Min.Text = "0";
             Sec.Text = "0";
+
         }
 
         private void Done_MouseDown(object sender, MouseButtonEventArgs e)

@@ -105,24 +105,26 @@
     <Resource Include="Source\таймеры.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="close.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Source\defolt_exit.jpg" />
     <Resource Include="Source\defolt_min.jpg" />
     <Resource Include="Source\exit.jpg" />
     <Resource Include="Source\min.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\add_button.png" />
-    <Resource Include="Source\del_button.png" />
+    <Resource Include="Source\add_button_off.png" />
+    <Resource Include="Source\add_button_on.png" />
+    <Resource Include="Source\change_button_off.png" />
+    <Resource Include="Source\change_button_on.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\change_button.png" />
+    <Resource Include="Source\del_button_off.jpg" />
+    <Resource Include="Source\del_button_on.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\add_but.png" />
-    <Resource Include="Source\exit_but.png" />
+    <Resource Include="Source\add_but_off.png" />
+    <Resource Include="Source\add_but_on.png" />
+    <Resource Include="Source\exit_but_off.png" />
+    <Resource Include="Source\exit_but_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

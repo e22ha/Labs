@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
-        Title="Timer" Height="560" Width="960" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="Timer" Height="560" Width="960" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -63,14 +63,47 @@
         </Grid>
 
         <Grid Name="Countdown" Background="Transparent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <Label x:Name="timecd" Content="00:00:00" Height="120" Margin="40,19,40,82" Width="420" FontSize="72" HorizontalContentAlignment="Center"/>
-            <Label x:Name="dayscd" Content="0 days" Height="60" Margin="40,139,40,22" Width="420" FontSize="36" HorizontalContentAlignment="Center"/>
+            <Label x:Name="timecd" Content="00:00:00" Height="120" Margin="40,35,40,65" Width="420" FontSize="72" HorizontalContentAlignment="Center"/>
+            <Label x:Name="dayscd" Content="0 days" Height="60" Margin="40,132,40,28" Width="420" FontSize="36" HorizontalContentAlignment="Center"/>
         </Grid>
 
         <Grid Name="Buttons" Background="Transparent" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <Image x:Name="Add" HorizontalAlignment="Left" Height="160" Margin="170,25,170,25" Width="160" Source="Source/add_button.png" MouseDown="Add_MouseDown"/>
-            <Image x:Name="Change" HorizontalAlignment="Left" Height="120" Margin="45,57,0,33" Width="120" Source="Source/change_button.png" MouseDown="Change_MouseDown"/>
-            <Image x:Name="Del" HorizontalAlignment="Left" Height="110" Margin="330,67,0,33" Width="110" Source="Source/del_button.png" MouseDown="Del_MouseDown"/>
+            <Image x:Name="Add" Margin="202,50,203,48" MouseDown="Add_MouseDown">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/add_button_on.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Add}" Value="True">
+                                <Setter Property="Source" Value="Source/add_button_off.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image x:Name="Change" Margin="125,91,303,63" MouseDown="Change_MouseDown">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/change_button_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Change}" Value="True">
+                                <Setter Property="Source" Value="Source/change_button_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image x:Name="Del" Margin="302,91,126,63" MouseDown="Del_MouseDown">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/del_button_off.jpg"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Del}" Value="True">
+                                <Setter Property="Source" Value="Source/del_button_on.jpg"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
         </Grid>
 
         <Grid Name="Headline" Background="Transparent" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">

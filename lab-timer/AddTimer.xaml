@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
-        Title="AddTimer" Height="585" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None">
+        Title="AddTimer" Height="585" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25"/>
@@ -36,22 +36,43 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="Main" Background="Transparent" Grid.Row="1" Grid.Column="1">
+        <Grid x:Name="Main" Background="Transparent" Grid.Row="1" Grid.Column="1" Margin="0,1,0,169" Grid.RowSpan="2">
             <Calendar x:Name="Calendar" HorizontalAlignment="Left" Margin="65,190,65,0" VerticalAlignment="Top" Height="165" Width="180"/>
-            <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="36" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
-            <TextBox x:Name="Min" HorizontalAlignment="Left" Height="36" Margin="109,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94"/>
-            <TextBox x:Name="Sec" HorizontalAlignment="Left" Height="36" Margin="208,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92"/>
-            <TextBox x:Name="name" HorizontalAlignment="Left" Height="36" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290"/>
-            <Label Content="Название:" HorizontalAlignment="Left" Height="33" Margin="10,5,0,0" VerticalAlignment="Top" Width="104" FontWeight="Bold" FontSize="18"/>
-            <Label Content="Часы:" HorizontalAlignment="Left" Height="28" Margin="10,95,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>
-            <Label Content="Минуты:" HorizontalAlignment="Left" Height="28" Margin="109,95,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>
-            <Label Content="Секунды:" HorizontalAlignment="Left" Height="28" Margin="208,95,0,0" VerticalAlignment="Top" Width="92" FontSize="14"/>
+            <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="36" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+            <TextBox x:Name="Min" HorizontalAlignment="Left" Height="36" Margin="108,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+            <TextBox x:Name="Sec" HorizontalAlignment="Left" Height="36" Margin="206,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+            <TextBox x:Name="name" HorizontalAlignment="Left" Height="36" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290" VerticalContentAlignment="Center" FontSize="18"/>
+            <Label Content="Название:" HorizontalAlignment="Left" Height="33" Margin="5,10,0,0" VerticalAlignment="Top" Width="104" FontWeight="Bold" FontSize="18"/>
+            <Label Content="Часы:" HorizontalAlignment="Left" Height="28" Margin="5,102,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>
+            <Label Content="Минуты:" HorizontalAlignment="Left" Height="28" Margin="104,102,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>
+            <Label Content="Секунды:" HorizontalAlignment="Left" Height="28" Margin="203,102,0,0" VerticalAlignment="Top" Width="92" FontSize="14"/>
         </Grid>
 
         <Grid x:Name="Buttons" Background="Transparent" Grid.Row="2" Grid.Column="1">
-            <Image x:Name="Done" Height="80" Margin="15,21,15,65" Width="280" Source="Source/add_but.png" Stretch="Fill" MouseDown="Done_MouseDown"/>
-            <Image x:Name="Cancel" Height="38" Margin="56,110,56,20" Width="198" Source="Source/exit_but.png" Stretch="Fill" MouseDown="Cancel_MouseDown"/>
+            <Image x:Name="Done" Margin="15,21,15,65" MouseDown="Done_MouseDown">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/add_but_on.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Done}" Value="True">
+                                <Setter Property="Source" Value="Source/add_but_off.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image x:Name="Cancel" Margin="56,110,56,20" MouseDown="Cancel_MouseDown">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/exit_but_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Cancel}" Value="True">
+                                <Setter Property="Source" Value="Source/exit_but_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
         </Grid>
     </Grid>
-
 </Window>
