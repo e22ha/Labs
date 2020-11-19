@@ -38,14 +38,18 @@
 
         <Grid x:Name="Main" Background="Transparent" Grid.Row="1" Grid.Column="1" Margin="0,1,0,169" Grid.RowSpan="2">
             <Calendar x:Name="Calendar" HorizontalAlignment="Left" Margin="65,190,65,0" VerticalAlignment="Top" Height="165" Width="180"/>
-            <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="36" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
+            <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="36" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" x:FieldModifier="public"/>
             <TextBox x:Name="Min" HorizontalAlignment="Left" Height="36" Margin="108,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
             <TextBox x:Name="Sec" HorizontalAlignment="Left" Height="36" Margin="206,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
             <TextBox x:Name="name" HorizontalAlignment="Left" Height="36" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290" VerticalContentAlignment="Center" FontSize="18"/>
             <Label Content="Название:" HorizontalAlignment="Left" Height="33" Margin="5,10,0,0" VerticalAlignment="Top" Width="104" FontWeight="Bold" FontSize="18"/>
-            <Label Content="Часы:" HorizontalAlignment="Left" Height="28" Margin="5,102,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>
-            <Label Content="Минуты:" HorizontalAlignment="Left" Height="28" Margin="104,102,0,0" VerticalAlignment="Top" Width="94" FontSize="14"/>
-            <Label Content="Секунды:" HorizontalAlignment="Left" Height="28" Margin="203,102,0,0" VerticalAlignment="Top" Width="92" FontSize="14"/>
+            <Label Content="Часы:" HorizontalAlignment="Left" Height="28" Margin="5,102,0,0" VerticalAlignment="Top" Width="48" FontSize="14"/>
+            <Label Content="Минуты:" HorizontalAlignment="Left" Height="28" Margin="104,102,0,0" VerticalAlignment="Top" Width="65" FontSize="14"/>
+            <Label Content="Секунды:" HorizontalAlignment="Left" Height="28" Margin="203,102,0,0" VerticalAlignment="Top" Width="70" FontSize="14"/>
+            <Label Content="(&gt;60)" HorizontalAlignment="Left" Height="24" Margin="264,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
+            <Label Content="(&gt;60)" HorizontalAlignment="Left" Height="24" Margin="163,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
+            <Label Content="(&gt;60)" HorizontalAlignment="Left" Height="24" Margin="163,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
+            <Label Content="(&gt;24)" HorizontalAlignment="Left" Height="24" Margin="44,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
         </Grid>
 
         <Grid x:Name="Buttons" Background="Transparent" Grid.Row="2" Grid.Column="1">

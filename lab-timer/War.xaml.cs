@@ -15,36 +15,20 @@ using System.Windows.Shapes;
 namespace lab_timer
 {
     /// <summary>
-    /// Логика взаимодействия для AddTimer.xaml
+    /// Логика взаимодействия для Window1.xaml
     /// </summary>
-    public partial class AddTimer : Window
+    public partial class War : Window
     {
-        
-        public AddTimer()
+        public War()
         {
             InitializeComponent();
-            Hour.Text = "0";
-            Min.Text = "0";
-            Sec.Text = "0";
         }
 
-        private void Done_MouseDown(object sender, MouseButtonEventArgs e)
+        private void FixButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if ((int.Parse(Hour.Text) > 24) | (int.Parse(Min.Text) > 60) | (int.Parse(Sec.Text) > 60))
-            {
-                Window error = new War();
-                error.Show();
-            }
-            
-            //this.DialogResult = true;
-        }
-
-        private void Cancel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DialogResult = false;
             this.Close();
         }
-        
+
         private void ToolBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)

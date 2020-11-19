@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="War.xaml.cs">
+      <DependentUpon>War.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddTimer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -74,6 +77,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="War.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -125,6 +132,13 @@
     <Resource Include="Source\add_but_on.png" />
     <Resource Include="Source\exit_but_off.png" />
     <Resource Include="Source\exit_but_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\warrning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\fix_but_off.png" />
+    <Resource Include="Source\fix_but_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

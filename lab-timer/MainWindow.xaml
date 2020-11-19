@@ -68,7 +68,7 @@
         </Grid>
 
         <Grid Name="Buttons" Background="Transparent" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <Image x:Name="Add" Margin="202,50,203,48" MouseDown="Add_MouseDown">
+            <Image x:Name="Add" Margin="202,50,203,48" RenderOptions.BitmapScalingMode="Fant" MouseDown="Add_MouseDown">
                 <Image.Style>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="Source" Value="Source/add_button_on.png"/>
@@ -80,7 +80,7 @@
                     </Style>
                 </Image.Style>
             </Image>
-            <Image x:Name="Change" Margin="125,91,303,63" MouseDown="Change_MouseDown">
+            <Image x:Name="Change" Margin="125,91,303,63" RenderOptions.BitmapScalingMode="Fant" MouseDown="Change_MouseDown">
                 <Image.Style>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="Source" Value="Source/change_button_off.png"/>
@@ -92,7 +92,7 @@
                     </Style>
                 </Image.Style>
             </Image>
-            <Image x:Name="Del" Margin="302,91,126,63" MouseDown="Del_MouseDown">
+            <Image x:Name="Del" Margin="302,91,126,63" RenderOptions.BitmapScalingMode="Fant" MouseDown="Del_MouseDown">
                 <Image.Style>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="Source" Value="Source/del_button_off.jpg"/>
@@ -107,7 +107,7 @@
         </Grid>
 
         <Grid Name="Headline" Background="Transparent" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-            <Image HorizontalAlignment="Center" Height="68" VerticalAlignment="Top" Width="226" Source="Source/таймеры.png" Margin="115,2,119,0"/>
+            <Image HorizontalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Height="68" VerticalAlignment="Top" Width="226" Source="Source/таймеры.png" Margin="115,2,119,0"/>
         </Grid>
 
         <Grid Name="Timers" Background="Transparent" Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2">
