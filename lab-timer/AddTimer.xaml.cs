@@ -35,8 +35,10 @@ namespace lab_timer
                 Window error = new War();
                 error.Show();
             }
-            
-            //this.DialogResult = true;
+            else
+            {
+                this.DialogResult = true;
+            }
         }
 
         private void Cancel_MouseDown(object sender, MouseButtonEventArgs e)
