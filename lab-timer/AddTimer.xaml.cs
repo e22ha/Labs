@@ -36,7 +36,7 @@ namespace lab_timer
                 error.Show();
             }
             
-            //this.DialogResult = true;
+            this.DialogResult = true;
         }
 
         private void Cancel_MouseDown(object sender, MouseButtonEventArgs e)
