@@ -1,0 +1,15 @@
+D:\Code\L\Labs\INF\INF 3\inf_float\bin\Debug\inf_float.exe.config
+D:\Code\L\Labs\INF\INF 3\inf_float\bin\Debug\inf_float.exe
+D:\Code\L\Labs\INF\INF 3\inf_float\bin\Debug\inf_float.pdb
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\inf_float.csprojAssemblyReference.cache
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\MainWindow.g.cs
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\App.g.cs
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\inf_float_MarkupCompile.cache
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\inf_float_MarkupCompile.lref
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\MainWindow.baml
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\inf_float.g.resources
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\inf_float.Properties.Resources.resources
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\inf_float.csproj.GenerateResource.cache
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\inf_float.csproj.CoreCompileInputs.cache
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\inf_float.exe
+D:\Code\L\Labs\INF\INF 3\inf_float\obj\Debug\inf_float.pdb

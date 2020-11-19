@@ -1,0 +1,23 @@
+﻿<Window x:Class="@float.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:@float"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="334.584" Width="541.404">
+    <Grid>
+        <Label Content="Dec" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top"/>
+        <Label Content="Sign" HorizontalAlignment="Left" Margin="10,52,0,0" VerticalAlignment="Top"/>
+        <Label Content="Exp" HorizontalAlignment="Left" Margin="71,52,0,0" VerticalAlignment="Top"/>
+        <Label Content="Mantissa ,1" HorizontalAlignment="Left" Margin="204,52,0,0" VerticalAlignment="Top" Width="68"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="45,24,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="303"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="45,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="21"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="100,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="277,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="167"/>
+        <Button Content="to BIN" HorizontalAlignment="Left" Margin="374,24,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="to DEC" HorizontalAlignment="Left" Margin="454,24,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBlock HorizontalAlignment="Left" Margin="17,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="212" Width="512"/>
+
+    </Grid>
+</Window>
