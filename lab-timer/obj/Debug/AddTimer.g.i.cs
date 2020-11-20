@@ -72,13 +72,10 @@ namespace lab_timer {
         #line default
         #line hidden
         
-        /// <summary>
-        /// Hour Name Field
-        /// </summary>
         
         #line 41 "..\..\AddTimer.xaml"
         [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
-        public System.Windows.Controls.TextBox Hour;
+        internal System.Windows.Controls.TextBox Hour;
         
         #line default
         #line hidden

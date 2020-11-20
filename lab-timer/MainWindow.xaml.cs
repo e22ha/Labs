@@ -38,6 +38,14 @@ namespace lab_timer
             dispatcherTimer.Start();
         }
 
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized)
+                this.Hide();
+            base.OnStateChanged(e);
+        }
+
+
         private void Time_(object sender, EventArgs e)
         {
             timenow.Content = DateTime.Now.ToString("HH:mm:ss");

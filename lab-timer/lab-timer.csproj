@@ -37,6 +37,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -139,6 +141,9 @@
   <ItemGroup>
     <Resource Include="Source\fix_but_off.png" />
     <Resource Include="Source\fix_but_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\Icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

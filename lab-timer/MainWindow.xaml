@@ -115,6 +115,7 @@
         </Grid>
 
         <Grid Name="Bottom" Background="Transparent" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4">
+            <StatusBar HorizontalAlignment="Left" Height="35" Margin="860,0,0,0" VerticalAlignment="Top" Width="100"/>
         </Grid>
     </Grid>
 </Window>
