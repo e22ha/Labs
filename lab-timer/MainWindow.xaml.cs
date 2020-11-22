@@ -38,6 +38,14 @@ namespace lab_timer
             dispatcherTimer.Start();
         }
 
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized)
+                this.Hide();
+            base.OnStateChanged(e);
+        }
+
+
         private void Time_(object sender, EventArgs e)
         {
             timenow.Content = DateTime.Now.ToString("HH:mm:ss");
@@ -68,17 +76,15 @@ namespace lab_timer
             //вызов окна + проверка, отработало ли окно корректно
             if (add_timer.ShowDialog() == true)
             {
-                
-                
+                int H = int.Parse(add_timer.Hour.Text);
+                int M = int.Parse(add_timer.Min.Text);
+                int S = int.Parse(add_timer.Sec.Text);
 
-                    int H = int.Parse(add_timer.Hour.Text);
-                    int M = int.Parse(add_timer.Min.Text);
-                    int S = int.Parse(add_timer.Sec.Text);
-                    DateTime dateTime = new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S);
+                DateTime dateTime = new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S);
                 
                 //при нажатии кнопки “Закрыть” происходит
                 //закрытие окна с отметкой об не успешном завершении работы
-                if (dicDate.TryGetValue(add_timer.name.Text,out dateTime)==false)
+                if (dicDate.TryGetValue(add_timer.name.Text, out dateTime)==false)
                 {
                     dicDate.Add(add_timer.name.Text.ToString(), new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S));
                 }
@@ -150,7 +156,7 @@ namespace lab_timer
                 dispatcherTimer.Start();
                 TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
                 timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
-                dayscd.Content = dif.Days;
+                dayscd.Content = $"{dif.Days} days";
             }
         }
 
@@ -158,7 +164,7 @@ namespace lab_timer
         {
             TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
             timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
-            dayscd.Content = dif.Days;
+            dayscd.Content = $"{dif.Days} days";
             if (dif.TotalMilliseconds == 0)
             {
                 MessageBox.Show("Всё!");

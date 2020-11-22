@@ -32,3 +32,5 @@ D:\Code\Lab-timer\lab-timer\obj\Debug\AddTimer.g.cs
 D:\Code\Lab-timer\lab-timer\obj\Debug\AddTimer.baml
 C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\AddTimer.g.cs
 C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\AddTimer.baml
+C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\War.g.cs
+C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\War.baml

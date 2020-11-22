@@ -30,7 +30,28 @@ namespace lab_timer
 
         private void Done_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.DialogResult = true;
+            if (int.Parse(Hour.Text) > 24)
+            {
+                Hour.Text = "0";
+                Window error = new War();
+                error.Show();
+            }
+            else if (int.Parse(Min.Text) > 60)
+            {
+                Min.Text = "0";
+                Window error = new War();
+                error.Show();
+            }
+            else if (int.Parse(Sec.Text) > 60)
+            {
+                Sec.Text = "0";
+                Window error = new War();
+                error.Show();
+            }
+            else
+            {
+                this.DialogResult = true;
+            }
         }
 
         private void Cancel_MouseDown(object sender, MouseButtonEventArgs e)
@@ -49,6 +70,7 @@ namespace lab_timer
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            this.DialogResult = false;
             this.Close();
         }
     }
