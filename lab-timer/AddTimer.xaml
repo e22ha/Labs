@@ -46,10 +46,9 @@
             <Label Content="Часы:" HorizontalAlignment="Left" Height="28" Margin="5,102,0,0" VerticalAlignment="Top" Width="48" FontSize="14"/>
             <Label Content="Минуты:" HorizontalAlignment="Left" Height="28" Margin="104,102,0,0" VerticalAlignment="Top" Width="65" FontSize="14"/>
             <Label Content="Секунды:" HorizontalAlignment="Left" Height="28" Margin="203,102,0,0" VerticalAlignment="Top" Width="70" FontSize="14"/>
-            <Label Content="(&gt;60)" HorizontalAlignment="Left" Height="24" Margin="264,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
-            <Label Content="(&gt;60)" HorizontalAlignment="Left" Height="24" Margin="163,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
-            <Label Content="(&gt;60)" HorizontalAlignment="Left" Height="24" Margin="163,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
-            <Label Content="(&gt;24)" HorizontalAlignment="Left" Height="24" Margin="44,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
+            <Label Content="(&lt;60)" HorizontalAlignment="Left" Height="24" Margin="264,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
+            <Label Content="(&lt;60)" HorizontalAlignment="Left" Height="24" Margin="163,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
+            <Label Content="(&lt;24)" HorizontalAlignment="Left" Height="24" Margin="44,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
         </Grid>
 
         <Grid x:Name="Buttons" Background="Transparent" Grid.Row="2" Grid.Column="1">

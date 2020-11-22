@@ -23,9 +23,9 @@ namespace lab_timer
         public AddTimer()
         {
             InitializeComponent();
-            Hour.Text = "0";
-            Min.Text = "0";
-            Sec.Text = "0";
+            Hour.Text = DateTime.Now.Hour.ToString();
+            Min.Text = DateTime.Now.Minute.ToString();
+            Sec.Text = DateTime.Now.Second.ToString();
         }
 
         private void Done_MouseDown(object sender, MouseButtonEventArgs e)

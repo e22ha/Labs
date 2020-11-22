@@ -60,6 +60,11 @@ namespace lab_timer
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            foreach (KeyValuePair<string, DateTime> kvp in dicDate)
+            {
+                ///создание файла с таймерами
+            }
+            
             this.Close();
         }
 
