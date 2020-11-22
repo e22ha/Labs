@@ -34,3 +34,10 @@ C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\AddTimer.g.cs
 C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\AddTimer.baml
 C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\War.g.cs
 C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\War.baml
+D:\Code\Lab-timer\lab-timer\obj\Debug\War.g.cs
+D:\Code\Lab-timer\lab-timer\obj\Debug\War.baml
+D:\Code\Lab-timer\lab-timer\bin\Debug\Eco.Handles.dll
+D:\Code\Lab-timer\lab-timer\bin\Debug\Eco.Interfaces.dll
+D:\Code\Lab-timer\lab-timer\bin\Debug\Eco.LinqExtender.dll
+D:\Code\Lab-timer\lab-timer\bin\Debug\System.Buffers.dll
+D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer.csproj.CopyComplete

@@ -36,7 +36,9 @@ namespace lab_timer
             dispatcherTimer.Tick += new EventHandler(Time_);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
+
         }
+
 
         protected override void OnStateChanged(EventArgs e)
         {
@@ -49,6 +51,11 @@ namespace lab_timer
         private void Time_(object sender, EventArgs e)
         {
             timenow.Content = DateTime.Now.ToString("HH:mm:ss");
+            foreach (KeyValuePair<string, DateTime> kvp in dicDate)
+            {
+                TimeSpan diff = kvp.Value - DateTime.Now;
+                if ((diff.TotalSeconds < 0) && (diff.TotalSeconds > -1)) MessageBox.Show($"Timer {kvp.Key} is over!");
+            }
         }
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
@@ -145,38 +152,39 @@ namespace lab_timer
         }
 
 
+        private DispatcherTimer timeOut = new System.Windows.Threading.DispatcherTimer();
 
-        private void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (tlist.SelectedIndex> -1)
             {
-                dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
-                dispatcherTimer.Tick += new EventHandler(Time_dif);
-                dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
-                dispatcherTimer.Start();
+                
+                timeOut.Tick += new EventHandler(Time_dif);
+                timeOut.Interval = new TimeSpan(0, 0, 1);
+                timeOut.Start();
                 TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
                 timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
                 dayscd.Content = $"{dif.Days} days";
             }
         }
 
+
         private void Time_dif(object sender, EventArgs e)
         {
             TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
             timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
             dayscd.Content = $"{dif.Days} days";
-            if (dif.TotalMilliseconds == 0)
-            {
-                MessageBox.Show("Всё!");
-            }
         }
 
         private void Del_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (tlist.SelectedIndex > -1)
             {
+                timeOut.Stop();
                 dicDate.Remove(tlist.SelectedValue.ToString());
                 tlist.Items[tlist.SelectedIndex]=null;
+                timecd.Content = "00:00:00";
+                dayscd.Content = "0 days";
             }
         }
 
