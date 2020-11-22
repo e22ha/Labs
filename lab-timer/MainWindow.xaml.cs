@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,24 @@ namespace lab_timer
         public MainWindow()
         {
             InitializeComponent();
+            string line;
+            //открытие файла test.txt для чтения
+            string fullPath = System.IO.Path.GetFullPath(@"data.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader(fullPath);
+            //построчное чтение файла
+            
+            while ((line = file.ReadLine()) != null)
+            {
+
+                string name = line;    
+                if ((line = file.ReadLine()) == null) break;
+                DateTime dt = DateTime.Parse(line);
+
+                dicDate.Add(name, dt);
+                tlist.Items.Add(name);
+            }
+            //закрытие файла
+            file.Close();
 
             timenow.Content = DateTime.Now.ToString("HH:mm:ss");
             dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
@@ -61,11 +80,17 @@ namespace lab_timer
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            foreach (KeyValuePair<string, DateTime> kvp in dicDate)
-            {
-                ///создание файла с таймерами
-            }
+            System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"data.txt");
 
+            using (outputFile)///создание файла с таймерами
+            {
+                foreach (KeyValuePair<string, DateTime> kvp in dicDate)
+                {
+                    outputFile.WriteLine(kvp.Key);
+                    outputFile.WriteLine(kvp.Value.ToString());
+                }
+            }
+            outputFile.Close();
             this.Close();
         }
 
@@ -86,6 +111,9 @@ namespace lab_timer
         {
             //создание нового окна (название класса – то, что было указано при добавлении окна)
             AddTimer add_timer = new AddTimer();
+            add_timer.Hour.Text = DateTime.Now.Hour.ToString();
+            add_timer.Min.Text = DateTime.Now.Minute.ToString();
+            add_timer.Sec.Text = DateTime.Now.Second.ToString();
             //вызов окна + проверка, отработало ли окно корректно
             if (add_timer.ShowDialog() == true)
             {
@@ -203,7 +231,7 @@ namespace lab_timer
                 status.Content = "Осталось:";
                 timecd.Foreground = new SolidColorBrush(Colors.Green);
                 timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
-                dayscd.Foreground = new SolidColorBrush(Colors.White);
+                dayscd.Foreground = new SolidColorBrush(Colors.Green);
                 dayscd.Content = $"{dif.Days} days";
             }
             else
@@ -218,12 +246,12 @@ namespace lab_timer
         }
 
         private void Del_MouseDown(object sender, MouseButtonEventArgs e)
-        {
+        { 
             if (tlist.SelectedIndex > -1)
             {
                 timeOut.Stop();
                 dicDate.Remove(tlist.SelectedValue.ToString());
-                tlist.Items[tlist.SelectedIndex] = null;
+                tlist.Items.RemoveAt(tlist.SelectedIndex);
                 timecd.Content = "00:00:00";
                 dayscd.Content = "0 days";
             }
@@ -231,7 +259,44 @@ namespace lab_timer
 
         private void Change_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            //создание нового окна (название класса – то, что было указано при добавлении окна)
+            if (tlist.SelectedIndex > -1)
+            {
+                AddTimer add_timer = new AddTimer();
+                add_timer.name.Text = tlist.SelectedValue.ToString();
+                add_timer.Hour.Text = dicDate[tlist.SelectedValue.ToString()].Hour.ToString();
+                add_timer.Min.Text = dicDate[tlist.SelectedValue.ToString()].Minute.ToString();
+                add_timer.Sec.Text = dicDate[tlist.SelectedValue.ToString()].Second.ToString();
+                add_timer.Calendar.SelectedDate = dicDate[tlist.SelectedValue.ToString()];
+                timeOut.Stop();
+                dicDate.Remove(tlist.SelectedValue.ToString());
+                tlist.Items.RemoveAt(tlist.SelectedIndex);
+                timecd.Content = "00:00:00";
+                dayscd.Content = "0 days";
+                //вызов окна + проверка, отработало ли окно корректно
+                if (add_timer.ShowDialog() == true)
+                {
+                    int H = int.Parse(add_timer.Hour.Text);
+                    int M = int.Parse(add_timer.Min.Text);
+                    int S = int.Parse(add_timer.Sec.Text);
 
+                    //DateTime dateTime = new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S);
+
+                    //при нажатии кнопки “Закрыть” происходит
+                    //закрытие окна с отметкой об не успешном завершении работы
+                    if (dicDate.TryGetValue(add_timer.name.Text, out DateTime dateTime) == false)
+                    {
+                        dicDate.Add(add_timer.name.Text.ToString(), new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S));
+                        tlist.Items.Add(add_timer.name.Text);
+                    }
+
+                }
+                else //если окно отработало с результатом false
+                {
+                    //либо вывести сообщение, что данные не были получены
+                    //либо ничего не делать
+                }
+            }
         }
     }
 }
