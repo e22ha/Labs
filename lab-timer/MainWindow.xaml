@@ -63,8 +63,9 @@
         </Grid>
 
         <Grid Name="Countdown" Background="Transparent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <Label x:Name="timecd" Content="00:00:00" Height="120" Margin="40,35,40,65" Width="420" FontSize="72" HorizontalContentAlignment="Center"/>
+            <Label x:Name="timecd" Content="00:00:00" Height="120" Margin="40,35,40,65" Width="420" FontSize="72" HorizontalContentAlignment="Center" Background="White"/>
             <Label x:Name="dayscd" Content="0 days" Height="60" Margin="40,132,40,28" Width="420" FontSize="36" HorizontalContentAlignment="Center"/>
+            <Label x:Name="status" Content="" HorizontalAlignment="Left" Height="30" Margin="200,17,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
         </Grid>
 
         <Grid Name="Buttons" Background="Transparent" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">

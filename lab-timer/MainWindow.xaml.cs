@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
+
 namespace lab_timer
 {
     /// <summary>
@@ -64,7 +65,7 @@ namespace lab_timer
             {
                 ///создание файла с таймерами
             }
-            
+
             this.Close();
         }
 
@@ -93,20 +94,21 @@ namespace lab_timer
                 int S = int.Parse(add_timer.Sec.Text);
 
                 DateTime dateTime = new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S);
-                
+
                 //при нажатии кнопки “Закрыть” происходит
                 //закрытие окна с отметкой об не успешном завершении работы
-                if (dicDate.TryGetValue(add_timer.name.Text, out dateTime)==false)
+                if (dicDate.TryGetValue(add_timer.name.Text, out dateTime) == false)
                 {
                     dicDate.Add(add_timer.name.Text.ToString(), new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S));
+                    tlist.Items.Add(add_timer.name.Text);
                 }
+
             }
             else //если окно отработало с результатом false
             {
                 //либо вывести сообщение, что данные не были получены
                 //либо ничего не делать
             }
-            tlist.Items.Add(add_timer.name.Text);
         }
 
         private bool diffDateTime(DateTime d1, DateTime d2)
@@ -114,7 +116,8 @@ namespace lab_timer
             if (d1 == d2)
             {
                 return true;
-            }return false;
+            }
+            return false;
         }
 
         private void countdown(DateTime dnow, DateTime dfinish)
@@ -161,15 +164,32 @@ namespace lab_timer
 
         public void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (tlist.SelectedIndex> -1)
+            if (tlist.SelectedIndex > -1)
             {
-                
+
                 timeOut.Tick += new EventHandler(Time_dif);
                 timeOut.Interval = new TimeSpan(0, 0, 1);
                 timeOut.Start();
                 TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
-                timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
-                dayscd.Content = $"{dif.Days} days";
+                if (dif.TotalSeconds > -1)
+                {
+                    status.Foreground = new SolidColorBrush(Colors.Green);
+                    status.Content = "Осталось:";
+                    timecd.Foreground = new SolidColorBrush(Colors.Green);
+                    timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
+                    dayscd.Foreground = new SolidColorBrush(Colors.Green);
+                    dayscd.Content = $"{dif.Days} days";
+                }
+                else
+                {
+                    status.Foreground = new SolidColorBrush(Colors.Red);
+                    status.Content = "Таймер прошёл:";
+                    timecd.Foreground = new SolidColorBrush(Colors.Red);
+                    timecd.Content = $"{Math.Abs(dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+                    dayscd.Foreground = new SolidColorBrush(Colors.Red);
+                    dayscd.Content = $"{Math.Abs(dif.Days)} days";
+                }
+
             }
         }
 
@@ -177,8 +197,24 @@ namespace lab_timer
         private void Time_dif(object sender, EventArgs e)
         {
             TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
-            timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
-            dayscd.Content = $"{dif.Days} days";
+            if (dif.TotalSeconds > -1)
+            {
+                status.Foreground = new SolidColorBrush(Colors.Green);
+                status.Content = "Осталось:";
+                timecd.Foreground = new SolidColorBrush(Colors.Green);
+                timecd.Content = $"{dif.Hours}:{dif.Minutes}:{dif.Seconds}";
+                dayscd.Foreground = new SolidColorBrush(Colors.White);
+                dayscd.Content = $"{dif.Days} days";
+            }
+            else
+            {
+                status.Foreground = new SolidColorBrush(Colors.Red);
+                status.Content = "Таймер прошёл:";
+                timecd.Foreground = new SolidColorBrush(Colors.Red);
+                timecd.Content = $"{Math.Abs(dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+                dayscd.Foreground = new SolidColorBrush(Colors.Red);
+                dayscd.Content = $"{Math.Abs(dif.Days)} days";
+            }
         }
 
         private void Del_MouseDown(object sender, MouseButtonEventArgs e)
@@ -187,7 +223,7 @@ namespace lab_timer
             {
                 timeOut.Stop();
                 dicDate.Remove(tlist.SelectedValue.ToString());
-                tlist.Items[tlist.SelectedIndex]=null;
+                tlist.Items[tlist.SelectedIndex] = null;
                 timecd.Content = "00:00:00";
                 dayscd.Content = "0 days";
             }
