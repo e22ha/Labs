@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
-        Title="AddTimer" Height="585" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1">
+        Title="AddTimer" Height="585" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1" Icon="Source/Icons/Plus.jpg">
     <Window.Resources>
         <Style x:Key="TB" TargetType="TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center"/>

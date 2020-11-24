@@ -147,9 +147,6 @@
     <Resource Include="Source\fix_but_on.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Source\clock1.png" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +157,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Source\warrning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\Icons\Timer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\Icons\Plus.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\Icons\Error.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

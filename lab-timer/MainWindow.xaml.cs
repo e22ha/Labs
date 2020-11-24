@@ -29,9 +29,22 @@ namespace lab_timer
         TimeSpan ts;
         private DispatcherTimer dispatcherTimer;
 
+        System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
+
         public MainWindow()
         {
             InitializeComponent();
+
+            ni.Icon = new System.Drawing.Icon(@"Timer.ico");
+            ni.Visible = true;
+
+            ni.DoubleClick +=
+                delegate (object sender, EventArgs args)
+                {
+                    this.Show();
+                    this.WindowState = WindowState.Normal;
+                };
+
             string line;
             //открытие файла test.txt для чтения
             string fullPath = System.IO.Path.GetFullPath(@"data.txt");
@@ -59,11 +72,11 @@ namespace lab_timer
 
         protected override void OnStateChanged(EventArgs e)
         {
-            if (WindowState == WindowState.Minimized)
+            if (WindowState == System.Windows.WindowState.Minimized)
                 this.Hide();
+
             base.OnStateChanged(e);
         }
-
 
         private void Time_(object sender, EventArgs e)
         {

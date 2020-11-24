@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("source/del_button_off.svg")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("plus.jpg")]
 
 

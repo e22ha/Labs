@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
-        Title="Timer" Height="520" Width="900" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1">
+        Title="Timer" Height="520" Width="900" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1" Icon="Source/Icons/Timer.png">
     <Window.Resources>
         <Style x:Key="ComboboxButton" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -72,7 +72,7 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" MouseDown="ToolBar_MouseDown" Margin="0,0,2,0">
-            <Menu HorizontalAlignment="Left" Height="25" Background="#353535" VerticalAlignment="Top" Width="134" Foreground="Black">
+            <Menu HorizontalAlignment="Left" Height="25" BorderBrush="#353535" Background="#353535" VerticalAlignment="Top" Width="134" Foreground="Black">
                 <MenuItem Header="File" Background="#353535" Height="25" Width="42" Foreground="White">
                     <MenuItem Header="New" Background="#353535"/>
                     <MenuItem Header="Load" Background="#353535"/>
