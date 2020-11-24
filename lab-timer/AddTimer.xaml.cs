@@ -32,19 +32,19 @@ namespace lab_timer
             {
                 Hour.Text = "";
                 Hour.BorderBrush = new SolidColorBrush(Colors.Red);
-                error.Show();
+                error.ShowDialog();
             }
             else if (int.Parse(Min.Text) > 60)
             {
                 Min.Text = "";
                 Min.BorderBrush = new SolidColorBrush(Colors.Red);
-                error.Show();
+                error.ShowDialog();
             }
             else if (int.Parse(Sec.Text) > 60)
             {
                 Sec.Text = "";
                 Sec.BorderBrush = new SolidColorBrush(Colors.Red);
-                error.Show();
+                error.ShowDialog();
             }
             else
             {

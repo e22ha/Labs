@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
-        Title="AddTimer" Height="585" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1" Icon="Source/Icons/Plus.jpg">
+        Title="AddTimer" Height="550" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1" Icon="Source/Icons/Plus.jpg">
     <Window.Resources>
         <Style x:Key="TB" TargetType="TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -46,8 +46,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="380"/>
-            <RowDefinition Height="170"/>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="130"/>
+            <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
 
         <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" MouseDown="ToolBar_MouseDown">
@@ -67,11 +67,11 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="Main" Grid.Row="1" Grid.Column="1" Margin="0,1,0,169" Grid.RowSpan="2">
-            <Calendar x:Name="Calendar" HorizontalAlignment="Left" Margin="65,190,65,0" VerticalAlignment="Top" Height="165" Width="180"/>
+        <Grid x:Name="Main" Grid.Row="1" Grid.Column="1" Margin="0,1,0,10">
+            <Calendar x:Name="Calendar" HorizontalAlignment="Left" Margin="65,190,0,0" VerticalAlignment="Top" Height="169" Width="180"/>
             <TextBox x:Name="Hour" HorizontalAlignment="Left" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center"
                      Style="{StaticResource TB}"/>
-            <TextBlock IsHitTestVisible="False" FontSize="16" Text="&lt;24" Margin="40,135,233,223" Foreground="#FFA4A4A4">
+            <TextBlock IsHitTestVisible="False" FontSize="16" Text="&lt;24" Margin="40,135,233,205" Foreground="#FFA4A4A4">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -85,7 +85,7 @@
             </TextBlock>
             <TextBox x:Name="Min" HorizontalAlignment="Left" Margin="108,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center"
                      Style="{StaticResource TB}"/>
-            <TextBlock IsHitTestVisible="False" FontSize="16" Text="&lt;60" Margin="140,135,133,223" Foreground="#FFA4A4A4">
+            <TextBlock IsHitTestVisible="False" FontSize="16" Text="&lt;60" Margin="140,135,133,205" Foreground="#FFA4A4A4">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -99,7 +99,7 @@
             </TextBlock>
             <TextBox x:Name="Sec" HorizontalAlignment="Left" Margin="206,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center"
                      Style="{StaticResource TB}"/>
-            <TextBlock IsHitTestVisible="False" FontSize="16" Text="&lt;60" Margin="236,135,37,223" Foreground="#FFA4A4A4">
+            <TextBlock IsHitTestVisible="False" FontSize="16" Text="&lt;60" Margin="236,135,37,205" Foreground="#FFA4A4A4">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -114,7 +114,7 @@
 
             <TextBox x:Name="name" HorizontalAlignment="Left" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290"
                      Style="{StaticResource TB}"/>
-            <TextBlock IsHitTestVisible="False" FontSize="16" Text="Введите название..." Margin="16,50,11,310" Foreground="#FFA4A4A4">
+            <TextBlock IsHitTestVisible="False" FontSize="16" Text="Введите название..." Margin="16,50,11,290" Foreground="#FFA4A4A4">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -126,15 +126,15 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            
+
             <Label Content="Название:" HorizontalAlignment="Left" Height="33" Margin="5,10,0,0" VerticalAlignment="Top" Width="104" FontWeight="Bold" FontSize="18"/>
             <Label Content="Часы:" HorizontalAlignment="Left" Height="28" Margin="5,102,0,0" VerticalAlignment="Top" Width="48" FontSize="14"/>
             <Label Content="Минуты:" HorizontalAlignment="Left" Height="28" Margin="104,102,0,0" VerticalAlignment="Top" Width="65" FontSize="14"/>
             <Label Content="Секунды:" HorizontalAlignment="Left" Height="28" Margin="203,102,0,0" VerticalAlignment="Top" Width="70" FontSize="14"/>
         </Grid>
 
-        <Grid x:Name="Buttons" Background="Transparent" Grid.Row="2" Grid.Column="1">
-            <Image x:Name="Done" Margin="15,21,15,65" MouseDown="Done_MouseDown">
+        <Grid x:Name="Buttons" Background="Transparent" Grid.Row="2" Grid.Column="1" Height="135" VerticalAlignment="Top">
+            <Image x:Name="Done" Margin="15,0,15,51" MouseDown="Done_MouseDown">
                 <Image.Style>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="Source" Value="Source/add_but_on.png"/>
@@ -146,7 +146,7 @@
                     </Style>
                 </Image.Style>
             </Image>
-            <Image x:Name="Cancel" Margin="56,110,56,20" MouseDown="Cancel_MouseDown">
+            <Image x:Name="Cancel" Margin="56,84,56,0" MouseDown="Cancel_MouseDown">
                 <Image.Style>
                     <Style TargetType="{x:Type Image}">
                         <Setter Property="Source" Value="Source/exit_but_off.png"/>
