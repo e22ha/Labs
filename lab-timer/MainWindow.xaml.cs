@@ -46,10 +46,8 @@ namespace lab_timer
                 };
 
             string line;
-            //открытие файла test.txt для чтения
             string fullPath = System.IO.Path.GetFullPath(@"data.txt");
             System.IO.StreamReader file = new System.IO.StreamReader(fullPath);
-            //построчное чтение файла
             
             while ((line = file.ReadLine()) != null)
             {
@@ -60,7 +58,7 @@ namespace lab_timer
                 dicDate.Add(name, dt);
                 tlist.Items.Add(name);
             }
-            //закрытие файла
+ 
             file.Close();
 
             timenow.Content = DateTime.Now.ToString("HH:mm:ss");
@@ -92,7 +90,7 @@ namespace lab_timer
         {
             System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"data.txt");
 
-            using (outputFile)///создание файла с таймерами
+            using (outputFile) ///создание файла с таймерами
             {
                 foreach (KeyValuePair<string, DateTime> kvp in dicDate)
                 {
@@ -119,12 +117,11 @@ namespace lab_timer
 
         private void Add_MouseDown(object sender, RoutedEventArgs e)
         {
-            //создание нового окна (название класса – то, что было указано при добавлении окна)
             AddTimer add_timer = new AddTimer();
             add_timer.Hour.Text = DateTime.Now.Hour.ToString();
             add_timer.Min.Text = DateTime.Now.Minute.ToString();
             add_timer.Sec.Text = DateTime.Now.Second.ToString();
-            //вызов окна + проверка, отработало ли окно корректно
+
             if (add_timer.ShowDialog() == true)
             {
                 int H = int.Parse(add_timer.Hour.Text);
@@ -133,8 +130,6 @@ namespace lab_timer
 
                 DateTime dateTime = new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S);
 
-                //при нажатии кнопки “Закрыть” происходит
-                //закрытие окна с отметкой об не успешном завершении работы
                 if (dicDate.TryGetValue(add_timer.name.Text, out dateTime) == false)
                 {
                     dicDate.Add(add_timer.name.Text.ToString(), new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S));
@@ -142,10 +137,9 @@ namespace lab_timer
                 }
 
             }
-            else //если окно отработало с результатом false
+            else
             {
-                //либо вывести сообщение, что данные не были получены
-                //либо ничего не делать
+
             }
         }
 
@@ -203,11 +197,11 @@ namespace lab_timer
         {
             if (tlist.SelectedIndex > -1)
             {
-
                 timeOut.Tick += new EventHandler(Time_dif);
                 timeOut.Interval = new TimeSpan(0, 0, 1);
                 timeOut.Start();
                 TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+
                 if (dif.TotalSeconds > -1)
                 {
                     status.Foreground = new SolidColorBrush(Colors.Green);
@@ -267,7 +261,6 @@ namespace lab_timer
 
         private void Change_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //создание нового окна (название класса – то, что было указано при добавлении окна)
             if (tlist.SelectedIndex > -1)
             {
                 AddTimer add_timer = new AddTimer();
@@ -276,22 +269,19 @@ namespace lab_timer
                 add_timer.Min.Text = dicDate[tlist.SelectedValue.ToString()].Minute.ToString();
                 add_timer.Sec.Text = dicDate[tlist.SelectedValue.ToString()].Second.ToString();
                 add_timer.Calendar.SelectedDate = dicDate[tlist.SelectedValue.ToString()];
+                
                 timeOut.Stop();
                 dicDate.Remove(tlist.SelectedValue.ToString());
                 tlist.Items.RemoveAt(tlist.SelectedIndex);
                 timecd.Content = "00:00:00";
                 dayscd.Content = "0 days";
-                //вызов окна + проверка, отработало ли окно корректно
+
                 if (add_timer.ShowDialog() == true)
                 {
                     int H = int.Parse(add_timer.Hour.Text);
                     int M = int.Parse(add_timer.Min.Text);
                     int S = int.Parse(add_timer.Sec.Text);
 
-                    //DateTime dateTime = new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S);
-
-                    //при нажатии кнопки “Закрыть” происходит
-                    //закрытие окна с отметкой об не успешном завершении работы
                     if (dicDate.TryGetValue(add_timer.name.Text, out DateTime dateTime) == false)
                     {
                         dicDate.Add(add_timer.name.Text.ToString(), new DateTime(add_timer.Calendar.SelectedDate.Value.Year, add_timer.Calendar.SelectedDate.Value.Month, add_timer.Calendar.SelectedDate.Value.Day, H, M, S));
@@ -299,10 +289,9 @@ namespace lab_timer
                     }
 
                 }
-                else //если окно отработало с результатом false
+                else
                 {
-                    //либо вывести сообщение, что данные не были получены
-                    //либо ничего не делать
+
                 }
             }
         }
@@ -319,22 +308,54 @@ namespace lab_timer
 
         private void _day_Click(object sender, RoutedEventArgs e)
         {
-
+            TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+            timecd.Content = $"{Math.Abs(dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+            dayscd.Content = $"{Math.Abs(dif.Days)} days";
         }
 
         private void _hour_Click(object sender, RoutedEventArgs e)
         {
-
+            TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+            timecd.Content = $"{Math.Abs(dif.Days * 24 + dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+            dayscd.Content = "";
         }
 
         private void _min_Click(object sender, RoutedEventArgs e)
         {
-
+            TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+            timecd.Content = $"{Math.Abs((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+            dayscd.Content = "";
         }
 
         private void _sec_Click(object sender, RoutedEventArgs e)
         {
+            TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+            timecd.Content = $"{Math.Abs(((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes) * 60 + dif.Seconds)}";
+            dayscd.Content = "seconds";
+        }
 
+        private void ShowSec(object sender, EventArgs e)
+        {
+            TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+            
+            if (dif.TotalSeconds > -1)
+            {
+                status.Content = "Осталось:";
+                timecd.Content = $"{Math.Abs(((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes) * 60 + dif.Seconds)}";
+                dayscd.Content = "0 days";
+                status.Foreground = new SolidColorBrush(Colors.Green);
+                timecd.Foreground = new SolidColorBrush(Colors.Green);
+                dayscd.Foreground = new SolidColorBrush(Colors.Green);
+            }
+            else
+            {
+                status.Content = "Таймер прошёл:";
+                timecd.Content = $"{Math.Abs(((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes) * 60 + dif.Seconds)}";
+                dayscd.Content = "0 days";
+                status.Foreground = new SolidColorBrush(Colors.Red);
+                timecd.Foreground = new SolidColorBrush(Colors.Red);
+                dayscd.Foreground = new SolidColorBrush(Colors.Red);
+            }
         }
     }
 }

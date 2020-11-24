@@ -75,7 +75,7 @@
             <Menu HorizontalAlignment="Left" Height="25" BorderBrush="#353535" Background="#353535" VerticalAlignment="Top" Width="134" Foreground="Black">
                 <MenuItem Header="File" Background="#353535" Height="25" Width="42" Foreground="White">
                     <MenuItem Header="New" Background="#353535"/>
-                    <MenuItem Header="Load" Background="#353535"/>
+                    <MenuItem Header="Open" Background="#353535"/>
                     <MenuItem Header="Save" Background="#353535"/>
                 </MenuItem>
             </Menu>
@@ -234,9 +234,15 @@
             </Grid>
 
             <Grid Name="Timers" Background="Transparent" Grid.Row="2" Grid.RowSpan="2">
-                <ListBox x:Name="tlist" Margin="10,10,20,0" SelectionChanged="tlist_SelectionChanged">
-                    
-                </ListBox>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Setter Property="Height" Value="35"/>
+                        <Setter Property="FontSize" Value="24"/>
+                        <Setter Property="FontWeight" Value="Medium"/>
+                    </Style>
+                </Grid.Resources>
+
+                <ListBox x:Name="tlist" Margin="10,10,20,0" SelectionChanged="tlist_SelectionChanged"/>
             </Grid>
         </Grid>
 

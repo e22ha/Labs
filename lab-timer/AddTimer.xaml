@@ -114,7 +114,7 @@
 
             <TextBox x:Name="name" HorizontalAlignment="Left" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290"
                      Style="{StaticResource TB}"/>
-            <TextBlock IsHitTestVisible="False" FontSize="16" Text="Введите название..." Margin="16,50,11,290" Foreground="#FFA4A4A4">
+            <TextBlock IsHitTestVisible="False" FontSize="16" Text="Введите название" Margin="16,50,11,290" Foreground="#FFA4A4A4">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Visibility" Value="Collapsed"/>
