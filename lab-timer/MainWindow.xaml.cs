@@ -40,7 +40,6 @@ namespace lab_timer
             
             while ((line = file.ReadLine()) != null)
             {
-
                 string name = line;    
                 if ((line = file.ReadLine()) == null) break;
                 DateTime dt = DateTime.Parse(line);
@@ -56,9 +55,7 @@ namespace lab_timer
             dispatcherTimer.Tick += new EventHandler(Time_);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 1);
             dispatcherTimer.Start();
-
         }
-
 
         protected override void OnStateChanged(EventArgs e)
         {
@@ -187,7 +184,6 @@ namespace lab_timer
             }
         }
 
-
         private DispatcherTimer timeOut = new System.Windows.Threading.DispatcherTimer();
 
         public void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -220,7 +216,6 @@ namespace lab_timer
 
             }
         }
-
 
         private void Time_dif(object sender, EventArgs e)
         {

@@ -19,11 +19,9 @@ namespace lab_timer
     /// </summary>
     public partial class AddTimer : Window
     {
-        
         public AddTimer()
         {
             InitializeComponent();
-            
         }
 
         private void Done_MouseDown(object sender, MouseButtonEventArgs e)
@@ -32,18 +30,21 @@ namespace lab_timer
             {
                 Hour.Text = "0";
                 Window error = new War();
+                Hour.BorderBrush = new SolidColorBrush(Colors.Red);
                 error.Show();
             }
             else if (int.Parse(Min.Text) > 60)
             {
                 Min.Text = "0";
                 Window error = new War();
+                Min.BorderBrush = new SolidColorBrush(Colors.Red);
                 error.Show();
             }
             else if (int.Parse(Sec.Text) > 60)
             {
                 Sec.Text = "0";
                 Window error = new War();
+                Sec.BorderBrush = new SolidColorBrush(Colors.Red);
                 error.Show();
             }
             else

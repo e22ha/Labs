@@ -41,3 +41,8 @@ D:\Code\Lab-timer\lab-timer\bin\Debug\Eco.Interfaces.dll
 D:\Code\Lab-timer\lab-timer\bin\Debug\Eco.LinqExtender.dll
 D:\Code\Lab-timer\lab-timer\bin\Debug\System.Buffers.dll
 D:\Code\Lab-timer\lab-timer\obj\Debug\lab-timer.csproj.CopyComplete
+C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\bin\Debug\Eco.Handles.dll
+C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\bin\Debug\Eco.Interfaces.dll
+C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\bin\Debug\Eco.LinqExtender.dll
+C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\bin\Debug\System.Buffers.dll
+C:\Users\Глеб\Source\Repos\Lab-timer\lab-timer\obj\Debug\lab-timer.csproj.CopyComplete
