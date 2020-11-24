@@ -6,9 +6,63 @@
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
         Title="Timer" Height="520" Width="900" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1">
+    <Window.Resources>
+        <Style x:Key="ComboboxButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="PreviewMouseDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                                            Duration="0:0:0.100" To="2,2,0,0"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="PreviewMouseUp">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                                            Duration="0:0:0.100" To="0,0,0,0"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="CmbButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Background" Value="#FFCCE3FF"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="Border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="30,0,0,0"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FFA9CDFA"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="460"/>
+            <ColumnDefinition Width="32"/>
+            <ColumnDefinition Width="428"/>
             <ColumnDefinition Width="440"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -17,7 +71,7 @@
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" MouseDown="ToolBar_MouseDown" Margin="0,0,2,0">
+        <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" MouseDown="ToolBar_MouseDown" Margin="0,0,2,0">
             <Menu HorizontalAlignment="Left" Height="25" Background="#353535" VerticalAlignment="Top" Width="134" Foreground="Black">
                 <MenuItem Header="File" Background="#353535" Height="25" Width="42" Foreground="White">
                     <MenuItem Header="New" Background="#353535"/>
@@ -25,9 +79,7 @@
                     <MenuItem Header="Save" Background="#353535"/>
                 </MenuItem>
             </Menu>
-            
-            
-            
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="48">
                 <Image x:Name="MinButton" Height="20" Width="20" Margin="2" MouseDown="MinButton_MouseDown">
                     <Image.Style>
@@ -56,7 +108,7 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="TimerZone" Background="Transparent" Grid.Row="1" Grid.Column="0">
+        <Grid x:Name="TimerZone" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="70"/>
@@ -66,15 +118,66 @@
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
 
-            <Grid Name="LocalTime" Background="Transparent" Grid.Row="1">
-                <Label x:Name="timenow" Content="00:00:00" Margin="130,31,130,0" FontSize="24" HorizontalContentAlignment="Center"/>
-                <Label x:Name="txt" Content="Сейчас" Margin="130,0,130,28" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"/>
-            </Grid>
-
             <Grid Name="Countdown" Background="Transparent" Grid.Row="3">
                 <Label x:Name="timecd" Content="00:00:00" Margin="10,10,10,69" FontSize="96" FontWeight="Medium" HorizontalContentAlignment="Center"/>
                 <Label x:Name="dayscd" Content="0 days" Margin="10,121,10,0" FontSize="48" FontWeight="Medium" HorizontalContentAlignment="Center"/>
                 <Label x:Name="status" Content="" Margin="170,0,170,160" HorizontalContentAlignment="Center" FontSize="24"/>
+            </Grid>
+
+            <Grid Name="LocalTime" Background="Transparent" Grid.Row="1" Grid.RowSpan="3">
+                <Border x:Name="cmbBorder" Grid.Row="1" Width="75" Height="40" HorizontalAlignment="Left" Margin="5,5,0,255"
+                    CornerRadius="5" BorderThickness="1" BorderBrush="#FF353535" Background="#FFCCE3FF">
+                    <Button Style="{StaticResource ComboboxButton}" Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Height="32" Width="32" Margin="1" Source="Source/clock1.png"/>
+                            <Image Height="20" Width="20" Margin="4" Source="Source/arrow.png"/>
+                        </StackPanel>
+                    </Button>
+                </Border>
+
+                <Grid x:Name="Box" Grid.Row="1" Grid.RowSpan="3" Height="120" Width="180" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,50,0,0" Visibility="Hidden">
+                    <Polygon Fill="#FFCCE3FF" StrokeThickness="1" Stroke="#FF353535"
+                         Points="0,8,
+                         0,115,
+                         170,115,
+                         170,8
+                         64,8,
+                         55,0,
+                         45,8">
+                    </Polygon>
+                    <Grid Height="115" Width="170" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="1,10,11,0">
+                        <StackPanel Orientation="Vertical">
+                            <Button x:Name="_day" Style="{StaticResource CmbButton}" Click="_day_Click">
+                                <Grid Width="170" Margin="-30,0,0,0">
+                                    <TextBlock Text="Время и дни" Margin="20,0,0,0"/>
+                                    <Image HorizontalAlignment="Left" VerticalAlignment="Center" Height="5" Width="5" Margin="7,0,0,0" Source="Source/shar.png"/>
+                                </Grid>
+                            </Button>
+                            <Button x:Name="_hour" Style="{StaticResource CmbButton}" Click="_hour_Click">
+                                <Grid Width="170" Margin="-30,0,0,0">
+                                    <TextBlock Text="Часы" Margin="20,0,0,0"/>
+                                    <Image HorizontalAlignment="Left" VerticalAlignment="Center" Height="5" Width="5" Margin="7,0,0,0" Source="Source/shar.png"/>
+                                </Grid>
+                            </Button>
+                            <Button x:Name="_min" Style="{StaticResource CmbButton}" Click="_min_Click">
+                                <Grid Width="170" Margin="-30,0,0,0">
+                                    <TextBlock Text="Минуты" Margin="20,0,0,0"/>
+                                    <Image HorizontalAlignment="Left" VerticalAlignment="Center" Height="5" Width="5" Margin="7,0,0,0" Source="Source/shar.png"/>
+                                </Grid>
+                            </Button>
+                            <Button x:Name="_sec" Style="{StaticResource CmbButton}" Click="_sec_Click">
+                                <Grid Width="170" Margin="-30,0,0,0">
+                                    <TextBlock Text="Секунды" Margin="20,0,0,0"/>
+                                    <Image HorizontalAlignment="Left" VerticalAlignment="Center" Height="5" Width="5" Margin="7,0,0,0" Source="Source/shar.png"/>
+                                </Grid>
+                            </Button>
+
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <Label x:Name="timenow" Content="00:00:00" Margin="130,31,130,230" FontSize="24" HorizontalContentAlignment="Center"/>
+                <Label x:Name="txt" Content="Сейчас" Margin="130,0,130,230" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"/>
             </Grid>
 
             <Grid Name="ButtonPlus" Background="Transparent" Grid.Row="4">
@@ -93,7 +196,7 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="ListZone" Background="Transparent" Grid.Row="1" Grid.Column="1">
+        <Grid x:Name="ListZone" Background="Transparent" Grid.Row="1" Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="15"/>
                 <RowDefinition Height="60"/>
@@ -137,6 +240,6 @@
             </Grid>
         </Grid>
 
-        <Grid Name="Bottom" Background="Transparent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Grid Name="Bottom" Background="Transparent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"/>
     </Grid>
 </Window>

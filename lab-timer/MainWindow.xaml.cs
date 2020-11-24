@@ -293,5 +293,35 @@ namespace lab_timer
                 }
             }
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Box.Visibility == Visibility.Hidden)
+            {
+                Box.Visibility = Visibility.Visible;
+            }
+            else
+                Box.Visibility = Visibility.Hidden;
+        }
+
+        private void _day_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _hour_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _min_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void _sec_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
