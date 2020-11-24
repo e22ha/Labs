@@ -5,23 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
-        Title="Timer" Height="560" Width="960" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1">
+        Title="Timer" Height="520" Width="900" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="250"/>
-            <ColumnDefinition Width="230"/>
-            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="460"/>
+            <ColumnDefinition Width="440"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="220"/>
-            <RowDefinition Height="210"/>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="480"/>
+            <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
 
-        <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" MouseDown="ToolBar_MouseDown">
+        <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" MouseDown="ToolBar_MouseDown" Margin="0,0,2,0">
             <Menu HorizontalAlignment="Left" Height="25" Background="#353535" VerticalAlignment="Top" Width="134" Foreground="Black">
                 <MenuItem Header="File" Background="#353535" Height="25" Width="42" Foreground="White">
                     <MenuItem Header="New" Background="#353535"/>
@@ -29,6 +25,9 @@
                     <MenuItem Header="Save" Background="#353535"/>
                 </MenuItem>
             </Menu>
+            
+            
+            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="48">
                 <Image x:Name="MinButton" Height="20" Width="20" Margin="2" MouseDown="MinButton_MouseDown">
                     <Image.Style>
@@ -57,64 +56,87 @@
             </StackPanel>
         </Grid>
 
-        <Grid Name="LocalTime" Background="Transparent" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            <Label x:Name="timenow" Content="00:00:00" Margin="40,36,40,0" Width="420" FontSize="18" HorizontalContentAlignment="Center"/>
-            <Label x:Name="txt" Content="Сейчас" Height="30" Margin="40,12,40,29" Width="420" FontSize="18" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+        <Grid x:Name="TimerZone" Background="Transparent" Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="210"/>
+                <RowDefinition Height="150"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+
+            <Grid Name="LocalTime" Background="Transparent" Grid.Row="1">
+                <Label x:Name="timenow" Content="00:00:00" Margin="130,31,130,0" FontSize="24" HorizontalContentAlignment="Center"/>
+                <Label x:Name="txt" Content="Сейчас" Margin="130,0,130,28" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Top"/>
+            </Grid>
+
+            <Grid Name="Countdown" Background="Transparent" Grid.Row="3">
+                <Label x:Name="timecd" Content="00:00:00" Margin="10,10,10,69" FontSize="96" FontWeight="Medium" HorizontalContentAlignment="Center"/>
+                <Label x:Name="dayscd" Content="0 days" Margin="10,121,10,0" FontSize="48" FontWeight="Medium" HorizontalContentAlignment="Center"/>
+                <Label x:Name="status" Content="" Margin="170,0,170,160" HorizontalContentAlignment="Center" FontSize="24"/>
+            </Grid>
+
+            <Grid Name="ButtonPlus" Background="Transparent" Grid.Row="4">
+                <Image x:Name="Add" Margin="177,25" RenderOptions.BitmapScalingMode="Fant" MouseDown="Add_MouseDown">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="Source/add_button_on.png"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Add}" Value="True">
+                                    <Setter Property="Source" Value="Source/add_button_off.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </Grid>
         </Grid>
 
-        <Grid Name="Countdown" Background="Transparent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <Label x:Name="timecd" Content="00:00:00" Height="120" Margin="40,35,40,65" Width="420" FontSize="72" HorizontalContentAlignment="Center" Background="White"/>
-            <Label x:Name="dayscd" Content="0 days" Height="60" Margin="40,132,40,28" Width="420" FontSize="36" HorizontalContentAlignment="Center"/>
-            <Label x:Name="status" Content="" HorizontalAlignment="Left" Height="30" Margin="200,17,0,0" VerticalAlignment="Top" Width="110" HorizontalContentAlignment="Center"/>
+        <Grid x:Name="ListZone" Background="Transparent" Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="405"/>
+            </Grid.RowDefinitions>
+
+            <Grid Name="Headline" Background="Transparent" Grid.Row="1">
+                <Label Content="Таймеры:" FontSize="36" FontWeight="Medium" Margin="5,0,0,0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="60" Width="120" Margin="0,0,20,0">
+                    <Image x:Name="Change" RenderOptions.BitmapScalingMode="Fant" MouseDown="Change_MouseDown" Margin="5" HorizontalAlignment="Right" >
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="Source" Value="Source/change_button_off.png"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Change}" Value="True">
+                                        <Setter Property="Source" Value="Source/change_button_on.png"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                    <Image x:Name="Del" RenderOptions.BitmapScalingMode="Fant" MouseDown="Del_MouseDown" Margin="5" HorizontalAlignment="Right">
+                        <Image.Style>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="Source" Value="Source/del_button_off.jpg"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Del}" Value="True">
+                                        <Setter Property="Source" Value="Source/del_button_on.jpg"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+                </StackPanel>
+            </Grid>
+
+            <Grid Name="Timers" Background="Transparent" Grid.Row="2" Grid.RowSpan="2">
+                <ListBox x:Name="tlist" Margin="10,10,20,0" SelectionChanged="tlist_SelectionChanged">
+
+                </ListBox>
+            </Grid>
         </Grid>
 
-        <Grid Name="Buttons" Background="Transparent" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <Image x:Name="Add" Margin="202,50,203,48" RenderOptions.BitmapScalingMode="Fant" MouseDown="Add_MouseDown">
-                <Image.Style>
-                    <Style TargetType="{x:Type Image}">
-                        <Setter Property="Source" Value="Source/add_button_on.png"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Add}" Value="True">
-                                <Setter Property="Source" Value="Source/add_button_off.png"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-            </Image>
-            <Image x:Name="Change" Margin="125,91,303,63" RenderOptions.BitmapScalingMode="Fant" MouseDown="Change_MouseDown">
-                <Image.Style>
-                    <Style TargetType="{x:Type Image}">
-                        <Setter Property="Source" Value="Source/change_button_off.png"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Change}" Value="True">
-                                <Setter Property="Source" Value="Source/change_button_on.png"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-            </Image>
-            <Image x:Name="Del" Margin="302,91,126,63" RenderOptions.BitmapScalingMode="Fant" MouseDown="Del_MouseDown">
-                <Image.Style>
-                    <Style TargetType="{x:Type Image}">
-                        <Setter Property="Source" Value="Source/del_button_off.jpg"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Del}" Value="True">
-                                <Setter Property="Source" Value="Source/del_button_on.jpg"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Image.Style>
-            </Image>
-        </Grid>
-
-        <Grid Name="Headline" Background="Transparent" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2">
-            <Image HorizontalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Height="68" VerticalAlignment="Top" Width="226" Source="Source/таймеры.png" Margin="115,2,119,0"/>
-        </Grid>
-
-        <Grid Name="Timers" Background="Transparent" Grid.Row="2" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2">
-            <ListBox x:Name="tlist" HorizontalAlignment="Left" Height="412" Margin="10,10,0,0" VerticalAlignment="Top" Width="424" SelectionChanged="tlist_SelectionChanged"/>
-        </Grid>
-
-        <Grid Name="Bottom" Background="Transparent" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4"/>
+        <Grid Name="Bottom" Background="Transparent" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

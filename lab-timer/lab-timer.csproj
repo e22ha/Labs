@@ -121,9 +121,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\таймеры.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Source\defolt_exit.jpg" />
     <Resource Include="Source\defolt_min.jpg" />
     <Resource Include="Source\exit.jpg" />
