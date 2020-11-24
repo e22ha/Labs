@@ -221,10 +221,10 @@
                     <Image x:Name="Del" RenderOptions.BitmapScalingMode="Fant" MouseDown="Del_MouseDown" Margin="5" HorizontalAlignment="Right">
                         <Image.Style>
                             <Style TargetType="{x:Type Image}">
-                                <Setter Property="Source" Value="Source/del_button_off.jpg"/>
+                                <Setter Property="Source" Value="Source/del_button_on.jpg"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Del}" Value="True">
-                                        <Setter Property="Source" Value="Source/del_button_on.jpg"/>
+                                        <Setter Property="Source" Value="Source/del_button_off.jpg"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -235,7 +235,7 @@
 
             <Grid Name="Timers" Background="Transparent" Grid.Row="2" Grid.RowSpan="2">
                 <ListBox x:Name="tlist" Margin="10,10,20,0" SelectionChanged="tlist_SelectionChanged">
-
+                    
                 </ListBox>
             </Grid>
         </Grid>

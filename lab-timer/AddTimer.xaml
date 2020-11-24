@@ -6,6 +6,37 @@
         xmlns:local="clr-namespace:lab_timer"
         mc:Ignorable="d"
         Title="AddTimer" Height="585" Width="360" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1">
+    <Window.Resources>
+        <Style x:Key="TB" TargetType="TextBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#FFA6A6A6"/>
+            <Setter Property="Padding" Value="5,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid x:Name="TBtn" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" SnapsToDevicePixels="true">
+                            <Border x:Name="BG" BorderThickness="1" CornerRadius="2" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"/>
+                            <ScrollViewer x:Name="PART_ContentHost" BorderThickness="0" Padding="{TemplateBinding Padding}" IsTabStop="False"
+                                          Background="{x:Null}" TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#FF353535"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#FF3A93FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="25"/>
@@ -36,19 +67,70 @@
             </StackPanel>
         </Grid>
 
-        <Grid x:Name="Main" Background="Transparent" Grid.Row="1" Grid.Column="1" Margin="0,1,0,169" Grid.RowSpan="2">
+        <Grid x:Name="Main" Grid.Row="1" Grid.Column="1" Margin="0,1,0,169" Grid.RowSpan="2">
             <Calendar x:Name="Calendar" HorizontalAlignment="Left" Margin="65,190,65,0" VerticalAlignment="Top" Height="165" Width="180"/>
-            <TextBox x:Name="Hour" HorizontalAlignment="Left" Height="36" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
-            <TextBox x:Name="Min" HorizontalAlignment="Left" Height="36" Margin="108,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
-            <TextBox x:Name="Sec" HorizontalAlignment="Left" Height="36" Margin="206,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18"/>
-            <TextBox x:Name="name" HorizontalAlignment="Left" Height="36" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290" VerticalContentAlignment="Center" FontSize="18"/>
+            <TextBox x:Name="Hour" HorizontalAlignment="Left" Margin="10,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center"
+                     Style="{StaticResource TB}"/>
+            <TextBlock IsHitTestVisible="False" FontSize="16" Text="&lt;24" Margin="40,135,233,223" Foreground="#FFA4A4A4">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=Hour}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBox x:Name="Min" HorizontalAlignment="Left" Margin="108,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center"
+                     Style="{StaticResource TB}"/>
+            <TextBlock IsHitTestVisible="False" FontSize="16" Text="&lt;60" Margin="140,135,133,223" Foreground="#FFA4A4A4">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=Min}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBox x:Name="Sec" HorizontalAlignment="Left" Margin="206,128,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" HorizontalContentAlignment="Center"
+                     Style="{StaticResource TB}"/>
+            <TextBlock IsHitTestVisible="False" FontSize="16" Text="&lt;60" Margin="236,135,37,223" Foreground="#FFA4A4A4">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=Sec}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+            <TextBox x:Name="name" HorizontalAlignment="Left" Margin="10,43,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="290"
+                     Style="{StaticResource TB}"/>
+            <TextBlock IsHitTestVisible="False" FontSize="16" Text="Введите название..." Margin="16,50,11,310" Foreground="#FFA4A4A4">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=name}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            
             <Label Content="Название:" HorizontalAlignment="Left" Height="33" Margin="5,10,0,0" VerticalAlignment="Top" Width="104" FontWeight="Bold" FontSize="18"/>
             <Label Content="Часы:" HorizontalAlignment="Left" Height="28" Margin="5,102,0,0" VerticalAlignment="Top" Width="48" FontSize="14"/>
             <Label Content="Минуты:" HorizontalAlignment="Left" Height="28" Margin="104,102,0,0" VerticalAlignment="Top" Width="65" FontSize="14"/>
             <Label Content="Секунды:" HorizontalAlignment="Left" Height="28" Margin="203,102,0,0" VerticalAlignment="Top" Width="70" FontSize="14"/>
-            <Label Content="(&lt;60)" HorizontalAlignment="Left" Height="24" Margin="264,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
-            <Label Content="(&lt;60)" HorizontalAlignment="Left" Height="24" Margin="163,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
-            <Label Content="(&lt;24)" HorizontalAlignment="Left" Height="24" Margin="44,104,0,0" VerticalAlignment="Top" Width="40" Foreground="#FF6E6E6E"/>
         </Grid>
 
         <Grid x:Name="Buttons" Background="Transparent" Grid.Row="2" Grid.Column="1">

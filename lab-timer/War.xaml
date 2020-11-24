@@ -19,6 +19,7 @@
         </Grid.RowDefinitions>
 
         <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" MouseDown="ToolBar_MouseDown">
+            <Label Content="Ошибка!" FontSize="14" Foreground="White" VerticalAlignment="Top" Margin="0,-2,0,0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="25">
                 <Image x:Name="ExitButton" Height="20" Width="20" Margin="2" MouseDown="ExitButton_MouseDown">
                     <Image.Style>

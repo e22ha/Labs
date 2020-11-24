@@ -143,9 +143,6 @@
     <Resource Include="Source\exit_but_on.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Source\warrning.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Source\fix_but_off.png" />
     <Resource Include="Source\fix_but_on.png" />
   </ItemGroup>
@@ -160,6 +157,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Source\arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\warrning.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
