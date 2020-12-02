@@ -193,7 +193,7 @@ namespace Float
                         }
                         j++;
 
-                        for (i = 0; i < 23 - Exp; i++, j++)
+                        for (i = 0; j < 23; i++, j++)
                         {
                             resR[i] = manMas[j];
                         }
@@ -201,15 +201,15 @@ namespace Float
                         Res += remains;
 
                     }
-                    else
+                    else//для чисел меньше единицы
                     {
                         int[] resR = new int[24 - Exp];
                         Exp = Math.Abs(Exp);
                         int i = Exp - 1;
                         int j = 0;
-                        resR[i] = 1;
+                        resR[i] = 1;//виртуальная единица 
                         i++;
-                        for (; i < 23; i++, j++)
+                        for (; j< 23; i++, j++)
                         {
                             resR[i] = manMas[j];
                         }
@@ -232,7 +232,7 @@ namespace Float
             {
                 if (resR[i] == 1)
                 {
-                    res += 1 / (float)Math.Pow(2, i + 1);
+                    res += (float)Math.Pow(2,-(i+1));
                 }
             }
 
