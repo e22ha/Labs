@@ -24,5 +24,15 @@ namespace inf_float
         {
             InitializeComponent();
         }
+
+        private void but_decToBin_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void but_BinToDec_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

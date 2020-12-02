@@ -1,0 +1,15 @@
+D:\Code\L\Labs\INF\INF 3\Float\bin\Debug\Float.exe.config
+D:\Code\L\Labs\INF\INF 3\Float\bin\Debug\Float.exe
+D:\Code\L\Labs\INF\INF 3\Float\bin\Debug\Float.pdb
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\MainWindow.g.cs
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\App.g.cs
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\Float_MarkupCompile.cache
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\Float_MarkupCompile.lref
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\MainWindow.baml
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\Float.g.resources
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\Float.Properties.Resources.resources
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\Float.csproj.GenerateResource.cache
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\Float.csproj.CoreCompileInputs.cache
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\Float.exe
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\Float.pdb
+D:\Code\L\Labs\INF\INF 3\Float\obj\Debug\Float.csprojAssemblyReference.cache

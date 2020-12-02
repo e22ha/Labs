@@ -11,9 +11,9 @@
         <TextBox x:Name="dec_in_out" HorizontalAlignment="Left" Height="19" Margin="44,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="113"/>
         <Label Content="Bin" HorizontalAlignment="Left" Margin="10,51,0,0" VerticalAlignment="Top" Width="34"/>
         <TextBox x:Name="bin_in_out" HorizontalAlignment="Left" Height="19" Margin="44,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226"/>
-        <Button Content="Do It" HorizontalAlignment="Left" Margin="44,82,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Undo It" HorizontalAlignment="Left" Margin="195,82,0,0" VerticalAlignment="Top" Width="75"/>
-        <TextBlock x:Name="Output" HorizontalAlignment="Left" Margin="24,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="163" Width="379"/>
+        <Button x:Name="but_decToBin" Content="Do It" HorizontalAlignment="Left" Margin="44,82,0,0" VerticalAlignment="Top" Width="75" Click="but_decToBin_Click"/>
+        <Button x:Name="but_BinToDec" Content="Undo It" HorizontalAlignment="Left" Margin="195,82,0,0" VerticalAlignment="Top" Width="75" Click="but_BinToDec_Click"/>
+        <TextBlock x:Name="Output_log" HorizontalAlignment="Left" Margin="24,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="163" Width="379"/>
 
     </Grid>
 </Window>
