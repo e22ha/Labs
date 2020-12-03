@@ -25,7 +25,14 @@ namespace lab_timer
     {
         Dictionary<string, DateTime> dicDate = new Dictionary<string, DateTime>();
 
-       
+        int flag = 0;
+        /// <summary>
+        /// 0 - Часы минуты секунды дни
+        /// 1 - Часы и минуты и секунды
+        /// 2 - Минуты и Секунды
+        /// 3 - Секунды
+        /// </summary>
+
         private DispatcherTimer dispatcherTimer;
 
         System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
@@ -89,7 +96,7 @@ namespace lab_timer
         {
             System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"data.txt");
 
-            using (outputFile) 
+            using (outputFile)
             {
                 foreach (KeyValuePair<string, DateTime> kvp in dicDate)
                 {
@@ -114,6 +121,7 @@ namespace lab_timer
             }
         }
 
+        //Добавлеине таймера
         private void Add_MouseDown(object sender, RoutedEventArgs e)
         {
             AddTimer add_timer = new AddTimer();
@@ -144,15 +152,15 @@ namespace lab_timer
 
         private DispatcherTimer timeOut = new System.Windows.Threading.DispatcherTimer();
 
+
+
         public void tlist_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (tlist.SelectedIndex > -1)
             {
-                timeOut.Tick += new EventHandler(Time_dif);
-                timeOut.Interval = new TimeSpan(0, 0, 1);
-                timeOut.Start();
-                TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
 
+                TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+                //Первоначальное отображение
                 if (dif.TotalSeconds > -1)
                 {
                     status.Foreground = new SolidColorBrush(Colors.Green);
@@ -172,8 +180,12 @@ namespace lab_timer
                     dayscd.Content = $"{Math.Abs(dif.Days)} days";
                 }
 
+
+
             }
         }
+
+
 
         private void Time_dif(object sender, EventArgs e)
         {
@@ -248,6 +260,7 @@ namespace lab_timer
             }
         }
 
+        //открытие вариантов 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (Box.Visibility == Visibility.Hidden)
@@ -260,42 +273,148 @@ namespace lab_timer
 
         private void _day_Click(object sender, RoutedEventArgs e)
         {
+            flag = 0;
             if (tlist.SelectedIndex > -1)
             {
-                TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
-                timecd.Content = $"{Math.Abs(dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
-                dayscd.Content = $"{Math.Abs(dif.Days)} days";
+                timeOut.Tick += new EventHandler(Time_dif_0);
+                timeOut.Interval = new TimeSpan(0, 0, 1);
+                timeOut.Start();
+
             }
 
         }
 
         private void _hour_Click(object sender, RoutedEventArgs e)
         {
+            flag = 1;
             if (tlist.SelectedIndex > -1)
             {
+                timeOut.Tick += new EventHandler(Time_dif_0);
+                timeOut.Interval = new TimeSpan(0, 0, 1);
+                timeOut.Start();
+            }
+        }
+
+        private void Time_dif_0(object sender, EventArgs e)
+        {
+            if (flag == 0)
+            {
                 TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
-                timecd.Content = $"{Math.Abs(dif.Days * 24 + dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
-                dayscd.Content = "";
+               
+                if (dif.TotalSeconds > -1)
+                {
+                    status.Content = "Осталось:";
+                    timecd.Content = $"{Math.Abs(dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+                    dayscd.Content = $"{Math.Abs(dif.Days)} days";
+                    status.Foreground = new SolidColorBrush(Colors.Green);
+                    timecd.Foreground = new SolidColorBrush(Colors.Green);
+                    dayscd.Foreground = new SolidColorBrush(Colors.Green);
+                }
+                else
+                {
+                    status.Content = "Таймер прошёл:";
+                    timecd.Content = $"{Math.Abs(dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+                    dayscd.Content = $"{Math.Abs(dif.Days)} days";
+                    status.Foreground = new SolidColorBrush(Colors.Red);
+                    timecd.Foreground = new SolidColorBrush(Colors.Red);
+                    dayscd.Foreground = new SolidColorBrush(Colors.Red);
+                }
+
+            }
+            else if (flag == 1)
+            {
+                TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+                
+
+                if (dif.TotalSeconds > -1)
+                {
+                    status.Content = "Осталось:";
+                    timecd.Content = $"{Math.Abs(dif.Days * 24 + dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+                    dayscd.Content = "";
+                    status.Foreground = new SolidColorBrush(Colors.Green);
+                    timecd.Foreground = new SolidColorBrush(Colors.Green);
+                    dayscd.Foreground = new SolidColorBrush(Colors.Green);
+                }
+                else
+                {
+                    status.Content = "Таймер прошёл:";
+                    timecd.Content = $"{Math.Abs(dif.Days * 24 + dif.Hours)}:{Math.Abs(dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+                    dayscd.Content = "";
+                    status.Foreground = new SolidColorBrush(Colors.Red);
+                    timecd.Foreground = new SolidColorBrush(Colors.Red);
+                    dayscd.Foreground = new SolidColorBrush(Colors.Red);
+                }
+            }
+            else if (flag == 2)
+            {
+                TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+               
+
+                if (dif.TotalSeconds > -1)
+                {
+                    status.Content = "Осталось:";
+                    timecd.Content = $"{Math.Abs((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+                    dayscd.Content = "";
+                    status.Foreground = new SolidColorBrush(Colors.Green);
+                    timecd.Foreground = new SolidColorBrush(Colors.Green);
+                    dayscd.Foreground = new SolidColorBrush(Colors.Green);
+                }
+                else
+                {
+                    status.Content = "Таймер прошёл:";
+                    timecd.Content = $"{Math.Abs((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes)}:{Math.Abs(dif.Seconds)}";
+                    dayscd.Content = "";
+                    status.Foreground = new SolidColorBrush(Colors.Red);
+                    timecd.Foreground = new SolidColorBrush(Colors.Red);
+                    dayscd.Foreground = new SolidColorBrush(Colors.Red);
+                }
+
+            }
+            else if (flag == 3)
+            {
+                TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
+                
+
+                if (dif.TotalSeconds > -1)
+                {
+                    status.Content = "Осталось:";
+                    timecd.Content = $"{Math.Abs(((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes) * 60 + dif.Seconds)}";
+                    dayscd.Content = "seconds";
+                    status.Foreground = new SolidColorBrush(Colors.Green);
+                    timecd.Foreground = new SolidColorBrush(Colors.Green);
+                    dayscd.Foreground = new SolidColorBrush(Colors.Green);
+                }
+                else
+                {
+                    status.Content = "Таймер прошёл:";
+                    timecd.Content = $"{Math.Abs(((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes) * 60 + dif.Seconds)}";
+                    dayscd.Content = "seconds";
+                    status.Foreground = new SolidColorBrush(Colors.Red);
+                    timecd.Foreground = new SolidColorBrush(Colors.Red);
+                    dayscd.Foreground = new SolidColorBrush(Colors.Red);
+                }
             }
         }
 
         private void _min_Click(object sender, RoutedEventArgs e)
         {
+            flag = 2;
             if (tlist.SelectedIndex > -1)
             {
-                TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
-                timecd.Content = $"{Math.Abs((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes)}:{Math.Abs(dif.Seconds)}";
-                dayscd.Content = "";
+                timeOut.Tick += new EventHandler(Time_dif_0);
+                timeOut.Interval = new TimeSpan(0, 0, 1);
+                timeOut.Start();
             }
         }
 
         private void _sec_Click(object sender, RoutedEventArgs e)
         {
+            flag = 3;
             if (tlist.SelectedIndex > -1)
             {
-                TimeSpan dif = dicDate[tlist.SelectedValue.ToString()] - DateTime.Now;
-                timecd.Content = $"{Math.Abs(((dif.Days * 24 + dif.Hours) * 60 + dif.Minutes) * 60 + dif.Seconds)}";
-                dayscd.Content = "seconds";
+                timeOut.Tick += new EventHandler(Time_dif_0);
+                timeOut.Interval = new TimeSpan(0, 0, 1);
+                timeOut.Start();
             }
         }
 
