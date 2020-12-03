@@ -121,7 +121,7 @@
             <Grid Name="Countdown" Background="Transparent" Grid.Row="3">
                 <Label x:Name="timecd" Content="00:00:00" Margin="10,10,10,69" FontSize="96" FontWeight="Medium" HorizontalContentAlignment="Center"/>
                 <Label x:Name="dayscd" Content="0 days" Margin="10,121,10,0" FontSize="48" FontWeight="Medium" HorizontalContentAlignment="Center"/>
-                <Label x:Name="status" Content="" Margin="110,0,110,160" HorizontalContentAlignment="Center" FontSize="24" RenderTransformOrigin="0.196,0.4"/>
+                <Label x:Name="status" Content="" Margin="90,0,90,160" HorizontalContentAlignment="Center" FontSize="24" RenderTransformOrigin="0.196,0.4"/>
             </Grid>
 
             <Grid Name="LocalTime" Background="Transparent" Grid.Row="1" Grid.RowSpan="3">
