@@ -1,0 +1,15 @@
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\App.g.cs
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\minesweeper_MarkupCompile.cache
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\minesweeper_MarkupCompile.lref
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\bin\Debug\minesweeper.exe.config
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\bin\Debug\minesweeper.exe
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\bin\Debug\minesweeper.pdb
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\minesweeper.g.resources
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\minesweeper.Properties.Resources.resources
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\minesweeper.csproj.GenerateResource.cache
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\minesweeper.csproj.CoreCompileInputs.cache
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\minesweeper.exe
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\minesweeper.pdb
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\MainWindow.g.cs
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\MainWindow.baml
+C:\Users\Глеб\Source\Repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\minesweeper.csprojAssemblyReference.cache

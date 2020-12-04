@@ -4,9 +4,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:minesweeper"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        mc:Ignorable="d" 
+        SizeToContent="WidthAndHeight"
+        ResizeMode="CanMinimize" x:Name="GameWindow" WindowStartupLocation="CenterOwner"
+        Title="Minesweeper">
+    <Window.Resources>
+
+    </Window.Resources>
+    <StackPanel>
+        <Menu>
+            <MenuItem Header="Игра">
+                <MenuItem Header="Новая игра" Click="MenuItem_Click"/>
+                <Separator />
+                <MenuItem Header="Начинающий"/>
+                <MenuItem Header="Продвинутый"/>
+                <MenuItem Header="Эксперт"/>
+                <Separator />
+                <MenuItem Header="Выход"/>
+            </MenuItem>
+        </Menu>
+        <Border BorderThickness="3 3 0 0" BorderBrush="White">
+            <StackPanel Background="LightGray">
+                <Border Margin="6" BorderBrush="DarkGray" BorderThickness="2,2,0,0" ClipToBounds="True" >
+                    <Border BorderBrush="White" BorderThickness="0 0 2 2">
+                        <Grid Margin="6" Height="25">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderThickness="0 0 1 1" BorderBrush="White">
+                                
+                            </Border>
+                            
+                            <Border BorderThickness="0 0 1 1" BorderBrush="White" Grid.Column="2" >
+                                
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Border>
+                <Border Margin="6 2 6 6" BorderBrush="DarkGray" BorderThickness="3,3,0,0" ClipToBounds="True" >
+                    <Border BorderBrush="White" BorderThickness="0 0 3 3">
+                        <UniformGrid x:Name="ugr">
+                            
+                        </UniformGrid>
+                    </Border>
+                </Border>
+            </StackPanel>
+        </Border>
+    </StackPanel>
 </Window>

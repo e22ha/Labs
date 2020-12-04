@@ -94,5 +94,19 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Windows\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Corona_plate.png" />
+    <Resource Include="Images\Default_but.png" />
+    <Resource Include="Images\One_plate.png" />
+    <Resource Include="Images\Open_but.png" />
+    <Resource Include="Images\Three_plate.png" />
+    <Resource Include="Images\Two_plate.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Marker_but.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
