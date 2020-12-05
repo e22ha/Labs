@@ -20,7 +20,7 @@ namespace minesweeper
         int N;
 
         // Создание генератора случайных чисел
-        Random rng = new Random();
+        static Random rng = new Random();
         static int GenerateDigit(Random rng, int k)
         {
             // Предположим, что здесь много логики
@@ -30,16 +30,16 @@ namespace minesweeper
         int Mine;
 
         //Функция создания поля
-        public int[,] generateField(int N, int Mine)
+        public static int[,] generateField(int N, int Mine)
         {
             int[,] filed = new int[N, N];
 
             while (Mine != 0)
             {
                 //Строка
-                int i = GenerateDigit(rng, (N * N) + 1) / N;
+                int i = GenerateDigit(rng, N * N) / N;
                 //Столбец
-                int j = GenerateDigit(rng, (N * N) + 1) % N;
+                int j = GenerateDigit(rng, N * N) % N;
                 if (filed[i, j] != 9)
                 {
                     filed[i, j] = 9;
@@ -52,14 +52,14 @@ namespace minesweeper
                 {
                     if (filed[i, j] == 9)
                     {
-                        if(filed[i - 1, j - 1]!=9) filed[i - 1, j - 1] += 1;//↖
-                        if(filed[i - 1, j]!=9) filed[i - 1, j] += 1;//⬅
-                        if(filed[i - 1, j + 1]!=9) filed[i - 1, j + 1] += 1;//↙
-                        if(filed[i, j - 1]!=9) filed[i , j - 1] += 1;//⬆
-                        if(filed[i, j + 1]!=9) filed[i , j + 1] += 1;//⬇
-                        if(filed[i + 1, j - 1]!=9) filed[i + 1, j - 1] += 1;//↗
-                        if(filed[i + 1, j]!=9) filed[i + 1, j] += 1;//➡
-                        if(filed[i + 1, j + 1]!=9) filed[i + 1, j + 1] += 1;//↘
+                        try { if (filed[i - 1, j - 1] != 9) filed[i - 1, j - 1] += 1; } catch (IndexOutOfRangeException) { }//↖
+                        try {if (filed[i - 1, j] != 9) filed[i - 1, j] += 1; } catch (IndexOutOfRangeException) { }//⬅
+                        try {if (filed[i - 1, j + 1] != 9) filed[i - 1, j + 1] += 1; } catch (IndexOutOfRangeException) { }//↙
+                        try {if (filed[i, j - 1] != 9) filed[i, j - 1] += 1; } catch (IndexOutOfRangeException) { }//⬆
+                        try {if (filed[i, j + 1] != 9) filed[i, j + 1] += 1; } catch (IndexOutOfRangeException) { }//⬇
+                        try {if (filed[i + 1, j - 1] != 9) filed[i + 1, j - 1] += 1; } catch (IndexOutOfRangeException) { }//↗
+                        try {if (filed[i + 1, j] != 9) filed[i + 1, j] += 1; } catch (IndexOutOfRangeException) { }//➡
+                        try {if (filed[i + 1, j + 1] != 9) filed[i + 1, j + 1] += 1; } catch (IndexOutOfRangeException) { }//↘
                     }
                 }
             }

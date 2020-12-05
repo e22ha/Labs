@@ -28,14 +28,71 @@ namespace minesweeper
         BitmapImage two = new BitmapImage(new Uri(@"pack://application:,,,/Images/Two_plate.png", UriKind.Absolute));
         BitmapImage three = new BitmapImage(new Uri(@"pack://application:,,,/Images/Three_plate.png", UriKind.Absolute));
 
-        int n = 16;
-        int _mine = 18;
+        int n = 10;
+        int _mine = 10;
 
         Button[,] btns;
+        int[,] f;
 
         public MainWindow()
         {
             InitializeComponent();
+
+
+        }
+
+        private void Btn_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                Image op = new Image();//ячейка картинки
+                StackPanel stackPnl1 = new StackPanel();//привязка иконки к кнопке
+                int i = (int)(((Button)sender).Tag) / n;
+                int j = (int)((Button)sender).Tag % n;
+                if (f[i, j] == 0)
+                {
+                    op.Source = oplate;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+                }
+                if (f[i, j] == 9)
+                {
+                    op.Source = mine;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+                }
+                if (f[i, j] == 1)
+                {
+                    op.Source = one;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+                }
+                if (f[i, j] == 2)
+                {
+                    op.Source = two;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+                }
+                if (f[i, j] == 3)
+                {
+                    op.Source = three;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+                }
+
+                ((Button)sender).Content = stackPnl1;
+                ((Button)sender).IsEnabled = false;
+            }
+
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                Image mrk = new Image();
+                mrk.Source = marker;
+                StackPanel stackPnl2 = new StackPanel();
+                stackPnl2.Children.Add(mrk);
+                ((Button)sender).Content = stackPnl2;
+            }
+        }
+
+
+        private void NewGame_Click(object sender, RoutedEventArgs e)
+        {
+            f = logicField.generateField(n, _mine);
 
             btns = new Button[n, n];
 
@@ -45,6 +102,7 @@ namespace minesweeper
             ugr.Height = n * (24);
 
             for (int x = 0; x < n; x++)
+            {
                 for (int y = 0; y < n; y++)
                 {
                     btns[x, y] = new Button();
@@ -61,32 +119,9 @@ namespace minesweeper
                     btns[x, y].MouseDown += Btn_MouseDown;
                     ugr.Children.Add(btns[x, y]);
                 }
-        }
-
-        private void Btn_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.RightButton == MouseButtonState.Pressed)
-            {
-                Image op = new Image();
-                op.Source = oplate;
-                StackPanel stackPnl1 = new StackPanel();
-                stackPnl1.Children.Add(op);
-                ((Button)sender).Content = stackPnl1;
             }
 
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
-                Image mrk = new Image();
-                mrk.Source = marker;
-                StackPanel stackPnl2 = new StackPanel();
-                stackPnl2.Children.Add(mrk);
-                ((Button)sender).Content = stackPnl2;
-            }
-        }
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            
         }
     }
 }
+
