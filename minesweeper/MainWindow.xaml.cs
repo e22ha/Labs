@@ -45,42 +45,6 @@ namespace minesweeper
         {
             if (e.RightButton == MouseButtonState.Pressed)
             {
-                Image op = new Image();//ячейка картинки
-                StackPanel stackPnl1 = new StackPanel();//привязка иконки к кнопке
-                int i = (int)(((Button)sender).Tag) / n;
-                int j = (int)((Button)sender).Tag % n;
-                if (f[i, j] == 0)
-                {
-                    op.Source = oplate;//пркрепление картинки
-                    stackPnl1.Children.Add(op);//добавить на кнопку
-                }
-                if (f[i, j] == 9)
-                {
-                    op.Source = mine;//пркрепление картинки
-                    stackPnl1.Children.Add(op);//добавить на кнопку
-                }
-                if (f[i, j] == 1)
-                {
-                    op.Source = one;//пркрепление картинки
-                    stackPnl1.Children.Add(op);//добавить на кнопку
-                }
-                if (f[i, j] == 2)
-                {
-                    op.Source = two;//пркрепление картинки
-                    stackPnl1.Children.Add(op);//добавить на кнопку
-                }
-                if (f[i, j] == 3)
-                {
-                    op.Source = three;//пркрепление картинки
-                    stackPnl1.Children.Add(op);//добавить на кнопку
-                }
-
-                ((Button)sender).Content = stackPnl1;
-                ((Button)sender).IsEnabled = false;
-            }
-
-            if (e.MiddleButton == MouseButtonState.Pressed)
-            {
                 Image mrk = new Image();
                 mrk.Source = marker;
                 StackPanel stackPnl2 = new StackPanel();
@@ -117,10 +81,48 @@ namespace minesweeper
                     btns[x, y].Content = stackPnl;
 
                     btns[x, y].MouseDown += Btn_MouseDown;
+                    btns[x, y].Click += Right_Click;
+
                     ugr.Children.Add(btns[x, y]);
                 }
             }
 
+        }
+
+        private void Right_Click(object sender, RoutedEventArgs e)
+        {
+            Image op = new Image();//ячейка картинки
+            StackPanel stackPnl1 = new StackPanel();//привязка иконки к кнопке
+            int i = (int)(((Button)sender).Tag) / n;
+            int j = (int)((Button)sender).Tag % n;
+            if (f[i, j] == 0)
+            {
+                op.Source = oplate;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку
+            }
+            if (f[i, j] == 9)
+            {
+                op.Source = mine;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку
+            }
+            if (f[i, j] == 1)
+            {
+                op.Source = one;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку
+            }
+            if (f[i, j] == 2)
+            {
+                op.Source = two;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку
+            }
+            if (f[i, j] == 3)
+            {
+                op.Source = three;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку
+            }
+
+                ((Button)sender).Content = stackPnl1;
+            ((Button)sender).IsEnabled = false;
         }
     }
 }
