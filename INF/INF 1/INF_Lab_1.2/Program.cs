@@ -23,21 +23,19 @@ namespace INF_Lab_1._2
             Console.WriteLine(BinToSByte(strToBin(str)));
             Console.ReadKey();
         }
+        //Функция перевода string в int[]
         static int[] strToBin(string n)
         {
             int[] m = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
             int k = n.Length;
-
-
-
             for (int i = 8 - k; i <= 7; i++)
             {
                 int a = int.Parse(n[i - (8 - k)].ToString());
                 m[i] = a;
             }
-
             return m;
         }
+        //Процедура вывода массива в строку
         static void printM(int[] m)
         {
             for (int i = 0; i < m.Length; i++)
@@ -46,6 +44,7 @@ namespace INF_Lab_1._2
             }
             Console.WriteLine();
         }
+        //Функция перевода int[] (массива) в sbyte
         static SByte BinToSByte(int[] n)
         {
             sbyte a = 0;
