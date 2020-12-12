@@ -16,9 +16,9 @@
             <MenuItem Header="Игра">
                 <MenuItem x:Name="NewGame" Header="Новая игра" Click="NewGame_Click"/>
                 <Separator />
-                <MenuItem Header="Начинающий"/>
-                <MenuItem Header="Продвинутый"/>
-                <MenuItem Header="Эксперт"/>
+                <MenuItem x:Name="low" Header="Начинающий●" Click="low_click"/>
+                <MenuItem x:Name="mid" Header="Продвинутый" Click="mid_click"/>
+                <MenuItem x:Name="high" Header="Эксперт" Click="high_click"/>
                 <Separator />
                 <MenuItem Header="Выход"/>
             </MenuItem>
