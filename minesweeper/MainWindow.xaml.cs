@@ -27,11 +27,11 @@ namespace minesweeper
         BitmapImage one = new BitmapImage(new Uri(@"pack://application:,,,/Images/One_plate.png", UriKind.Absolute));
         BitmapImage two = new BitmapImage(new Uri(@"pack://application:,,,/Images/Two_plate.png", UriKind.Absolute));
         BitmapImage three = new BitmapImage(new Uri(@"pack://application:,,,/Images/Three_plate.png", UriKind.Absolute));
-        BitmapImage four = new BitmapImage(new Uri(@"pack://application:,,,/Images/4_plate.png", UriKind.Absolute));
-        BitmapImage five = new BitmapImage(new Uri(@"pack://application:,,,/Images/5_plate.png", UriKind.Absolute));
-        BitmapImage six = new BitmapImage(new Uri(@"pack://application:,,,/Images/6_plate.png", UriKind.Absolute));
-        BitmapImage seven = new BitmapImage(new Uri(@"pack://application:,,,/Images/7_plate.png", UriKind.Absolute));
-        BitmapImage eight = new BitmapImage(new Uri(@"pack://application:,,,/Images/8_plate.png", UriKind.Absolute));
+        ///BitmapImage four = new BitmapImage(new Uri(@"pack://application:,,,/Images/4_plate.png", UriKind.Absolute));
+        ///BitmapImage five = new BitmapImage(new Uri(@"pack://application:,,,/Images/5_plate.png", UriKind.Absolute));
+        ///BitmapImage six = new BitmapImage(new Uri(@"pack://application:,,,/Images/6_plate.png", UriKind.Absolute));
+        ///BitmapImage seven = new BitmapImage(new Uri(@"pack://application:,,,/Images/7_plate.png", UriKind.Absolute));
+        ///BitmapImage eight = new BitmapImage(new Uri(@"pack://application:,,,/Images/8_plate.png", UriKind.Absolute));
 
 
         int n = 10;
@@ -126,31 +126,31 @@ namespace minesweeper
                 op.Source = three;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
             }
-            if (f[i, j] == 4)
-            {
-                op.Source = four;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-            }
-            if (f[i, j] == 5)
-            {
-                op.Source = five;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-            }
-            if (f[i, j] == 6)
-            {
-                op.Source = six;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-            }
-            if (f[i, j] == 7)
-            {
-                op.Source = seven;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-            }
-            if (f[i, j] == 8)
-            {
-                op.Source = eight;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-            }
+            ///if (f[i, j] == 4)
+            ///{
+            ///    op.Source = four;//пркрепление картинки
+            ///    stackPnl1.Children.Add(op);//добавить на кнопку
+            ///}
+            ///if (f[i, j] == 5)
+            ///{
+            ///    op.Source = five;//пркрепление картинки
+            ///    stackPnl1.Children.Add(op);//добавить на кнопку
+            ///}
+            ///if (f[i, j] == 6)
+            ///{
+            ///    op.Source = six;//пркрепление картинки
+            ///    stackPnl1.Children.Add(op);//добавить на кнопку
+            ///}
+            ///if (f[i, j] == 7)
+            ///{
+            ///    op.Source = seven;//пркрепление картинки
+            ///    stackPnl1.Children.Add(op);//добавить на кнопку
+            ///}
+            ///if (f[i, j] == 8)
+            ///{
+            ///    op.Source = eight;//пркрепление картинки
+            ///    stackPnl1.Children.Add(op);//добавить на кнопку
+            ///}
 
 
                 ((Button)sender).Content = stackPnl1;
