@@ -13,10 +13,10 @@
         <TextBox x:Name="end" HorizontalAlignment="Left" Height="17" Margin="234,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label Content="Length: " HorizontalAlignment="Left" Height="30" Margin="378,16,0,0" VerticalAlignment="Top" Width="51"/>
         <TextBox x:Name="length" HorizontalAlignment="Left" Height="17" Margin="429,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="Generat" Content="Generat" HorizontalAlignment="Left" Margin="708,19,0,0" VerticalAlignment="Top" Width="75" Click="Generat_Click"/>
+        <Button x:Name="Generate" Content="Generate" HorizontalAlignment="Left" Margin="708,19,0,0" VerticalAlignment="Top" Width="75" Click="Generate_Click"/>
         <Label Content="Password " HorizontalAlignment="Left" Margin="10,360,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="outPass" HorizontalAlignment="Left" Height="22" Margin="23,386,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="760"/>
-        <TextBlock x:Name="outAlphabet" HorizontalAlignment="Left" Margin="23,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="315" Width="760"/>
+        <TextBox x:Name="outAlphabet" HorizontalAlignment="Left" Margin="23,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="315" Width="760"/>
 
     </Grid>
 </Window>
