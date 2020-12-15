@@ -24,5 +24,25 @@ namespace FileCoder
         {
             InitializeComponent();
         }
+
+        private void Load_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Encode_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Decode_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

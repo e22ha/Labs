@@ -1,0 +1,15 @@
+D:\Code\L\Labs\INF\INF 4\PassGen\bin\Debug\PassGen.exe.config
+D:\Code\L\Labs\INF\INF 4\PassGen\bin\Debug\PassGen.exe
+D:\Code\L\Labs\INF\INF 4\PassGen\bin\Debug\PassGen.pdb
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\PassGen.csprojAssemblyReference.cache
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\MainWindow.g.cs
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\App.g.cs
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\PassGen_MarkupCompile.cache
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\PassGen_MarkupCompile.lref
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\MainWindow.baml
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\PassGen.g.resources
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\PassGen.Properties.Resources.resources
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\PassGen.csproj.GenerateResource.cache
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\PassGen.csproj.CoreCompileInputs.cache
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\PassGen.exe
+D:\Code\L\Labs\INF\INF 4\PassGen\obj\Debug\PassGen.pdb

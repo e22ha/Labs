@@ -24,5 +24,10 @@ namespace PassGen
         {
             InitializeComponent();
         }
+
+        private void Generat_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -5,8 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PassGen"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="PassGen" Height="450" Width="800">
     <Grid>
-        
+        <Label Content="Start:" HorizontalAlignment="Left" Height="24" Margin="10,16,0,0" VerticalAlignment="Top" Width="43"/>
+        <Label Content="End:" HorizontalAlignment="Left" Height="24" Margin="197,16,0,0" VerticalAlignment="Top" Width="32"/>
+        <TextBox x:Name="start" HorizontalAlignment="Left" Height="17" Margin="53,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="end" HorizontalAlignment="Left" Height="17" Margin="234,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Label Content="Length: " HorizontalAlignment="Left" Height="30" Margin="378,16,0,0" VerticalAlignment="Top" Width="51"/>
+        <TextBox x:Name="length" HorizontalAlignment="Left" Height="17" Margin="429,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="Generat" Content="Generat" HorizontalAlignment="Left" Margin="708,19,0,0" VerticalAlignment="Top" Width="75" Click="Generat_Click"/>
+        <Label Content="Password " HorizontalAlignment="Left" Margin="10,360,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="outPass" HorizontalAlignment="Left" Height="22" Margin="23,386,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="760"/>
+        <TextBlock x:Name="outAlphabet" HorizontalAlignment="Left" Margin="23,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="315" Width="760"/>
+
     </Grid>
 </Window>

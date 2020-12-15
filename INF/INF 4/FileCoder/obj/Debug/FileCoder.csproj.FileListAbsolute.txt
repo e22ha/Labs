@@ -1,0 +1,15 @@
+D:\Code\L\Labs\INF\INF 4\FileCoder\bin\Debug\FileCoder.exe.config
+D:\Code\L\Labs\INF\INF 4\FileCoder\bin\Debug\FileCoder.exe
+D:\Code\L\Labs\INF\INF 4\FileCoder\bin\Debug\FileCoder.pdb
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\FileCoder.csprojAssemblyReference.cache
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\MainWindow.g.cs
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\App.g.cs
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\FileCoder_MarkupCompile.cache
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\FileCoder_MarkupCompile.lref
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\MainWindow.baml
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\FileCoder.g.resources
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\FileCoder.Properties.Resources.resources
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\FileCoder.csproj.GenerateResource.cache
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\FileCoder.csproj.CoreCompileInputs.cache
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\FileCoder.exe
+D:\Code\L\Labs\INF\INF 4\FileCoder\obj\Debug\FileCoder.pdb
