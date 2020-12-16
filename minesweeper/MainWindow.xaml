@@ -14,7 +14,7 @@
     <StackPanel>
         <Menu>
             <MenuItem Header="Игра">
-                <MenuItem x:Name="NewGame" Header="Новая игра" Click="NewGame_Click"/>
+                <MenuItem x:Name="_NewGame" Header="Новая игра"/>
                 <Separator />
                 <MenuItem x:Name="low" Header="Начинающий●" Click="low_click"/>
                 <MenuItem x:Name="mid" Header="Продвинутый" Click="mid_click"/>

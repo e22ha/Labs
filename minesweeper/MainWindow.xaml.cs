@@ -38,49 +38,62 @@ namespace minesweeper
         int _mine = 10;
 
         Button[,] btns;
-        int[,] f;
+        public int[,] f;
 
         public MainWindow()
         {
             InitializeComponent();
 
+            n = 9;
+            _mine = 10;
 
+            f = NewGame(n, _mine);
         }
 
         //Обработчики нажатия кровня сложности
-        private void low_click(object sender, RoutedEventArgs e)
+        void low_click(object sender, RoutedEventArgs e)
         {
+            n = 9;
+            _mine = 10;
+
             clear();
+            f = NewGame(n, _mine);
+
             ((MenuItem)sender).Header = "Начинающий●";
             mid.Header = "Продвинутый";
             high.Header = "Эксперт";
-            n = 10;
-            _mine = 10;
         }
-        private void mid_click(object sender, RoutedEventArgs e)
+
+        void mid_click(object sender, RoutedEventArgs e)
         {
+            n = 16;
+            _mine = 40;
+
             clear();
+            f = NewGame(n, _mine);
+
             low.Header = "Начинающий";
             ((MenuItem)sender).Header = "Продвинутый●";
             high.Header = "Эксперт";
-            n = 16;
-            _mine = 18;
-
         }
-        private void high_click(object sender, RoutedEventArgs e)
+
+        void high_click(object sender, RoutedEventArgs e)
         {
+            n = 20;
+            _mine = 60;
+
             clear();
+            f = NewGame(n, _mine);
+
             low.Header = "Начинающий";
             mid.Header = "Продвинутый";
             ((MenuItem)sender).Header = "Эксперт●";
-            n = 20;
-            _mine = 40;
         }
 
         //Процедура отчистки поля
-        void clear()
+        private void clear()
         {
-
+            ugr.Children.Clear();
         }
 
         private void Btn_MouseDown(object sender, MouseButtonEventArgs e)
@@ -89,18 +102,16 @@ namespace minesweeper
             { 
                 Image mrk = new Image();
                 mrk.Source = marker;
-                StackPanel stackPnl2 = new StackPanel();
-                stackPnl2.Children.Add(mrk);
-                ((Button)sender).Content = stackPnl2;
+                StackPanel stackPnl = new StackPanel();
+                stackPnl.Children.Add(mrk);
+                ((Button)sender).Content = stackPnl;
             }
         }
 
 
-        private void NewGame_Click(object sender, RoutedEventArgs e)
+        int[,] NewGame(int n, int _mine)
         {
-            clear();
-
-            f = logicField.generateField(n, _mine);
+            int[,] f = logicField.generateField(n, _mine);
 
             btns = new Button[n, n];
 
@@ -131,6 +142,7 @@ namespace minesweeper
                 }
             }
 
+            return f;
         }
 
         private void Right_Click(object sender, RoutedEventArgs e)
@@ -190,12 +202,9 @@ namespace minesweeper
              stackPnl1.Children.Add(op);//добавить на кнопку
             }
 
-
-                ((Button)sender).Content = stackPnl1;
+            ((Button)sender).Content = stackPnl1;
             ((Button)sender).IsEnabled = false;
         }
-
-        
     }
 }
 
