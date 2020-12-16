@@ -46,13 +46,14 @@ namespace minesweeper
                     Mine--;
                 }
             }
+
             for (int i = 0; i < N; i++)
             {
                 for (int j = 0; j < N; j++)
                 {
                     if (filed[i, j] == 9)
                     {
-                        try { if (filed[i - 1, j - 1] != 9) filed[i - 1, j - 1] += 1; } catch (IndexOutOfRangeException) { }//↖
+                        try {if (filed[i - 1, j - 1] != 9) filed[i - 1, j - 1] += 1; } catch (IndexOutOfRangeException) { }//↖
                         try {if (filed[i - 1, j] != 9) filed[i - 1, j] += 1; } catch (IndexOutOfRangeException) { }//⬅
                         try {if (filed[i - 1, j + 1] != 9) filed[i - 1, j + 1] += 1; } catch (IndexOutOfRangeException) { }//↙
                         try {if (filed[i, j - 1] != 9) filed[i, j - 1] += 1; } catch (IndexOutOfRangeException) { }//⬆

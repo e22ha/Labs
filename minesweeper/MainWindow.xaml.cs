@@ -98,7 +98,7 @@ namespace minesweeper
 
         private void Btn_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.RightButton == MouseButtonState.Pressed)
+            if (e.RightButton == MouseButtonState.Released)
             { 
                 Image mrk = new Image();
                 mrk.Source = marker;
@@ -107,7 +107,6 @@ namespace minesweeper
                 ((Button)sender).Content = stackPnl;
             }
         }
-
 
         int[,] NewGame(int n, int _mine)
         {
