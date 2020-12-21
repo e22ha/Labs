@@ -46,6 +46,7 @@ namespace PassGen
         //Процедура вывода символов Алфавита
         void symbolOut()
         {
+            outAlphabet.Text = null;
             int startSymbol = int.Parse(start.Text, System.Globalization.NumberStyles.HexNumber);
             int j = 1;
 
@@ -61,6 +62,7 @@ namespace PassGen
         //Фнукция генерации пароля
         private void Generate_Click(object sender, RoutedEventArgs e)
         {
+            outPass.Text = null;
             symbolOut();
 
             string pass = "";

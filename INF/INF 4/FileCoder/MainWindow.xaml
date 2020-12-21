@@ -13,7 +13,9 @@
         <Button x:Name="Save" Content="Save" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Width="75" Click="Save_Click"/>
         <TextBox x:Name="keyCipher" HorizontalAlignment="Left" Height="23" Margin="605,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Label Content="Key" HorizontalAlignment="Left" Height="38" Margin="567,7,0,0" VerticalAlignment="Top" Width="33"/>
-        <TextBlock x:Name="textOut" HorizontalAlignment="Left" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="375" Width="773"/>
+        <TextBox x:Name="textIn" HorizontalAlignment="Left" Margin="10,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="375" Width="355"/>
+        <TextBox x:Name="textOut" HorizontalAlignment="Left" Margin="415,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="375" Width="368"/>
+        <Button x:Name="swap" Content="⇄" HorizontalAlignment="Left" Margin="370,36,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="swap_Click"/>
 
     </Grid>
 </Window>
