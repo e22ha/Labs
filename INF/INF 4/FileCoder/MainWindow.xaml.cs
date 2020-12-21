@@ -28,11 +28,17 @@ namespace FileCoder
 
         private void Load_Click(object sender, RoutedEventArgs e)
         {
-            //FileStream fs = File.OpenRead(dlg.FileName); //открытие файла на чтение
-            //byte[] array = new byte[fs.Length]; //создание массива байт
-            //fs.Read(array, 0, array.Length); //запись содержимого файла в массив байт
-            //string textFromFile = System.Text.Encoding.UTF8.GetString(array); //преобразование массива в строку
-
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            //настройка параметров диалога
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+                                                        //вызов диалога
+            dlg.ShowDialog();
+            FileStream fs = File.OpenRead(dlg.FileName); //открытие файла на чтение
+            byte[] array = new byte[fs.Length]; //создание массива байт
+            fs.Read(array, 0, array.Length); //запись содержимого файла в массив байт
+            string textFromFile = System.Text.Encoding.UTF32.GetString(array); //преобразование массива в строку
+            textIn.Text = textFromFile;
         }
 
         private void Encode_Click(object sender, RoutedEventArgs e)
@@ -53,12 +59,17 @@ namespace FileCoder
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            //using (FileStream fstream = new FileStream(dlg.FileName, FileMode.OpenOrCreate))
-            //{
-            //    byte[] array = System.Text.Encoding.UTF8.GetBytes(textOut.Text); //получение строки в виде массива байт
-            //    fstream.Write(array, 0, array.Length); //запись массива байт в файл
-            //}
-
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            //настройка параметров диалога
+            dlg.DefaultExt = ".txt"; // Default file extension
+            dlg.Filter = "Text documents (.txt)|*.txt"; // Filter files by extension
+                                                        //вызов диалога
+            dlg.ShowDialog();
+            using (FileStream fstream = new FileStream(dlg.FileName, FileMode.OpenOrCreate))
+            {
+                byte[] array = System.Text.Encoding.UTF32.GetBytes(textOut.Text); //получение строки в виде массива байт
+                fstream.Write(array, 0, array.Length); //запись массива байт в файл
+            }
         }
 
         private void Decode_Click(object sender, RoutedEventArgs e)
