@@ -49,8 +49,8 @@ namespace PassGen
             outAlphabet.Text = null;
             int startSymbol = int.Parse(start.Text, System.Globalization.NumberStyles.HexNumber);
             int j = 1;
-
-            for (int i = startSymbol; i <= int.Parse(end.Text, System.Globalization.NumberStyles.HexNumber); i++, j++)
+            int max = int.Parse(end.Text, System.Globalization.NumberStyles.HexNumber);
+            for (int i = startSymbol; i <= max; i++, j++)
             {
                 string str = char.ConvertFromUtf32(i).ToString();
                 outAlphabet.Text += (str + " = " + i.ToString("X4") + ";  ");
@@ -66,10 +66,10 @@ namespace PassGen
             symbolOut();
 
             string pass = "";
-
+            int max = int.Parse(end.Text, System.Globalization.NumberStyles.HexNumber);
             for (int i = 0; i < int.Parse(length.Text); i++)
             {
-                int a = getRandom(int.Parse(start.Text, System.Globalization.NumberStyles.HexNumber), int.Parse(end.Text, System.Globalization.NumberStyles.HexNumber));
+                int a = getRandom(int.Parse(start.Text, System.Globalization.NumberStyles.HexNumber), max);
                 pass += char.ConvertFromUtf32(a).ToString();
             }
             outPass.Text = pass.ToString();

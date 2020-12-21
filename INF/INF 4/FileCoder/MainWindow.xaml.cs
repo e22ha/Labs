@@ -21,6 +21,8 @@ namespace FileCoder
     /// </summary>
     public partial class MainWindow : Window
     {
+        byte[] array;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -35,9 +37,9 @@ namespace FileCoder
                                                         //вызов диалога
             dlg.ShowDialog();
             FileStream fs = File.OpenRead(dlg.FileName); //открытие файла на чтение
-            byte[] array = new byte[fs.Length]; //создание массива байт
+            array = new byte[fs.Length]; //создание массива байт
             fs.Read(array, 0, array.Length); //запись содержимого файла в массив байт
-            string textFromFile = System.Text.Encoding.UTF32.GetString(array); //преобразование массива в строку
+            string textFromFile = System.Text.Encoding.UTF8.GetString(array); //преобразование массива в строку
             textIn.Text = textFromFile;
         }
 
@@ -48,7 +50,12 @@ namespace FileCoder
             try
             {
                 byte key = Byte.Parse(keyCipher.Text);
-                for (int i = 0; i < str.Length; i++) textOut.Text += char.ConvertFromUtf32((byte)str[i] ^ key);
+                for (int i = 0; i < array.Length; i++) //textOut.Text += char.ConvertFromUtf32((byte)str[i] ^ key);
+                {
+                    array[i] ^= key;
+                }
+                string textFromFile = System.Text.Encoding.UTF8.GetString(array); //преобразование массива в строку
+                textOut.Text = textFromFile;
             }
             catch (Exception)
             {
@@ -67,7 +74,7 @@ namespace FileCoder
             dlg.ShowDialog();
             using (FileStream fstream = new FileStream(dlg.FileName, FileMode.OpenOrCreate))
             {
-                byte[] array = System.Text.Encoding.UTF32.GetBytes(textOut.Text); //получение строки в виде массива байт
+                array = System.Text.Encoding.UTF8.GetBytes(textOut.Text); //получение строки в виде массива байт
                 fstream.Write(array, 0, array.Length); //запись массива байт в файл
             }
         }
@@ -79,7 +86,13 @@ namespace FileCoder
             try
             {
                 byte key = Byte.Parse(keyCipher.Text);
-                for (int i = 0; i < str.Length; i++) textOut.Text += char.ConvertFromUtf32((byte)str[i] ^ key);
+
+                for (int i = 0; i < array.Length; i++) //textOut.Text += char.ConvertFromUtf32((byte)str[i] ^ key);
+                {
+                    array[i] ^= key;
+                }
+                string textFromFile = System.Text.Encoding.UTF8.GetString(array); //преобразование массива в строку
+                textOut.Text = textFromFile;
             }
             catch (Exception)
             {
