@@ -33,21 +33,66 @@ namespace minesweeper
         BitmapImage seven = new BitmapImage(new Uri(@"pack://application:,,,/Images/7_plate.png", UriKind.Absolute));
         BitmapImage eight = new BitmapImage(new Uri(@"pack://application:,,,/Images/8_plate.png", UriKind.Absolute));
 
+        BitmapImage _0 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/0.png", UriKind.Absolute));
+        BitmapImage _1 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/1.png", UriKind.Absolute));
+        BitmapImage _2 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/2.png", UriKind.Absolute));
+        BitmapImage _3 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/3.png", UriKind.Absolute));
+        BitmapImage _4 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/4.png", UriKind.Absolute));
+        BitmapImage _5 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/5.png", UriKind.Absolute));
+        BitmapImage _6 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/6.png", UriKind.Absolute));
+        BitmapImage _7 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/7.png", UriKind.Absolute));
+        BitmapImage _8 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/8.png", UriKind.Absolute));
+        BitmapImage _9 = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/9.png", UriKind.Absolute));
+        BitmapImage nul = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/null.png", UriKind.Absolute));
+        BitmapImage minus = new BitmapImage(new Uri(@"pack://application:,,,/Images/numbers/minus.png", UriKind.Absolute));
 
         int n = 10;
         int _mine = 10;
+        int m = 10;
 
         Button[,] btns;
         public int[,] f;
+
+        System.Windows.Threading.DispatcherTimer Timer;
+        int tick, res, sec, min;
+
+        Image _res = new Image();
+        Image _min = new Image();
+        Image _sec = new Image();
 
         public MainWindow()
         {
             InitializeComponent();
 
+            Timer = new System.Windows.Threading.DispatcherTimer();
+            Timer.Tick += new EventHandler(Timer_Tick);
+            Timer.Interval = new TimeSpan(0, 0, 1);
+
+            m = 10;
             n = 9;
             _mine = 10;
 
             f = NewGame(n, _mine);
+        }
+
+        public void Timer_Tick(object sender, EventArgs e)
+        {
+            tick++;
+
+            if(tick < 100)
+            {
+                res = tick / 10;
+                sec = tick % 10;
+            }
+            else
+            {
+                res = tick / 100;
+                min = tick % 100;
+                sec = tick % 10;
+            }
+
+            string t = tick.ToString();
+            tim.Content = t;
         }
 
         //Обработчики нажатия кровня сложности
@@ -55,7 +100,9 @@ namespace minesweeper
         {
             n = 9;
             _mine = 10;
+            m = 10;
 
+            Timer.Stop();
             clear();
             f = NewGame(n, _mine);
 
@@ -68,7 +115,9 @@ namespace minesweeper
         {
             n = 16;
             _mine = 40;
+            m = 40;
 
+            Timer.Stop();
             clear();
             f = NewGame(n, _mine);
 
@@ -81,7 +130,9 @@ namespace minesweeper
         {
             n = 20;
             _mine = 60;
+            m = 60;
 
+            Timer.Stop();
             clear();
             f = NewGame(n, _mine);
 
@@ -99,17 +150,42 @@ namespace minesweeper
         private void Btn_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.RightButton == MouseButtonState.Released)
-            { 
+            {
+                Timer.Start();
+
                 Image mrk = new Image();
                 mrk.Source = marker;
-                StackPanel stackPnl = new StackPanel();
-                stackPnl.Children.Add(mrk);
-                ((Button)sender).Content = stackPnl;
+
+                Image cell = new Image();
+                cell.Source = plate;
+
+                StackPanel stackPnl1 = new StackPanel();
+                ((Button)sender).Content = stackPnl1;
+
+                if ()
+                {
+                    m -= 1;
+                    cnt.Content = m;
+
+                    stackPnl1.Children.Add(mrk);
+                    ((Button)sender).Content = stackPnl1;
+                }
+                else
+                {
+                    m += 1;
+                    cnt.Content = m;
+
+                    stackPnl1.Children.Add(cell);
+                    ((Button)sender).Content = stackPnl1;
+                }
             }
         }
 
         int[,] NewGame(int n, int _mine)
         {
+            tick = 0;
+            tim.Content = 0;
+
             int[,] f = logicField.generateField(n, _mine);
 
             btns = new Button[n, n];
@@ -146,10 +222,13 @@ namespace minesweeper
 
         private void Right_Click(object sender, RoutedEventArgs e)
         {
+            Timer.Start();
+
             Image op = new Image();//ячейка картинки
             StackPanel stackPnl1 = new StackPanel();//привязка иконки к кнопке
             int i = (int)(((Button)sender).Tag) / n;
             int j = (int)((Button)sender).Tag % n;
+
             if (f[i, j] == 0)
             {
                 op.Source = oplate;//пркрепление картинки

@@ -34,11 +34,15 @@
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Border BorderThickness="0 0 1 1" BorderBrush="White">
-                                
+                                <StackPanel x:Name="Counter">
+                                    <Label x:Name="cnt"/>
+                                </StackPanel>
                             </Border>
                             
                             <Border BorderThickness="0 0 1 1" BorderBrush="White" Grid.Column="2" >
-                                
+                                <StackPanel x:Name="_Timer">
+                                    <Label x:Name="tim"/>
+                                </StackPanel>
                             </Border>
                         </Grid>
                     </Border>

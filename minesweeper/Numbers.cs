@@ -8,6 +8,5 @@ namespace minesweeper
 {
     class Numbers
     {
-
     }
 }
