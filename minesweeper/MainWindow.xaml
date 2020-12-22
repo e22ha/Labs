@@ -22,6 +22,8 @@
                 <Separator />
                 <MenuItem Header="Выход"/>
             </MenuItem>
+            <MenuItem x:Name="Leaderboard" Header="Рекорды" Click="records_click">
+            </MenuItem>
         </Menu>
         <Border BorderThickness="3 3 0 0" BorderBrush="White">
             <StackPanel Background="LightGray">

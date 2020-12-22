@@ -89,20 +89,25 @@ namespace minesweeper
         {
             tick++;
 
-            if (tick < 100)
-            {
-                res = tick / 10;
-                sec = tick % 10;
-            }
-            else
-            {
-                res = tick / 100;
-                min = tick % 100;
-                sec = tick % 10;
-            }
+            //if (tick < 100)
+            //{
+            //    res = tick / 10;
+            //    sec = tick % 10;
+            //}
+            //else
+            //{
+            //    res = tick / 100;
+            //    min = tick % 100;
+            //    sec = tick % 10;
+            //}
 
             string t = tick.ToString();
             tim.Content = t;
+        }
+
+        void records_click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         //Обработчики нажатия кровня сложности
@@ -179,7 +184,7 @@ namespace minesweeper
 
                 stackPnl1.Children.Add(mrk);
 
-                if (((Button)sender).Content == one)
+                if (((Button)sender).Content != null)
                 {
                     m -= 1;
                     cnt.Content = m;
