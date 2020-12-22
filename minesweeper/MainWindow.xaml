@@ -7,7 +7,7 @@
         mc:Ignorable="d" 
         SizeToContent="WidthAndHeight"
         ResizeMode="CanMinimize" x:Name="GameWindow" WindowStartupLocation="CenterOwner"
-        Title="Minesweeper">
+        Title="Minesweeper" Icon="Images/icon.ico">
     <Window.Resources>
 
     </Window.Resources>

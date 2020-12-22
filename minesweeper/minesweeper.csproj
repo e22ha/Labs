@@ -115,5 +115,22 @@
     <Resource Include="Images\Three_plate.png" />
     <Resource Include="Images\Two_plate.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\nubmers\0.png" />
+    <Resource Include="Images\nubmers\1.png" />
+    <Resource Include="Images\nubmers\2.png" />
+    <Resource Include="Images\nubmers\3.png" />
+    <Resource Include="Images\nubmers\4.png" />
+    <Resource Include="Images\nubmers\5.png" />
+    <Resource Include="Images\nubmers\6.png" />
+    <Resource Include="Images\nubmers\7.png" />
+    <Resource Include="Images\nubmers\8.png" />
+    <Resource Include="Images\nubmers\9.png" />
+    <Resource Include="Images\nubmers\minus.png" />
+    <Resource Include="Images\nubmers\null.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
