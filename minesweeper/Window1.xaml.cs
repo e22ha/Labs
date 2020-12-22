@@ -32,13 +32,58 @@ namespace minesweeper
             {
                 string name = line;
                 if ((line = file.ReadLine()) == null) break;
-                DateTime dt = DateTime.Parse(line);
+                int sec = int.Parse(line);
+                if ((line = file.ReadLine()) == null) break;
+                string mode = line;
 
-                records.Add(str);
-                tlist.Items.Add(name);
+                records.Add(name + "/" + sec + "/" + mode);
+
+                rlist.Items.Add(name + "/" + sec + "/" + mode);
             }
 
             file.Close();
+        }
+
+        private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            System.IO.StreamWriter outputFile = new System.IO.StreamWriter(@"data.txt");
+
+            using (outputFile)
+            {
+
+                foreach (string kvp in records)
+                {
+                    int i = 0;
+                    char mrk = '/';
+                    string name = "";
+                    string sec ="";
+                    string mode = "";
+                    while (kvp[i] != mrk)
+                    {
+                        name += kvp[i];
+                        i++;
+                    }
+                    i++;
+                    outputFile.WriteLine(name);
+                    while (kvp[i] != mrk)
+                    {
+                        sec += kvp[i];
+                        i++;
+                    }
+                    i++;
+                    outputFile.WriteLine(sec);
+                    while (i < kvp.Length)
+                    {
+                        mode += kvp[i];
+                        i++;
+                    }
+                    i++;
+                    outputFile.WriteLine();
+
+                }
+            }
+            outputFile.Close();
+            this.Close();
         }
     }
 }

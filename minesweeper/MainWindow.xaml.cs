@@ -107,7 +107,8 @@ namespace minesweeper
 
         void records_click(object sender, RoutedEventArgs e)
         {
-
+            Window records = new Window1();
+            records.ShowDialog();
         }
 
         //Обработчики нажатия кровня сложности
