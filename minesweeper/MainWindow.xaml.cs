@@ -99,7 +99,7 @@ namespace minesweeper
         private void Btn_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.RightButton == MouseButtonState.Released)
-            { 
+            {
                 Image mrk = new Image();
                 mrk.Source = marker;
                 StackPanel stackPnl = new StackPanel();
@@ -124,7 +124,7 @@ namespace minesweeper
                 for (int y = 0; y < n; y++)
                 {
                     btns[x, y] = new Button();
-                    btns[x, y].Tag = x+y*n;
+                    btns[x, y].Tag = x + y * n;
                     btns[x, y].Width = btns[x, y].Height = 24;
 
                     Image img = new Image();
@@ -148,12 +148,27 @@ namespace minesweeper
         {
             Image op = new Image();//ячейка картинки
             StackPanel stackPnl1 = new StackPanel();//привязка иконки к кнопке
+
             int i = (int)(((Button)sender).Tag) / n;
             int j = (int)((Button)sender).Tag % n;
             if (f[i, j] == 0)
             {
                 op.Source = oplate;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
+                
+                ((Button)sender).IsEnabled = false;
+
+                try { if (btns[j - 1, i - 1].IsEnabled == true) { Right_Click(btns[j - 1, i - 1], e); } } catch (IndexOutOfRangeException) { }
+                try { if (btns[j - 1, i].IsEnabled == true) { Right_Click(btns[j - 1, i], e); } } catch (IndexOutOfRangeException) { }
+                try { if (btns[j - 1, i + 1].IsEnabled == true) { Right_Click(btns[j - 1, i + 1], e); } } catch (IndexOutOfRangeException) { }
+                try { if (btns[j, i - 1].IsEnabled == true) { Right_Click(btns[j, i - 1], e); } } catch (IndexOutOfRangeException) { }
+                try { if (btns[j, i + 1].IsEnabled == true) { Right_Click(btns[j, i + 1], e); } } catch (IndexOutOfRangeException) { }
+                try { if (btns[j + 1, i - 1].IsEnabled == true) { Right_Click(btns[j + 1, i - 1], e); } } catch (IndexOutOfRangeException) { }
+                try { if (btns[j + 1, i].IsEnabled == true) { Right_Click(btns[j + 1, i], e); } } catch (IndexOutOfRangeException) { }
+                try { if (btns[j + 1, i + 1].IsEnabled == true) { Right_Click(btns[j + 1, i + 1], e); } } catch (IndexOutOfRangeException) { }
+
+
+
             }
             if (f[i, j] == 9)
             {
@@ -177,30 +192,29 @@ namespace minesweeper
             }
             if (f[i, j] == 4)
             {
-             op.Source = four;//пркрепление картинки
-             stackPnl1.Children.Add(op);//добавить на кнопку
+                op.Source = four;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку
             }
             if (f[i, j] == 5)
             {
-             op.Source = five;//пркрепление картинки
-             stackPnl1.Children.Add(op);//добавить на кнопку
+                op.Source = five;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку
             }
             if (f[i, j] == 6)
             {
-             op.Source = six;//пркрепление картинки
-             stackPnl1.Children.Add(op);//добавить на кнопку
+                op.Source = six;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку
             }
             if (f[i, j] == 7)
             {
-             op.Source = seven;//пркрепление картинки
-             stackPnl1.Children.Add(op);//добавить на кнопку
+                op.Source = seven;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку
             }
             if (f[i, j] == 8)
             {
-             op.Source = eight;//пркрепление картинки
-             stackPnl1.Children.Add(op);//добавить на кнопку
+                op.Source = eight;//пркрепление картинки
+                stackPnl1.Children.Add(op);//добавить на кнопку              
             }
-
             ((Button)sender).Content = stackPnl1;
             ((Button)sender).IsEnabled = false;
         }
