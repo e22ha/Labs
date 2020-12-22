@@ -51,9 +51,12 @@ namespace minesweeper
         int m = 10;
         int count;
         int cnt_of_mine;
+        int mode = 0;
 
         Button[,] btns;
         public int[,] f;
+
+        Window records = new Window1();
 
         System.Windows.Threading.DispatcherTimer Timer;
         int tick, res, sec, min;
@@ -71,9 +74,9 @@ namespace minesweeper
             Timer.Interval = new TimeSpan(0, 0, 1);
 
             m = 10;
-            n = 9;
-            count = (n * n) - 10;
-            _mine = 10;
+            n = 3;
+            _mine = 1;
+            count = (n * n) - _mine;
             cnt_of_mine = _mine;
 
             f = NewGame(n, _mine);
@@ -107,7 +110,6 @@ namespace minesweeper
 
         void records_click(object sender, RoutedEventArgs e)
         {
-            Window records = new Window1();
             records.ShowDialog();
         }
 
@@ -119,6 +121,7 @@ namespace minesweeper
             count = (n * n) - _mine;
             cnt_of_mine = _mine;
             m = 10;
+            mode = 0;
 
             Timer.Stop();
             clear();
@@ -136,6 +139,7 @@ namespace minesweeper
             m = 40;
             cnt_of_mine = _mine;
             count = (n * n) - _mine;
+            mode = 1;
 
             Timer.Stop();
             clear();
@@ -153,6 +157,7 @@ namespace minesweeper
             m = 60;
             cnt_of_mine = _mine;
             count = (n * n) - _mine;
+            mode = 2;
 
             Timer.Stop();
             clear();
@@ -183,16 +188,21 @@ namespace minesweeper
 
                 StackPanel stackPnl1 = new StackPanel();
 
-                stackPnl1.Children.Add(mrk);
-
-                if (((Button)sender).Content != null)
+                if(((Button)sender).IsEnabled == true)
                 {
+                    stackPnl1.Children.Add(mrk);
+                    ((Button)sender).Content = stackPnl1;
+                    ((Button)sender).IsEnabled = false;
+
                     m -= 1;
                     cnt.Content = m;
-                    ((Button)sender).Content = stackPnl1;
                 }
                 else
                 {
+                    stackPnl1.Children.Add(cell);
+                    ((Button)sender).Content = stackPnl1;
+                    ((Button)sender).IsEnabled = true;
+                    
                     m += 1;
                     cnt.Content = m;
                 }
@@ -359,10 +369,13 @@ namespace minesweeper
 
             if (count == 0)
             {
-                MessageBox.Show("You win!");
+                Window1 records = new Window1();
                 Timer.Stop();
+                MessageBox.Show("You win!");
                 clear();
-                f = NewGame(n, _mine);
+                records.seconds.Content = tick.ToString();
+                records.mode.Content = mode.ToString();
+                records.ShowDialog();
             }
         }
     }
