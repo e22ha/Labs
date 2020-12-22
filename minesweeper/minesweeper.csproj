@@ -132,5 +132,8 @@
     <Resource Include="Images\numbers\minus.png" />
     <Resource Include="Images\numbers\null.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\фон_победителя.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

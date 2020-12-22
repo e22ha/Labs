@@ -49,6 +49,8 @@ namespace minesweeper
         int n = 10;
         int _mine = 10;
         int m = 10;
+        int count;
+        int cnt_of_mine;
 
         Button[,] btns;
         public int[,] f;
@@ -70,16 +72,24 @@ namespace minesweeper
 
             m = 10;
             n = 9;
+            count = (n * n) - 10;
             _mine = 10;
+            cnt_of_mine = _mine;
 
             f = NewGame(n, _mine);
+
+            if (_mine == 0)
+            {
+                MessageBox.Show("You lose :(");
+            }
+
         }
 
         public void Timer_Tick(object sender, EventArgs e)
         {
             tick++;
 
-            if(tick < 100)
+            if (tick < 100)
             {
                 res = tick / 10;
                 sec = tick % 10;
@@ -100,6 +110,8 @@ namespace minesweeper
         {
             n = 9;
             _mine = 10;
+            count = (n * n) - _mine;
+            cnt_of_mine = _mine;
             m = 10;
 
             Timer.Stop();
@@ -116,6 +128,8 @@ namespace minesweeper
             n = 16;
             _mine = 40;
             m = 40;
+            cnt_of_mine = _mine;
+            count = (n * n) - _mine;
 
             Timer.Stop();
             clear();
@@ -131,6 +145,8 @@ namespace minesweeper
             n = 20;
             _mine = 60;
             m = 60;
+            cnt_of_mine = _mine;
+            count = (n * n) - _mine;
 
             Timer.Stop();
             clear();
@@ -160,23 +176,19 @@ namespace minesweeper
                 cell.Source = plate;
 
                 StackPanel stackPnl1 = new StackPanel();
-                ((Button)sender).Content = stackPnl1;
 
-                if ()
+                stackPnl1.Children.Add(mrk);
+
+                if (((Button)sender).Content == one)
                 {
                     m -= 1;
                     cnt.Content = m;
-
-                    stackPnl1.Children.Add(mrk);
                     ((Button)sender).Content = stackPnl1;
                 }
                 else
                 {
                     m += 1;
                     cnt.Content = m;
-
-                    stackPnl1.Children.Add(cell);
-                    ((Button)sender).Content = stackPnl1;
                 }
             }
         }
@@ -227,14 +239,16 @@ namespace minesweeper
             Image op = new Image();//ячейка картинки
             StackPanel stackPnl1 = new StackPanel();//привязка иконки к кнопке
 
-            int i = (int)(((Button)sender).Tag) / n;
+            int i = (int)((Button)sender).Tag / n;
             int j = (int)((Button)sender).Tag % n;
 
             if (f[i, j] == 0)
             {
                 op.Source = oplate;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
-                
+
+                count -= 1;
+
                 ((Button)sender).IsEnabled = false;
 
                 try { if (btns[j - 1, i - 1].IsEnabled == true) { Right_Click(btns[j - 1, i - 1], e); } } catch (IndexOutOfRangeException) { }
@@ -245,57 +259,105 @@ namespace minesweeper
                 try { if (btns[j + 1, i - 1].IsEnabled == true) { Right_Click(btns[j + 1, i - 1], e); } } catch (IndexOutOfRangeException) { }
                 try { if (btns[j + 1, i].IsEnabled == true) { Right_Click(btns[j + 1, i], e); } } catch (IndexOutOfRangeException) { }
                 try { if (btns[j + 1, i + 1].IsEnabled == true) { Right_Click(btns[j + 1, i + 1], e); } } catch (IndexOutOfRangeException) { }
-
-
-
             }
             if (f[i, j] == 9)
             {
                 op.Source = mine;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
+
+                ((Button)sender).Content = stackPnl1;
+                ((Button)sender).IsEnabled = false;
+
+                _mine -= 1;
+
+                if (_mine == 0)
+                {
+                    MessageBox.Show("You lose :(");
+
+                    _mine = cnt_of_mine;
+
+                    Timer.Stop();
+                    clear();
+                }
+
+                foreach (Button b in btns)
+                {
+                    int a = (int)b.Tag / n;
+                    int c = (int)b.Tag % n;
+
+                    if ((b.IsEnabled == true) & (f[a,c] == 9))
+                    {
+                        Right_Click(b, e);
+                    }
+                }
             }
             if (f[i, j] == 1)
             {
                 op.Source = one;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
+
+                count -= 1;
             }
             if (f[i, j] == 2)
             {
                 op.Source = two;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
+
+                count -= 1;
             }
             if (f[i, j] == 3)
             {
                 op.Source = three;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
+
+                count -= 1;
             }
             if (f[i, j] == 4)
             {
                 op.Source = four;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
+
+                count -= 1;
             }
             if (f[i, j] == 5)
             {
                 op.Source = five;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
+
+                count -= 1;
             }
             if (f[i, j] == 6)
             {
                 op.Source = six;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
+
+                count -= 1;
             }
             if (f[i, j] == 7)
             {
                 op.Source = seven;//пркрепление картинки
                 stackPnl1.Children.Add(op);//добавить на кнопку
+
+                count -= 1;
             }
             if (f[i, j] == 8)
             {
                 op.Source = eight;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку              
+                stackPnl1.Children.Add(op);//добавить на кнопку
+
+                count -= 1;
             }
+
             ((Button)sender).Content = stackPnl1;
             ((Button)sender).IsEnabled = false;
+
+            if (count == 0)
+            {
+                MessageBox.Show("You win!");
+                Timer.Stop();
+                clear();
+                f = NewGame(n, _mine);
+            }
         }
     }
 }

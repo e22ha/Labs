@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:minesweeper"
         mc:Ignorable="d" 
         SizeToContent="WidthAndHeight"
-        ResizeMode="CanMinimize" x:Name="GameWindow" WindowStartupLocation="CenterOwner"
+        ResizeMode="CanMinimize" x:Name="GameWindow" WindowStartupLocation="CenterScreen"
         Title="Minesweeper" Icon="Images/icon.ico">
     <Window.Resources>
 
@@ -49,8 +49,11 @@
                 </Border>
                 <Border Margin="6 2 6 6" BorderBrush="DarkGray" BorderThickness="3,3,0,0" ClipToBounds="True" >
                     <Border BorderBrush="White" BorderThickness="0 0 3 3">
+                        <Border.Background>
+                            <ImageBrush ImageSource="Images\фон_победителя.png" Stretch="Uniform"/>
+                        </Border.Background>
                         <UniformGrid x:Name="ugr">
-                            
+
                         </UniformGrid>
                     </Border>
                 </Border>
