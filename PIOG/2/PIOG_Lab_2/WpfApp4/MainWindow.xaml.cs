@@ -25,24 +25,21 @@ namespace WpfApp4
         public int da;
         public int mo;
         public int ya;
-
-
         public MainWindow()
         {
             InitializeComponent();
-            for (int i = 0; i<=70;i++) {
+            for (int i = 0; i <= 71; i++)
+            {
                 int a = 1950;
-                Year_choice.Items.Add(a+i);
+                Year_choice.Items.Add(a + i);
             }
             Month_choice.IsEnabled = false;
             Day_Choice.IsEnabled = false;
-            
-            
         }
 
         private void Year_choice_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+
             Month_choice.Items.Clear();
             string[] m = new string[12] { "Jan", "Feb", "Mar", "Apr", "Может", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
             for (int i = 0; i <= 11; i++)
@@ -55,9 +52,7 @@ namespace WpfApp4
 
         private void Month_choice_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            
-            if ((Month_choice.SelectedIndex == 1) &  (int.Parse(Year_choice.Text) % 4 == 0))
+            if ((Month_choice.SelectedIndex == 1) & (int.Parse(Year_choice.Text) % 4 == 0))
             {
                 Day_Choice.Items.Clear();
                 for (int i = 1; i <= 29; i++)
@@ -73,7 +68,7 @@ namespace WpfApp4
                     Day_Choice.Items.Add(i);
                 }
             }
-            else if ((Month_choice.SelectedIndex == 0) | (Month_choice.SelectedIndex ==2) | (Month_choice.SelectedIndex == 4) | (Month_choice.SelectedIndex == 6) | (Month_choice.SelectedIndex == 7) | (Month_choice.SelectedIndex == 9) | (Month_choice.SelectedIndex == 11))
+            else if ((Month_choice.SelectedIndex == 0) | (Month_choice.SelectedIndex == 2) | (Month_choice.SelectedIndex == 4) | (Month_choice.SelectedIndex == 6) | (Month_choice.SelectedIndex == 7) | (Month_choice.SelectedIndex == 9) | (Month_choice.SelectedIndex == 11))
             {
                 Day_Choice.Items.Clear();
                 for (int i = 1; i <= 31; i++)
@@ -81,7 +76,7 @@ namespace WpfApp4
                     Day_Choice.Items.Add(i);
                 }
             }
-            else 
+            else
             {
                 Day_Choice.Items.Clear();
                 for (int i = 1; i <= 30; i++)
@@ -91,7 +86,6 @@ namespace WpfApp4
             }
             mo = Month_choice.SelectedIndex + 1;
             Day_Choice.IsEnabled = true;
-
         }
 
         private void Day_Choice_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -103,32 +97,30 @@ namespace WpfApp4
         private void go_Click(object sender, RoutedEventArgs e)
         {
             output.Text = null;
-            DateTime datanow = DateTime.Today.Date;
-            int nYear = datanow.Year;
-            int nMo = datanow.Month;
-            int nDay = datanow.Day;
+            int nYear = DateTime.Today.Year;
+            int nMo = DateTime.Today.Month;
+            int nDay = DateTime.Today.Day;
 
             DateTime choosedata = new DateTime(ya, mo, da);
-            
-            string dayOf = datanow.Subtract(choosedata).Days.ToString();
+
             var outYear = nYear - choosedata.Year;
             var outMonth = nMo - choosedata.Month;
             var outDay = nDay - choosedata.Day;
-           
-            if (outMonth <0)
+
+            if (outMonth < 0)
             {
-                outYear --;
+                outYear--;
                 outMonth = 12 + outMonth;
             }
-            
-            if (outDay <0)
+
+            if (outDay < 0)
             {
                 outMonth--;
                 if ((outMonth == 0) | (outMonth == 1) | (outMonth == 3) | (outMonth == 5) | (outMonth == 7) | (outMonth == 8) | (outMonth == 10) | (outMonth == 12))
                 {
                     outDay = 31 + outDay;
                 }
-                else if ((outMonth == 2)&(outYear % 4 == 0))
+                else if ((outMonth == 2) & (outYear % 4 == 0))
                 {
                     outDay = 29 + outDay;
                 }
@@ -141,16 +133,7 @@ namespace WpfApp4
                     outDay = 30 + outDay;
                 }
             }
-
-            output.Text = "Years: "+(outYear)+"; Months: "+(outMonth)+"; Days: "+(outDay);
+            output.Text = "Years: " + (outYear) + "; Months: " + (outMonth) + "; Days: " + (outDay);
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Day_Choice.IsEnabled = false;
-            Month_choice.IsEnabled = false;
-            Day_Choice.Items.Clear();
-            Month_choice.Items.Clear();
-        }
-    } 
+    }
 }

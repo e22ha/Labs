@@ -72,8 +72,7 @@ namespace WpfApp6
             }
         }
 
-        //получение выбранного имени файла
-        ///lb1.Content = dlg.FileName;
+        
 
     }       
 }

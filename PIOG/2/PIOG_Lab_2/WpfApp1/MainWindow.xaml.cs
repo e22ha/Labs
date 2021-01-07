@@ -36,7 +36,7 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
-
+        //Сложение
         private void addition_Click(object sender, RoutedEventArgs e)
         {
             a = double.Parse(a_var.Text);
@@ -44,7 +44,7 @@ namespace WpfApp1
             double c = a + b;
             Output.Content = c;
         }
-
+        //Вычитание
         private void subtraction_Click(object sender, RoutedEventArgs e)
         {
             a = double.Parse(a_var.Text);
@@ -52,7 +52,7 @@ namespace WpfApp1
             double c = a - b;
             Output.Content = c;
         }
-
+        //Деление
         private void division_Click(object sender, RoutedEventArgs e)
         {
             a = double.Parse(a_var.Text);
@@ -60,7 +60,7 @@ namespace WpfApp1
             double c = a / b;
             Output.Content = c;
         }
-
+        //Умножение
         private void multip_Click(object sender, RoutedEventArgs e)
         {
             a = double.Parse(a_var.Text);

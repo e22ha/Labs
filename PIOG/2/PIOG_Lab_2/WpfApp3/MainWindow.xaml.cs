@@ -51,7 +51,6 @@ namespace WpfApp3
 
         private void lb1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             output.Text = strm[lb1.SelectedIndex].ToString();
         }
     }
