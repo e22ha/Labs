@@ -25,12 +25,14 @@ namespace INF_Lab_1._3
             printM(intToBin(a));
             Console.ReadKey();
         }
+        //Перевод int в int[]
         static int[] intToBin(int n)
         {
             int[] m = new int[8];      
             m = SByteToBin((sbyte)(n));
             return m;
         }
+        //Процедура печати массива
         static void printM(int[] m)
         {
             for (int i = 0; i < m.Length; i++)
@@ -39,6 +41,7 @@ namespace INF_Lab_1._3
             }
             Console.WriteLine();
         }
+       //Процедура инвертирования массива
         static int[] Invert(int[] n)
         {
             for (int i = 0; i <= 7; i++)
@@ -54,6 +57,7 @@ namespace INF_Lab_1._3
             }
             return n;
         }
+        // Перевод sbyte в int[]
         static int[] SByteToBin(sbyte n)
         {
             int[] m = new int[8] { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -76,8 +80,9 @@ namespace INF_Lab_1._3
                     z = Math.Abs(z / 2);
                 }
                 Invert(m);
+                //Добовление еденицы
                 m[7] = m[7] + 1;
-
+                //Перенос лишнего в новый разряд
                 for (int i = 7; i > 0; i--)
                 {
                     if (m[i] == 2)
@@ -87,12 +92,8 @@ namespace INF_Lab_1._3
                     }
                     else break;
                 }
-                
-
             }
             return m;
         }
-
-
     }
 }

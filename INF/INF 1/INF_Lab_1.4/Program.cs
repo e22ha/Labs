@@ -25,17 +25,18 @@ namespace INF_Lab_1._4
             Console.WriteLine(binToInt(strToBin(str)));
             Console.ReadKey();
         }
+        //Перевод int[] в int
         static int binToInt(int[] n)
         {
             int a = 0;
-            if (n[0] == 0)
+            if (n[0] == 0)//Для положительного
             {
                 for (int i = 0; i < 8; i++)
                 {
                     a = a + (n[i] * (int)Math.Pow(2, (7 - i)));
                 }
             }
-            else
+            else//Для отрицательного
             {
                 n[7] = n[7] - 1;
                 n = Invert(n);
@@ -46,21 +47,19 @@ namespace INF_Lab_1._4
             }
             return a;
         }
+        //Перевод string в int[]
         static int[] strToBin(string n)
         {
             int[] m = new int[8]{0,0,0,0,0,0,0,0};
             int k = n.Length;
-
-            
-
             for (int i = 8-k; i <= 7; i++)
             {
                int a = int.Parse( n[i - (8 - k)].ToString());
                m[i] = a;
             } 
-                
             return m;
         }
+        //Перевод int[] в sbyte
         static SByte BinToSByte(int[] n)
         {
             sbyte a = 0;
@@ -69,11 +68,10 @@ namespace INF_Lab_1._4
                 a = (sbyte)(a << 1);
                 sbyte b = (sbyte)n[7 - i];
                 a = (sbyte)(a | b);
-
-
             }
             return a;
         }
+        //Инвертирование массива
         static int[] Invert(int[] n) 
         { 
             for (int i = 0; i<8; i++)

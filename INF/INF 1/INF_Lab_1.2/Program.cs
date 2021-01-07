@@ -53,8 +53,6 @@ namespace INF_Lab_1._2
                 a = (sbyte)(a << 1);
                 sbyte b = (sbyte)n[7-i]; 
                 a = (sbyte)(a | b);
-                
-
             }
             return a;
         }
