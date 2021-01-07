@@ -16,11 +16,11 @@ namespace Lab1._5
             int a = int.Parse(Console.ReadLine());
             if (IsPrime(a) == true)
             {
-                Console.WriteLine("Это простое число");
+                Console.WriteLine("Это простое число!");
             }
             else
             {
-                Console.WriteLine("Это не простое число");
+                Console.WriteLine("Это не простое число!");
             }
             for (int i = 0; i <= a; i++)
             {
@@ -35,17 +35,17 @@ namespace Lab1._5
 
         public static bool IsPrime(int number)
         {
-            if (number <= 1) return false;
-            if (number == 2) return true;
-            if (number % 2 == 0) return false;
+            if (number <= 1) return false; //Отбрасываем 0 и 1
+            if (number == 2) return true; // 2 - это простое число
+            if (number % 2 == 0) return false; // Чётное = простое
 
-            var a = (int)Math.Sqrt(number);
+            var a = (int)Math.Sqrt(number); //Находим корень из числа. Идти нужно до корня так как дальше мы будем получать второй множетель числа
 
-            for (int i = 3; i <= a; i += 2)
+            for (int i = 3; i <= a; i += 2)//Шаг через 2, нужны только нечётные
                 if (number % i == 0)
-                    return false;
+                    return false; //Если делиться значит не простое
 
-            return true;
+            return true;//все остальные простые
         }
     }
 }

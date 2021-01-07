@@ -18,7 +18,7 @@ namespace Lab1._4
             int max = int.Parse(Console.ReadLine());
             if (max <= min)
             {
-                Console.WriteLine("Введите большее значение");
+                Console.WriteLine("Введите число побольше 😊");
                 max = int.Parse(Console.ReadLine());
             }
             int[,] numbers = new int[5, 5];
