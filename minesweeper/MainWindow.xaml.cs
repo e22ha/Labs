@@ -54,7 +54,7 @@ namespace minesweeper
 
         Button[,] btns;
         public int[,] f;
-
+        int[,] markField;
         System.Windows.Threading.DispatcherTimer Timer;
         int tick, res, sec, min;
 
@@ -183,18 +183,17 @@ namespace minesweeper
 
                 StackPanel stackPnl1 = new StackPanel();
 
-                stackPnl1.Children.Add(mrk);
-
-                if (((Button)sender).Content != null)
+                if (markField[(int)((Button)sender).Tag / n, (int)((Button)sender).Tag % n] != 1)
                 {
-                    m -= 1;
-                    cnt.Content = m;
+                    markField[(int)((Button)sender).Tag / n, (int)((Button)sender).Tag % n] = 1;
+                    stackPnl1.Children.Add(mrk);
                     ((Button)sender).Content = stackPnl1;
                 }
-                else
+                else if (markField[(int)((Button)sender).Tag / n, (int)((Button)sender).Tag % n] == 1)
                 {
-                    m += 1;
-                    cnt.Content = m;
+                    markField[(int)((Button)sender).Tag / n, (int)((Button)sender).Tag % n] = 0;
+                    stackPnl1.Children.Add(cell);
+                    ((Button)sender).Content = stackPnl1;
                 }
             }
         }
@@ -205,6 +204,8 @@ namespace minesweeper
             tim.Content = 0;
 
             int[,] f = logicField.generateField(n, _mine);
+
+            markField = new int[n, n];
 
             btns = new Button[n, n];
 
@@ -247,122 +248,121 @@ namespace minesweeper
 
             int i = (int)((Button)sender).Tag / n;
             int j = (int)((Button)sender).Tag % n;
-
-            if (f[i, j] == 0)
+            if (markField[(int)((Button)sender).Tag / n, (int)((Button)sender).Tag % n] != 1)
             {
-                op.Source = oplate;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
+                if (f[i, j] == 0)
+                {
+                    op.Source = oplate;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
 
-                count -= 1;
+                    count -= 1;
 
-                ((Button)sender).IsEnabled = false;
+                    ((Button)sender).IsEnabled = false;
 
-                try { if (btns[j - 1, i - 1].IsEnabled == true) { Right_Click(btns[j - 1, i - 1], e); } } catch (IndexOutOfRangeException) { }
-                try { if (btns[j - 1, i].IsEnabled == true) { Right_Click(btns[j - 1, i], e); } } catch (IndexOutOfRangeException) { }
-                try { if (btns[j - 1, i + 1].IsEnabled == true) { Right_Click(btns[j - 1, i + 1], e); } } catch (IndexOutOfRangeException) { }
-                try { if (btns[j, i - 1].IsEnabled == true) { Right_Click(btns[j, i - 1], e); } } catch (IndexOutOfRangeException) { }
-                try { if (btns[j, i + 1].IsEnabled == true) { Right_Click(btns[j, i + 1], e); } } catch (IndexOutOfRangeException) { }
-                try { if (btns[j + 1, i - 1].IsEnabled == true) { Right_Click(btns[j + 1, i - 1], e); } } catch (IndexOutOfRangeException) { }
-                try { if (btns[j + 1, i].IsEnabled == true) { Right_Click(btns[j + 1, i], e); } } catch (IndexOutOfRangeException) { }
-                try { if (btns[j + 1, i + 1].IsEnabled == true) { Right_Click(btns[j + 1, i + 1], e); } } catch (IndexOutOfRangeException) { }
-            }
-            if (f[i, j] == 9)
-            {
-                op.Source = mine;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
+                    try { if (btns[j - 1, i - 1].IsEnabled == true) { Right_Click(btns[j - 1, i - 1], e); } } catch (IndexOutOfRangeException) { }
+                    try { if (btns[j - 1, i].IsEnabled == true) { Right_Click(btns[j - 1, i], e); } } catch (IndexOutOfRangeException) { }
+                    try { if (btns[j - 1, i + 1].IsEnabled == true) { Right_Click(btns[j - 1, i + 1], e); } } catch (IndexOutOfRangeException) { }
+                    try { if (btns[j, i - 1].IsEnabled == true) { Right_Click(btns[j, i - 1], e); } } catch (IndexOutOfRangeException) { }
+                    try { if (btns[j, i + 1].IsEnabled == true) { Right_Click(btns[j, i + 1], e); } } catch (IndexOutOfRangeException) { }
+                    try { if (btns[j + 1, i - 1].IsEnabled == true) { Right_Click(btns[j + 1, i - 1], e); } } catch (IndexOutOfRangeException) { }
+                    try { if (btns[j + 1, i].IsEnabled == true) { Right_Click(btns[j + 1, i], e); } } catch (IndexOutOfRangeException) { }
+                    try { if (btns[j + 1, i + 1].IsEnabled == true) { Right_Click(btns[j + 1, i + 1], e); } } catch (IndexOutOfRangeException) { }
+                }
+                if (f[i, j] == 9)
+                {
+                    op.Source = mine;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+
+                    ((Button)sender).Content = stackPnl1;
+                    ((Button)sender).IsEnabled = false;
+
+                    _mine -= 1;
+                    if (_mine == 0)
+                    {
+                        MessageBox.Show("You lose :(");
+                        _mine = cnt_of_mine;
+                        Timer.Stop();
+                        clear();
+                    }
+                    foreach (Button b in btns)
+                    {
+                        int a = (int)b.Tag / n;
+                        int c = (int)b.Tag % n;
+
+                        if ((b.IsEnabled == true) & (f[a, c] == 9))
+                        {
+                            Right_Click(b, e);
+                        }
+                    }
+
+                }
+                if (f[i, j] == 1)
+                {
+                    op.Source = one;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+
+                    count -= 1;
+                }
+                if (f[i, j] == 2)
+                {
+                    op.Source = two;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+
+                    count -= 1;
+                }
+                if (f[i, j] == 3)
+                {
+                    op.Source = three;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+
+                    count -= 1;
+                }
+                if (f[i, j] == 4)
+                {
+                    op.Source = four;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+
+                    count -= 1;
+                }
+                if (f[i, j] == 5)
+                {
+                    op.Source = five;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+
+                    count -= 1;
+                }
+                if (f[i, j] == 6)
+                {
+                    op.Source = six;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+
+                    count -= 1;
+                }
+                if (f[i, j] == 7)
+                {
+                    op.Source = seven;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+
+                    count -= 1;
+                }
+                if (f[i, j] == 8)
+                {
+                    op.Source = eight;//пркрепление картинки
+                    stackPnl1.Children.Add(op);//добавить на кнопку
+
+                    count -= 1;
+                }
 
                 ((Button)sender).Content = stackPnl1;
                 ((Button)sender).IsEnabled = false;
 
-                _mine -= 1;
-
-                if (_mine == 0)
+                if (count == 0)
                 {
-                    MessageBox.Show("You lose :(");
-
-                    _mine = cnt_of_mine;
-
+                    MessageBox.Show("You win!");
                     Timer.Stop();
                     clear();
+                    f = NewGame(n, _mine);
                 }
-
-                foreach (Button b in btns)
-                {
-                    int a = (int)b.Tag / n;
-                    int c = (int)b.Tag % n;
-
-                    if ((b.IsEnabled == true) & (f[a,c] == 9))
-                    {
-                        Right_Click(b, e);
-                    }
-                }
-            }
-            if (f[i, j] == 1)
-            {
-                op.Source = one;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-
-                count -= 1;
-            }
-            if (f[i, j] == 2)
-            {
-                op.Source = two;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-
-                count -= 1;
-            }
-            if (f[i, j] == 3)
-            {
-                op.Source = three;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-
-                count -= 1;
-            }
-            if (f[i, j] == 4)
-            {
-                op.Source = four;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-
-                count -= 1;
-            }
-            if (f[i, j] == 5)
-            {
-                op.Source = five;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-
-                count -= 1;
-            }
-            if (f[i, j] == 6)
-            {
-                op.Source = six;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-
-                count -= 1;
-            }
-            if (f[i, j] == 7)
-            {
-                op.Source = seven;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-
-                count -= 1;
-            }
-            if (f[i, j] == 8)
-            {
-                op.Source = eight;//пркрепление картинки
-                stackPnl1.Children.Add(op);//добавить на кнопку
-
-                count -= 1;
-            }
-
-            ((Button)sender).Content = stackPnl1;
-            ((Button)sender).IsEnabled = false;
-
-            if (count == 0)
-            {
-                MessageBox.Show("You win!");
-                Timer.Stop();
-                clear();
-                f = NewGame(n, _mine);
             }
         }
     }
