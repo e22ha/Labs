@@ -30,3 +30,5 @@ D:\Code\lab-minesweeper\minesweeper\obj\Debug\minesweeper.exe
 D:\Code\lab-minesweeper\minesweeper\obj\Debug\minesweeper.pdb
 D:\Code\lab-minesweeper\minesweeper\obj\Debug\Window1.g.cs
 D:\Code\lab-minesweeper\minesweeper\obj\Debug\Window1.baml
+C:\Users\Глеб\source\repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\Window1.g.cs
+C:\Users\Глеб\source\repos\SergeyTy\lab-minesweeper\minesweeper\obj\Debug\Window1.baml

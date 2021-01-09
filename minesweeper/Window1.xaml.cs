@@ -30,15 +30,15 @@ namespace minesweeper
             System.IO.StreamReader file = new System.IO.StreamReader(fullPath);
             while ((line = file.ReadLine()) != null)
             {
-                string name = line;
+                string _name = line;
                 if ((line = file.ReadLine()) == null) break;
-                int sec = int.Parse(line);
+                int _sec = int.Parse(line);
                 if ((line = file.ReadLine()) == null) break;
-                string mode = line;
+                string _mode = line;
 
-                records.Add(name + "/" + sec + "/" + mode);
+                records.Add(_name + "/" + _sec + "/" + _mode);
 
-                rlist.Items.Add(name + "/" + sec + "/" + mode);
+                rlist.Items.Add(_name + "/" + _sec + "/" + _mode);
             }
 
             file.Close();
@@ -82,8 +82,30 @@ namespace minesweeper
 
                 }
             }
+
             outputFile.Close();
             this.Close();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (mode.Content.ToString() == "0")
+            {
+                mode.Content = "Beginer";
+            }
+            else if (mode.Content.ToString() == "1")
+            {
+                mode.Content = "Medium";
+            }
+            else if (mode.Content.ToString() == "2")
+            {
+                mode.Content = "Expert";
+            }
+
+            records.Add(name.Text + "/" + seconds.Content.ToString() + "/" + mode.Content.ToString());
+            rlist.Items.Add(name.Text + "/" + seconds.Content.ToString() + "/" + mode.Content.ToString());
+
+            ((Button)sender).IsEnabled = false;
         }
     }
 }

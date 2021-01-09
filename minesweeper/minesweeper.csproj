@@ -141,5 +141,9 @@
   <ItemGroup>
     <Resource Include="Images\фон_победителя.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\defolt_exit.jpg" />
+    <Resource Include="Images\exit.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
