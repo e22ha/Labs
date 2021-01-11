@@ -257,14 +257,59 @@ namespace BinCalc
             int[] res = new int[8];
             int[] copyA = new int[8];
             int[] copyB = new int[8];
-
+            int[] one = new int[8] { 0, 0, 0, 0, 0, 0, 0, 1 };
             A.CopyTo(copyA, 0);
-
-            while (isNotLil(copyA, B) == true)
+            if (A[0] == 0 & B[0] == 0)
             {
-                B.CopyTo(copyB, 0);
-                copyA = sum(copyA, addOne(invert(copyB), 7));
+                while (isNotLil(copyA, B) == true)
+                {
+                    B.CopyTo(copyB, 0);
+                    copyA = sum(copyA, addOne(invert(copyB), 7));
+                    addOne(res, 7);
+                }
+            }
+            else if ((A[0] == 1) & (B[0] == 0))
+            {
+                copyA = sum(copyA, addOne(invert(one), 7));
+                invert(copyA);
+                while (isNotLil(copyA, B) == true)
+                {
+                    B.CopyTo(copyB, 0);
+                    copyA = sum(copyA, addOne(invert(copyB), 7));
+                    addOne(res, 7);
+                }
+                invert(res);
                 addOne(res, 7);
+            }
+            else if ((A[0] == 0) & (B[0] == 1))
+            {
+                B = sum(B, addOne(invert(one), 7));
+                invert(B);
+                while (isNotLil(copyA, B) == true)
+                {
+                    B.CopyTo(copyB, 0);
+                    copyA = sum(copyA, addOne(invert(copyB), 7));
+                    addOne(res, 7);
+                }
+                invert(res);
+                addOne(res, 7);
+            }
+            else if ((A[0] == 1) & (B[0] == 1))
+            {
+                copyA = sum(copyA, addOne(invert(one), 7));
+                invert(copyA);
+                B = sum(B, addOne(invert(one), 7));
+                invert(B);
+                while (isNotLil(copyA, B) == true)
+                {
+                    B.CopyTo(copyB, 0);
+                    copyA = sum(copyA, addOne(invert(copyB), 7));
+                    addOne(res, 7);
+                }
+            }
+            else
+            {
+
             }
             //if (indA < indB)
             //{
