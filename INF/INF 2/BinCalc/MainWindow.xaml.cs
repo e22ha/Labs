@@ -54,7 +54,7 @@ namespace BinCalc
             sbyte s = 0;
             for (int i = 0; i < 8; i++)
             {
-                s += (sbyte)((1<<i)*mas[7-i]);
+                s += (sbyte)((1 << i) * mas[7 - i]);
             }
             return s;
         }
@@ -64,45 +64,45 @@ namespace BinCalc
             int[] mas = new int[8];
             for (int i = 0; i < 8; i++)
             {
-                mas[i] = (n >> (7-i)) & 1;
+                mas[i] = (n >> (7 - i)) & 1;
             }
             return mas;
         }
 
         private void Btn_Click_A(object sender, RoutedEventArgs e)
         {
-            if (A[(int)((Button)sender).Tag]== 0)
+            if (A[(int)((Button)sender).Tag] == 0)
             {
                 A[(int)((Button)sender).Tag] = 1;
                 ((Button)sender).Content = "1";
-                
+
             }
             else
             {
                 A[(int)((Button)sender).Tag] = 0;
                 ((Button)sender).Content = "0";
-                
+
             }
             txA.Text = binToDec(A).ToString();
-            
+
         }
-        
+
         private void Btn_Click_B(object sender, RoutedEventArgs e)
         {
-            if (B[(int)((Button)sender).Tag]== 0)
+            if (B[(int)((Button)sender).Tag] == 0)
             {
                 B[(int)((Button)sender).Tag] = 1;
                 ((Button)sender).Content = "1";
-                
+
             }
             else
             {
                 B[(int)((Button)sender).Tag] = 0;
                 ((Button)sender).Content = "0";
-                
+
             }
             txB.Text = binToDec(B).ToString();
-            
+
         }
 
         private void txA_TextChanged(object sender, TextChangedEventArgs e)
@@ -137,7 +137,7 @@ namespace BinCalc
             int[] copyB = new int[8];
             A.CopyTo(copyA, 0);
             B.CopyTo(copyB, 0);
-            
+
             int[] c = sum(copyA, copyB);
             string s = "";
             for (int i = 0; i < 8; i++)
@@ -186,7 +186,7 @@ namespace BinCalc
             A.CopyTo(copyA, 0);
             B.CopyTo(copyB, 0);
             copyB = invert(copyB);
-            addOne(copyB,7);
+            addOne(copyB, 7);
             int[] c = sum(copyA, copyB);
             string s = "";
             for (int i = 0; i < 8; i++)
@@ -221,17 +221,17 @@ namespace BinCalc
             B.CopyTo(copyB, 0);
 
             int[] res = new int[8]; ; //sbyteToBin((sbyte)(binToDec(A)*binToDec(B)));
-            
+
             for (int i = 7; i >= 0; i--)
             {
                 if (copyB[i] == 1)
                 {
-                    res = sum(res,copyA);
+                    res = sum(res, copyA);
                 }
                 copyA = sdvig(copyA);
             }
 
-            
+
 
             string s = "";
             for (int i = 0; i < 8; i++)
@@ -239,7 +239,7 @@ namespace BinCalc
                 s += res[i].ToString();
             }
             result.Content = s;
-            
+
         }
 
         private int[] sdvig(int[] a)
@@ -254,59 +254,33 @@ namespace BinCalc
 
         private void div_Click(object sender, RoutedEventArgs e)
         {
-            int[] res = new int[8];//sbyteToBin((sbyte)(binToDec(A) / binToDec(B)));
+            int[] res = new int[8];
             int[] copyA = new int[8];
             int[] copyB = new int[8];
 
             A.CopyTo(copyA, 0);
-            B.CopyTo(copyB, 0);
-            int indA = 0;
-            
-            for (int i = 0; i < 8; i++)
+
+            while (isNotLil(copyA, B) == true)
             {
-                if(copyA[i] == 1)
-                {
-                    indA = i;
-                    break;
-                }
+                B.CopyTo(copyB, 0);
+                copyA = sum(copyA, addOne(invert(copyB), 7));
+                addOne(res, 7);
             }
-            
-            int indB = 0;
-            
-            for (int i = 0; i < 8; i++)
-            {
-                if(copyB[i] == 1)
-                {
-                    indB = i;
-                    break;
-                }
-            }
-
-
-            res = copyA;
-            int[]invB = invert(copyB);
-            addOne(invB, 7);
-            int[] O = new int[8];
-            for (int i = 7; i >=0; i++)
-            {
-                copyA = unsdvig(copyA, 1);
-
-                res = sdvig(res);
-
-                res[7] = copyA[7];
-
-
-            ///if ((res>=B)==true)//написать фнукцию сравнения массивов
-            ///{
-            ///    res = sum(res ,copyB);
-            ///    O[7 - i] = 1; 
-            ///}
-            ///else
-            ///{
-            ///    O[7 - i] = 0; 
-            ///}
-
-            }
+            //if (indA < indB)
+            //{
+            //    B.CopyTo(copyB, 0);
+            //    unsdvig(copyB, indB - indA - 1);
+            //    copyA = sum(copyA, addOne(invert(copyB), 7));
+            //    res = addOne(res, indB - indA - 1);
+            //}
+            //else if (indA == indB)
+            //{
+            //    res = addOne(res, 7);
+            //}
+            //else
+            //{
+            //    break;
+            //}
 
 
             string s = "";
@@ -317,12 +291,52 @@ namespace BinCalc
             result.Content = s;
         }
 
+        private bool isNotLil(int[] copyA, int[] b)
+        {
+            for (int i = 0; i < copyA.Length; i++)
+            {
+                if ((copyA[i] == 1) & b[i] == 0)
+                {
+                    return true;
+                }
+                else if (copyA[i] == b[i])
+                {
+                    if (i == copyA.Length - 1) return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        int index(int[] mas)
+        {
+            int ind = 0;
+
+            for (int i = 0; i < 8; i++)
+            {
+                if (mas[i] == 1)
+                {
+                    ind = i;
+                    break;
+                }
+            }
+
+
+            return ind;
+        }
+
         private int[] unsdvig(int[] n, int k)
         {
-            for (int i = 7-k; i >= 0; i--)
+            for (; k > 0; k--)
             {
-                n[i+k] = n[i];
-                n[i] = 0;
+                for (int i = 0; i < 7; i++)
+                {
+                    n[i] = n[i + 1];
+                }
+                n[7] = 0;
             }
 
             return n;
