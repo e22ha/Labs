@@ -5,9 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="316" Width="562">
     <Grid>
-        <TextBox x:Name="tb1" HorizontalAlignment="Left" Height="23" Margin="90,328,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" />
-        <TextBox x:Name="tb2" HorizontalAlignment="Left" Height="23" Margin="302,328,0,0" TextWrapping="Wrap" Text="Lstaff" VerticalAlignment="Top" Width="120" />
+        <Button x:Name="add_name" Content="Add" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="add_name_Click"/>
+        <DataGrid x:Name="dataView" HorizontalAlignment="Left" Height="212" Margin="292,65,0,0" VerticalAlignment="Top" Width="253" >
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="id_column" Header="id" Binding="{Binding id}"/>
+                <DataGridTextColumn x:Name="math_column" Header="Math" Binding="{Binding mark_math}"/>
+                <DataGridTextColumn x:Name="physics_column" Header="Physics" Binding="{Binding mark_physics}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="data_name" HorizontalAlignment="Left" Height="212" Margin="10,65,0,0" VerticalAlignment="Top" Width="152">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="id" Binding="{Binding id}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding name}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="add_mark" Content="Add" HorizontalAlignment="Left" Margin="214,10,0,0" VerticalAlignment="Top" Width="75" Click="add_mark_Click"/>
+        <TextBox x:Name="name" HorizontalAlignment="Left" Height="20" Margin="90,10,0,0" TextWrapping="Wrap" Text="Lstaff" VerticalAlignment="Top" Width="67" />
+        <TextBox x:Name="id" HorizontalAlignment="Left" Height="20" Margin="317,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="21" />
+        <TextBox x:Name="markMath" HorizontalAlignment="Left" Height="20" Margin="383,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="21" />
+        <TextBox x:Name="markPhysics" HorizontalAlignment="Left" Height="20" Margin="452,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="21" />
+        <Label Content="Physics" HorizontalAlignment="Left" Margin="404,7,0,0" VerticalAlignment="Top"/>
+        <Label Content="Math" HorizontalAlignment="Left" Margin="340,6,0,0" VerticalAlignment="Top" Height="24"/>
+        <Label Content="ID" HorizontalAlignment="Left" Margin="291,6,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.484,0.603" Height="25"/>
     </Grid>
 </Window>
