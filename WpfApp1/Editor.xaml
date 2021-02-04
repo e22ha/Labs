@@ -5,14 +5,118 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Editor" Height="279.375" Width="421.25">
-    <Grid>
-        <Button x:Name="done" Content="Confirm" HorizontalAlignment="Left" Margin="53,176,0,0" VerticalAlignment="Top" Width="75" Click="done_Click"/>
-        <TextBox x:Name="id_tb" HorizontalAlignment="Left" Height="23" Margin="53,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
-        <TextBox x:Name="name_tb" HorizontalAlignment="Left" Height="23" Margin="142,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
-        <TextBox x:Name="math_tb" HorizontalAlignment="Left" Height="23" Margin="227,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
-        <TextBox x:Name="physics_tb" HorizontalAlignment="Left" Height="23" Margin="319,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
-        <Button x:Name="del" Content="Del" HorizontalAlignment="Left" Margin="270,176,0,0" VerticalAlignment="Top" Width="75" Click="del_Click"/>
+        Title="Editor" Height="200" Width="275" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#FF353535" BorderThickness="1" Icon="Source/Edit.ico">
+    <Window.Resources>
+        <Style x:Key="TB" TargetType="TextBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderBrush" Value="#FFA6A6A6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Grid x:Name="TBtn" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" SnapsToDevicePixels="true">
+                            <Border x:Name="BG" BorderThickness="1" CornerRadius="2" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"/>
+                            <ScrollViewer x:Name="PART_ContentHost" BorderThickness="0" Padding="{TemplateBinding Padding}" IsTabStop="False"
+                                          Background="{x:Null}" TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="#FF353535"/>
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="#FF3A93FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="165"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="ToolBar" Background="#353535" Grid.Row="0" MouseDown="ToolBar_MouseDown">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="184">
+                <Image Source="Source/Edit.ico" Margin="2,2,2,4"/>
+                <Label Content="Исправить" FontWeight="Medium" Foreground="White"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="25">
+                <Image x:Name="ExitButton" Height="20" Width="20" Margin="2" MouseDown="ExitButton_MouseDown">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="Source/defolt_exit.jpg"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding IsMouseOver, ElementName=ExitButton}" Value="True">
+                                    <Setter Property="Source" Value="Source/exit.jpg"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="Main" Background="Transparent" Grid.Row="1">
+            <Image x:Name="FixButton" Margin="55,94,55,35" MouseDown="done_Click" RenderOptions.BitmapScalingMode="HighQuality">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/fix_but_on.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=FixButton}" Value="True">
+                                <Setter Property="Source" Value="Source/fix_but_off.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+
+            <Image x:Name="DelButton" Margin="76,135,75,6" MouseDown="del_Click" RenderOptions.BitmapScalingMode="HighQuality">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/del_but_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=DelButton}" Value="True">
+                                <Setter Property="Source" Value="Source/del_but_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+
+            <TextBox x:Name="name_tb" HorizontalAlignment="Left" Height="26" Margin="61,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="123" Padding="5,0,0,0"
+                     Style="{StaticResource TB}"/>
+            <TextBlock IsHitTestVisible="False" FontSize="12" Text="Введите имя" Margin="88,16,116,127" HorizontalAlignment="Center" Foreground="#FFA4A4A4" Width="69">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=name_tb}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBox x:Name="id_tb" HorizontalAlignment="Left" Height="26" Margin="218,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" HorizontalContentAlignment="Center"
+                     Style="{StaticResource TB}"/>
+            <TextBox x:Name="math_tb" HorizontalAlignment="Left" Height="26" Margin="115,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="26" HorizontalContentAlignment="Center"
+                     Style="{StaticResource TB}"/>
+            <TextBox x:Name="physics_tb" HorizontalAlignment="Left" Height="26" Margin="227,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="26" HorizontalContentAlignment="Center"
+                     Style="{StaticResource TB}"/>
+
+            <Label Content="ФИО:" FontWeight="Medium" FontSize="16" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+            <Label Content="Физика:" FontSize="16" HorizontalAlignment="Left" Margin="160,46,0,0" VerticalAlignment="Top"/>
+            <Label Content="Математика:" FontSize="16" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="105" />
+            <Label Content="ID:" FontSize="16" HorizontalAlignment="Left" Margin="189,10,0,0" VerticalAlignment="Top"/>
+        </Grid>
     </Grid>
 </Window>

@@ -20,14 +20,14 @@ namespace WpfApp1
     /// </summary>
     public partial class Editor : Window
     {
-        public SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=D:\\Code\\LABs_2\\WpfApp1\\dataBase.sqlite;Version=3;");
+        public SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=C:\\Users\\Глеб\\Source\\Repos\\SergeyTy\\LABs_2\\WpfApp1\\dataBase.sqlite;Version=3;");
 
         public Editor()
         {
             InitializeComponent();
         }
 
-        private void done_Click(object sender, RoutedEventArgs e)
+        private void done_Click(object sender, MouseButtonEventArgs e)
         {
             m_dbConnection.Open();
             int ind = int.Parse(id_tb.Text);
@@ -46,7 +46,7 @@ namespace WpfApp1
             this.Close();
         }
 
-        private void del_Click(object sender, RoutedEventArgs e)
+        private void del_Click(object sender, MouseButtonEventArgs e)
         {
             m_dbConnection.Open();
             string sql = "DELETE FROM id_name WHERE id = " + id_tb.Text + " ";
@@ -60,6 +60,20 @@ namespace WpfApp1
 
             m_dbConnection.Close();
             this.DialogResult = true;
+            this.Close();
+        }
+
+        private void ToolBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DialogResult = false;
             this.Close();
         }
     }

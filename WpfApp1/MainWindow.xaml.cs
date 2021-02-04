@@ -21,7 +21,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        public SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=D:\\Code\\LABs_2\\WpfApp1\\dataBase.sqlite;Version=3;");
+        public SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=C:\\Users\\Глеб\\Source\\Repos\\SergeyTy\\LABs_2\\WpfApp1\\dataBase.sqlite;Version=3;");
 
         public MainWindow()
         {
@@ -68,6 +68,7 @@ namespace WpfApp1
                     data_name_udate(m_dbConnection);
                     data_mark_udate(m_dbConnection);
                 }
+                
                 m_dbConnection.Close();
             }
         }
@@ -105,11 +106,12 @@ namespace WpfApp1
                     data_name_udate(m_dbConnection);
                     data_mark_udate(m_dbConnection);
                 }
+                
                 m_dbConnection.Close();
             }
         }
 
-        private void add_stud_Click(object sender, RoutedEventArgs e)
+        private void add_stud_Click(object sender, MouseButtonEventArgs e)
         {
             //открытие соединения с базой данных
             m_dbConnection.Open();
@@ -187,7 +189,25 @@ namespace WpfApp1
                 dataView.Items.Add(data);
             }
         }
-        
+
+        private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MinButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void ToolBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
         //bool exist(int ind)
         //{
         //    int id_of_data = -1;
@@ -205,7 +225,7 @@ namespace WpfApp1
 
         //    return false;
         //}
-        
+
         //int ind(SQLiteConnection m_dbConnection)
         //{
         //    int index = 0;
