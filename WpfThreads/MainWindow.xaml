@@ -5,11 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfThreads"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="335">
+        Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="start_server" Content="START SERVER" HorizontalAlignment="Left" Margin="10,388,0,0" VerticalAlignment="Top" Width="90" Click="start_server_Click"/>
-        <ListBox x:Name="log" HorizontalAlignment="Left" Height="373" Margin="10,10,0,0" VerticalAlignment="Top" Width="307"/>
-        <Button x:Name="stop_server" Content="STOP SERVER" HorizontalAlignment="Left" Margin="227,388,0,0" VerticalAlignment="Top" Width="90" Click="stop_server_Click"/>
-
+        
     </Grid>
 </Window>
