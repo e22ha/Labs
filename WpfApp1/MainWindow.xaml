@@ -8,7 +8,7 @@
         Title="MainWindow" Height="316" Width="562">
     <Grid>
         <Button x:Name="add_name" Content="Add" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="add_stud_Click"/>
-        <DataGrid x:Name="dataView" HorizontalAlignment="Left" Height="212" Margin="292,65,0,0" VerticalAlignment="Top" Width="253" >
+        <DataGrid x:Name="dataView" HorizontalAlignment="Left" Height="212" Margin="292,65,0,0" VerticalAlignment="Top" Width="253" SelectionChanged="data_mark_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="id_column" Header="id" Binding="{Binding id}"/>
                 <DataGridTextColumn x:Name="math_column" Header="Math" Binding="{Binding mark_math}"/>
