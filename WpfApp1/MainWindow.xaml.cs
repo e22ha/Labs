@@ -27,15 +27,20 @@ namespace WpfApp1
             InitializeComponent();
         }
 
-        private void add_name_Click(object sender, RoutedEventArgs e)
+        private void add_stud_Click(object sender, RoutedEventArgs e)
         {
             //открытие соединения с базой данных
             m_dbConnection.Open();
             //выполнение запросов
             //формирование запроса на добавление данных в поля типа INTEGER и TEXT
             //обратите внимание, что в текстовое поле, данные добавляются в формате ‘data’
-            string sql = "INSERT INTO id_name (id, fio) VALUES (" + ind(m_dbConnection) + ",'" + name.Text + "')";
+            string sql = "INSERT INTO id_name (id, fio) VALUES (" + id.Text + ",'" + name.Text + "')";
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+            string sql1 = "INSERT INTO id_mark (id, mark_math, mark_physics) VALUES (" + id.Text + ",'" + markPhysics.Text + "','" + markMath.Text + "')";
+            SQLiteCommand command1 = new SQLiteCommand(sql1, m_dbConnection);
+            //извлечение запроса
+            command1.ExecuteNonQuery();
+            data_mark_udate(m_dbConnection);
             //извлечение запроса
             command.ExecuteNonQuery();
             data_name_udate(m_dbConnection);
@@ -73,42 +78,27 @@ namespace WpfApp1
             }
         }
 
-        private void add_mark_Click(object sender, RoutedEventArgs e)
-        {
-            //открытие соединения с базой данных
-            m_dbConnection.Open();
-            //выполнение запросов
-            //формирование запроса на добавление данных в поля типа INTEGER и TEXT
-            //обратите внимание, что в текстовое поле, данные добавляются в формате ‘data’
-            string sql = "INSERT INTO id_mark (id, mark_math, mark_physics) VALUES (" + id.Text + ",'" +  markPhysics.Text + "','"+ markMath.Text + "')";
-            SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
-            //извлечение запроса
-            command.ExecuteNonQuery();
-            data_mark_udate(m_dbConnection);
-            //закрытие соединения с базой данных
-            m_dbConnection.Close();
-        }
         void data_mark_udate(SQLiteConnection m_dbConnection)
         {
             dataView.Items.Clear();
-            if (exist(int.Parse(id.Text)) == false)
+
+
+            string sql = "SELECT * FROM id_mark ORDER BY id";
+            SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+            SQLiteDataReader reader = command.ExecuteReader();
+            while (reader.Read())
             {
-                string sql = "SELECT * FROM id_name ORDER BY id";
-                SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
-                SQLiteDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+                //создание строки
+                var data = new Cmark
                 {
-                    //создание строки
-                    var data = new Cmark
-                    {
-                        id = int.Parse(reader[0].ToString()),
-                        mark_math = reader[1].ToString(),
-                        mark_physics = reader[2].ToString()
-                    };
-                    //добавление строки в DataGrid
-                    dataView.Items.Add(data);
-                }
+                    id = int.Parse(reader[0].ToString()),
+                    mark_math = reader[1].ToString(),
+                    mark_physics = reader[2].ToString()
+                };
+                //добавление строки в DataGrid
+                dataView.Items.Add(data);
             }
+
 
         }
         bool exist(int ind)
@@ -125,7 +115,7 @@ namespace WpfApp1
                     return true;
                 }
             }
-            
+
             return false;
         }
         int ind(SQLiteConnection m_dbConnection)
