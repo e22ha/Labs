@@ -1,0 +1,18 @@
+﻿<Window x:Class="WpfApp1.Editor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Editor" Height="279.375" Width="421.25">
+    <Grid>
+        <Button x:Name="done" Content="Confirm" HorizontalAlignment="Left" Margin="53,176,0,0" VerticalAlignment="Top" Width="75" Click="done_Click"/>
+        <TextBox x:Name="id_tb" HorizontalAlignment="Left" Height="23" Margin="53,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
+        <TextBox x:Name="name_tb" HorizontalAlignment="Left" Height="23" Margin="142,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
+        <TextBox x:Name="math_tb" HorizontalAlignment="Left" Height="23" Margin="227,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
+        <TextBox x:Name="physics_tb" HorizontalAlignment="Left" Height="23" Margin="319,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60"/>
+        <Button x:Name="del" Content="Del" HorizontalAlignment="Left" Margin="270,176,0,0" VerticalAlignment="Top" Width="75" Click="del_Click"/>
+
+    </Grid>
+</Window>

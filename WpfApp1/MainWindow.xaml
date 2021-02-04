@@ -15,7 +15,7 @@
                 <DataGridTextColumn x:Name="physics_column" Header="Physics" Binding="{Binding mark_physics}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="data_name" HorizontalAlignment="Left" Height="212" Margin="10,65,0,0" VerticalAlignment="Top" Width="152">
+        <DataGrid x:Name="data_name" HorizontalAlignment="Left" Height="212" Margin="10,65,0,0" VerticalAlignment="Top" Width="152" SelectionChanged="data_name_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="id" Binding="{Binding id}"/>
                 <DataGridTextColumn Header="Name" Binding="{Binding name}"/>

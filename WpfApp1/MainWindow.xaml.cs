@@ -21,12 +21,53 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=D:\\Code\\LABs_2\\WpfApp1\\dataBase.sqlite;Version=3;");
+        public SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=D:\\Code\\LABs_2\\WpfApp1\\dataBase.sqlite;Version=3;");
         public MainWindow()
         {
             InitializeComponent();
+            m_dbConnection.Open();
+            data_name_udate(m_dbConnection);
+            data_mark_udate(m_dbConnection);
+            m_dbConnection.Close();
         }
+        private void data_name_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (data_name.SelectedItem != null)
+            {
 
+                //получение строки из DataGrid
+                Cname test = (Cname)data_name.SelectedItem;
+                Editor edit = new Editor();
+                edit.id_tb.Text = test.id.ToString();
+                edit.name_tb.Text = test.name.ToString();
+
+                //
+                m_dbConnection.Open();
+                string mark_math = "";
+                string mark_physics = "";
+                string sql = "SELECT * FROM id_mark ORDER BY id";
+                SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (int.Parse(reader[0].ToString()) == int.Parse(test.id.ToString()))
+                    {
+                        mark_math = reader[1].ToString();
+                        mark_physics = reader[2].ToString();
+                    }
+                }
+                edit.math_tb.Text = mark_math;
+                edit.physics_tb.Text = mark_physics;
+
+                edit.ShowDialog();
+                if (edit.DialogResult == true)
+                {
+                    data_name_udate(m_dbConnection);
+                    data_mark_udate(m_dbConnection);
+                }
+                m_dbConnection.Close();
+            }
+        }
         private void add_stud_Click(object sender, RoutedEventArgs e)
         {
             //открытие соединения с базой данных
@@ -60,6 +101,7 @@ namespace WpfApp1
         }
         void data_name_udate(SQLiteConnection m_dbConnection)
         {
+            data_name.SelectedItem = null;
             data_name.Items.Clear();
 
             string sql = "SELECT * FROM id_name ORDER BY id";
@@ -80,9 +122,8 @@ namespace WpfApp1
 
         void data_mark_udate(SQLiteConnection m_dbConnection)
         {
+            data_name.SelectedItem = null;
             dataView.Items.Clear();
-
-
             string sql = "SELECT * FROM id_mark ORDER BY id";
             SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
             SQLiteDataReader reader = command.ExecuteReader();
