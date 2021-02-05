@@ -106,7 +106,7 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            <TextBox x:Name="id_tb" HorizontalAlignment="Left" Height="26" Margin="218,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" HorizontalContentAlignment="Center"
+            <TextBox x:Name="id_tb" HorizontalAlignment="Left" Height="26" Margin="218,12,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="35" HorizontalContentAlignment="Center" IsEnabled="False"
                      Style="{StaticResource TB}"/>
             <TextBox x:Name="math_tb" HorizontalAlignment="Left" Height="26" Margin="115,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="26" HorizontalContentAlignment="Center"
                      Style="{StaticResource TB}"/>

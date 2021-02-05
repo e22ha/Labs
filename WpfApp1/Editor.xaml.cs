@@ -20,7 +20,7 @@ namespace WpfApp1
     /// </summary>
     public partial class Editor : Window
     {
-        public SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=C:\\Users\\Глеб\\Source\\Repos\\SergeyTy\\LABs_2\\WpfApp1\\dataBase.sqlite;Version=3;");
+        public SQLiteConnection m_dbConnection = new SQLiteConnection("Data Source=D:\\Code\\LABs_2\\WpfApp1\\dataBase.sqlite;Version=3;");
 
         public Editor()
         {
@@ -29,21 +29,28 @@ namespace WpfApp1
 
         private void done_Click(object sender, MouseButtonEventArgs e)
         {
-            m_dbConnection.Open();
-            int ind = int.Parse(id_tb.Text);
-            string name = name_tb.Text;
-            string sql = "UPDATE id_name SET fio = '" + name + "' WHERE id = " + id_tb.Text + " ";
-            SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
-            string sql1 = "UPDATE id_mark SET mark_physics = '" + physics_tb.Text + "', mark_math ='" + math_tb.Text + "' WHERE id = " + id_tb.Text + " ";
-            SQLiteCommand command1 = new SQLiteCommand(sql1, m_dbConnection);
+            if ((id_tb.Text == "") | (name_tb.Text == "") | (physics_tb.Text == "") | (math_tb.Text == ""))
+            {
+                MessageBox.Show("Заполните все поля (╯°□°）╯︵ ┻━┻", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                m_dbConnection.Open();
+                int ind = int.Parse(id_tb.Text);
+                string name = name_tb.Text;
+                string sql = "UPDATE id_name SET fio = '" + name + "' WHERE id = " + id_tb.Text + " ";
+                SQLiteCommand command = new SQLiteCommand(sql, m_dbConnection);
+                string sql1 = "UPDATE id_mark SET mark_physics = '" + physics_tb.Text + "', mark_math ='" + math_tb.Text + "' WHERE id = " + id_tb.Text + " ";
+                SQLiteCommand command1 = new SQLiteCommand(sql1, m_dbConnection);
 
-            //извлечение запроса
-            command.ExecuteNonQuery();
-            command1.ExecuteNonQuery();
+                //извлечение запроса
+                command.ExecuteNonQuery();
+                command1.ExecuteNonQuery();
 
-            m_dbConnection.Close();
-            this.DialogResult = true;
-            this.Close();
+                m_dbConnection.Close();
+                this.DialogResult = true;
+                this.Close();
+            }
         }
 
         private void del_Click(object sender, MouseButtonEventArgs e)
