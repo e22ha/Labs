@@ -91,17 +91,12 @@
                 </Image.Style>
             </Image>
 
-            <DataGrid x:Name="dataView" CanUserResizeColumns="False" CanUserResizeRows="False" FontSize="14" HorizontalAlignment="Left" Height="265" Margin="218,95,0,0" VerticalAlignment="Top" Width="150" SelectionChanged="data_mark_SelectionChanged">
-                <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="id_column" Header="id" Width="30" FontSize="14" Binding="{Binding id}"/>
-                    <DataGridTextColumn x:Name="math_column" Header="Math" Width="55" FontSize="14" Binding="{Binding mark_math}"/>
-                    <DataGridTextColumn x:Name="physics_column" Header="Physics" Width="55" Binding="{Binding mark_physics}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-            <DataGrid x:Name="data_name" CanUserResizeColumns="False" CanUserResizeRows="False" FontSize="14" HorizontalAlignment="Left" Height="265" Margin="10,95,0,0" VerticalAlignment="Top" Width="193" SelectionChanged="data_name_SelectionChanged">
+            <DataGrid x:Name="data_name" CanUserResizeColumns="False" CanUserResizeRows="False" FontSize="14" HorizontalAlignment="Left" Height="265" Margin="10,95,0,0" VerticalAlignment="Top" Width="357" SelectionChanged="data_name_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="id" FontSize="14" Width="30" Binding="{Binding id}"/>
-                    <DataGridTextColumn Header="Name" Width="155" FontSize="14" Binding="{Binding name}"/>
+                    <DataGridTextColumn Header="Name" Width="200" FontSize="14" Binding="{Binding fio}"/>
+                    <DataGridTextColumn x:Name="math_column" Header="Math" Width="55" FontSize="14" Binding="{Binding mark_math}"/>
+                    <DataGridTextColumn x:Name="physics_column" Header="Physics" Width="55" Binding="{Binding mark_physics}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
