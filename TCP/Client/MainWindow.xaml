@@ -1,0 +1,21 @@
+﻿<Window x:Class="Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="Client" Height="450" Width="396.167">
+    <Grid>
+        <ListBox x:Name="log_client" Height="340" Margin="10,27,106,0" VerticalAlignment="Top"/>
+        <Button x:Name="connect_btn" Content="Connect " HorizontalAlignment="Left" Margin="18,381,0,0" VerticalAlignment="Top" Width="75" Click="connect_btn_Click"/>
+        <Button x:Name="disconnect_btn" Content="Disconnect" HorizontalAlignment="Left" Margin="109,381,0,0" VerticalAlignment="Top" Width="75" Click="disconnect_btn_Click"/>
+        <Label Content="Log client:" HorizontalAlignment="Left" Height="27" Margin="10,0,0,0" VerticalAlignment="Top" Width="83"/>
+        <TextBox x:Name="name" HorizontalAlignment="Left" Height="19" Margin="297,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81"/>
+        <Label Content="Name" HorizontalAlignment="Left" Height="27" Margin="297,6,0,0" VerticalAlignment="Top" Width="83"/>
+        <Button x:Name="send_btn" Content="Send" HorizontalAlignment="Left" Margin="297,381,0,0" VerticalAlignment="Top" Width="75" Click="send_btn_Click"/>
+        <TextBox x:Name="msg" HorizontalAlignment="Left" Height="258" Margin="297,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81"/>
+        <Label Content="Message " HorizontalAlignment="Left" Height="27" Margin="295,72,0,0" VerticalAlignment="Top" Width="83"/>
+
+    </Grid>
+</Window>

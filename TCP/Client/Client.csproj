@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F434912E-3FB7-4513-8958-EBC6F982671B}</ProjectGuid>
+    <ProjectGuid>{634DFBD7-BD4D-4E9E-8C9E-7AD2CD9662BB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WpfThreads</RootNamespace>
-    <AssemblyName>WpfThreads</AssemblyName>
+    <RootNamespace>Client</RootNamespace>
+    <AssemblyName>Client</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
