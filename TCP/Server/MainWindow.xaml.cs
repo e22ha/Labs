@@ -29,6 +29,11 @@ namespace Server
         //объект, прослушивающий порт
         static TcpListener listener;
 
+
+
+        List<NetworkStream> users = new List<NetworkStream>();
+        List<TcpClient> clients = new List<TcpClient>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -39,16 +44,24 @@ namespace Server
         {
             Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Сервер запущен.")));
             //цикл подключения клиентов
-            while (true)
+            try
             {
-                //принятие запроса на подключение
-                TcpClient client = listener.AcceptTcpClient();
-                Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Новый клиент подключен.")));
+                while (true)
+                {
+                    //принятие запроса на подключение
+                    TcpClient client = listener.AcceptTcpClient();
 
-                //создание нового потока для обслуживания нового клиента
-                Thread clientThread = new Thread(() => Process(client));
-                clientThread.Start();
+                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Новый клиент подключен.")));
 
+                    //создание нового потока для обслуживания нового клиента
+                    Thread clientThread = new Thread(() => Process(client));
+                    clientThread.Start();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Dispatcher.BeginInvoke(new Action(() => log.Items.Add(ex.Message)));
             }
         }
 
@@ -62,8 +75,12 @@ namespace Server
             {
                 //получение потока для обмена сообщениями
                 stream = client.GetStream(); //получение канала связи с клиентом
-                                             // буфер для получаемых данных
-                byte[] data = new byte[64];
+
+                byte[] data = new byte[64];// буфер для получаемых данных
+
+                users.Add(stream);
+                clients.Add(client);
+
                 //цикл ожидания и отправки сообщений
                 while (true)
                 {
@@ -82,13 +99,20 @@ namespace Server
                     while (stream.DataAvailable);
                     //преобразование сообщения
                     string message = builder.ToString();
-                    //вывод сообщения в лог сервера
-                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
-                    //==========================отправка сообщения=============================
-                    //преобразование сообщения в набор байт
-                    data = Encoding.Unicode.GetBytes(message);
-                    //отправка сообщения обратно клиенту
-                    stream.Write(data, 0, data.Length);
+                    if (message == "/bye")
+                    {
+                        //отключение соеденения с клиентом
+                    }
+                    else
+                    {
+                        Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
+                        data = Encoding.Unicode.GetBytes(message);
+                        foreach (NetworkStream ns in users)
+                        {
+                            //отправка сообщения обратно клиенту
+                            ns.Write(data, 0, data.Length);
+                        }
+                    }
                 }
             }
             catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
@@ -105,7 +129,6 @@ namespace Server
             }
         }
 
-
         private void start_server_btn_Click(object sender, RoutedEventArgs e)
         {
             //создание объекта для отслеживания сообщений переданных с ip адреса через порт
@@ -116,13 +139,48 @@ namespace Server
             //создание нового потока для ожидания и подключения клиентов
             Thread listenThread = new Thread(() => listen());
             listenThread.Start();
-
-
         }
 
         private void stop_server_btn_Click(object sender, RoutedEventArgs e)
         {
+            send_msg("/close");
+            //тогда закрываем подключения и очищаем список
+            listener.Stop();
+            //clients.Clear();
+            //users.Clear();
+            //foreach (NetworkStream ns in users)
+            //{
+            //    ns.Close();
+            //}
+            //foreach (TcpClient tcpc in clients)
+            //{
+            //    tcpc.Close();
+            //}
 
+        }
+
+        void send_msg(string ms)
+        {
+
+            foreach (NetworkStream ns in users)
+            {
+
+                try
+                {
+                    byte[] data = new byte[64];// буфер для получаемых данных
+
+                    string message = ms;
+                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
+                    data = Encoding.Unicode.GetBytes(message);
+                    ns.Write(data, 0, data.Length);
+
+                }
+                catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
+                {
+                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add(ex.Message)));
+                }
+
+            }
         }
     }
 }

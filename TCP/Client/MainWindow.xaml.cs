@@ -50,7 +50,6 @@ namespace Client
             byte[] data = Encoding.Unicode.GetBytes(message);
             //отправка сообщения
             stream.Write(data, 0, data.Length);
-
         }
 
         private void connect_btn_Click(object sender, RoutedEventArgs e)
@@ -67,7 +66,6 @@ namespace Client
                 //создание нового потока для ожидания сообщения от сервера
                 Thread listenThread = new Thread(() => listen());
                 listenThread.Start();
-
             }
             catch (Exception ex)
             {
@@ -100,13 +98,21 @@ namespace Client
                     //получить строку
                     string message = builder.ToString();
                     //вывод сообщения в лог клиента
-                    Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Сервер: " + message)));
+                    if (message == "/close")
+                    {
+                        //тогад разрывем соеденение
+                    }
+                    else
+                    {
+                        Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
+                    }
                 }
             }
             catch (Exception ex)
             {
                 //вывести сообщение об ошибке
-                log_client.Items.Add(ex.Message);
+                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(ex.Message)));
+
             }
             finally
             {
@@ -118,6 +124,28 @@ namespace Client
 
         private void disconnect_btn_Click(object sender, RoutedEventArgs e)
         {
+            send_msg("/bye");
+        }
+
+        void send_msg(string ms)
+        {
+
+            try
+            {
+                stream = client.GetStream();
+                byte[] data = new byte[64];// буфер для получаемых данных
+
+                string message = ms;
+                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
+                data = Encoding.Unicode.GetBytes(message);
+                stream.Write(data, 0, data.Length);
+
+            }
+            catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
+            {
+                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(ex.Message)));
+            }
+
 
         }
     }

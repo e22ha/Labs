@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Server"
         mc:Ignorable="d"
-        Title="Server" Height="450" Width="316">
+        Title="Server" Height="450" Width="380.667">
     <Grid>
         <ListBox x:Name="log" Height="340" Margin="10,27,10,0" VerticalAlignment="Top"/>
         <Button x:Name="start_server_btn" Content="Start Server" HorizontalAlignment="Left" Margin="18,381,0,0" VerticalAlignment="Top" Width="75" Click="start_server_btn_Click"/>

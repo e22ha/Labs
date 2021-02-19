@@ -5,17 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Client" Height="450" Width="396.167">
+        Title="Client" Height="450" Width="440.223">
     <Grid>
-        <ListBox x:Name="log_client" Height="340" Margin="10,27,106,0" VerticalAlignment="Top"/>
-        <Button x:Name="connect_btn" Content="Connect " HorizontalAlignment="Left" Margin="18,381,0,0" VerticalAlignment="Top" Width="75" Click="connect_btn_Click"/>
-        <Button x:Name="disconnect_btn" Content="Disconnect" HorizontalAlignment="Left" Margin="109,381,0,0" VerticalAlignment="Top" Width="75" Click="disconnect_btn_Click"/>
-        <Label Content="Log client:" HorizontalAlignment="Left" Height="27" Margin="10,0,0,0" VerticalAlignment="Top" Width="83"/>
-        <TextBox x:Name="name" HorizontalAlignment="Left" Height="19" Margin="297,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81"/>
-        <Label Content="Name" HorizontalAlignment="Left" Height="27" Margin="297,6,0,0" VerticalAlignment="Top" Width="83"/>
-        <Button x:Name="send_btn" Content="Send" HorizontalAlignment="Left" Margin="297,381,0,0" VerticalAlignment="Top" Width="75" Click="send_btn_Click"/>
-        <TextBox x:Name="msg" HorizontalAlignment="Left" Height="258" Margin="297,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81"/>
-        <Label Content="Message " HorizontalAlignment="Left" Height="27" Margin="295,72,0,0" VerticalAlignment="Top" Width="83"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="41*"/>
+            <ColumnDefinition Width="153*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="log_client" Height="340" Margin="10,27,106,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Button x:Name="connect_btn" Content="Connect " HorizontalAlignment="Left" Margin="18,381,0,0" VerticalAlignment="Top" Width="75" Click="connect_btn_Click" Grid.ColumnSpan="2"/>
+        <Button x:Name="disconnect_btn" Content="Disconnect" HorizontalAlignment="Left" Margin="26.913,381,0,0" VerticalAlignment="Top" Width="75" Click="disconnect_btn_Click" Grid.Column="1"/>
+        <Label Content="Log client:" HorizontalAlignment="Left" Height="27" Margin="10,0,0,0" VerticalAlignment="Top" Width="83" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="name" HorizontalAlignment="Left" Height="19" Margin="248.667,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" Grid.Column="1"/>
+        <Label Content="Name" HorizontalAlignment="Left" Height="27" Margin="248.667,6,0,0" VerticalAlignment="Top" Width="83" Grid.Column="1"/>
+        <Button x:Name="send_btn" Content="Send" HorizontalAlignment="Left" Margin="214.913,381,0,0" VerticalAlignment="Top" Width="75" Click="send_btn_Click" Grid.Column="1"/>
+        <TextBox x:Name="msg" HorizontalAlignment="Left" Height="268" Margin="248.667,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="81" Grid.Column="1"/>
+        <Label Content="Message " HorizontalAlignment="Left" Height="27" Margin="246.667,72,0,0" VerticalAlignment="Top" Width="83" Grid.Column="1"/>
 
     </Grid>
 </Window>
