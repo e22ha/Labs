@@ -94,5 +94,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Source\red_exit_off.jpg" />
+    <Resource Include="Source\red_exit_on.jpg" />
+    <Resource Include="Source\red_min_off.jpg" />
+    <Resource Include="Source\red_min_on.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\server.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

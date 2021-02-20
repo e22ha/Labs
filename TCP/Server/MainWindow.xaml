@@ -5,12 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Server"
         mc:Ignorable="d"
-        Title="Server" Height="450" Width="380.667">
+        Title="Server" Height="450" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#E74856" BorderThickness="1" Icon="Source/server.ico">
     <Grid>
-        <ListBox x:Name="log" Height="340" Margin="10,27,10,0" VerticalAlignment="Top"/>
-        <Button x:Name="start_server_btn" Content="Start Server" HorizontalAlignment="Left" Margin="18,381,0,0" VerticalAlignment="Top" Width="75" Click="start_server_btn_Click"/>
-        <Button x:Name="stop_server_btn" Content="Stop Server" HorizontalAlignment="Left" Margin="207,381,0,0" VerticalAlignment="Top" Width="75" Click="stop_server_btn_Click"/>
-        <Label Content="Log" HorizontalAlignment="Left" Height="27" Margin="10,0,0,0" VerticalAlignment="Top" Width="83"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="415"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
 
+        <Grid x:Name="ToolBar" Background="#E74856" Grid.Row="0" MouseDown="ToolBar_MouseDown">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="184">
+                <Image Source="Source/server.ico" Margin="2,2,2,4"/>
+                <Label Content="Serever" FontWeight="Medium" Foreground="White"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="48">
+                <Image x:Name="MinButton" Height="20" Width="20" Margin="2" MouseDown="MinButton_MouseDown">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="Source/red_min_off.jpg"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding IsMouseOver, ElementName=MinButton}" Value="True">
+                                    <Setter Property="Source" Value="Source/red_min_on.jpg"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+                <Image x:Name="ExitButton" Height="20" Width="20" Margin="2" MouseDown="ExitButton_MouseDown">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="Source/red_exit_off.jpg"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding IsMouseOver, ElementName=ExitButton}" Value="True">
+                                    <Setter Property="Source" Value="Source/red_exit_on.jpg"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="Main" Background="Transparent" Grid.Row="1">
+            <ListBox x:Name="log" Height="334" Margin="10,32,10,0" VerticalAlignment="Top" FontSize="12"/>
+            <Button x:Name="start_server_btn" Content="Start Server" HorizontalAlignment="Left" Margin="10,381,0,0" VerticalAlignment="Top" Width="98" Click="start_server_btn_Click" Height="24"/>
+            <Button x:Name="stop_server_btn" Content="Stop Server" HorizontalAlignment="Left" Margin="290,381,0,0" VerticalAlignment="Top" Width="98" Click="stop_server_btn_Click" Height="24"/>
+            <Label Content="Serever log:" HorizontalAlignment="Left" FontWeight="Medium" FontSize="14" Height="32" Margin="10,0,0,0" VerticalAlignment="Top" Width="93"/>
+        </Grid>
     </Grid>
 </Window>
