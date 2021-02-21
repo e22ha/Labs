@@ -101,7 +101,22 @@ namespace Server
                     string message = builder.ToString();
                     if (message == "/bye")
                     {
-                        //отключение соеденения с клиентом
+                        foreach (NetworkStream ns in users)
+                        {
+                            if (ns == stream)
+                            {
+                                users.Remove(ns);
+                            }
+                        }
+                        foreach (TcpClient cl in clients)
+                        {
+                            if (cl == client)
+                            {
+                                clients.Remove(cl);
+                            }
+                        }
+                        stream.Close();
+                        client.Close();
                     }
                     else
                     {
@@ -146,16 +161,24 @@ namespace Server
             send_msg("/close");
             //тогда закрываем подключения и очищаем список
             listener.Stop();
-            //clients.Clear();
-            //users.Clear();
-            //foreach (NetworkStream ns in users)
-            //{
-            //    ns.Close();
-            //}
-            //foreach (TcpClient tcpc in clients)
-            //{
-            //    tcpc.Close();
-            //}
+            try
+            {
+                foreach (NetworkStream ns in users)
+                {
+                    ns.Close();
+                    users.Remove(ns);
+                }
+                foreach (TcpClient tcpc in clients)
+                {
+                    clients.Remove(tcpc);
+                    tcpc.Close();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Dispatcher.BeginInvoke(new Action(() => log.Items.Add(ex.Message)));
+            }
 
         }
 

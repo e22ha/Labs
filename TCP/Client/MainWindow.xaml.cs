@@ -100,7 +100,9 @@ namespace Client
                     //вывод сообщения в лог клиента
                     if (message == "/close")
                     {
-                        //тогад разрывем соеденение
+                        Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
+                        stream.Close();
+                        client.Close();
                     }
                     else
                     {
@@ -124,17 +126,19 @@ namespace Client
 
         private void disconnect_btn_Click(object sender, RoutedEventArgs e)
         {
+            Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Отключение...")));
             send_msg("/bye");
+            stream.Close();
+            client.Close();
+            Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Отключено")));
         }
 
         void send_msg(string ms)
         {
-
             try
             {
                 stream = client.GetStream();
                 byte[] data = new byte[64];// буфер для получаемых данных
-
                 string message = ms;
                 Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
                 data = Encoding.Unicode.GetBytes(message);
