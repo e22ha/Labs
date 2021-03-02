@@ -35,6 +35,9 @@ namespace Client
         //имя пользователя
         string username = "";
 
+        DateTime lastPing;
+        TimeSpan difDate = new TimeSpan(0, 0, 0, 0, 3100);
+
         public MainWindow()
         {
             InitializeComponent();
@@ -60,6 +63,7 @@ namespace Client
             {
                 //создание клиента
                 client = new TcpClient(address, port);
+                lastPing = DateTime.Now;
                 //получение канала для обмена сообщениями
                 stream = client.GetStream();
 
@@ -81,32 +85,47 @@ namespace Client
                 //цикл ожидания сообщениями
                 while (true)
                 {
-                    //буфер для получаемых данных
-                    byte[] data = new byte[64];
-                    //объект для построения смтрок
-                    StringBuilder builder = new StringBuilder();
-                    int bytes = 0;
-                    //до тех пор, пока есть данные в потоке
-                    do
+                    if ((DateTime.Now - lastPing) < difDate)
                     {
-                        //получение 64 байт
-                        bytes = stream.Read(data, 0, data.Length);
-                        //формирование строки
-                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                    }
-                    while (stream.DataAvailable);
-                    //получить строку
-                    string message = builder.ToString();
-                    //вывод сообщения в лог клиента
-                    if (message == "/close")
-                    {
-                        Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
-                        stream.Close();
-                        client.Close();
+                        //буфер для получаемых данных
+                        byte[] data = new byte[64];
+                        //объект для построения смтрок
+                        StringBuilder builder = new StringBuilder();
+                        int bytes = 0;
+                        //до тех пор, пока есть данные в потоке
+                        do
+                        {
+                            //получение 64 байт
+                            bytes = stream.Read(data, 0, data.Length);
+                            //формирование строки
+                            builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                        }
+                        while (stream.DataAvailable);
+                        //получить строку
+                        string message = builder.ToString();
+                        //вывод сообщения в лог клиента
+                        if (message == "/close")
+                        {
+                            Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
+                            stream.Close();
+                            client.Close();
+                            break;
+                        }
+                        else if (message == "/ping")
+                        {
+                            Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
+                            lastPing = DateTime.Now;
+                            send_msg("/pong");
+
+                        }
+                        else
+                        {
+                            Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
+                        }
                     }
                     else
                     {
-                        Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
+                        Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Сервер не отвечает более 3 секунд")));
                     }
                 }
             }
@@ -121,6 +140,7 @@ namespace Client
                 //закрыть канал связи и завершить работу клиента
                 stream.Close();
                 client.Close();
+                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("end")));
             }
         }
 
@@ -149,7 +169,6 @@ namespace Client
             {
                 Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(ex.Message)));
             }
-
 
         }
 

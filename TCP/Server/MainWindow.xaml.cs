@@ -1,20 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
+using System.Windows;
+using System.Windows.Input;
 
 
 namespace Server
@@ -28,11 +19,27 @@ namespace Server
         int port = 8888;
         //объект, прослушивающий порт
         static TcpListener listener;
+        TimeSpan difDate = new TimeSpan(0, 0, 0, 0, 3100);
 
+        bool ping = true;
 
+        struct User
+        {
+            public DateTime lastPong;
+            public TcpClient client;
+            public NetworkStream stream;
+            public bool availabel;
 
-        List<NetworkStream> users = new List<NetworkStream>();
-        List<TcpClient> clients = new List<TcpClient>();
+            public void set (bool st)
+            {
+                availabel = st;
+            }
+        }
+
+        List<User> Users = new List<User>();
+
+        //List<NetworkStream> users = new List<NetworkStream>();
+        //List<TcpClient> clients = new List<TcpClient>();
 
         public MainWindow()
         {
@@ -52,7 +59,6 @@ namespace Server
                     TcpClient client = listener.AcceptTcpClient();
 
                     Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Новый клиент подключен.")));
-
                     //создание нового потока для обслуживания нового клиента
                     Thread clientThread = new Thread(() => Process(client));
                     clientThread.Start();
@@ -78,57 +84,80 @@ namespace Server
 
                 byte[] data = new byte[64];// буфер для получаемых данных
 
-                users.Add(stream);
-                clients.Add(client);
+                User u;
+                u.client = client;
+                u.stream = stream;
+                u.lastPong = DateTime.Now;
+                u.availabel = true;
+
+
+                Users.Add(u);
 
                 //цикл ожидания и отправки сообщений
                 while (true)
                 {
-                    //==========================получение сообщения============================
-                    //объект, для формирования строк
-                    StringBuilder builder = new StringBuilder();
-                    int bytes = 0;
-                    //до тех пор, пока в потоке есть данные
-                    do
+                    if ((u.availabel == true) & ((DateTime.Now - u.lastPong) < difDate))
                     {
-                        //из потока считываются 64 байта и записываются в data начиная с 0
-                        bytes = stream.Read(data, 0, data.Length);
-                        //из считанных данных формируется строка
-                        builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                    }
-                    while (stream.DataAvailable);
-                    //преобразование сообщения
-                    string message = builder.ToString();
-                    if (message == "/bye")
-                    {
-                        foreach (NetworkStream ns in users)
+                        //==========================получение сообщения============================
+                        //объект, для формирования строк
+                        StringBuilder builder = new StringBuilder();
+                        int bytes = 0;
+                        //до тех пор, пока в потоке есть данные
+                        do
                         {
-                            if (ns == stream)
+                            //из потока считываются 64 байта и записываются в data начиная с 0
+                            bytes = stream.Read(data, 0, data.Length);
+                            //из считанных данных формируется строка
+                            builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                        }
+                        while (stream.DataAvailable);
+                        //преобразование сообщения
+                        string message = builder.ToString();
+                        if (message == "/bye")
+                        {
+                            Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
+
+                            foreach (User ur in Users)
                             {
-                                users.Remove(ns);
+                                if (ur.stream == stream)
+                                {
+                                    stream.Close();
+                                    client.Close();
+                                    u.availabel = false;
+                                }
                             }
                         }
-                        foreach (TcpClient cl in clients)
+                        else if (message == "/pong")
                         {
-                            if (cl == client)
+                            u.lastPong = DateTime.Now;
+                            Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
+
+                        }
+                        else
+                        {
+                            Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
+                            data = Encoding.Unicode.GetBytes(message);
+                            foreach (User us in Users)
                             {
-                                clients.Remove(cl);
+                                if (us.availabel == true)
+                                {
+                                    us.stream.Write(data, 0, data.Length);
+                                }
+                                //отправка сообщения обратно клиенту
                             }
                         }
-                        stream.Close();
-                        client.Close();
                     }
                     else
                     {
-                        Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
-                        data = Encoding.Unicode.GetBytes(message);
-                        foreach (NetworkStream ns in users)
-                        {
-                            //отправка сообщения обратно клиенту
-                            ns.Write(data, 0, data.Length);
-                        }
+                        u.stream.Close();
+                        u.client.Close();
+                        u.availabel = false;
+                        Dispatcher.BeginInvoke(new Action(() => log.Items.Add("client gone")));
+                        break;
+
                     }
                 }
+
             }
             catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
             {
@@ -142,10 +171,12 @@ namespace Server
                 if (client != null)
                     client.Close();
             }
+
         }
 
         private void start_server_btn_Click(object sender, RoutedEventArgs e)
         {
+            ping = true;
             //создание объекта для отслеживания сообщений переданных с ip адреса через порт
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             //начало прослушивания
@@ -154,55 +185,65 @@ namespace Server
             //создание нового потока для ожидания и подключения клиентов
             Thread listenThread = new Thread(() => listen());
             listenThread.Start();
+            Thread pingThread = new Thread(() => ping_pong());
+            pingThread.Start();
         }
 
         private void stop_server_btn_Click(object sender, RoutedEventArgs e)
         {
+            ping = false;
             send_msg("/close");
-            //тогда закрываем подключения и очищаем список
             listener.Stop();
+            //тогда закрываем подключения и очищаем список
             try
             {
-                foreach (NetworkStream ns in users)
+                foreach (User ur in Users)
                 {
-                    ns.Close();
-                    users.Remove(ns);
+                    ur.set(false);
+                    ur.stream.Close();
+                    ur.client.Close();
                 }
-                foreach (TcpClient tcpc in clients)
-                {
-                    clients.Remove(tcpc);
-                    tcpc.Close();
-                }
-
+                Users.Clear();
             }
             catch (Exception ex)
             {
                 Dispatcher.BeginInvoke(new Action(() => log.Items.Add(ex.Message)));
             }
-
+            Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Сервер остановлен.")));
         }
 
         void send_msg(string ms)
         {
-
-            foreach (NetworkStream ns in users)
+            foreach (User u in Users)
             {
-
-                try
+                if (u.availabel == true)
                 {
-                    byte[] data = new byte[64];// буфер для получаемых данных
 
-                    string message = ms;
-                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
-                    data = Encoding.Unicode.GetBytes(message);
-                    ns.Write(data, 0, data.Length);
+                    NetworkStream ns = u.stream;
+                    try
+                    {
+                        byte[] data = new byte[64];// буфер для получаемых данных
 
+                        string message = ms;
+                        Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
+                        data = Encoding.Unicode.GetBytes(message);
+                        ns.Write(data, 0, data.Length);
+                    }
+                    catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
+                    {
+                        Dispatcher.BeginInvoke(new Action(() => log.Items.Add(ex.Message)));
+                    }
                 }
-                catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
-                {
-                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add(ex.Message)));
-                }
+            }
+        }
 
+        void ping_pong()
+        {
+            while (ping == true)
+            {
+                Thread msgThread = new Thread(() => send_msg("/ping"));
+                msgThread.Start();
+                Thread.Sleep(3000);
             }
         }
 
