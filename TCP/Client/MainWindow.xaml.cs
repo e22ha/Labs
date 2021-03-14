@@ -45,14 +45,17 @@ namespace Client
 
         private void send_btn_Click(object sender, RoutedEventArgs e)
         {
-            //получение сообщения
-            string message = msg.Text;
-            //добавление имени пользователя к сообщению
-            message = String.Format("{0}: {1}", username, message);
-            //преобразование сообщение в массив байтов
-            byte[] data = Encoding.Unicode.GetBytes(message);
-            //отправка сообщения
-            stream.Write(data, 0, data.Length);
+            if (stream != null)
+            {
+                //получение сообщения
+                string message = msg.Text;
+                //добавление имени пользователя к сообщению
+                message = String.Format("{0}: {1}", username, message);
+                //преобразование сообщение в массив байтов
+                byte[] data = Encoding.Unicode.GetBytes(message);
+                //отправка сообщения
+                stream.Write(data, 0, data.Length);
+            }
         }
 
         private void connect_btn_Click(object sender, RoutedEventArgs e)
@@ -63,7 +66,6 @@ namespace Client
             {
                 //создание клиента
                 client = new TcpClient(address, port);
-                lastPing = DateTime.Now;
                 //получение канала для обмена сообщениями
                 stream = client.GetStream();
 
@@ -82,11 +84,13 @@ namespace Client
         {
             try //в случае возникновения ошибки - переход к catch
             {
+                lastPing = DateTime.Now;
+
                 //цикл ожидания сообщениями
                 while (true)
                 {
-                    if ((DateTime.Now - lastPing) < difDate)
-                    {
+                    //if ((DateTime.Now - lastPing) < difDate)
+                    //{
                         //буфер для получаемых данных
                         byte[] data = new byte[64];
                         //объект для построения смтрок
@@ -107,8 +111,6 @@ namespace Client
                         if (message == "/close")
                         {
                             Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
-                            stream.Close();
-                            client.Close();
                             break;
                         }
                         else if (message == "/ping")
@@ -122,11 +124,11 @@ namespace Client
                         {
                             Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
                         }
-                    }
-                    else
-                    {
-                        Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Сервер не отвечает более 3 секунд")));
-                    }
+                    //}
+                    //else
+                    //{
+                    //    Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Сервер не отвечает более 3 секунд")));
+                    //}
                 }
             }
             catch (Exception ex)

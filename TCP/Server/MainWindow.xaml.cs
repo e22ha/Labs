@@ -93,6 +93,9 @@ namespace Server
 
                 Users.Add(u);
 
+                data = Encoding.Unicode.GetBytes("/ping"); //отправка первого сообщения пинг
+                u.stream.Write(data, 0, data.Length);
+
                 //цикл ожидания и отправки сообщений
                 while (true)
                 {
