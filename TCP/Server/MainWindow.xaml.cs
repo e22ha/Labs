@@ -21,7 +21,6 @@ namespace Server
         static TcpListener listener;
         TimeSpan difDate = new TimeSpan(0, 0, 0, 0, 3100);
 
-
         class User
         {
             public DateTime lastPong;
@@ -47,7 +46,6 @@ namespace Server
         //функция ожидания и приёма запросов на подключение
         void listen()
         {
-            Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Сервер запущен.")));
             //цикл подключения клиентов
             try
             {
@@ -56,11 +54,10 @@ namespace Server
                     //принятие запроса на подключение
                     TcpClient client = listener.AcceptTcpClient();
 
-                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Новый клиент подключен.")));
+                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Новый клиент подключен")));
                     //создание нового потока для обслуживания нового клиента
                     Thread clientThread = new Thread(() => Process(client));
                     clientThread.Start();
-
                 }
             }
             catch (Exception ex)
@@ -115,19 +112,15 @@ namespace Server
                         if (message == "/bye")
                         {
                             Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
-
                             u.availabel = false;
-
                             Users.Remove(u);
-                            //u.stream.Close();
-                            //u.client.Close();
-                            Dispatcher.BeginInvoke(new Action(() => log.Items.Add(Users.Remove(u).ToString())));
+
                             break;
                         }
                         else if (message == "/pong")
                         {
                             u.lastPong = DateTime.Now;
-                            Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
+
                             Thread pingThread = new Thread(() => ping_pong(u));
                             pingThread.Start();
                         }
@@ -148,9 +141,7 @@ namespace Server
                             break;
                         }
                     }
-
                 }
-
             }
             catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
             {
@@ -163,13 +154,15 @@ namespace Server
                     stream.Close();
                 if (client != null)
                     client.Close();
-                Dispatcher.BeginInvoke(new Action(() => log.Items.Add("end")));
+                Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Пользователь отлючён")));
             }
-
         }
 
         private void start_server_btn_Click(object sender, RoutedEventArgs e)
         {
+            start_server_btn.IsEnabled = false;
+            stop_server_btn.IsEnabled = true;
+
             //создание объекта для отслеживания сообщений переданных с ip адреса через порт
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             //начало прослушивания
@@ -179,10 +172,13 @@ namespace Server
             Thread listenThread = new Thread(() => listen());
             listenThread.Start();
 
+            Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Сервер запущен")));
         }
 
         private void stop_server_btn_Click(object sender, RoutedEventArgs e)
         {
+            start_server_btn.IsEnabled = true;
+            stop_server_btn.IsEnabled = false;
 
             send_msg("/close");
             listener.Stop();
@@ -199,9 +195,9 @@ namespace Server
             }
             catch (Exception ex)
             {
-                Dispatcher.BeginInvoke(new Action(() => log.Items.Add(ex.Message)));
+                Dispatcher.BeginInvoke(new Action(() => log.Items.Add("stopserver" + ex.Message)));
             }
-            Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Сервер остановлен.")));
+            Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Сервер остановлен")));
         }
 
         void send_msg(string ms)
@@ -210,7 +206,6 @@ namespace Server
             {
                 if (u.availabel == true)
                 {
-
                     NetworkStream ns = u.stream;
                     try
                     {
@@ -238,7 +233,6 @@ namespace Server
                 {
                     byte[] data = new byte[64];// буфер для получаемых данных
 
-                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add("/ping")));
                     data = Encoding.Unicode.GetBytes("/ping");
                     u.stream.Write(data, 0, data.Length);
                 }
@@ -251,6 +245,20 @@ namespace Server
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (Users.Count != 0)
+            {
+                send_msg("/close");
+                listener.Stop();
+
+                foreach (User ur in Users)
+                {
+                    ur.set(false);
+                    ur.stream.Close();
+                    ur.client.Close();
+                }
+                Users.Clear();
+            }
+
             this.Close();
         }
 

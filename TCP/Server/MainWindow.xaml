@@ -50,7 +50,7 @@
         <Grid x:Name="Main" Background="Transparent" Grid.Row="1">
             <ListBox x:Name="log" Height="334" Margin="10,32,10,0" VerticalAlignment="Top" FontSize="12"/>
             <Button x:Name="start_server_btn" Content="Start Server" HorizontalAlignment="Left" Margin="10,381,0,0" VerticalAlignment="Top" Width="98" Click="start_server_btn_Click" Height="24"/>
-            <Button x:Name="stop_server_btn" Content="Stop Server" HorizontalAlignment="Left" Margin="290,381,0,0" VerticalAlignment="Top" Width="98" Click="stop_server_btn_Click" Height="24"/>
+            <Button x:Name="stop_server_btn" Content="Stop Server" HorizontalAlignment="Left" Margin="290,381,0,0" VerticalAlignment="Top" Width="98" Click="stop_server_btn_Click" Height="24" IsEnabled="False"/>
             <Label Content="Serever log:" HorizontalAlignment="Left" FontWeight="Medium" FontSize="14" Height="32" Margin="10,0,0,0" VerticalAlignment="Top" Width="93"/>
         </Grid>
     </Grid>

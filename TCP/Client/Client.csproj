@@ -94,12 +94,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Source\send.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Source\blue_exit_off.jpg" />
     <Resource Include="Source\blue_min_off.jpg" />
     <Resource Include="Source\blue_min_on.jpg" />
     <Resource Include="Source\red_exit_on.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\send_on.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Source\client.ico" />

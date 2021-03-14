@@ -43,21 +43,6 @@ namespace Client
             InitializeComponent();
         }
 
-        private void send_btn_Click(object sender, RoutedEventArgs e)
-        {
-            if (stream != null)
-            {
-                //получение сообщения
-                string message = msg.Text;
-                //добавление имени пользователя к сообщению
-                message = String.Format("{0}: {1}", username, message);
-                //преобразование сообщение в массив байтов
-                byte[] data = Encoding.Unicode.GetBytes(message);
-                //отправка сообщения
-                stream.Write(data, 0, data.Length);
-            }
-        }
-
         private void connect_btn_Click(object sender, RoutedEventArgs e)
         {
             //получение имени пользователя
@@ -72,12 +57,12 @@ namespace Client
                 //создание нового потока для ожидания сообщения от сервера
                 Thread listenThread = new Thread(() => listen());
                 listenThread.Start();
+                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Соединение установлено")));
             }
             catch (Exception ex)
             {
                 log_client.Items.Add(ex.Message);
             }
-
         }
         //функция ожидания сообщений от сервера
         void listen()
@@ -85,6 +70,9 @@ namespace Client
             try //в случае возникновения ошибки - переход к catch
             {
                 lastPing = DateTime.Now;
+                Dispatcher.BeginInvoke(new Action(() => connect_btn.IsEnabled = false));
+                Dispatcher.BeginInvoke(new Action(() => disconnect_btn.IsEnabled = true));
+                Dispatcher.BeginInvoke(new Action(() => Send.IsEnabled = true));
 
                 //цикл ожидания сообщениями
                 while (true)
@@ -110,15 +98,16 @@ namespace Client
                         //вывод сообщения в лог клиента
                         if (message == "/close")
                         {
-                            Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
                             break;
                         }
                         else if (message == "/ping")
                         {
-                            Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
-                            lastPing = DateTime.Now;
-                            send_msg("/pong");
+                            Thread pp = new Thread(() => show_ping_pong());
+                            pp.Start();
 
+                            lastPing = DateTime.Now;
+                            data = Encoding.Unicode.GetBytes("/pong");
+                            stream.Write(data, 0, data.Length);
                         }
                         else
                         {
@@ -142,7 +131,9 @@ namespace Client
                 //закрыть канал связи и завершить работу клиента
                 stream.Close();
                 client.Close();
-                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("end")));
+                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Соединение разорвано")));
+                Dispatcher.BeginInvoke(new Action(() => connect_btn.IsEnabled = true));
+                Dispatcher.BeginInvoke(new Action(() => disconnect_btn.IsEnabled = false));
             }
         }
 
@@ -152,30 +143,63 @@ namespace Client
             send_msg("/bye");
             stream.Close();
             client.Close();
-            Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Отключено")));
+
+            connect_btn.IsEnabled = true;
+            disconnect_btn.IsEnabled = false;
         }
 
         void send_msg(string ms)
         {
-            try
+            if (stream != null)
             {
-                stream = client.GetStream();
-                byte[] data = new byte[64];// буфер для получаемых данных
-                string message = ms;
-                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
-                data = Encoding.Unicode.GetBytes(message);
-                stream.Write(data, 0, data.Length);
-
+                try
+                {
+                    stream = client.GetStream();
+                    byte[] data = new byte[64];// буфер для получаемых данных
+                    string message = ms;
+                    Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
+                    data = Encoding.Unicode.GetBytes(message);
+                    stream.Write(data, 0, data.Length);
+                }
+                catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
+                {
+                    Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(ex.Message)));
+                }
             }
-            catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
+        }
+
+        private void show_ping_pong()
+        {
+            for (int i = 0; i < 3; i++)
             {
-                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(ex.Message)));
-            }
+                if (i == 0)
+                {
+                    Dispatcher.BeginInvoke(new Action(() => pp.Content = "s|•..|c"));
+                }
+                else if (i == 1)
+                {
+                    Dispatcher.BeginInvoke(new Action(() => pp.Content = "s|.•.|c"));
+                }
+                else if (i == 2)
+                {
+                    Dispatcher.BeginInvoke(new Action(() => pp.Content = "s|..•|c"));
+                }
 
+                Thread.Sleep(1000);
+            }
         }
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (stream != null)
+            {
+                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Отключение...")));
+                send_msg("/bye");
+                stream.Close();
+                client.Close();
+                Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Отключено")));
+            }
+
             this.Close();
         }
 
@@ -189,6 +213,21 @@ namespace Client
             if (e.ChangedButton == MouseButton.Left)
             {
                 this.DragMove();
+            }
+        }
+
+        private void send_btn_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (stream != null)
+            {
+                //получение сообщения
+                string message = msg.Text;
+                //добавление имени пользователя к сообщению
+                message = String.Format("{0}: {1}", username, message);
+                //преобразование сообщение в массив байтов
+                byte[] data = Encoding.Unicode.GetBytes(message);
+                //отправка сообщения
+                stream.Write(data, 0, data.Length);
             }
         }
     }

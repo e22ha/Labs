@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Client"
         mc:Ignorable="d"
-        Title="Client" Height="450" Width="600" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#0063B1" BorderThickness="1" Icon="Source/client.ico">
+        Title="Client" Height="450" Width="400" WindowStartupLocation="CenterScreen" WindowStyle="None" BorderBrush="#0063B1" BorderThickness="1" Icon="Source/client.ico" ResizeMode="NoResize">
     <Window.Resources>
         <Style x:Key="TB" TargetType="TextBox">
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -79,15 +79,37 @@
         </Grid>
 
         <Grid x:Name="Main" Background="Transparent" Grid.Row="1">
-            <ListBox x:Name="log_client" Height="271" Margin="10,38,10,0" VerticalAlignment="Top"/>
-            <Button x:Name="connect_btn" Content="Connect " HorizontalAlignment="Left" Margin="420,10,0,0" VerticalAlignment="Top" Width="75" Click="connect_btn_Click"/>
-            <Button x:Name="send_btn" Content="Send" HorizontalAlignment="Left" Margin="505,373,0,0" VerticalAlignment="Top" Width="75" Click="send_btn_Click"/>
-            <Button x:Name="disconnect_btn" Content="Disconnect" HorizontalAlignment="Left" Margin="513,10,0,0" VerticalAlignment="Top" Width="75" Click="disconnect_btn_Click"/>
+            <ListBox x:Name="log_client" Margin="10,38,10,106"/>
+            <Button x:Name="connect_btn" Content="Connect" Margin="212,10,103,385" Click="connect_btn_Click"/>
+            <Button x:Name="disconnect_btn" Content="Disconnect" Margin="305,10,10,385" Click="disconnect_btn_Click" IsEnabled="False"/>
 
-            <Label Content="Log client:" HorizontalAlignment="Left" FontWeight="Medium" FontSize="14" Height="32" Margin="10,6,0,0" VerticalAlignment="Top" Width="93"/>
-            <TextBox x:Name="name" HorizontalAlignment="Left" Height="27" Margin="10,328,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="138"
+            <Label x:Name="pp" Content="" HorizontalAlignment="Left" FontSize="14" Height="32" Margin="90,6,0,0" VerticalAlignment="Top" Width="84"/>
+            <Label Content="Log client:" HorizontalAlignment="Left" FontWeight="Medium" FontSize="14" Height="32" Margin="10,6,0,0" VerticalAlignment="Top" Width="76"/>
+
+            <Image x:Name="Send" Margin="350,367,16,16" MouseDown="send_btn_Click" RenderTransformOrigin="0.5,0.5" IsEnabled="False">
+                <Image.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="45"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Image.RenderTransform>
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/send.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=Send}" Value="True">
+                                <Setter Property="Source" Value="Source/send_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+
+            <TextBox x:Name="name" Height="27" Margin="10,328,242,0" TextWrapping="Wrap" VerticalAlignment="Top"
                      Style="{StaticResource TB}"/>
-            <TextBlock IsHitTestVisible="False" FontSize="12" Text="Введите имя" Margin="13,333,450,60" HorizontalAlignment="Center" Foreground="#FFA4A4A4" Width="135">
+            <TextBlock IsHitTestVisible="False" FontSize="12" Text="Введите имя" Margin="0,333,242,0" HorizontalAlignment="Right" Foreground="#FFA4A4A4" Width="141" Height="22" VerticalAlignment="Top">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -100,9 +122,9 @@
                 </TextBlock.Style>
             </TextBlock>
 
-            <TextBox x:Name="msg" HorizontalAlignment="Left" Height="45" Margin="10,360,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="473"
+            <TextBox x:Name="msg" Height="45" Margin="10,360,58,0" TextWrapping="Wrap" VerticalAlignment="Top"
                      Style="{StaticResource TB}"/>
-            <TextBlock IsHitTestVisible="False" FontSize="12" Text="Напишите сообщение..." Margin="13,373,115,10" HorizontalAlignment="Center" Foreground="#FFA4A4A4" Width="470">
+            <TextBlock IsHitTestVisible="False" FontSize="12" Text="Напишите сообщение..." Margin="0,373,58,10" HorizontalAlignment="Right" Foreground="#FFA4A4A4" Width="325">
                 <TextBlock.Style>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Visibility" Value="Collapsed"/>
