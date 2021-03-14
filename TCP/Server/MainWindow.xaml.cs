@@ -21,16 +21,14 @@ namespace Server
         static TcpListener listener;
         TimeSpan difDate = new TimeSpan(0, 0, 0, 0, 3100);
 
-        bool ping = true;
 
-        struct User
+        class User
         {
             public DateTime lastPong;
             public TcpClient client;
             public NetworkStream stream;
             public bool availabel;
-
-            public void set (bool st)
+            public void set(bool st)
             {
                 availabel = st;
             }
@@ -84,12 +82,11 @@ namespace Server
 
                 byte[] data = new byte[64];// буфер для получаемых данных
 
-                User u;
+                User u = new User();
                 u.client = client;
                 u.stream = stream;
                 u.lastPong = DateTime.Now;
                 u.availabel = true;
-
 
                 Users.Add(u);
 
@@ -99,9 +96,8 @@ namespace Server
                 //цикл ожидания и отправки сообщений
                 while (true)
                 {
-                    if ((u.availabel == true) & ((DateTime.Now - u.lastPong) < difDate))
+                    if (u.availabel == true)
                     {
-                        //==========================получение сообщения============================
                         //объект, для формирования строк
                         StringBuilder builder = new StringBuilder();
                         int bytes = 0;
@@ -120,21 +116,20 @@ namespace Server
                         {
                             Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
 
-                            foreach (User ur in Users)
-                            {
-                                if (ur.stream == stream)
-                                {
-                                    stream.Close();
-                                    client.Close();
-                                    u.availabel = false;
-                                }
-                            }
+                            u.availabel = false;
+
+                            Users.Remove(u);
+                            //u.stream.Close();
+                            //u.client.Close();
+                            Dispatcher.BeginInvoke(new Action(() => log.Items.Add(Users.Remove(u).ToString())));
+                            break;
                         }
                         else if (message == "/pong")
                         {
                             u.lastPong = DateTime.Now;
                             Dispatcher.BeginInvoke(new Action(() => log.Items.Add(message)));
-
+                            Thread pingThread = new Thread(() => ping_pong(u));
+                            pingThread.Start();
                         }
                         else
                         {
@@ -142,23 +137,18 @@ namespace Server
                             data = Encoding.Unicode.GetBytes(message);
                             foreach (User us in Users)
                             {
-                                if (us.availabel == true)
-                                {
-                                    us.stream.Write(data, 0, data.Length);
-                                }
                                 //отправка сообщения обратно клиенту
+                                if (us.availabel == true) us.stream.Write(data, 0, data.Length);
                             }
                         }
+                        if (DateTime.Now - u.lastPong > difDate)
+                        {
+                            Users.Remove(u);
+                            Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Клиент не отвечает")));
+                            break;
+                        }
                     }
-                    else
-                    {
-                        u.stream.Close();
-                        u.client.Close();
-                        u.availabel = false;
-                        Dispatcher.BeginInvoke(new Action(() => log.Items.Add("client gone")));
-                        break;
 
-                    }
                 }
 
             }
@@ -173,13 +163,13 @@ namespace Server
                     stream.Close();
                 if (client != null)
                     client.Close();
+                Dispatcher.BeginInvoke(new Action(() => log.Items.Add("end")));
             }
 
         }
 
         private void start_server_btn_Click(object sender, RoutedEventArgs e)
         {
-            ping = true;
             //создание объекта для отслеживания сообщений переданных с ip адреса через порт
             listener = new TcpListener(IPAddress.Parse("127.0.0.1"), port);
             //начало прослушивания
@@ -188,13 +178,12 @@ namespace Server
             //создание нового потока для ожидания и подключения клиентов
             Thread listenThread = new Thread(() => listen());
             listenThread.Start();
-            Thread pingThread = new Thread(() => ping_pong());
-            pingThread.Start();
+
         }
 
         private void stop_server_btn_Click(object sender, RoutedEventArgs e)
         {
-            ping = false;
+
             send_msg("/close");
             listener.Stop();
             //тогда закрываем подключения и очищаем список
@@ -240,13 +229,23 @@ namespace Server
             }
         }
 
-        void ping_pong()
+        void ping_pong(User u)
         {
-            while (ping == true)
+            Thread.Sleep(3000);
+            if (u.availabel == true)
             {
-                Thread msgThread = new Thread(() => send_msg("/ping"));
-                msgThread.Start();
-                Thread.Sleep(3000);
+                try
+                {
+                    byte[] data = new byte[64];// буфер для получаемых данных
+
+                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add("/ping")));
+                    data = Encoding.Unicode.GetBytes("/ping");
+                    u.stream.Write(data, 0, data.Length);
+                }
+                catch (Exception ex) //если возникла ошибка, вывести сообщение об ошибке
+                {
+                    Dispatcher.BeginInvoke(new Action(() => log.Items.Add(ex.Message)));
+                }
             }
         }
 
