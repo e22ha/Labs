@@ -77,8 +77,8 @@ namespace Client
                 //цикл ожидания сообщениями
                 while (true)
                 {
-                    //if ((DateTime.Now - lastPing) < difDate)
-                    //{
+                    if ((DateTime.Now - lastPing) < difDate)
+                    {
                         //буфер для получаемых данных
                         byte[] data = new byte[64];
                         //объект для построения смтрок
@@ -113,11 +113,11 @@ namespace Client
                         {
                             Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add(message)));
                         }
-                    //}
-                    //else
-                    //{
-                    //    Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Сервер не отвечает более 3 секунд")));
-                    //}
+                    }
+                    else
+                    {
+                        Dispatcher.BeginInvoke(new Action(() => log_client.Items.Add("Сервер не отвечает более 3 секунд")));
+                    }
                 }
             }
             catch (Exception ex)

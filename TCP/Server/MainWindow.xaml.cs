@@ -98,6 +98,14 @@ namespace Server
                         //объект, для формирования строк
                         StringBuilder builder = new StringBuilder();
                         int bytes = 0;
+
+                        if (DateTime.Now - u.lastPong > difDate)
+                        {
+                            Users.Remove(u);
+                            Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Клиент не отвечает")));
+                            break;
+                        }
+
                         //до тех пор, пока в потоке есть данные
                         do
                         {
@@ -133,12 +141,6 @@ namespace Server
                                 //отправка сообщения обратно клиенту
                                 if (us.availabel == true) us.stream.Write(data, 0, data.Length);
                             }
-                        }
-                        if (DateTime.Now - u.lastPong > difDate)
-                        {
-                            Users.Remove(u);
-                            Dispatcher.BeginInvoke(new Action(() => log.Items.Add("Клиент не отвечает")));
-                            break;
                         }
                     }
                 }

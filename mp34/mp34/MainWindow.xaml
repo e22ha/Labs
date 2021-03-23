@@ -1,0 +1,18 @@
+﻿<Window x:Class="mp34.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:mp34"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="304.521">
+    <Grid>
+        <Button x:Name="play_btn" Content="▶" Margin="58,10,0,380.667" Click="play_btn_Click" HorizontalAlignment="Left" Width="50" />
+        <Button x:Name="pause_btn" Content="Ⅱ" Margin="113,10,0,380.667" Click="pause_btn_Click" HorizontalAlignment="Left" Width="44" />
+        <Button x:Name="stop_btn" Content="■" Margin="13,10,0,380.667" Click="stop_btn_Click" HorizontalAlignment="Left" Width="40"/>
+        <ListBox x:Name ="playList" Height="300" Margin="10,111,9.667,9.667" />
+        <Slider x:Name="Volume" Orientation="Vertical" Height="100" Margin="266,6,10,314.667" ValueChanged="Volume_ValueChanged" Value="5" Maximum="1"/>
+        <Slider x:Name="duration" Orientation="Horizontal" Margin="10,86,37,314.667" Thumb.DragStarted="duration_DragStarted" Thumb.DragCompleted="duration_DragCompleted" ValueChanged="duration_ValueChanged" Maximum="100"/>
+        <Button x:Name="load_btn" Content="Load" Margin="174,10,0,380.667" Click="load_btn_Click" HorizontalAlignment="Left" Width="50" />
+    </Grid>
+</Window>
