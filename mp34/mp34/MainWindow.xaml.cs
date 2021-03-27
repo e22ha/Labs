@@ -14,6 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Media;
 using Microsoft.Win32;
+using System.IO;
+using Microsoft.VisualBasic;
+using Microsoft.SqlServer.Server;
 
 namespace mp34
 {
@@ -22,20 +25,24 @@ namespace mp34
     /// </summary>
     public partial class MainWindow : Window
     {
-        Dictionary<String, MediaPlayer> p_list = new Dictionary<String, MediaPlayer>();
+        Dictionary<string, MediaPlayer> p_list = new Dictionary<string, MediaPlayer>();
+        DirectoryInfo info = new DirectoryInfo(@"D:\Music\Пушка");
+        string nowplaying;
         public MainWindow()
         {
             InitializeComponent();
+            load();
+            
         }
 
         bool isDragged = false;
 
         private void stop_btn_Click(object sender, RoutedEventArgs e)
         {
-            if (playList.SelectedIndex > -1)
+            if (nowplaying != null)
             {
                 MediaPlayer mp;
-                p_list.TryGetValue(playList.SelectedItem.ToString(), out mp);
+                p_list.TryGetValue(nowplaying, out mp);
                 mp.Stop();
 
             }
@@ -46,38 +53,57 @@ namespace mp34
             if (playList.SelectedIndex > -1)
             {
                 MediaPlayer mp;
+                if ((playList.SelectedItem.ToString() != nowplaying) & (nowplaying != null))
+                {
+                    p_list.TryGetValue(nowplaying, out mp);
+                    mp.Stop();
+                }
+
+
                 p_list.TryGetValue(playList.SelectedItem.ToString(), out mp);
                 mp.Play();
                 mp.Volume = Volume.Value;
+                nowplaying = playList.SelectedItem.ToString();
+
+
             }
         }
 
         private void pause_btn_Click(object sender, MouseButtonEventArgs e)
         {
-            if (playList.SelectedIndex > -1)
+            if (nowplaying != null)
             {
                 MediaPlayer mp;
-                p_list.TryGetValue(playList.SelectedItem.ToString(), out mp);
+                p_list.TryGetValue(nowplaying, out mp);
                 mp.Pause();
             }
         }
 
-        private void load_btn_Click(object sender, MouseButtonEventArgs e)
+
+
+        private void load_btn_Click(object sender, RoutedEventArgs e)
         {
-            // создание объекта, обычно глобального
-            MediaPlayer player = new MediaPlayer();
+            load();
+        }
 
-            //выбор медиа файла, например, в формате .mp3
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.ShowDialog();
-            //загрузка выбранного файла
-            player.Open(new Uri(dlg.FileName, UriKind.Relative));
-
-            //команда на асинхронную загрузку и назначение обработчика события на завершение загрузки
-
-            //функция, вызываемая при завершении загрузки
-            p_list.Add(dlg.FileName.ToString(), player);
-            playList.Items.Add(dlg.FileName.ToString());
+        void load()
+        {
+            if (info != null)
+            {
+                foreach (var fname in info.GetFiles())
+                {
+                    if (fname.Extension == ".mp3")
+                    {
+                        string name = System.IO.Path.GetFileNameWithoutExtension(fname.FullName);
+                        MediaPlayer player = new MediaPlayer();
+                        player.Open(new Uri(fname.FullName, UriKind.Relative));
+                        p_list.Add(name, player);
+                        playList.Items.Add(name);
+                        player = null;
+                    }
+                }
+            }
+            if (playList.Items.Count > -1) playList.SelectedIndex = 0;
         }
         private void Sp_LoadCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
@@ -87,10 +113,10 @@ namespace mp34
         private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             double vol = Volume.Value;
-            if (playList.SelectedIndex > -1)
+            if (nowplaying != null)
             {
                 MediaPlayer mp;
-                p_list.TryGetValue(playList.SelectedItem.ToString(), out mp);
+                p_list.TryGetValue(nowplaying, out mp);
                 mp.Volume = vol;
 
             }
@@ -98,16 +124,15 @@ namespace mp34
 
         private void duration_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (playList.SelectedIndex > -1)
+
+            if (nowplaying != null)
             {
-                //получение длительности медиа файла (свойство доступно только после события открытия)
-                //установка проигрывания со середины медиа файла
-                
                 MediaPlayer mp;
-                p_list.TryGetValue(playList.SelectedItem.ToString(), out mp);
+                p_list.TryGetValue(nowplaying, out mp);
                 mp.Position = new TimeSpan(0, 0, (int)duration.Value);
 
             }
+
         }
 
         private void duration_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
@@ -120,42 +145,15 @@ namespace mp34
             isDragged = false;
         }
 
-        private void next_btn_Click(object sender, MouseButtonEventArgs e)
+        private void pref_click(object sender, RoutedEventArgs e)
         {
+            AskPath askP = new AskPath();
+            askP.ShowDialog();
 
-        }
+            info = new DirectoryInfo(askP.path.Text.ToString());
 
-        private void prv_btn_Click(object sender, MouseButtonEventArgs e)
-        {
 
-        }
-
-        private void rpt_btn_Click(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void rnd_btn_Click(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void MinButton_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-
-        private void ToolBar_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                this.DragMove();
-            }
+            load();
         }
     }
 }
