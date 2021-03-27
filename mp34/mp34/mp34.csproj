@@ -94,5 +94,53 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\vol_max.png" />
+    <Resource Include="Source\vol_mid.png" />
+    <Resource Include="Source\vol_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\iconn.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\exit.png" />
+    <Resource Include="Source\exit_on.png" />
+    <Resource Include="Source\min_off.png" />
+    <Resource Include="Source\min_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\next_on.png" />
+    <Resource Include="Source\play_btn_on.png" />
+    <Resource Include="Source\prv_on.png" />
+    <Resource Include="Source\rnd_on.png" />
+    <Resource Include="Source\rpt_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\play_btn_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\next_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\prv_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\rpt_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\rnd_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\like_off.png" />
+    <Resource Include="Source\like_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\pause_off.png" />
+    <Resource Include="Source\pause_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\save_off.png" />
+    <Resource Include="Source\save_on.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

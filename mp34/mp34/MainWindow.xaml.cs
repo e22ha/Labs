@@ -41,7 +41,7 @@ namespace mp34
             }
         }
 
-        private void play_btn_Click(object sender, RoutedEventArgs e)
+        private void play_btn_Click(object sender, MouseButtonEventArgs e)
         {
             if (playList.SelectedIndex > -1)
             {
@@ -52,7 +52,7 @@ namespace mp34
             }
         }
 
-        private void pause_btn_Click(object sender, RoutedEventArgs e)
+        private void pause_btn_Click(object sender, MouseButtonEventArgs e)
         {
             if (playList.SelectedIndex > -1)
             {
@@ -62,7 +62,7 @@ namespace mp34
             }
         }
 
-        private void load_btn_Click(object sender, RoutedEventArgs e)
+        private void load_btn_Click(object sender, MouseButtonEventArgs e)
         {
             // создание объекта, обычно глобального
             MediaPlayer player = new MediaPlayer();
@@ -118,6 +118,44 @@ namespace mp34
         private void duration_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             isDragged = false;
+        }
+
+        private void next_btn_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void prv_btn_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void rpt_btn_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void rnd_btn_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MinButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void ToolBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
     }
 }

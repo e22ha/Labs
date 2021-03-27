@@ -5,14 +5,160 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mp34"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="304.521">
+        Title="MainWindow" Height="720" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="None" Icon="Source/iconn.ico" ResizeMode="NoResize">
     <Grid>
-        <Button x:Name="play_btn" Content="▶" Margin="58,10,0,380.667" Click="play_btn_Click" HorizontalAlignment="Left" Width="50" />
-        <Button x:Name="pause_btn" Content="Ⅱ" Margin="113,10,0,380.667" Click="pause_btn_Click" HorizontalAlignment="Left" Width="44" />
-        <Button x:Name="stop_btn" Content="■" Margin="13,10,0,380.667" Click="stop_btn_Click" HorizontalAlignment="Left" Width="40"/>
-        <ListBox x:Name ="playList" Height="300" Margin="10,111,9.667,9.667" />
-        <Slider x:Name="Volume" Orientation="Vertical" Height="100" Margin="266,6,10,314.667" ValueChanged="Volume_ValueChanged" Value="5" Maximum="1"/>
-        <Slider x:Name="duration" Orientation="Horizontal" Margin="10,86,37,314.667" Thumb.DragStarted="duration_DragStarted" Thumb.DragCompleted="duration_DragCompleted" ValueChanged="duration_ValueChanged" Maximum="100"/>
-        <Button x:Name="load_btn" Content="Load" Margin="174,10,0,380.667" Click="load_btn_Click" HorizontalAlignment="Left" Width="50" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="110"/>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="165"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="ToolBar" Background="#21242A" Grid.Row="0" MouseDown="ToolBar_MouseDown">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Width="65">
+                <Image Source="Source/iconn.ico" Margin="3,2,0,3"/>
+                <Label Content="MP34" FontWeight="Medium" Foreground="White" FontFamily="Roboto"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="25" Width="58">
+                <Image x:Name="MinButton" Width="29" Height="25" MouseDown="MinButton_MouseDown">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="Source/min_off.png"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding IsMouseOver, ElementName=MinButton}" Value="True">
+                                    <Setter Property="Source" Value="Source/min_on.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+                <Image x:Name="ExitButton" Width="29" Height="25" MouseDown="ExitButton_MouseDown">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="Source/exit.png"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding ="{Binding IsMouseOver, ElementName=ExitButton}" Value="True">
+                                    <Setter Property="Source" Value="Source/exit_on.png"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="Info" Background="#191C21" Grid.Row="1">
+            <Label Content="Сейчас играет:" FontFamily="Roboto" FontSize="24" Foreground="White" FontWeight="Regular" Margin="10,10,10,58"/>
+            <Label x:Name="PlayNow" Content="Grover Washington Jr. - Just the Two of Us" FontFamily="Roboto" FontSize="36" Foreground="White" FontWeight="Bold" Margin="10,52,10,0"/>
+           
+            <Button x:Name="stop_btn" Content="■" Click="stop_btn_Click" HorizontalAlignment="Left" Width="40" Margin="922,25,0,42" RenderTransformOrigin="8.15,-0.326"/>
+        </Grid>
+
+        <Grid x:Name="TrackList" Background="#191C21" Grid.Row="2">
+            <ListBox x:Name ="playList" Margin="20,5,20,5"/>
+        </Grid>
+
+        <Grid x:Name="Comands" Background="#191C21" Grid.Row="3">
+            <Image x:Name="play_btn" Width="71" Height="71" MouseDown="play_btn_Click" Margin="0,0,0,50">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/play_btn_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=play_btn}" Value="True">
+                                <Setter Property="Source" Value="Source/play_btn_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image x:Name="pause_btn" Width="71" Height="71" MouseDown="pause_btn_Click" Margin="0,0,500,50">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/pause_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=pause_btn}" Value="True">
+                                <Setter Property="Source" Value="Source/pause_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image x:Name="next_btn" Width="52" Height="52" MouseDown="next_btn_Click" Margin="150,0,0,50">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/next_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=next_btn}" Value="True">
+                                <Setter Property="Source" Value="Source/next_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image x:Name="prv_btn" Width="52" Height="52" MouseDown="prv_btn_Click" Margin="0,0,150,50">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/prv_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=prv_btn}" Value="True">
+                                <Setter Property="Source" Value="Source/prv_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image x:Name="rnd_btn" Width="52" Height="52" MouseDown="rnd_btn_Click" Margin="0,0,275,50">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/rnd_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=rnd_btn}" Value="True">
+                                <Setter Property="Source" Value="Source/rnd_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image x:Name="rpt_btn" Width="52" Height="52" MouseDown="rpt_btn_Click" Margin="275,0,0,50">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/rpt_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=rpt_btn}" Value="True">
+                                <Setter Property="Source" Value="Source/rpt_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image x:Name="load_btn" Width="71" Height="71" MouseDown="load_btn_Click" Margin="0,0,800,50">
+                <Image.Style>
+                    <Style TargetType="{x:Type Image}">
+                        <Setter Property="Source" Value="Source/save_off.png"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding ="{Binding IsMouseOver, ElementName=load_btn}" Value="True">
+                                <Setter Property="Source" Value="Source/save_on.png"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+
+            <Slider x:Name="duration" Orientation="Horizontal" Thumb.DragStarted="duration_DragStarted" Thumb.DragCompleted="duration_DragCompleted" ValueChanged="duration_ValueChanged" Maximum="100"
+                    Height="20" Width="350" Margin="0,100,0,0"/>
+            <Label x:Name="TimeStart" Content="00:00" Height="25" Width="45" Margin="0,100,410,0"
+                   Foreground="White" FontFamily="Roboto" FontSize="14" FontWeight="Regular"/>
+            <Label x:Name="TimeEnd" Content="00:00" Height="25" Width="45" Margin="410,100,0,0"
+                   Foreground="White" FontFamily="Roboto" FontSize="14" FontWeight="Regular"/>
+
+            <Slider x:Name="Volume" Orientation="Horizontal" ValueChanged="Volume_ValueChanged" Value="5" Maximum="1"
+                    Height="20" Width="160" Margin="800,0,0,50"/>
+            <Image x:Name="Volume_visb" Source="Source/vol_max.png"
+                   Height="27" Width="27" Margin="600,0,0,50"/>
+        </Grid>
+
+        <Grid x:Name="Cellar" Background="#191C21" Grid.Row="4"/>
     </Grid>
 </Window>
