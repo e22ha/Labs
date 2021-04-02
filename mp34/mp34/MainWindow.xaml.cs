@@ -28,13 +28,14 @@ namespace mp34
     {
         MediaPlayer mp = new MediaPlayer();
         Dictionary<string, string> p_list = new Dictionary<string, string>();
-        DirectoryInfo info = new DirectoryInfo(@"D:\Music\Пушка");
+        DirectoryInfo info = new DirectoryInfo(@"E:\Music\Пушка");
         DispatcherTimer timer = new DispatcherTimer();
         string nowplaying;
 
         bool isDragged = false;
         bool random = false;
         bool reapet = false;
+        bool playy = false;
 
 
         public MainWindow()
@@ -56,6 +57,7 @@ namespace mp34
 
             playList.SelectedIndex++;
 
+
         }
 
         private void Mp_MediaOpened(object sender, EventArgs e)
@@ -70,11 +72,22 @@ namespace mp34
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (!isDragged) duration.Value++;
+
         }
 
 
+        private void stop_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (nowplaying != null)
+            {
+                p_list.TryGetValue(nowplaying, out string fname);
 
+                mp.Open(new Uri(fname, UriKind.Relative));
+
+                mp.Stop();
+
+            }
+        }
 
         private void playList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -83,31 +96,32 @@ namespace mp34
 
         private void play_btn_Click(object sender, MouseButtonEventArgs e)
         {
-            play();
+            if(playy == false)
+            {
+                play_btn.Source = new BitmapImage(new Uri(@"Source/pause_off.png", UriKind.Relative));
+                play();
+                playy = true;
+            }
+            else if (playy == true & nowplaying != null)
+            {
+                play_btn.Source = new BitmapImage(new Uri(@"Source/play_btn_off.png", UriKind.Relative));
+                p_list.TryGetValue(nowplaying, out string fname);
+                mp.Pause();
+                playy = false;
+            } 
         }
 
         void play()
         {
             if (playList.SelectedIndex < 0) playList.SelectedIndex = 0; // yf ckexfq gecnjuj ds,jhf
-            if (playList.SelectedItem.ToString() == nowplaying) //на случай повторного нажатия
-            {
-                timer.Start();
-                mp.Play();
-                return;
+
             }
 
             if (playList.SelectedIndex > -1)
             {
 
-                nowplaying = playList.SelectedItem.ToString();
-                p_list.TryGetValue(nowplaying, out string fname);
-                mp.Open(new Uri(fname, UriKind.Relative));
-
-                mp.Volume = Volume.Value;
-                PlayNow.Content = nowplaying;
-
-
-
+                Duration dur = mp.NaturalDuration;
+                TimeEnd.Content = dur.ToString();
             }
         }
 
@@ -115,16 +129,13 @@ namespace mp34
         {
             if (nowplaying != null)
             {
-                //p_list.TryGetValue(nowplaying, out string fname);
+                p_list.TryGetValue(nowplaying, out string fname);
 
                 //mp.Open(new Uri(fname, UriKind.Relative));
 
                 mp.Pause();
-                timer.Stop();
             }
         }
-
-
 
         private void load_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -145,9 +156,7 @@ namespace mp34
                     }
                 }
             }
-
         }
-
 
         private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -173,7 +182,6 @@ namespace mp34
             }
 
         }
-
         private void duration_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
             isDragged = true;
@@ -190,7 +198,6 @@ namespace mp34
             askP.ShowDialog();
 
             info = new DirectoryInfo(askP.path.Text.ToString());
-
 
             load();
         }
