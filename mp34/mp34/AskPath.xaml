@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="AskPath" Height="230.625" Width="424.062">
     <Grid>
-        <Label Content="Путь по умолчанию" HorizontalAlignment="Left" Height="26" Margin="20,39,0,0" VerticalAlignment="Top" Width="155"/>
-        <TextBox x:Name="path" HorizontalAlignment="Left" Height="26" Margin="189,39,0,0" TextWrapping="Wrap" Text="Ваш путь" VerticalAlignment="Top" Width="184"/>
-        <Button x:Name="done" Content="Button" HorizontalAlignment="Left" Height="29" Margin="135,161,0,0" VerticalAlignment="Top" Width="137" Click="done_Click"/>
+        <Label Content="Путь по умолчанию:" HorizontalAlignment="Left" Height="26" Margin="20,39,0,0" VerticalAlignment="Top" Width="155"/>
+        <TextBox x:Name="path" HorizontalAlignment="Left" Height="26" Margin="151,39,0,0" TextWrapping="Wrap" Text="Ваш путь" VerticalAlignment="Top" Width="222"/>
+        <Button x:Name="done" Content="Ok" HorizontalAlignment="Left" Height="29" Margin="133,129,0,0" VerticalAlignment="Top" Width="137" Click="done_Click"/>
 
     </Grid>
 </Window>

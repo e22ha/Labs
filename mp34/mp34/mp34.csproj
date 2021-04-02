@@ -120,8 +120,6 @@
     <Resource Include="Source\next_on.png" />
     <Resource Include="Source\play_btn_on.png" />
     <Resource Include="Source\prv_on.png" />
-    <Resource Include="Source\rnd_on.png" />
-    <Resource Include="Source\rpt_on.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Source\play_btn_off.png" />
@@ -131,12 +129,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Source\prv_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Source\rpt_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Source\rnd_off.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Source\like_off.png" />
@@ -149,6 +141,22 @@
   <ItemGroup>
     <Resource Include="Source\save_off.png" />
     <Resource Include="Source\save_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\rnd.png" />
+    <Resource Include="Source\rnd_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\rep.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\rpt_on.png" />
+    <Resource Include="Source\rpt_on_off.png" />
+    <Resource Include="Source\rpt_on_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Source\set.png" />
+    <Resource Include="Source\set_on.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
