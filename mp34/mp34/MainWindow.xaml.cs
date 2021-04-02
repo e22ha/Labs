@@ -17,6 +17,7 @@ using Microsoft.Win32;
 using System.IO;
 using Microsoft.VisualBasic;
 using Microsoft.SqlServer.Server;
+using System.Windows.Threading;
 
 namespace mp34
 {
@@ -25,45 +26,103 @@ namespace mp34
     /// </summary>
     public partial class MainWindow : Window
     {
-        Dictionary<string, MediaPlayer> p_list = new Dictionary<string, MediaPlayer>();
+        MediaPlayer mp = new MediaPlayer();
+        Dictionary<string, string> p_list = new Dictionary<string, string>();
         DirectoryInfo info = new DirectoryInfo(@"D:\Music\Пушка");
+        DispatcherTimer timer = new DispatcherTimer();
         string nowplaying;
+
+        bool isDragged = false;
+        bool random = false;
+        bool reapet = false;
+
+
         public MainWindow()
         {
             InitializeComponent();
             load();
-            
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Tick += Timer_Tick;
+
+            mp.MediaOpened += Mp_MediaOpened;
+            mp.MediaEnded += Mp_MediaEnded;
         }
 
-        bool isDragged = false;
+        private void Mp_MediaEnded(object sender, EventArgs e)
+        {
+            if (playList.SelectedIndex + 1 >= playList.Items.Count) return;
+            playList.SelectedIndex++;
+
+
+        }
+
+        private void Mp_MediaOpened(object sender, EventArgs e)
+        {
+            mp.Play();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+
+        }
+
 
         private void stop_btn_Click(object sender, RoutedEventArgs e)
         {
             if (nowplaying != null)
             {
-                MediaPlayer mp;
-                p_list.TryGetValue(nowplaying, out mp);
+                p_list.TryGetValue(nowplaying, out string fname);
+
+                mp.Open(new Uri(fname, UriKind.Relative));
+
                 mp.Stop();
 
             }
         }
 
+        private void playList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            play();
+        }
+
         private void play_btn_Click(object sender, MouseButtonEventArgs e)
         {
+            play();
+        }
+
+        void play()
+        {
+            if (playList.SelectedIndex < 0) playList.SelectedIndex = 0;
+            if (playList.SelectedItem.ToString() == nowplaying) 
+            { 
+                mp.Play();
+                return;
+            }
+
             if (playList.SelectedIndex > -1)
             {
-                MediaPlayer mp;
+                string fname;
                 if ((playList.SelectedItem.ToString() != nowplaying) & (nowplaying != null))
                 {
-                    p_list.TryGetValue(nowplaying, out mp);
-                    mp.Stop();
+                    p_list.TryGetValue(nowplaying, out fname);
+
+                    mp.Open(new Uri(fname, UriKind.Relative));
+
+                    return;
                 }
 
 
-                p_list.TryGetValue(playList.SelectedItem.ToString(), out mp);
-                mp.Play();
-                mp.Volume = Volume.Value;
                 nowplaying = playList.SelectedItem.ToString();
+
+                p_list.TryGetValue(nowplaying, out fname);
+
+
+                mp.Open(new Uri(fname, UriKind.Relative));
+
+                mp.Volume = Volume.Value;
+                PlayNow.Content = nowplaying;
+                Duration dur = mp.NaturalDuration;
+                TimeEnd.Content = dur.ToString();
 
 
             }
@@ -73,8 +132,10 @@ namespace mp34
         {
             if (nowplaying != null)
             {
-                MediaPlayer mp;
-                p_list.TryGetValue(nowplaying, out mp);
+                p_list.TryGetValue(nowplaying, out string fname);
+
+                //mp.Open(new Uri(fname, UriKind.Relative));
+
                 mp.Pause();
             }
         }
@@ -95,29 +156,25 @@ namespace mp34
                     if (fname.Extension == ".mp3")
                     {
                         string name = System.IO.Path.GetFileNameWithoutExtension(fname.FullName);
-                        MediaPlayer player = new MediaPlayer();
-                        player.Open(new Uri(fname.FullName, UriKind.Relative));
-                        p_list.Add(name, player);
+                        p_list.Add(name, fname.FullName);
                         playList.Items.Add(name);
-                        player = null;
                     }
                 }
             }
-            if (playList.Items.Count > -1) playList.SelectedIndex = 0;
+
         }
-        private void Sp_LoadCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            MessageBox.Show("Звук загружен!");
-        }
+
 
         private void Volume_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             double vol = Volume.Value;
             if (nowplaying != null)
             {
-                MediaPlayer mp;
-                p_list.TryGetValue(nowplaying, out mp);
-                mp.Volume = vol;
+                //p_list.TryGetValue(nowplaying, out string fname);
+
+                //mp.Open(new Uri(fname, UriKind.Relative));
+
+                mp.Volume = vol*0.1;
 
             }
         }
@@ -127,8 +184,10 @@ namespace mp34
 
             if (nowplaying != null)
             {
-                MediaPlayer mp;
-                p_list.TryGetValue(nowplaying, out mp);
+                //p_list.TryGetValue(nowplaying, out string fname);
+
+                //mp.Open(new Uri(fname, UriKind.Relative));
+
                 mp.Position = new TimeSpan(0, 0, (int)duration.Value);
 
             }
@@ -155,5 +214,55 @@ namespace mp34
 
             load();
         }
+
+        private void next_btn_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (playList.SelectedIndex + 1 <= playList.Items.Count) playList.SelectedIndex++;
+        }
+
+        private void prv_btn_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (playList.SelectedIndex - 1 > -1) playList.SelectedIndex--;
+        }
+
+        private void rpt_btn_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (reapet == true) reapet = false;
+            else reapet = true;
+        }
+
+        private void rnd_btn_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (random == true)
+            {
+                random = false;
+ 
+                rnd_btn.Source = new BitmapImage(new Uri(@"Source/rnd_off.png", UriKind.Relative));
+            }
+            else
+            {
+                random = true;
+                rnd_btn.Source = new BitmapImage(new Uri(@"Source/rnd_on.png", UriKind.Relative));
+            }
+        }
+
+        private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MinButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void ToolBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
     }
 }

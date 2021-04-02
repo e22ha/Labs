@@ -52,12 +52,12 @@
         <Grid x:Name="Info" Background="#191C21" Grid.Row="1">
             <Label Content="Сейчас играет:" FontFamily="Roboto" FontSize="24" Foreground="White" FontWeight="Regular" Margin="10,10,10,58"/>
             <Label x:Name="PlayNow" Content="Grover Washington Jr. - Just the Two of Us" FontFamily="Roboto" FontSize="36" Foreground="White" FontWeight="Bold" Margin="10,52,10,0"/>
-           
+
             <Button x:Name="stop_btn" Content="■" Click="stop_btn_Click" HorizontalAlignment="Left" Width="40" Margin="922,25,0,42" RenderTransformOrigin="8.15,-0.326"/>
         </Grid>
 
         <Grid x:Name="TrackList" Background="#191C21" Grid.Row="2">
-            <ListBox x:Name ="playList" Margin="20,5,20,5"/>
+            <ListBox x:Name ="playList" Margin="20,5,20,5" SelectionChanged="playList_SelectionChanged"/>
         </Grid>
 
         <Grid x:Name="Comands" Background="#191C21" Grid.Row="3">
@@ -153,7 +153,7 @@
             <Label x:Name="TimeEnd" Content="00:00" Height="25" Width="45" Margin="410,100,0,0"
                    Foreground="White" FontFamily="Roboto" FontSize="14" FontWeight="Regular"/>
 
-            <Slider x:Name="Volume" Orientation="Horizontal" ValueChanged="Volume_ValueChanged" Value="5" Maximum="1"
+            <Slider x:Name="Volume" Orientation="Horizontal" ValueChanged="Volume_ValueChanged" Value="5"
                     Height="20" Width="160" Margin="800,0,0,50"/>
             <Image x:Name="Volume_visb" Source="Source/vol_max.png"
                    Height="27" Width="27" Margin="600,0,0,50"/>
