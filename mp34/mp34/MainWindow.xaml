@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mp34"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="None" Icon="Source/iconn.ico" ResizeMode="NoResize">
+        Title="MainWindow" Height="670" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="None" Icon="Source/iconn.ico" ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition Height="110"/>
-            <RowDefinition Height="400"/>
+            <RowDefinition Height="350"/>
             <RowDefinition Height="165"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
@@ -114,7 +114,7 @@
                         <Setter Property="Source" Value="Source/rep.png"/>
                         <Style.Triggers>
                             <DataTrigger Binding ="{Binding IsMouseOver, ElementName=rpt_btn}" Value="True">
-                                <Setter Property="Source" Value="Source/rpt_on_off.png"/>
+                                <Setter Property="Source" Value="Source/rpt_on.png"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
