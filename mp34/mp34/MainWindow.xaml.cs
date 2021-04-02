@@ -50,35 +50,31 @@ namespace mp34
 
         private void Mp_MediaEnded(object sender, EventArgs e)
         {
-            if (playList.SelectedIndex + 1 >= playList.Items.Count) return;
-            playList.SelectedIndex++;
+            timer.Stop();
 
+            if (playList.SelectedIndex + 1 >= playList.Items.Count) return;
+
+            playList.SelectedIndex++;
 
         }
 
         private void Mp_MediaOpened(object sender, EventArgs e)
         {
+            Duration dur = mp.NaturalDuration;
+            TimeEnd.Content = dur.TimeSpan.Minutes + ":" + dur.TimeSpan.Seconds;
+            duration.Maximum = dur.TimeSpan.TotalSeconds;
+            duration.Value = 0;
             mp.Play();
+            timer.Start();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-
+            if (!isDragged) duration.Value++;
         }
 
 
-        private void stop_btn_Click(object sender, RoutedEventArgs e)
-        {
-            if (nowplaying != null)
-            {
-                p_list.TryGetValue(nowplaying, out string fname);
 
-                mp.Open(new Uri(fname, UriKind.Relative));
-
-                mp.Stop();
-
-            }
-        }
 
         private void playList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -92,37 +88,24 @@ namespace mp34
 
         void play()
         {
-            if (playList.SelectedIndex < 0) playList.SelectedIndex = 0;
-            if (playList.SelectedItem.ToString() == nowplaying) 
-            { 
+            if (playList.SelectedIndex < 0) playList.SelectedIndex = 0; // yf ckexfq gecnjuj ds,jhf
+            if (playList.SelectedItem.ToString() == nowplaying) //на случай повторного нажатия
+            {
+                timer.Start();
                 mp.Play();
                 return;
             }
 
             if (playList.SelectedIndex > -1)
             {
-                string fname;
-                if ((playList.SelectedItem.ToString() != nowplaying) & (nowplaying != null))
-                {
-                    p_list.TryGetValue(nowplaying, out fname);
-
-                    mp.Open(new Uri(fname, UriKind.Relative));
-
-                    return;
-                }
-
 
                 nowplaying = playList.SelectedItem.ToString();
-
-                p_list.TryGetValue(nowplaying, out fname);
-
-
+                p_list.TryGetValue(nowplaying, out string fname);
                 mp.Open(new Uri(fname, UriKind.Relative));
 
                 mp.Volume = Volume.Value;
                 PlayNow.Content = nowplaying;
-                Duration dur = mp.NaturalDuration;
-                TimeEnd.Content = dur.ToString();
+
 
 
             }
@@ -132,11 +115,12 @@ namespace mp34
         {
             if (nowplaying != null)
             {
-                p_list.TryGetValue(nowplaying, out string fname);
+                //p_list.TryGetValue(nowplaying, out string fname);
 
                 //mp.Open(new Uri(fname, UriKind.Relative));
 
                 mp.Pause();
+                timer.Stop();
             }
         }
 
@@ -174,7 +158,7 @@ namespace mp34
 
                 //mp.Open(new Uri(fname, UriKind.Relative));
 
-                mp.Volume = vol*0.1;
+                mp.Volume = vol * 0.1;
 
             }
         }
@@ -184,12 +168,8 @@ namespace mp34
 
             if (nowplaying != null)
             {
-                //p_list.TryGetValue(nowplaying, out string fname);
-
-                //mp.Open(new Uri(fname, UriKind.Relative));
-
                 mp.Position = new TimeSpan(0, 0, (int)duration.Value);
-
+                TimeStart.Content = Math.Floor(duration.Value / 60) + ":" + Math.Floor(duration.Value % 60);
             }
 
         }
@@ -236,7 +216,7 @@ namespace mp34
             if (random == true)
             {
                 random = false;
- 
+
                 rnd_btn.Source = new BitmapImage(new Uri(@"Source/rnd_off.png", UriKind.Relative));
             }
             else
@@ -248,6 +228,7 @@ namespace mp34
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (nowplaying != null) mp.Stop();
             this.Close();
         }
 
