@@ -26,15 +26,17 @@ namespace mp34
     /// </summary>
     public partial class MainWindow : Window
     {
+        Random rnd = new Random();
         MediaPlayer mp = new MediaPlayer();
         Dictionary<string, string> p_list = new Dictionary<string, string>();
-        DirectoryInfo info = new DirectoryInfo(@"D:\Music\30 Sound effects");
+        List<string> now_p_list = new List<string>();
+        DirectoryInfo info = new DirectoryInfo(@"D:\Music\Пушка");
         DispatcherTimer timer = new DispatcherTimer();
         string nowplaying;
 
         bool isDragged = false;
         bool random = false;
-        bool reapet = false;
+        int reapet = 0;
         bool playy = false;
 
 
@@ -42,6 +44,7 @@ namespace mp34
         {
             InitializeComponent();
             load();
+            music_to_list();
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Tick += Timer_Tick;
 
@@ -49,13 +52,70 @@ namespace mp34
             mp.MediaEnded += Mp_MediaEnded;
         }
 
+        private void music_to_list()
+        {
+            now_p_list.Clear();
+            playList.Items.Clear();
+            if (!random)
+            {
+                foreach (string mus in p_list.Keys)
+                {
+                    now_p_list.Add(mus);
+                    playList.Items.Add(mus);
+                }
+            }
+            else
+            {
+                int count = p_list.Count;
+                int[] mas_index = new int[count];
+                for (int i = 0; i<count;i++)
+                {
+                    mas_index[i] = -1;
+                }
+                for (int i = 0; i < count; i++)
+                {
+                    int k = rnd.Next(count);
+                    while (numExist(mas_index, k))
+                    {
+                        k = rnd.Next(count);
+                    }
+                    mas_index[i] = k;
+                    now_p_list.Add(p_list.Keys.ElementAt(k));
+                }
+                mas_index = null;
+                foreach (string mus in now_p_list)
+                {
+                    playList.Items.Add(mus);
+                }
+            }
+
+        }
+
+        private bool numExist(int[] mas, int k)
+        {
+            foreach (int item in mas)
+            {
+                if (item == k) return true;
+            }
+            return false;
+        }
+
         private void Mp_MediaEnded(object sender, EventArgs e)
         {
             timer.Stop();
+            int ind = playList.SelectedIndex;
 
             if (playList.SelectedIndex + 1 >= playList.Items.Count) return;
 
-            playList.SelectedIndex++;
+            if (reapet == 2)
+            {
+                mp.Stop();
+                timer.Stop();
+
+                duration.Value = 0;
+                mp.Play(); timer.Start();
+            }
+            else playList.SelectedIndex++;
 
 
         }
@@ -148,7 +208,7 @@ namespace mp34
                     {
                         string name = System.IO.Path.GetFileNameWithoutExtension(fname.FullName);
                         p_list.Add(name, fname.FullName);
-                        playList.Items.Add(name);
+                        now_p_list.Add(name);
                     }
                 }
             }
@@ -210,8 +270,22 @@ namespace mp34
 
         private void rpt_btn_Click(object sender, MouseButtonEventArgs e)
         {
-            if (reapet == true) reapet = false;
-            else reapet = true;
+            if (reapet == 0)
+            {
+                reapet = 1;
+                rpt_btn.Source = new BitmapImage(new Uri(@"Source/rep.png", UriKind.Relative));
+            }
+            else if (reapet == 1)
+            {
+                rpt_btn.Source = new BitmapImage(new Uri(@"Source/rpt_on_off.png", UriKind.Relative));
+                reapet = 2;
+            }
+            else if (reapet == 2)
+            {
+                rpt_btn.Source = new BitmapImage(new Uri(@"Source/rpt_on_on.png", UriKind.Relative));
+                reapet = 0;
+            }
+
         }
 
         private void rnd_btn_Click(object sender, MouseButtonEventArgs e)
@@ -227,6 +301,8 @@ namespace mp34
                 random = true;
                 rnd_btn.Source = new BitmapImage(new Uri(@"Source/rnd_on.png", UriKind.Relative));
             }
+            if (playy) mp.Stop();
+            music_to_list();
         }
 
         private void ExitButton_MouseDown(object sender, MouseButtonEventArgs e)
