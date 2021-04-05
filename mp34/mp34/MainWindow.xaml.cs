@@ -68,19 +68,21 @@ namespace mp34
             {
                 int count = p_list.Count;
                 int[] mas_index = new int[count];
-                for (int i = 0; i<count;i++)
-                {
-                    mas_index[i] = -1;
-                }
+                //for (int i = 0; i < count; i++)
+                //{
+                //    mas_index[i] = -1;
+                //}
+                mas_index = createRandomMas(count, mas_index);
                 for (int i = 0; i < count; i++)
                 {
-                    int k = rnd.Next(count);
-                    while (numExist(mas_index, k))
-                    {
-                        k = rnd.Next(count);
-                    }
-                    mas_index[i] = k;
-                    now_p_list.Add(p_list.Keys.ElementAt(k));
+                    //int k = rnd.Next(count);
+                    //while (numExist(mas_index, k))
+                    //{
+                    //    k = rnd.Next(count);
+                    //}
+                    //mas_index[i] = k;
+
+                    now_p_list.Add(p_list.Keys.ElementAt(mas_index[i]));
                 }
                 mas_index = null;
                 foreach (string mus in now_p_list)
@@ -91,6 +93,21 @@ namespace mp34
 
         }
 
+        private int[] createRandomMas(int count, int[] mas)
+        {
+            List<int> listOfNum = new List<int>();
+            for (int i = 0; i < count; i++)
+            {
+                listOfNum.Add(i);
+            }
+            for (int i = 0; i < count; i++)
+            {
+                int k = rnd.Next(listOfNum.Count);
+                mas[i] = listOfNum.ElementAt(k);
+                listOfNum.RemoveAt(k);
+            }
+            return mas;
+        }
         private bool numExist(int[] mas, int k)
         {
             foreach (int item in mas)
