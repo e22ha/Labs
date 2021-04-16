@@ -38,7 +38,7 @@ namespace mp34
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (!isDragged) position_sl.Value = play_win.Position.Seconds;
+            position_sl.Value = play_win.Position.Seconds;
         }
 
         private void p_MediaEnded(object sender, EventArgs e)
@@ -49,6 +49,8 @@ namespace mp34
         private void p_MediaOpened(object sender, RoutedEventArgs e)
         {
             position_sl.Maximum = play_win.NaturalDuration.TimeSpan.TotalSeconds;
+            Duration dur = play_win.NaturalDuration;
+            alltime.Content = dur.TimeSpan.Hours + ":" + dur.TimeSpan.Minutes + ":" + dur.TimeSpan.Seconds;
             play_win.MaxHeight = play_win.NaturalVideoHeight;
             play_win.MaxWidth = play_win.NaturalVideoWidth;
             play_btn.Content = "||";
@@ -103,12 +105,13 @@ namespace mp34
             int SliderValue = (int)position_sl.Value;
             TimeSpan ts = new TimeSpan( 0, 0, SliderValue);
             play_win.Position = ts;
-            isDragged = false;
+
+            timenow.Content = ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
         }
 
         private void position_sl_start_change(object sender, DragStartedEventArgs e)
         {
-            isDragged = true;
+            //isDragged = true;
         }
 
     }

@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mp34"
         mc:Ignorable="d"
-        Title="VideoPlayer" Height="450" Width="800">
-      
+        Title="VideoPlayer" Height="500" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Icon="Source/iconnn.ico">
+
     <Window.Resources>
         <Style x:Key="btn" TargetType="Button">
             <Setter Property="Template">
@@ -23,14 +23,16 @@
     <Grid>
         <Button x:Name="play_btn" Content="▶" HorizontalAlignment="Left" Height="32" Margin="383,411,0,17" VerticalAlignment="Center" Width="32" FontSize="18" Click="play_btn_Click"
                 Style="{StaticResource btn}" Foreground="DimGray"/>
-        <Slider x:Name="position_sl" HorizontalAlignment="Left" Margin="10,383,0,0" VerticalAlignment="Top" Width="770" Maximum="100" LargeChange="10" SmallChange="1" Thumb.DragStarted="position_sl_start_change" Thumb.DragCompleted="position_sl_ValueChanged"/>
+        <Slider x:Name="position_sl" HorizontalAlignment="Left" Margin="85,389,0,0" VerticalAlignment="Top" Width="630" Maximum="100" LargeChange="10" SmallChange="1" Thumb.DragStarted="position_sl_start_change" Thumb.DragCompleted="position_sl_ValueChanged"/>
         <Slider x:Name="volume_sl" HorizontalAlignment="Left" Margin="10,420,0,0" VerticalAlignment="Top" Width="201" Value="5" ValueChanged="Volume_ValueChanged"/>
         <Button x:Name="load_v" Content="Загрузить" HorizontalAlignment="Left" Margin="582,418,0,0" VerticalAlignment="Top" Width="75" Click="load_v_Click"
                 BorderBrush="DimGray" Background="Transparent"/>
         <Button x:Name="load_vp" Content="Загрузить плейлист" HorizontalAlignment="Left" Margin="662,418,0,0" VerticalAlignment="Top" Click="load_vp_Click"
                 BorderBrush="DimGray" Background="Transparent"/>
+        <Label x:Name="alltime" Content="00:00:00" Margin="709,378,0,53" FontSize ="14" HorizontalContentAlignment="Center" Foreground="DimGray" VerticalContentAlignment="Center"/>
         <Grid HorizontalAlignment="Left" Height="368" Margin="10,10,0,0" VerticalAlignment="Top" Width="770">
-            <MediaElement x:Name="play_win" HorizontalAlignment="Center" Margin="310,148,300,106" VerticalAlignment="Center" RenderTransformOrigin="0.67,-0.032" LoadedBehavior="Manual"/>
+            <MediaElement x:Name="play_win" HorizontalAlignment="Center" VerticalAlignment="Center" LoadedBehavior="Manual" Height="368" Width="770"/>
         </Grid>
+        <Label x:Name="timenow" Content="00:00:00" Margin="0,378,709,53" FontSize ="14" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="DimGray"/>
     </Grid>
 </Window>
