@@ -147,7 +147,7 @@ namespace mp34
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (!isDragged) duration.Value++;
+            if (!isDragged) duration.Value++; //= mp.Position.Seconds;
         }
 
         private void playList_SelectionChanged(object sender, SelectionChangedEventArgs e)

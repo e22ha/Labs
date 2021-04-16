@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mp34"
         mc:Ignorable="d"
-        Title="VideoPlayer" Height="500" Width="800" WindowStartupLocation="CenterScreen" Icon="Source/iconnn.ico" ResizeMode="NoResize">
+        Title="VideoPlayer" Height="450" Width="800">
+      
     <Window.Resources>
         <Style x:Key="btn" TargetType="Button">
             <Setter Property="Template">
@@ -22,8 +23,8 @@
     <Grid>
         <Button x:Name="play_btn" Content="▶" HorizontalAlignment="Left" Height="32" Margin="383,411,0,17" VerticalAlignment="Center" Width="32" FontSize="18" Click="play_btn_Click"
                 Style="{StaticResource btn}" Foreground="DimGray"/>
-        <Slider x:Name="position_sl" HorizontalAlignment="Left" Margin="10,383,0,0" VerticalAlignment="Top" Width="770" Maximum="100" LargeChange="10" SmallChange="1"/>
-        <Slider x:Name="volume_sl" HorizontalAlignment="Left" Margin="10,420,0,0" VerticalAlignment="Top" Width="201" Value="5"/>
+        <Slider x:Name="position_sl" HorizontalAlignment="Left" Margin="10,383,0,0" VerticalAlignment="Top" Width="770" Maximum="100" LargeChange="10" SmallChange="1" Thumb.DragStarted="position_sl_start_change" Thumb.DragCompleted="position_sl_ValueChanged"/>
+        <Slider x:Name="volume_sl" HorizontalAlignment="Left" Margin="10,420,0,0" VerticalAlignment="Top" Width="201" Value="5" ValueChanged="Volume_ValueChanged"/>
         <Button x:Name="load_v" Content="Загрузить" HorizontalAlignment="Left" Margin="582,418,0,0" VerticalAlignment="Top" Width="75" Click="load_v_Click"
                 BorderBrush="DimGray" Background="Transparent"/>
         <Button x:Name="load_vp" Content="Загрузить плейлист" HorizontalAlignment="Left" Margin="662,418,0,0" VerticalAlignment="Top" Click="load_vp_Click"
