@@ -8,12 +8,12 @@
         Title="VideoPlayer" Height="450" Width="800">
     <Grid Width="790" Height="420">
         <Button x:Name="play_btn" Content="▶" HorizontalAlignment="Left" Height="33" Margin="42,377,0,10" VerticalAlignment="Center" Width="27" FontSize="20" Click="play_btn_Click"/>
-        <Slider x:Name="position_sl" HorizontalAlignment="Left" Margin="10,354,0,0" VerticalAlignment="Top" Width="770" Maximum="100" LargeChange="10" SmallChange="1"/>
-        <Slider x:Name="volume_sl" HorizontalAlignment="Left" Margin="108,384,0,0" VerticalAlignment="Top" Width="100" Value="5"/>
+        <Slider x:Name="position_sl" HorizontalAlignment="Left" Margin="10,354,0,0" VerticalAlignment="Top" Width="770" Maximum="100" LargeChange="10" SmallChange="1" Thumb.DragStarted="position_sl_start_change" Thumb.DragCompleted="position_sl_ValueChanged"/>
+        <Slider x:Name="volume_sl" HorizontalAlignment="Left" Margin="108,384,0,0" VerticalAlignment="Top" Width="100" ValueChanged="Volume_ValueChanged" Value="5"/>
         <Button x:Name="load_v" Content="Загрузить" HorizontalAlignment="Left" Margin="549,382,0,0" VerticalAlignment="Top" Width="75" Click="load_v_Click"/>
         <Button x:Name="load_vp" Content="Загрузить плейлист" HorizontalAlignment="Left" Margin="647,382,0,0" VerticalAlignment="Top" Click="load_vp_Click"/>
         <Grid HorizontalAlignment="Left" Height="344" Margin="42,10,0,0" VerticalAlignment="Top" Width="730">
-            <MediaElement x:Name="play_win" HorizontalAlignment="Center" Margin="310,148,300,106" VerticalAlignment="Center" RenderTransformOrigin="0.67,-0.032" LoadedBehavior="Manual"/>
+            <MediaElement x:Name="play_win" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.67,-0.032" LoadedBehavior="Manual" Height="344" Width="730"/>
         </Grid>
 
     </Grid>
