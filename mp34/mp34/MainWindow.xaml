@@ -159,5 +159,6 @@
         </Grid>
 
         <Grid x:Name="Cellar" Background="#191C21" Grid.Row="4"/>
+        <Button x:Name="vp_btn" Content="🎞" HorizontalAlignment="Left" Margin="937,10,0,0" VerticalAlignment="Top" Width="47" Grid.Row="1" Height="46" FontSize="30" Click="vp_btn_Click"/>
     </Grid>
 </Window>

@@ -311,9 +311,9 @@ namespace mp34
             {
                 random = false;
 
-                rnd_btn.Source = new BitmapImage(new Uri(@"Source/rnd_off.png", UriKind.Relative));
+                rnd_btn.Source = new BitmapImage(new Uri(@"Source/rnd.png", UriKind.Relative));
             }
-            else
+            else if(random == false)
             {
                 random = true;
                 rnd_btn.Source = new BitmapImage(new Uri(@"Source/rnd_on.png", UriKind.Relative));
@@ -341,5 +341,10 @@ namespace mp34
             }
         }
 
+        private void vp_btn_Click(object sender, RoutedEventArgs e)
+        {
+            VideoPlayer vp = new VideoPlayer();
+            vp.ShowDialog();
+        }
     }
 }
