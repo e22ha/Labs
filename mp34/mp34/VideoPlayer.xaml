@@ -5,16 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:mp34"
         mc:Ignorable="d"
-        Title="VideoPlayer" Height="450" Width="800">
-    <Grid Width="790" Height="420">
-        <Button x:Name="play_btn" Content="▶" HorizontalAlignment="Left" Height="33" Margin="42,377,0,10" VerticalAlignment="Center" Width="27" FontSize="20" Click="play_btn_Click"/>
-        <Slider x:Name="position_sl" HorizontalAlignment="Left" Margin="10,354,0,0" VerticalAlignment="Top" Width="770" Maximum="100" LargeChange="10" SmallChange="1"/>
-        <Slider x:Name="volume_sl" HorizontalAlignment="Left" Margin="108,384,0,0" VerticalAlignment="Top" Width="100" Value="5"/>
-        <Button x:Name="load_v" Content="Загрузить" HorizontalAlignment="Left" Margin="549,382,0,0" VerticalAlignment="Top" Width="75" Click="load_v_Click"/>
-        <Button x:Name="load_vp" Content="Загрузить плейлист" HorizontalAlignment="Left" Margin="647,382,0,0" VerticalAlignment="Top" Click="load_vp_Click"/>
-        <Grid HorizontalAlignment="Left" Height="344" Margin="42,10,0,0" VerticalAlignment="Top" Width="730">
+        Title="VideoPlayer" Height="500" Width="800" WindowStartupLocation="CenterScreen" Icon="Source/iconnn.ico" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="btn" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="ButtonBorder" CornerRadius="25" BorderThickness="1" BorderBrush="DimGray" Background="Transparent">
+                            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="9,3,7,3" Width="14"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Button x:Name="play_btn" Content="▶" HorizontalAlignment="Left" Height="32" Margin="383,411,0,17" VerticalAlignment="Center" Width="32" FontSize="18" Click="play_btn_Click"
+                Style="{StaticResource btn}" Foreground="DimGray"/>
+        <Slider x:Name="position_sl" HorizontalAlignment="Left" Margin="10,383,0,0" VerticalAlignment="Top" Width="770" Maximum="100" LargeChange="10" SmallChange="1"/>
+        <Slider x:Name="volume_sl" HorizontalAlignment="Left" Margin="10,420,0,0" VerticalAlignment="Top" Width="201" Value="5"/>
+        <Button x:Name="load_v" Content="Загрузить" HorizontalAlignment="Left" Margin="582,418,0,0" VerticalAlignment="Top" Width="75" Click="load_v_Click"
+                BorderBrush="DimGray" Background="Transparent"/>
+        <Button x:Name="load_vp" Content="Загрузить плейлист" HorizontalAlignment="Left" Margin="662,418,0,0" VerticalAlignment="Top" Click="load_vp_Click"
+                BorderBrush="DimGray" Background="Transparent"/>
+        <Grid HorizontalAlignment="Left" Height="368" Margin="10,10,0,0" VerticalAlignment="Top" Width="770">
             <MediaElement x:Name="play_win" HorizontalAlignment="Center" Margin="310,148,300,106" VerticalAlignment="Center" RenderTransformOrigin="0.67,-0.032" LoadedBehavior="Manual"/>
         </Grid>
-
     </Grid>
 </Window>

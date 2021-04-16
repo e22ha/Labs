@@ -30,7 +30,7 @@ namespace mp34
         MediaPlayer mp = new MediaPlayer();
         Dictionary<string, string> p_list = new Dictionary<string, string>();
         List<string> now_p_list = new List<string>();
-        DirectoryInfo info = new DirectoryInfo(@"D:\Music\Пушка");
+        DirectoryInfo info = new DirectoryInfo(@"E:\Music\Пушка");
         DispatcherTimer timer = new DispatcherTimer();
         string nowplaying;
 
@@ -90,7 +90,6 @@ namespace mp34
                     playList.Items.Add(mus);
                 }
             }
-
         }
 
         private int[] createRandomMas(int count, int[] mas)
@@ -108,6 +107,7 @@ namespace mp34
             }
             return mas;
         }
+
         private bool numExist(int[] mas, int k)
         {
             foreach (int item in mas)
@@ -133,8 +133,6 @@ namespace mp34
                 mp.Play(); timer.Start();
             }
             else playList.SelectedIndex++;
-
-
         }
 
         private void Mp_MediaOpened(object sender, EventArgs e)
@@ -151,7 +149,6 @@ namespace mp34
         {
             if (!isDragged) duration.Value++;
         }
-
 
         private void playList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -241,20 +238,18 @@ namespace mp34
                 //mp.Open(new Uri(fname, UriKind.Relative));
 
                 mp.Volume = vol * 0.1;
-
             }
         }
 
         private void duration_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
             if (nowplaying != null)
             {
                 mp.Position = new TimeSpan(0, 0, (int)duration.Value);
                 TimeStart.Content = Math.Floor(duration.Value / 60) + ":" + Math.Floor(duration.Value % 60);
             }
-
         }
+
         private void duration_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
         {
             isDragged = true;
@@ -343,6 +338,14 @@ namespace mp34
 
         private void vp_btn_Click(object sender, RoutedEventArgs e)
         {
+            if (playy == true & nowplaying != null)
+            {
+                play_btn.Source = new BitmapImage(new Uri(@"Source/play_btn_off.png", UriKind.Relative));
+                mp.Pause();
+                timer.Stop();
+                playy = false;
+            }
+
             VideoPlayer vp = new VideoPlayer();
             vp.ShowDialog();
         }
