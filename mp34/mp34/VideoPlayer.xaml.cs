@@ -39,11 +39,14 @@ namespace mp34
         private void Timer_Tick(object sender, EventArgs e)
         {
             position_sl.Value = play_win.Position.Seconds;
+            TimeSpan ts = new TimeSpan(0, 0, (int)position_sl.Value);
+            timenow.Content = ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
+
         }
 
         private void p_MediaEnded(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            timer.Stop();
         }
 
         private void p_MediaOpened(object sender, RoutedEventArgs e)
@@ -54,6 +57,7 @@ namespace mp34
             play_win.MaxHeight = play_win.NaturalVideoHeight;
             play_win.MaxWidth = play_win.NaturalVideoWidth;
             play_btn.Content = "||";
+            timer.Start();
             //play_win.Play();
         }
 
@@ -63,13 +67,11 @@ namespace mp34
             {
                 play_btn.Content = "||";
                 play_win.Play();
-                timer.Start();
             }
             else if (play_btn.Content.ToString() == "||")
             {
                 play_btn.Content = "▶";
                 play_win.Pause();
-                timer.Stop();
             }
         }
 
@@ -103,7 +105,7 @@ namespace mp34
         private void position_sl_ValueChanged(object sender, DragCompletedEventArgs e)
         {
             int SliderValue = (int)position_sl.Value;
-            TimeSpan ts = new TimeSpan( 0, 0, SliderValue);
+            TimeSpan ts = new TimeSpan(0, 0, SliderValue);
             play_win.Position = ts;
 
             timenow.Content = ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;

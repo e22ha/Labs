@@ -30,7 +30,7 @@ namespace mp34
         MediaPlayer mp = new MediaPlayer();
         Dictionary<string, string> p_list = new Dictionary<string, string>();
         List<string> now_p_list = new List<string>();
-        DirectoryInfo info = new DirectoryInfo(@"E:\Music\Пушка");
+        DirectoryInfo info = new DirectoryInfo(@"D:\Music\Пушка");
         DispatcherTimer timer = new DispatcherTimer();
         string nowplaying;
 
