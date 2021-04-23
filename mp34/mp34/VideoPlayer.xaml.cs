@@ -26,6 +26,7 @@ namespace mp34
         DispatcherTimer timer = new DispatcherTimer();
 
         bool isDragged = false;
+
         public VideoPlayer()
         {
             InitializeComponent();
@@ -38,10 +39,9 @@ namespace mp34
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            position_sl.Value = play_win.Position.Seconds;
             TimeSpan ts = new TimeSpan(0, 0, (int)position_sl.Value);
+            position_sl.Value++;
             timenow.Content = ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
-
         }
 
         private void p_MediaEnded(object sender, EventArgs e)
@@ -58,12 +58,12 @@ namespace mp34
             play_win.MaxWidth = play_win.NaturalVideoWidth;
             play_btn.Content = "||";
             timer.Start();
-            //play_win.Play();
+            play_win.Play();
         }
 
         private void play_btn_Click(object sender, RoutedEventArgs e)
         {
-            if (play_btn.Content.ToString() == "▶")
+            if (play_btn.Content.ToString() == "▶" & play_win.Source != null)
             {
                 play_btn.Content = "||";
                 play_win.Play();
@@ -77,15 +77,25 @@ namespace mp34
 
         private void load_v_Click(object sender, RoutedEventArgs e)
         {
+            if (play_win.Source != null)
+            {
+                timer.Stop();
+                play_win.Stop();
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.ShowDialog();
+            
+            if (this.DialogResult == true)
+            {
+                play_btn.Content = "▶";
+                alltime.Content = "00:00:00";
+                timenow.Content = "00:00:00";
+                position_sl.Value = 0;
+            }
 
-            //загрузка видео файла
-            //player.Open(new Uri(dlg.FileName, UriKind.Relative));
             play_win.Source = new Uri(dlg.FileName, UriKind.Relative);
-
             play_win.Volume = 50.0 / 100.0;
-
         }
 
         private void load_vp_Click(object sender, RoutedEventArgs e)
@@ -104,17 +114,17 @@ namespace mp34
 
         private void position_sl_ValueChanged(object sender, DragCompletedEventArgs e)
         {
-            int SliderValue = (int)position_sl.Value;
-            TimeSpan ts = new TimeSpan(0, 0, SliderValue);
-            play_win.Position = ts;
-
-            timenow.Content = ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
+            if (play_win.Source != null)
+            {
+                TimeSpan ts = new TimeSpan(0, 0, (int)position_sl.Value);
+                play_win.Position = ts;
+                timenow.Content = ts.Hours + ":" + ts.Minutes + ":" + ts.Seconds;
+            }
         }
 
         private void position_sl_start_change(object sender, DragStartedEventArgs e)
         {
             //isDragged = true;
         }
-
     }
 }

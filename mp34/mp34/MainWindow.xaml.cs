@@ -18,6 +18,7 @@ using System.IO;
 using Microsoft.VisualBasic;
 using Microsoft.SqlServer.Server;
 using System.Windows.Threading;
+using System.Windows.Controls.Primitives;
 
 namespace mp34
 {
@@ -30,7 +31,7 @@ namespace mp34
         MediaPlayer mp = new MediaPlayer();
         Dictionary<string, string> p_list = new Dictionary<string, string>();
         List<string> now_p_list = new List<string>();
-        DirectoryInfo info = new DirectoryInfo(@"D:\Music\Пушка");
+        DirectoryInfo info = new DirectoryInfo(@"E:\Music\Пушка");
         DispatcherTimer timer = new DispatcherTimer();
         string nowplaying;
 
@@ -147,7 +148,15 @@ namespace mp34
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if (!isDragged) duration.Value++; //= mp.Position.Seconds;
+            if (!isDragged)
+            {
+                mp.Play();
+                duration.Value++;
+            }
+            else
+            {
+                mp.Stop();
+            }
         }
 
         private void playList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -186,7 +195,7 @@ namespace mp34
 
         void play()
         {
-            if (playList.SelectedIndex < 0) playList.SelectedIndex = 0; // yf ckexfq gecnjuj ds,jhf
+            if (playList.SelectedIndex < 0) playList.SelectedIndex = 0; // на случай пустого выбора
             if (playList.SelectedItem.ToString() == nowplaying) //на случай повторного нажатия
             {
                 timer.Start();
@@ -196,14 +205,12 @@ namespace mp34
 
             if (playList.SelectedIndex > -1)
             {
-
                 nowplaying = playList.SelectedItem.ToString();
                 p_list.TryGetValue(nowplaying, out string fname);
                 mp.Open(new Uri(fname, UriKind.Relative));
 
                 mp.Volume = Volume.Value;
                 PlayNow.Content = nowplaying;
-
             }
         }
 
