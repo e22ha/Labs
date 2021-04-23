@@ -5,8 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Clock_2d"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="2d" Height="450" Width="450">
     <Grid>
-        
+        <Canvas x:Name="scene" HorizontalAlignment="Left" Height="260" Margin="10,103,0,0" VerticalAlignment="Top" Width="400"/>
+        <Button x:Name="drLi" Content="drLine" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="75" Click="drLi_Click"/>
+        <Button x:Name="drEll" Content="drEllipse" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="75" Click="drEll_Click"/>
+        <Button x:Name="drRec" Content="drRect" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="75" Click="drRec_Click"/>
+        <Button x:Name="drRec_Copy" Content="drRect" HorizontalAlignment="Left" Margin="170,10,0,0" VerticalAlignment="Top" Width="75" Click="drRec_Click"/>
+        <Button x:Name="drPoly" Content="drPoly" HorizontalAlignment="Left" Margin="250,10,0,0" VerticalAlignment="Top" Width="75" Click="drPoly_Click"/>
+        <Button x:Name="drPath" Content="drPath" HorizontalAlignment="Left" Margin="330,10,0,0" VerticalAlignment="Top" Width="75" Click="drPath_Click"/>
+        <Button x:Name="Clock" Content="Clock" HorizontalAlignment="Left" Margin="10,36,0,0" VerticalAlignment="Top" Width="75" Click="Clock_Click"/>
+
     </Grid>
 </Window>

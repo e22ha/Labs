@@ -56,22 +56,24 @@ namespace mp34
             alltime.Content = dur.TimeSpan.Hours + ":" + dur.TimeSpan.Minutes + ":" + dur.TimeSpan.Seconds;
             play_win.MaxHeight = play_win.NaturalVideoHeight;
             play_win.MaxWidth = play_win.NaturalVideoWidth;
-            play_btn.Content = "||";
-            timer.Start();
+            play_btn.Content = " ||";
             play_win.Play();
+            timer.Start();
         }
 
         private void play_btn_Click(object sender, RoutedEventArgs e)
         {
             if (play_btn.Content.ToString() == "▶" & play_win.Source != null)
             {
-                play_btn.Content = "||";
+                play_btn.Content = " ||";
                 play_win.Play();
+                timer.Start();
             }
-            else if (play_btn.Content.ToString() == "||")
+            else if (play_btn.Content.ToString() == " ||")
             {
                 play_btn.Content = "▶";
                 play_win.Pause();
+                timer.Stop();
             }
         }
 
@@ -86,7 +88,7 @@ namespace mp34
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.ShowDialog();
             
-            if (this.DialogResult == true)
+            if (dlg != null)
             {
                 play_btn.Content = "▶";
                 alltime.Content = "00:00:00";

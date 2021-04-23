@@ -31,7 +31,7 @@ namespace mp34
         MediaPlayer mp = new MediaPlayer();
         Dictionary<string, string> p_list = new Dictionary<string, string>();
         List<string> now_p_list = new List<string>();
-        DirectoryInfo info = new DirectoryInfo(@"E:\Music\Пушка");
+        DirectoryInfo info = new DirectoryInfo(@"D:\Music\Пушка");
         DispatcherTimer timer = new DispatcherTimer();
         string nowplaying;
 
@@ -250,11 +250,6 @@ namespace mp34
 
         private void duration_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (nowplaying != null)
-            {
-                mp.Position = new TimeSpan(0, 0, (int)duration.Value);
-                TimeStart.Content = Math.Floor(duration.Value / 60) + ":" + Math.Floor(duration.Value % 60);
-            }
         }
 
         private void duration_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
@@ -265,6 +260,11 @@ namespace mp34
         private void duration_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
         {
             isDragged = false;
+            if (nowplaying != null)
+            {
+                mp.Position = new TimeSpan(0, 0, (int)duration.Value);
+                TimeStart.Content = Math.Floor(duration.Value / 60) + ":" + Math.Floor(duration.Value % 60);
+            }
         }
 
         private void pref_click(object sender, RoutedEventArgs e)
@@ -309,13 +309,20 @@ namespace mp34
 
         private void rnd_btn_Click(object sender, MouseButtonEventArgs e)
         {
+            if (nowplaying != null)
+            {
+                mp.Stop();
+                timer.Stop();
+            }
+
+
             if (random == true)
             {
                 random = false;
 
                 rnd_btn.Source = new BitmapImage(new Uri(@"Source/rnd.png", UriKind.Relative));
             }
-            else if(random == false)
+            else if (random == false)
             {
                 random = true;
                 rnd_btn.Source = new BitmapImage(new Uri(@"Source/rnd_on.png", UriKind.Relative));
