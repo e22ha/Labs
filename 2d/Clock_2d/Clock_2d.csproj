@@ -94,7 +94,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Pic\VictoriaSprites.gif" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Pic\clock_form.jpg" />
   </ItemGroup>

@@ -19,15 +19,41 @@ namespace Clock_2d
     public partial class MainWindow : Window
     {
         DispatcherTimer timer = new DispatcherTimer();
+        DispatcherTimer timerAnim = new DispatcherTimer();
+
+        Rectangle viky = new Rectangle(); //объект для рисования кадра анимации
+        int frameCount = 7;
+        int currentFrame = 0;
+        int frameW = 100;
+        int frameH = 100;
+        int currentRow = 0;
+
+        Line lineOfSec = new Line();
+        Line lineOfMin = new Line();
+        Line lineOfHour = new Line();
+        double s = 0;
+        double m = 0;
+        double h = 0;
         public MainWindow()
         {
             InitializeComponent();
+            timerAnim.Tick += TimerAnim_Tick;
             timer.Tick += Timer_Tick;
-            timer.Interval = new TimeSpan(0, 0, 1);
-            timer.Start();
+            timer.Interval = new TimeSpan(0, 0, 0, 1);
+            timerAnim.Interval = new TimeSpan(0, 0, 0, 0, 250);
         }
 
-
+        private void TimerAnim_Tick(object sender, EventArgs e)
+        {
+            ///определение номера текущего кадра (текущий кадр + 1 + общее число кадров) % общее число кадров
+            currentFrame = (currentFrame + 1 + frameCount) % frameCount;
+            //вычисление координат кадра - номер текущего кадра * ширина/высота одного кадра
+            var frameLeft = currentFrame * frameW;
+            var frameTop = currentRow * frameH;
+            //изменение отображаемого участка
+            (viky.Fill as ImageBrush).Viewbox = new Rect(frameLeft, frameTop, frameLeft + frameW, frameTop +
+            frameH);
+        }
 
         private void drawLine()
         {
@@ -190,6 +216,7 @@ namespace Clock_2d
 
         private void drClock()
         {
+
             // создание объекта овал
             Ellipse myEllipse = new Ellipse();
             //кисть для заполнения прямоугольника изображением
@@ -212,8 +239,6 @@ namespace Clock_2d
             //добавление овала в сцену
             scene.Children.Add(myEllipse);
 
-            //создание объекта линия
-            Line lineOfHour = new Line();
             //установка цвета линии
             lineOfHour.Stroke = System.Windows.Media.Brushes.DimGray;
             //координаты начала линии
@@ -227,11 +252,12 @@ namespace Clock_2d
             //myLine.VerticalAlignment = VerticalAlignment.Center;
             //толщина линии
             lineOfHour.StrokeThickness = 10;
+            h = DateTime.Now.Hour;
+            RotateTransform rh = new RotateTransform(h * 30, 200, 150);
+            lineOfHour.RenderTransform = rh;
             //добавление линии в сцену
             scene.Children.Add(lineOfHour);
 
-            //создание объекта линия
-            Line lineOfMin = new Line();
             //установка цвета линии
             lineOfMin.Stroke = System.Windows.Media.Brushes.Blue;
             //координаты начала линии
@@ -245,26 +271,30 @@ namespace Clock_2d
             //myLine.VerticalAlignment = VerticalAlignment.Center;
             //толщина линии
             lineOfMin.StrokeThickness = 6;
+            m = DateTime.Now.Minute;
+            RotateTransform rm = new RotateTransform(m * 6, 200, 150);
+            lineOfMin.RenderTransform = rm;
             //добавление линии в сцену
             scene.Children.Add(lineOfMin);
 
             //создание объекта линия
-            Line lineOfSec = new Line
-            {
-                //установка цвета линии
-                Stroke = System.Windows.Media.Brushes.Red,
-                //координаты начала линии
-                X1 = 200,
-                Y1 = 52,
-                //координаты конца линии
-                X2 = 200,
-                Y2 = 150,
-                //параметры выравнивания в сцене
-                //myLine.HorizontalAlignment = HorizontalAlignment.Center;
-                //myLine.VerticalAlignment = VerticalAlignment.Center;
-                //толщина линии
-                StrokeThickness = 3
-            };
+
+            //установка цвета линии
+            lineOfSec.Stroke = System.Windows.Media.Brushes.Red;
+            //координаты конца линии
+            lineOfSec.X2 = 200;
+            lineOfSec.Y2 = 52;
+            //координаты начала линии
+            lineOfSec.X1 = 200;
+            lineOfSec.Y1 = 150;
+            //параметры выравнивания в сцене
+            //myLine.HorizontalAlignment = HorizontalAlignment.Center;
+            //myLine.VerticalAlignment = VerticalAlignment.Center;
+            //толщина линии
+            lineOfSec.StrokeThickness = 3;
+            s = DateTime.Now.Second;
+            RotateTransform rs = new RotateTransform(s * 6, 200, 150);
+            lineOfSec.RenderTransform = rs;
             //добавление линии в сцену
             scene.Children.Add(lineOfSec);
         }
@@ -273,12 +303,60 @@ namespace Clock_2d
         {
             scene.Children.Clear();
             drClock();
+            timer.Start();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            lineOfSec.
+
+            s += 1;
+            RotateTransform rs = new RotateTransform(s * 6, 200, 150);
+            lineOfSec.RenderTransform = rs;
+            if (s == 60)
+            {
+                s = 0;
+                m += 1;
+            }
+
+            RotateTransform rm = new RotateTransform(m * 6, 200, 150);
+            lineOfMin.RenderTransform = rm;
+
+            if (m == 60)
+            {
+                m = 0;
+                h += 1;
+                h = h % 24;
+            }
+
+            RotateTransform rh = new RotateTransform(h * 30, 200, 150);
+            lineOfHour.RenderTransform = rh;
         }
 
+        private void anim_Click(object sender, RoutedEventArgs e)
+        {
+            scene.Children.Clear();
+            //ширина и высота прямоугольника, совпадает с размерами кадра
+            viky.Height = 100;
+            viky.Width = 100;
+            //кисть для заполнения прямоугольника фрагментом изображения
+            ImageBrush ib = new ImageBrush();
+            //настройки, позиция изображения будет указана как координаты левого верхнего угла
+            //изображение будет выведено без растяжения/сжатия
+            ib.AlignmentX = AlignmentX.Left;
+            ib.AlignmentY = AlignmentY.Top;
+            ib.Stretch = Stretch.None;
+            //участок изображения который будет нарисован
+            //в данном случае, второй кадр первой строки
+            ib.Viewbox = new Rect(100, 0, 200, 100);
+            ib.ViewboxUnits = BrushMappingMode.Absolute;
+            //загрузка изображения и назначение кисти
+            ib.ImageSource = new BitmapImage(new Uri(@"pack://application:,,,/Pic/VictoriaSprites.gif", UriKind.Absolute));
+            viky.Fill = ib;
+            //изначальная позиция прямоугольника
+            viky.Margin = new Thickness(0, 0, 0, 0);
+            //добавление прямоугольника в сцену
+            scene.Children.Add(viky);
+            timerAnim.Start();
+        }
     }
 }
