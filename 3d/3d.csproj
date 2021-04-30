@@ -100,5 +100,8 @@
     <Resource Include="pic\plateau.jpg" />
     <Resource Include="pic\yachik3.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="pic\Rick Astley - Never Gonna Give You Up %28Video%29_1.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

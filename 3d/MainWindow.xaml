@@ -10,5 +10,9 @@
         <Viewport3D x:Name="scene" KeyDown="scene_KeyDown">
             
         </Viewport3D>
+        <Button x:Name="disco" Content="🎉" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="23" BorderBrush="Transparent" Background="Transparent" Click="disco_Click"/>
+        <Label x:Name="r_vaule" Content="r = 0" HorizontalAlignment="Left" Margin="0,22,0,0" VerticalAlignment="Top" Width="46"/>
+        <Label x:Name="g_vaule" Content="g = 0" HorizontalAlignment="Left" Margin="0,48,0,0" VerticalAlignment="Top" Width="46"/>
+        <Label x:Name="b_vaule" Content="b = 0" HorizontalAlignment="Left" Margin="0,74,0,0" VerticalAlignment="Top" Width="46"/>
     </Grid>
 </Window>

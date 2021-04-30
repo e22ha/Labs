@@ -15,6 +15,9 @@ using System.Windows.Shapes;
 //пространство имён для работы с 3D
 using System.Windows.Media.Media3D;
 using Microsoft.Win32;
+using System.IO;
+using System.Windows.Threading;
+using System.Media;
 
 namespace _3d
 {
@@ -24,13 +27,14 @@ namespace _3d
     public partial class MainWindow : Window
     {
         double angle = 0.0;
-
+        bool partychesker = false;
         GeometryModel3D model;
         ModelVisual3D terrain;
-
+        DispatcherTimer timerDisco = new DispatcherTimer();
         //размер ландшафта (256х256 пикселей, как у карты высот)
         const int N = 256;
-
+        ModelVisual3D light = new ModelVisual3D();
+        Random rnd = new Random();
         public MainWindow()
         {
             InitializeComponent();
@@ -38,7 +42,48 @@ namespace _3d
             SetCamera();
             addTerrain();
             addLight();
+            timerDisco.Tick += TimerDisco_Tick;
+            timerDisco.Interval = new TimeSpan(0, 0, 0, 0,100);
         }
+
+        private void TimerDisco_Tick(object sender, EventArgs e)
+        {
+            scene.Children.Remove(light);
+
+            PointLight pl1 = new PointLight();
+            byte r = (byte)rnd.Next(155, 255);
+            byte g = (byte)rnd.Next(50, 200);
+            byte b = (byte)rnd.Next(50, 200);
+            pl1.Color = Color.FromRgb(r, g, b);
+
+            r_vaule.Content = "r=" + r.ToString();
+            g_vaule.Content = "g=" + g.ToString();
+            b_vaule.Content = "b=" + b.ToString();
+
+            pl1.Position = new Point3D(N, N, N / 2);
+            light.Content = null;
+            light.Content = pl1;
+
+            scene.Children.Add(light);
+
+
+            angle++;
+
+            //создание поворота вокруг оси Y на угол angle
+            AxisAngleRotation3D ax3d = new AxisAngleRotation3D(new Vector3D(0, 1, 0), angle);
+            RotateTransform3D rt = new RotateTransform3D(ax3d);
+            //создание переносов центра ландшафта в центр системы координат и обратно
+            TranslateTransform3D tr1 = new TranslateTransform3D(-N / 2, 0, -N / 2);
+            TranslateTransform3D tr2 = new TranslateTransform3D(N / 2, 0, N / 2);
+
+            Transform3DGroup tg = new Transform3DGroup();
+            //комбинирование преобразований
+            tg.Children.Add(tr1);
+            tg.Children.Add(rt);
+            tg.Children.Add(tr2);
+            terrain.Transform = tg;
+        }
+
         public void SetCamera()
         {
             PerspectiveCamera camera = new PerspectiveCamera();
@@ -52,7 +97,7 @@ namespace _3d
             camera.FarPlaneDistance = 1000;
             camera.NearPlaneDistance = 1;
             camera.UpDirection = new Vector3D(0, 1, 0);
-            camera.FieldOfView = 75;
+            camera.FieldOfView = 90;
 
             scene.Camera = camera;
 
@@ -79,11 +124,12 @@ namespace _3d
 
         void addLight()
         {
+
             PointLight pl = new PointLight();
             pl.Color = Colors.LightYellow;
 
             pl.Position = new Point3D(N, N, N / 2);
-            ModelVisual3D light = new ModelVisual3D();
+
             light.Content = pl;
 
             scene.Children.Add(light);
@@ -104,7 +150,8 @@ namespace _3d
         void addTerrain()
         {
             System.Drawing.Bitmap hMap;
-            hMap = new System.Drawing.Bitmap("C:\\Users\\Глеб\\Source\\Repos\\SergeyTy\\LABs_2\\3d\\pic\\plateau.jpg");
+
+            hMap = new System.Drawing.Bitmap("D:\\Code\\LABs_2\\3d\\pic\\plateau.jpg");
 
             //модель для отображения ландшафта
             terrain = new ModelVisual3D();
@@ -114,7 +161,7 @@ namespace _3d
                 for (int j = 0; j < N; j++)
                 {
                     //расстановка точек ландшафта
-                    double y = hMap.GetPixel(i, j).R / 10.0;
+                    double y = hMap.GetPixel(i, j).R / 3.0;
                     geometry.Positions.Add(new Point3D(i, y, j));
                     //вычисление текстурных координат для точек ландшафта
                     double tu = i / Convert.ToDouble(N);
@@ -194,7 +241,7 @@ namespace _3d
 
         private void scene_KeyDown(object sender, KeyEventArgs e)
         {
-            
+
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -240,6 +287,32 @@ namespace _3d
 
             ////назначение преобразований модели
             //model.Transform = rt;
+        }
+
+        private void disco_Click(object sender, RoutedEventArgs e)
+        {
+            if (!partychesker)
+            {
+                timerDisco.Start();
+                partychesker = true;
+                load();
+                sp.PlayLooping();
+            }
+            else if (partychesker)
+            {
+                timerDisco.Stop();
+                partychesker = false;
+                sp.Stop();
+            }
+        }
+
+            SoundPlayer sp = new SoundPlayer();
+        void load()
+        {
+            sp = new SoundPlayer(@"D:\\Code\\LABs_2\\3d\\pic\\Rick Astley - Never Gonna Give You Up (Video)_1.wav");
+            //загрузка файла
+            sp.Load();
+            
         }
     }
 }
