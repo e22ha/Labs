@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace geometric_shapes_view
 {
     /// <summary>
@@ -23,6 +24,21 @@ namespace geometric_shapes_view
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void btn_point_Click(object sender, RoutedEventArgs e)
+        {
+            Point p = InitShape.create2DPoint();
+            Ellipse ellipse = new Ellipse();
+            ellipse.Fill = System.Windows.Media.Brushes.Black;
+            ellipse.Stroke = System.Windows.Media.Brushes.Black;
+            ellipse.StrokeThickness = 5;
+            ellipse.Margin = new Thickness(p.X, p.Y, 0, 0);
+            Canvas.Children.Add(ellipse);
+
+            log.Text = p.X + "x;\n " + p.Y + "y;\n";
+
+
         }
     }
 }

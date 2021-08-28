@@ -7,6 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <Canvas x:Name="Canvas" HorizontalAlignment="Center" Height="300" Margin="10,10,0,0" VerticalAlignment="Center" Width="300"/>
+        <Button x:Name="btn_point" Content="addPoint" HorizontalAlignment="Left" Margin="39,64,0,0" VerticalAlignment="Top" Width="75" Click="btn_point_Click"/>
+        <TextBlock x:Name="log" HorizontalAlignment="Left" Height="210" Margin="608,48,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="170" />
+
     </Grid>
 </Window>
