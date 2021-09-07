@@ -46,13 +46,34 @@ namespace geometric_shapes_view
         private void shiftY_point_Click(object sender, RoutedEventArgs e)
         {
             int i = Canvas.Children.Count;
-            Point2D p = Canvas.Children[i];
-            p.shiftY(int.Parse(varY.Text));
+            //Point2D p = Canvas.Children[i];
+            //p.shiftY(int.Parse(varY.Text));
         }
 
         private void shiftX_point_Click(object sender, RoutedEventArgs e)
         {
             //p.shiftX(int.Parse(varX.Text));
+        }
+
+        private void btn_tri_Click(object sender, RoutedEventArgs e)
+        {
+            Triangle tri = InitShape.createRndTriangle();
+
+            Polygon poly = new Polygon();
+            Point pA = new Point(tri.getA().getX(), tri.getA().getY());
+            poly.Points.Add(pA);
+            Point pB = new Point(tri.getB().getX(), tri.getB().getY());
+            poly.Points.Add(pB);
+            Point pC = new Point(tri.getC().getX(), tri.getC().getY());
+            poly.Points.Add(pC);
+
+            poly.Fill = Brushes.Black;
+            poly.Stroke = Brushes.Black;
+            poly.StrokeThickness = 5;
+
+            Canvas.Children.Add(poly);
+
+
         }
     }
 }

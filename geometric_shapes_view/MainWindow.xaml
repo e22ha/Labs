@@ -14,6 +14,7 @@
         <Button x:Name="shiftX_point" Content="shiftX" HorizontalAlignment="Left" Margin="88,89,0,0" VerticalAlignment="Top" Width="36" Click="shiftX_point_Click"/>
         <TextBox x:Name="varY" HorizontalAlignment="Left" Height="20" Margin="34,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
         <TextBox x:Name="varX" HorizontalAlignment="Left" Height="20" Margin="88,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
+        <Button x:Name="btn_tri" Content="add tri" HorizontalAlignment="Left" Margin="44,160,0,0" VerticalAlignment="Top" Width="74" Click="btn_tri_Click"/>
 
     </Grid>
 </Window>
