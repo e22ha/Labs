@@ -10,14 +10,14 @@ namespace geometric_shapes_view
     class InitShape
     {
     
-        public static Point create2DPoint()
+        public static Point2D create2DPoint()
         {
             Random rnd = new Random();
             double x = rnd.NextDouble()*350;
             double y = rnd.NextDouble()*350;
-            Point2D p = new Point2D();
-            
-            return p.Init(x, y);
+            Point2D p = new Point2D(x,y);
+
+            return p;
         }
 
         public static void createRndTriangle()

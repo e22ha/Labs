@@ -28,17 +28,31 @@ namespace geometric_shapes_view
 
         private void btn_point_Click(object sender, RoutedEventArgs e)
         {
-            Point p = InitShape.create2DPoint();
-            Ellipse ellipse = new Ellipse();
-            ellipse.Fill = System.Windows.Media.Brushes.Black;
-            ellipse.Stroke = System.Windows.Media.Brushes.Black;
-            ellipse.StrokeThickness = 5;
-            ellipse.Margin = new Thickness(p.X, p.Y, 0, 0);
+            Point2D p = InitShape.create2DPoint();
+            Ellipse ellipse = new Ellipse
+            {
+                Fill = Brushes.Black,
+                Stroke = Brushes.Black,
+                StrokeThickness = 5,
+                Margin = new Thickness(p.getX(), p.getY(), 0, 0)
+            };
             Canvas.Children.Add(ellipse);
 
-            log.Text = p.X + "x;\n " + p.Y + "y;\n";
+            log.Text = p.getX() + "x;\n " + p.getY() + "y;\n";
 
 
+        }
+
+        private void shiftY_point_Click(object sender, RoutedEventArgs e)
+        {
+            int i = Canvas.Children.Count;
+            Point2D p = Canvas.Children[i];
+            p.shiftY(int.Parse(varY.Text));
+        }
+
+        private void shiftX_point_Click(object sender, RoutedEventArgs e)
+        {
+            //p.shiftX(int.Parse(varX.Text));
         }
     }
 }

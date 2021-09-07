@@ -9,28 +9,26 @@ namespace geometric_shapes_view
 {
     class Point2D
     {
-        private double x;
-        private double y;
+        private double x { get; set; }
 
-        public Point Init(double a, double b)
+        private double y { get; set; }
+
+        public Point2D(double x, double y)
         {
-            x = a;
-            y = b;
-
-            Point p = new Point(x, y);
-
-            return p;
+            this.x = x;
+            this.y = y;
         }
 
-        public double GetX()
+        public double getX()
         {
-            return x;
+            return this.x;
         }
 
-        public double GetY()
+        public double getY()
         {
-            return y;
+            return this.y;
         }
+
 
         public void shiftX(double value)
         {
