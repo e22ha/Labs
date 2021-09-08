@@ -9,15 +9,43 @@ namespace geometric_shapes_view
 {
     class Point2D
     {
-        private double x { get; set; }
+        private double x;
 
-        private double y { get; set; }
+        private double y;
+
+        public double maxX;
+        public double maxY;
+
+        public Point2D()
+        {
+            x = 0;
+            y = 0;
+        }
 
         public Point2D(double x, double y)
         {
             this.x = x;
             this.y = y;
         }
+
+        public bool setX(double x)
+        {
+            if (x < maxX)
+                this.x = x;
+            else return false;
+            return true;
+        }
+        
+        public bool setY(double y)
+        {
+            if (y < maxY)
+                this.y = y;
+            else return false;
+            return true;
+        }
+
+
+
 
         public double getX()
         {
@@ -39,10 +67,10 @@ namespace geometric_shapes_view
             y += vaule;
         }
 
-        public double getDistance(Point2D otherPoint, Point2D point)
+        public double getDistance(Point2D otherPoint)
         {
             double value;
-            value = Math.Sqrt(Math.Pow(otherPoint.x - point.x, 2) + Math.Pow(otherPoint.y - point.y, 2));
+            value = Math.Sqrt(Math.Pow(otherPoint.x - this.x, 2) + Math.Pow(otherPoint.y - this.y, 2));
             return value;
         }
 

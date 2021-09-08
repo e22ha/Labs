@@ -13,9 +13,27 @@ namespace geometric_shapes_view
 
         public static Point2D create2DPoint()
         {
-            double x = rnd.NextDouble() * 350;
-            double y = rnd.NextDouble() * 350;
-            Point2D p = new Point2D(x, y);
+
+
+            Point2D p = new Point2D();
+
+            p.maxX = 350;
+
+            while (true)
+            {
+                double x = rnd.NextDouble() * 350;
+
+                if (p.setX(x)) break;
+            }
+
+            p.maxY = 350;
+
+            while (true)
+            {
+                double y = rnd.NextDouble() * 350;
+
+                if (p.setY(y)) break;
+            }
 
             return p;
         }
@@ -29,9 +47,16 @@ namespace geometric_shapes_view
             return tri;
         }
 
-        public static void createRndRectangel()
+        public static Rectangle createRndRectangel()
         {
+            Point2D a = create2DPoint();
+            Point2D c = create2DPoint();
 
+            Point2D b = new Point2D(a.getX(),c.getY());
+            Point2D d = new Point2D(c.getX(),a.getY());
+
+            Rectangle rec = new Rectangle(a,b,c,d);
+            return rec;
         }
 
         public static void createRectangel()

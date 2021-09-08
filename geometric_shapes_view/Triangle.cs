@@ -55,10 +55,10 @@ namespace geometric_shapes_view
                                    - Math.Pow(this.pointB.getY(), 2))
                                    )
                 + Math.Sqrt(
-                                    (Math.Pow(this.pointC.getX(), 2)
-                                   - Math.Pow(this.pointA.getX(), 2))
-                                   + (Math.Pow(this.pointC.getY(), 2)
-                                   - Math.Pow(this.pointA.getY(), 2))
+                                    (Math.Pow(this.pointA.getX(), 2)
+                                   - Math.Pow(this.pointC.getX(), 2))
+                                   + (Math.Pow(this.pointA.getY(), 2)
+                                   - Math.Pow(this.pointC.getY(), 2))
                                    )
                 ;
 

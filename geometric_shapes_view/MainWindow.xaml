@@ -15,6 +15,8 @@
         <TextBox x:Name="varY" HorizontalAlignment="Left" Height="20" Margin="34,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
         <TextBox x:Name="varX" HorizontalAlignment="Left" Height="20" Margin="88,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
         <Button x:Name="btn_tri" Content="add tri" HorizontalAlignment="Left" Margin="44,160,0,0" VerticalAlignment="Top" Width="74" Click="btn_tri_Click"/>
+        <Button x:Name="btn_clean" Content="Clean" HorizontalAlignment="Left" Margin="34,365,0,0" VerticalAlignment="Top" Width="75" Click="btn_clean_Click"/>
+        <Button x:Name="btn_recRnd" Content="add rndRec" HorizontalAlignment="Left" Margin="44,186,0,0" VerticalAlignment="Top" Width="74" Click="btn_recRnd_Click"/>
 
     </Grid>
 </Window>
