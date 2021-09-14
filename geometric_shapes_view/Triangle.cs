@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace geometric_shapes_view
 {
-    class Triangle
+    class Triangle : Shape
     {
         private Point2D pointA { get; set; }
         private Point2D pointB { get; set; }
@@ -42,26 +42,35 @@ namespace geometric_shapes_view
         {
             double perimeter;
 
-            perimeter = Math.Sqrt(
-                                    (Math.Pow(this.pointB.getX(), 2)
-                                   - Math.Pow(this.pointA.getX(), 2))
+            double ax = this.pointA.getX();
+            double ay = this.pointA.getY();
+            double bx = this.pointB.getX();
+            double by = this.pointB.getY();
+            double cx = this.pointC.getX();
+            double cy = this.pointC.getY();
+
+            perimeter = this.pointA.getDistance(this.pointB) + this.pointB.getDistance(this.pointC) + this.pointC.getDistance(this.pointA);
+
+            /*perimeter = Math.Sqrt(
+                                    Math.Pow(this.pointB.getX(), 2)
+                                   - Math.Pow(this.pointA.getX(), 2)
                                    + (Math.Pow(this.pointB.getY(), 2)
                                    - Math.Pow(this.pointA.getY(), 2))
                                    )
                 + Math.Sqrt(
-                                    (Math.Pow(this.pointC.getX(), 2)
-                                   - Math.Pow(this.pointB.getX(), 2))
+                                    Math.Pow(this.pointC.getX(), 2)
+                                   - Math.Pow(this.pointB.getX(), 2)
                                    + (Math.Pow(this.pointC.getY(), 2)
                                    - Math.Pow(this.pointB.getY(), 2))
                                    )
                 + Math.Sqrt(
-                                    (Math.Pow(this.pointA.getX(), 2)
-                                   - Math.Pow(this.pointC.getX(), 2))
+                                    Math.Pow(this.pointA.getX(), 2)
+                                   - Math.Pow(this.pointC.getX(), 2)
                                    + (Math.Pow(this.pointA.getY(), 2)
                                    - Math.Pow(this.pointC.getY(), 2))
                                    )
                 ;
-
+            */
             return perimeter;
         }
 
@@ -75,14 +84,14 @@ namespace geometric_shapes_view
         }
 
 
-        public void shiftX(int value)
+        public void shiftX(double value)
         {
             this.pointA.shiftX(value);
             this.pointB.shiftX(value);
             this.pointC.shiftX(value);
         }
 
-        public void shiftY(int value)
+        public void shiftY(double value)
         {
             this.pointA.shiftY(value);
             this.pointB.shiftY(value);

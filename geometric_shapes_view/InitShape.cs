@@ -59,9 +59,15 @@ namespace geometric_shapes_view
             return rec;
         }
 
-        public static void createRectangel()
+        public static Rectangle createRectangel(double h, double w)
         {
+            Point2D a = create2DPoint();
+            Point2D b = new Point2D(a.getX()+w, a.getY());
+            Point2D c = new Point2D(a.getX()+w, a.getY()+h);
+            Point2D d = new Point2D(a.getX(),a.getY()+h);
 
+            Rectangle rec = new Rectangle(a,b,c,d );
+            return rec;
         }
 
     }

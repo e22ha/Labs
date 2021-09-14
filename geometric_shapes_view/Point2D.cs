@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace geometric_shapes_view
 {
-    class Point2D
+    class Point2D : Shape
     {
         private double x;
 
@@ -68,6 +68,9 @@ namespace geometric_shapes_view
         {
             double value;
             value = Math.Sqrt(Math.Pow(otherPoint.x - this.x, 2) + Math.Pow(otherPoint.y - this.y, 2));
+            
+            Math.Abs(value);
+            
             return value;
         }
     }

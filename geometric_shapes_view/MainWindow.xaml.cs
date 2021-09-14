@@ -21,6 +21,14 @@ namespace geometric_shapes_view
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        List<Point2D> listPoint = new List<Point2D>();
+        List<Triangle> listTri = new List<Triangle>();
+        List<Rectangle> listRec = new List<Rectangle>();
+        bool dotlast;
+        bool trilast;
+        bool reclast;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -30,35 +38,40 @@ namespace geometric_shapes_view
         private void btn_point_Click(object sender, RoutedEventArgs e)
         {
             Point2D p = InitShape.create2DPoint();
+            Ellipse ellipse = predrawpoint(p);
+            listPoint.Add(p);
+            Canvas.Children.Add(ellipse);
+        }
+
+        private Ellipse predrawpoint(Point2D p)
+        {
             SolidColorBrush rndbrash = new SolidColorBrush(Color.FromRgb((byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
             Ellipse ellipse = new Ellipse
             {
                 Fill = rndbrash,
-                Stroke = Brushes.Black,
+                Stroke = rndbrash,
                 StrokeThickness = 5,
                 Margin = new Thickness(p.getX(), p.getY(), 0, 0)
             };
-            Canvas.Children.Add(ellipse);
 
             log.Text = "Point \n" + "X = " + p.getX() + "\n" + "Y = " + p.getY() + "\n";
-        }
-
-        private void shiftY_point_Click(object sender, RoutedEventArgs e)
-        {
-            int i = Canvas.Children.Count;
-            //Point2D p = Canvas.Children[i];
-            //p.shiftY(int.Parse(varY.Text));
-        }
-
-        private void shiftX_point_Click(object sender, RoutedEventArgs e)
-        {
-            //p.shiftX(int.Parse(varX.Text));
+            dotlast = true;
+            trilast = false;
+            reclast = false;
+            return ellipse;
         }
 
         private void btn_tri_Click(object sender, RoutedEventArgs e)
         {
             Triangle tri = InitShape.createRndTriangle();
+            listTri.Add(tri);
+            Polygon poly = predrawtri(tri);
 
+            Canvas.Children.Add(poly);
+        }
+
+        private Polygon predrawtri(Triangle tri)
+        {
             Polygon poly = new Polygon();
             Point pA = new Point(tri.getA().getX(), tri.getA().getY());
             poly.Points.Add(pA);
@@ -73,8 +86,6 @@ namespace geometric_shapes_view
             poly.Opacity = 0.5;
             poly.StrokeThickness = 3;
 
-            Canvas.Children.Add(poly);
-
             log.Text = null;
             log.Text += "Triangle \n";
             log.Text += "Point A: \n" + "X = " + tri.getA().getX() + "\nY = " + tri.getA().getY() + "\n\r";
@@ -82,18 +93,25 @@ namespace geometric_shapes_view
             log.Text += "Point C: \n" + "X = " + tri.getC().getX() + "\nY = " + tri.getC().getY() + "\n\r";
             log.Text += "Area: " + tri.getArea() + "\n";
             log.Text += "Perimeter: " + tri.getPerimeter();
+
+            dotlast = false;
+            trilast = true;
+            reclast = false;
+            return poly;
         }
 
-        private void btn_clean_Click(object sender, RoutedEventArgs e)
-        {
-            Canvas.Children.Clear();
-            log.Text = null;
-        }
 
         private void btn_recRnd_Click(object sender, RoutedEventArgs e)
         {
             Rectangle rec = InitShape.createRndRectangel();
+            listRec.Add(rec);
+            Polygon poly = predrawrec(rec);
 
+            Canvas.Children.Add(poly);
+        }
+
+        private Polygon predrawrec(Rectangle rec)
+        {
             Polygon poly = new Polygon();
             Point pA = new Point(rec.getA().getX(), rec.getA().getY());
             poly.Points.Add(pA);
@@ -104,20 +122,125 @@ namespace geometric_shapes_view
             Point pD = new Point(rec.getD().getX(), rec.getD().getY());
             poly.Points.Add(pD);
 
-
             SolidColorBrush rndbrash = new SolidColorBrush(Color.FromRgb((byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
             poly.Fill = rndbrash;
             poly.Stroke = Brushes.Black;
             poly.Opacity = 0.5;
             poly.StrokeThickness = 5;
 
-            Canvas.Children.Add(poly);
             log.Text = null;
             log.Text += "Point A: \n" + "X = " + rec.getA().getX() + "\nY = " + rec.getA().getY() + "\n\r";
             log.Text += "Point B: \n" + "X = " + rec.getB().getX() + "\nY = " + rec.getB().getY() + "\n\r";
             log.Text += "Point C: \n" + "X = " + rec.getC().getX() + "\nY = " + rec.getC().getY() + "\n\r";
             log.Text += "Point D: \n" + "X = " + rec.getD().getX() + "\nY = " + rec.getD().getY() + "\n\r";
-            log.Text += "Area: " + rec.getArea();
+            log.Text += "Area: " + rec.getArea() + "\n";
+            log.Text += "Perimeter: " + rec.getPerimeter();
+            dotlast = false;
+            trilast = false;
+            reclast = true;
+            return poly;
+        }
+
+        private void btn_rec_Click(object sender, RoutedEventArgs e)
+        {
+            Rectangle rec = InitShape.createRectangel(double.Parse(h_vaule.Text), double.Parse(w_vaule.Text));
+
+            listRec.Add(rec);
+            Polygon poly = predrawrec(rec);
+
+            Canvas.Children.Add(poly);
+        }
+        private void btn_clean_Click(object sender, RoutedEventArgs e)
+        {
+            Canvas.Children.Clear();
+            log.Text = null;
+            listRec.Clear();
+            listTri.Clear();
+            listPoint.Clear();
+            dotlast = false;
+            trilast = false;
+            reclast = false;
+        }
+
+        void shiftX(double value)
+        {
+            if (dotlast)
+            {
+                listPoint.Last().shiftX(value);
+
+                drawAllRec();
+                drawAllTri();
+                drawAllPoint();
+            }
+            else if (trilast)
+            {
+                listTri.Last().shiftX(value);
+
+                drawAllRec();
+                drawAllPoint();
+                drawAllTri();
+            }
+            else if (reclast)
+            {
+                listRec.Last().shiftX(value);
+
+                drawAllPoint();
+                drawAllTri();
+                drawAllRec();
+            }
+        }
+        void shiftY(double value)
+        {
+            if (dotlast)
+            {
+                listPoint.Last().shiftY(value);
+
+                drawAllRec();
+                drawAllTri();
+                drawAllPoint();
+            }
+            else if (trilast)
+            {
+                listTri.Last().shiftY(value);
+
+                drawAllRec();
+                drawAllPoint();
+                drawAllTri();
+            }
+            else if (reclast)
+            {
+                listRec.Last().shiftY(value);
+
+                drawAllPoint();
+                drawAllTri();
+                drawAllRec();
+            }
+
+        }
+
+
+        void drawAllTri()
+        {
+            foreach (Triangle tri in listTri)
+            {
+                Canvas.Children.Add(predrawtri(tri));
+            }
+        }
+
+        void drawAllRec()
+        {
+            foreach (Rectangle rec in listRec)
+            {
+                Canvas.Children.Add(predrawrec(rec));
+            }
+        }
+
+        void drawAllPoint()
+        {
+            foreach (Point2D point in listPoint)
+            {
+                Canvas.Children.Add(predrawpoint(point));
+            }
         }
     }
 }

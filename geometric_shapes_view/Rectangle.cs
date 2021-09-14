@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace geometric_shapes_view
 {
-    class Rectangle
+    class Rectangle : Shape
     {
 
         private Point2D pointA;
@@ -58,6 +58,32 @@ namespace geometric_shapes_view
 
             area = a * b;
             return area;
+        }
+
+        public double getPerimeter()
+        {
+            double perimeter;
+            double a = this.getA().getDistance(this.getB());
+            double b = this.getA().getDistance(this.getD());
+            perimeter = 2*(a + b);
+
+            return perimeter;
+        }
+
+        public void shiftX(double value)
+        {
+            this.pointA.shiftX(value);
+            this.pointB.shiftX(value);
+            this.pointC.shiftX(value);
+            this.pointD.shiftX(value);
+        }
+
+        public void shiftY(double value)
+        {
+            this.pointA.shiftY(value);
+            this.pointB.shiftY(value);
+            this.pointC.shiftY(value);
+            this.pointD.shiftY(value);
         }
 
     }

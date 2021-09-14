@@ -55,7 +55,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
@@ -70,17 +70,12 @@
                 <RowDefinition Height="95"/>
                 <RowDefinition Height="5"/>
             </Grid.RowDefinitions>
-            <Grid x:Name="Logo" Grid.Row="0">
-                <Button x:Name="shiftY_point" Content="shiftY" HorizontalAlignment="Left" Margin="51,29,0,0" VerticalAlignment="Top" Width="36" Click="shiftY_point_Click" RenderTransformOrigin="0.609,11.247"/>
-                <Button x:Name="shiftX_point" Content="shiftX" HorizontalAlignment="Left" Margin="105,29,0,0" VerticalAlignment="Top" Width="36" Click="shiftX_point_Click"/>
-                <TextBox x:Name="varY" HorizontalAlignment="Left" Height="20" Margin="51,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
-                <TextBox x:Name="varX" HorizontalAlignment="Left" Height="20" Margin="105,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
-            </Grid>
+            <Grid x:Name="Logo" Grid.Row="0"/>
             <Grid x:Name="Buttons" Grid.Row="1">
                 <Image x:Name="Circle" Source="Source/point.png"
                        Height="125" Width="125" Margin="38,-17,37,93"/>
                 <Image x:Name="Tri" Source="Source/tri.png"
-                       Height="90" Width="90" Margin="67,49,43,62" RenderTransformOrigin="0.5,0.5">
+                       Height="90" Width="90" Margin="74,51,36,60" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -101,10 +96,15 @@
             </Grid>
             <Grid x:Name="DeadAll" Grid.Row="2">
                 <Image x:Name="Burn" Source="Source/burn.png"
-                       Height="90" Width="90" Margin="55,0,55,1"/>
+                       Height="90" Width="90" Margin="64,-6,46,12"/>
                 <Button x:Name="btn_clean" Content="Clean" Click="btn_clean_Click" Height="35" Margin="70,34,71,22" BorderBrush="Transparent" Background="Transparent" Foreground="White"
                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
             </Grid>
+            <Button x:Name="btn_rec" Content="rectangle" HorizontalAlignment="Left" Margin="3,10,0,0" VerticalAlignment="Top" Width="56" Click="btn_rec_Click"/>
+            <TextBox x:Name="h_vaule" HorizontalAlignment="Left" Height="16" Margin="92,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Text="100"/>
+            <TextBox x:Name="w_vaule" HorizontalAlignment="Left" Height="16" Margin="149,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Text="100"/>
+            <Label Content="h:" HorizontalAlignment="Left" Height="27" Margin="75,9,0,0" VerticalAlignment="Top" Width="19"/>
+            <Label Content="w:" HorizontalAlignment="Left" Height="27" Margin="127,9,0,0" VerticalAlignment="Top" Width="24"/>
         </Grid>
         <Grid x:Name="Board" Background="Transparent" Grid.Column="1">
             <Canvas x:Name="Canvas" HorizontalAlignment="Center" Height="401" Margin="10" VerticalAlignment="Center" Width="380"/>
