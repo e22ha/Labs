@@ -5,18 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:geometric_shapes_view"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="GetShapes" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Grid>
-        <Canvas x:Name="Canvas" HorizontalAlignment="Center" Height="300" Margin="10,10,0,0" VerticalAlignment="Center" Width="300"/>
-        <Button x:Name="btn_point" Content="addPoint" HorizontalAlignment="Left" Margin="39,64,0,0" VerticalAlignment="Top" Width="75" Click="btn_point_Click"/>
-        <TextBlock x:Name="log" HorizontalAlignment="Left" Height="210" Margin="608,48,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="170" />
-        <Button x:Name="shiftY_point" Content="shiftY" HorizontalAlignment="Left" Margin="34,89,0,0" VerticalAlignment="Top" Width="36" Click="shiftY_point_Click"/>
-        <Button x:Name="shiftX_point" Content="shiftX" HorizontalAlignment="Left" Margin="88,89,0,0" VerticalAlignment="Top" Width="36" Click="shiftX_point_Click"/>
-        <TextBox x:Name="varY" HorizontalAlignment="Left" Height="20" Margin="34,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
-        <TextBox x:Name="varX" HorizontalAlignment="Left" Height="20" Margin="88,114,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
-        <Button x:Name="btn_tri" Content="add tri" HorizontalAlignment="Left" Margin="44,160,0,0" VerticalAlignment="Top" Width="74" Click="btn_tri_Click"/>
-        <Button x:Name="btn_clean" Content="Clean" HorizontalAlignment="Left" Margin="34,365,0,0" VerticalAlignment="Top" Width="75" Click="btn_clean_Click"/>
-        <Button x:Name="btn_recRnd" Content="add rndRec" HorizontalAlignment="Left" Margin="44,186,0,0" VerticalAlignment="Top" Width="74" Click="btn_recRnd_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
 
+        <Grid x:Name="Console" Background="Transparent" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="95"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="Logo" Grid.Row="0">
+                <Button x:Name="shiftY_point" Content="shiftY" HorizontalAlignment="Left" Margin="51,29,0,0" VerticalAlignment="Top" Width="36" Click="shiftY_point_Click" RenderTransformOrigin="0.609,11.247"/>
+                <Button x:Name="shiftX_point" Content="shiftX" HorizontalAlignment="Left" Margin="105,29,0,0" VerticalAlignment="Top" Width="36" Click="shiftX_point_Click"/>
+                <TextBox x:Name="varY" HorizontalAlignment="Left" Height="20" Margin="51,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
+                <TextBox x:Name="varX" HorizontalAlignment="Left" Height="20" Margin="105,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="36" Text="10"/>
+            </Grid>
+            <Grid x:Name="Buttons" Grid.Row="1">
+                <Image x:Name="Circle" Source="Source/point.png"
+                       Height="125" Width="125" Margin="38,-17,37,93"/>
+                <Image x:Name="Tri" Source="Source/tri.png"
+                       Height="90" Width="90" Margin="67,49,43,62" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="45"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image x:Name="Quad" Source="Source/quad.png"
+                       Height="125" Width="125" Margin="37,95,38,-19"/>
+                <Button x:Name="btn_point" Content="Point" Click="btn_point_Click" Height="35" Margin="51,27,51,139" BorderBrush="Transparent" Background="Transparent"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
+                <Button x:Name="btn_tri" Content="Triangle" Click="btn_tri_Click" Height="35" Margin="66,83" BorderBrush="Transparent" Background="Transparent"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
+                <Button x:Name="btn_recRnd" Content="Quadrangle" Click="btn_recRnd_Click" Height="35" Margin="51,139,51,27" BorderBrush="Transparent" Background="Transparent"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
+            </Grid>
+            <Grid x:Name="DeadAll" Grid.Row="2">
+                <Image x:Name="Burn" Source="Source/burn.png"
+                       Height="90" Width="90" Margin="55,0,55,1"/>
+                <Button x:Name="btn_clean" Content="Clean" Click="btn_clean_Click" Height="35" Margin="70,34,71,22" BorderBrush="Transparent" Background="Transparent" Foreground="White"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
+            </Grid>
+        </Grid>
+        <Grid x:Name="Board" Background="Transparent" Grid.Column="1">
+            <Canvas x:Name="Canvas" HorizontalAlignment="Center" Height="401" Margin="10" VerticalAlignment="Center" Width="380"/>
+        </Grid>
+        <Grid x:Name="Info" Background="Transparent" Grid.Column="2">
+            <TextBlock x:Name="log" HorizontalAlignment="Left" Height="348" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" Margin="0,60,0,0" />
+            <TextBlock Height="34" Margin="0,20,30,0" VerticalAlignment="Top"
+                     Text="Info:" FontSize="18" FontWeight="Medium"/>
+        </Grid>
     </Grid>
 </Window>

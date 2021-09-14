@@ -40,9 +40,7 @@ namespace geometric_shapes_view
             };
             Canvas.Children.Add(ellipse);
 
-            log.Text = p.getX() + "x;\n " + p.getY() + "y;\n";
-
-
+            log.Text = "Point \n" + "X = " + p.getX() + "\n" + "Y = " + p.getY() + "\n";
         }
 
         private void shiftY_point_Click(object sender, RoutedEventArgs e)
@@ -78,13 +76,12 @@ namespace geometric_shapes_view
             Canvas.Children.Add(poly);
 
             log.Text = null;
-            log.Text += "PointA: " + tri.getA().getX() + " " + tri.getA().getY() + "\n";
-            log.Text += "PointB: " + tri.getB().getX() + " " + tri.getB().getY() + "\n";
-            log.Text += "PointC: " + tri.getC().getX() + " " + tri.getC().getY() + "\n";
+            log.Text += "Triangle \n";
+            log.Text += "Point A: \n" + "X = " + tri.getA().getX() + "\nY = " + tri.getA().getY() + "\n\r";
+            log.Text += "Point B: \n" + "X = " + tri.getB().getX() + "\nY = " + tri.getB().getY() + "\n\r";
+            log.Text += "Point C: \n" + "X = " + tri.getC().getX() + "\nY = " + tri.getC().getY() + "\n\r";
             log.Text += "Area: " + tri.getArea() + "\n";
             log.Text += "Perimeter: " + tri.getPerimeter();
-
-
         }
 
         private void btn_clean_Click(object sender, RoutedEventArgs e)
@@ -108,7 +105,6 @@ namespace geometric_shapes_view
             poly.Points.Add(pD);
 
 
-
             SolidColorBrush rndbrash = new SolidColorBrush(Color.FromRgb((byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
             poly.Fill = rndbrash;
             poly.Stroke = Brushes.Black;
@@ -117,14 +113,11 @@ namespace geometric_shapes_view
 
             Canvas.Children.Add(poly);
             log.Text = null;
-            log.Text += "PointA: " + rec.getA().getX() + " " + rec.getA().getY() + "\n";
-            log.Text += "PointB: " + rec.getB().getX() + " " + rec.getB().getY() + "\n";
-            log.Text += "PointC: " + rec.getC().getX() + " " + rec.getC().getY() + "\n";
-            log.Text += "PointD: " + rec.getD().getX() + " " + rec.getD().getY() + "\n";
+            log.Text += "Point A: \n" + "X = " + rec.getA().getX() + "\nY = " + rec.getA().getY() + "\n\r";
+            log.Text += "Point B: \n" + "X = " + rec.getB().getX() + "\nY = " + rec.getB().getY() + "\n\r";
+            log.Text += "Point C: \n" + "X = " + rec.getC().getX() + "\nY = " + rec.getC().getY() + "\n\r";
+            log.Text += "Point D: \n" + "X = " + rec.getD().getX() + "\nY = " + rec.getD().getY() + "\n\r";
             log.Text += "Area: " + rec.getArea();
-
         }
-
-
     }
 }

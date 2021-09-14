@@ -44,9 +44,6 @@ namespace geometric_shapes_view
             return true;
         }
 
-
-
-
         public double getX()
         {
             return this.x;
@@ -73,8 +70,5 @@ namespace geometric_shapes_view
             value = Math.Sqrt(Math.Pow(otherPoint.x - this.x, 2) + Math.Pow(otherPoint.y - this.y, 2));
             return value;
         }
-
-
-
     }
 }
