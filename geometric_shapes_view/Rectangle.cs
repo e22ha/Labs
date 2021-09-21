@@ -15,9 +15,29 @@ namespace geometric_shapes_view
         private Point2D pointD;
 
 
+        private double h { get; set; }
+        private double w { get; set; }
+
         public Rectangle()
         {
 
+        }
+
+        public Rectangle(Point2D ltc, double w, double h)
+        {
+            pointA = new Point2D(ltc);
+            pointB = new Point2D(ltc);
+            pointC = new Point2D(ltc);
+            pointD = new Point2D(ltc);
+
+            this.h = h;
+            this.w = w;
+
+
+            pointB.shiftX(pointA.getX() + w);
+            pointC.shiftX(pointA.getX() + w);
+            pointC.shiftY(pointA.getY() + h);
+            pointD.shiftY(pointA.getY() + h);
         }
 
         public Rectangle(Point2D pointA, Point2D pointB, Point2D pointC, Point2D pointD)
@@ -65,7 +85,7 @@ namespace geometric_shapes_view
             double perimeter;
             double a = this.getA().getDistance(this.getB());
             double b = this.getA().getDistance(this.getD());
-            perimeter = 2*(a + b);
+            perimeter = 2 * (a + b);
 
             return perimeter;
         }
@@ -73,17 +93,18 @@ namespace geometric_shapes_view
         public void shiftX(double value)
         {
             this.pointA.shiftX(value);
-            this.pointB.shiftX(value);
-            this.pointC.shiftX(value);
-            this.pointD.shiftX(value);
+            pointB.shiftX(pointA.getX() + w);
+            pointC.shiftX(pointA.getX() + w);
+            pointD.shiftX(pointA.getX());
+
         }
 
         public void shiftY(double value)
         {
             this.pointA.shiftY(value);
-            this.pointB.shiftY(value);
-            this.pointC.shiftY(value);
-            this.pointD.shiftY(value);
+            pointB.shiftY(pointA.getY());
+            pointC.shiftY(pointA.getY() + h);
+            pointD.shiftY(pointA.getY() + h);
         }
 
     }

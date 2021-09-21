@@ -16,6 +16,12 @@ namespace geometric_shapes_view
         public double maxX;
         public double maxY;
 
+        public Point2D(Point2D other)
+        {
+            x = other.getX();
+            y = other.getY();
+        }
+
         public Point2D()
         {
             x = 0;
@@ -30,17 +36,27 @@ namespace geometric_shapes_view
 
         public bool setX(double x)
         {
+            maxX = 380;
+            maxY = 380;
             if (x < maxX)
                 this.x = x;
-            else return false;
+            else
+            {
+                this.x = maxX;
+                return false;
+            }
             return true;
         }
-        
+
         public bool setY(double y)
         {
             if (y < maxY)
                 this.y = y;
-            else return false;
+            else
+            {
+                this.y = maxY;
+                return false;
+            }
             return true;
         }
 
@@ -57,20 +73,20 @@ namespace geometric_shapes_view
 
         public void shiftX(double value)
         {
-            x += value;
+            x = value;
         }
         public void shiftY(double vaule)
         {
-            y += vaule;
+            y = vaule;
         }
 
         public double getDistance(Point2D otherPoint)
         {
             double value;
             value = Math.Sqrt(Math.Pow(otherPoint.x - this.x, 2) + Math.Pow(otherPoint.y - this.y, 2));
-            
+
             Math.Abs(value);
-            
+
             return value;
         }
     }

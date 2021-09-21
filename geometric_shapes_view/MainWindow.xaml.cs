@@ -40,7 +40,9 @@ namespace geometric_shapes_view
             Point2D p = InitShape.create2DPoint();
             Ellipse ellipse = predrawpoint(p);
             listPoint.Add(p);
-            Canvas.Children.Add(ellipse);
+            x_slider.Value = p.getX();
+            y_slider.Value = p.getY();
+            //Canvas.Children.Add(ellipse);
         }
 
         private Ellipse predrawpoint(Point2D p)
@@ -66,8 +68,9 @@ namespace geometric_shapes_view
             Triangle tri = InitShape.createRndTriangle();
             listTri.Add(tri);
             Polygon poly = predrawtri(tri);
-
-            Canvas.Children.Add(poly);
+            x_slider.Value = tri.getA().getX();
+            y_slider.Value = tri.getA().getY();
+            //Canvas.Children.Add(poly);
         }
 
         private Polygon predrawtri(Triangle tri)
@@ -106,8 +109,9 @@ namespace geometric_shapes_view
             Rectangle rec = InitShape.createRndRectangel();
             listRec.Add(rec);
             Polygon poly = predrawrec(rec);
-
-            Canvas.Children.Add(poly);
+            //Canvas.Children.Add(poly);
+            x_slider.Value = (rec.getB().getX() - rec.getA().getX()) / 2 + rec.getA().getX();
+            y_slider.Value = (rec.getD().getY() - rec.getA().getY()) / 2 + rec.getA().getY();
         }
 
         private Polygon predrawrec(Rectangle rec)
@@ -147,8 +151,8 @@ namespace geometric_shapes_view
 
             listRec.Add(rec);
             Polygon poly = predrawrec(rec);
-
-            Canvas.Children.Add(poly);
+            x_slider.Value = (rec.getB().getX() - rec.getA().getX()) / 2 + rec.getA().getX();
+            y_slider.Value = (rec.getD().getY() - rec.getA().getY()) / 2 + rec.getA().getY();
         }
         private void btn_clean_Click(object sender, RoutedEventArgs e)
         {
@@ -241,6 +245,21 @@ namespace geometric_shapes_view
             {
                 Canvas.Children.Add(predrawpoint(point));
             }
+        }
+
+        private void y_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            double shift = e.NewValue;
+            Canvas.Children.Clear();
+            shiftY(shift);
+
+        }
+
+        private void x_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            double shift = e.NewValue;
+            Canvas.Children.Clear();
+            shiftX(shift);
         }
     }
 }

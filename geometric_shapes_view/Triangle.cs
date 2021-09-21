@@ -13,12 +13,34 @@ namespace geometric_shapes_view
         private Point2D pointB { get; set; }
         private Point2D pointC { get; set; }
 
+        private Double h1 { get; set; }
+        private Double h2 { get; set; }
+        private Double w1 { get; set; }
+        private Double w2 { get; set; }
+
 
         public Triangle(Point2D pointA, Point2D pointB, Point2D pointC)
         {
             this.pointA = pointA;
             this.pointB = pointB;
             this.pointC = pointC;
+        }
+
+        public Triangle(Point2D pointA, double w1, double h1, double w2, double h2)
+        {
+            this.pointA = new Point2D(pointA);
+            pointB = new Point2D(pointA);
+            pointC = new Point2D(pointA);
+
+            this.w1 = w1;
+            this.w2 = w2;
+            this.h1 = h1;
+            this.h2 = h2;
+
+            pointB.shiftX(pointA.getX() + w1);
+            pointB.shiftY(pointA.getY() + h1);
+            pointC.shiftX(pointA.getX() + w2);
+            pointC.shiftY(pointA.getY() + h2);
         }
 
         public Point2D getA()
@@ -42,12 +64,6 @@ namespace geometric_shapes_view
         {
             double perimeter;
 
-            double ax = this.pointA.getX();
-            double ay = this.pointA.getY();
-            double bx = this.pointB.getX();
-            double by = this.pointB.getY();
-            double cx = this.pointC.getX();
-            double cy = this.pointC.getY();
 
             perimeter = this.pointA.getDistance(this.pointB) + this.pointB.getDistance(this.pointC) + this.pointC.getDistance(this.pointA);
 
@@ -86,16 +102,18 @@ namespace geometric_shapes_view
 
         public void shiftX(double value)
         {
+
             this.pointA.shiftX(value);
-            this.pointB.shiftX(value);
-            this.pointC.shiftX(value);
+            this.pointB.shiftX(pointA.getX() + this.w1);
+            this.pointC.shiftX(pointA.getX() + this.w2);
         }
 
         public void shiftY(double value)
         {
             this.pointA.shiftY(value);
-            this.pointB.shiftY(value);
-            this.pointC.shiftY(value);
+            this.pointB.shiftY(pointA.getY() + this.h1);
+            this.pointC.shiftY(pointA.getY() + this.h2);
+
         }
 
 

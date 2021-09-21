@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:geometric_shapes_view"
         mc:Ignorable="d"
-        Title="GetShapes" Height="450" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="GetShapes" Height="500" Width="850" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -59,7 +59,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="450"/>
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
@@ -100,14 +100,25 @@
                 <Button x:Name="btn_clean" Content="Clean" Click="btn_clean_Click" Height="35" Margin="70,34,71,22" BorderBrush="Transparent" Background="Transparent" Foreground="White"
                         HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
             </Grid>
-            <Button x:Name="btn_rec" Content="rectangle" HorizontalAlignment="Left" Margin="3,10,0,0" VerticalAlignment="Top" Width="56" Click="btn_rec_Click"/>
+            <Button x:Name="btn_rec" Content="rectangle" HorizontalAlignment="Left" Margin="3,10,0,0" VerticalAlignment="Top" Width="30" Click="btn_rec_Click"/>
             <TextBox x:Name="h_vaule" HorizontalAlignment="Left" Height="16" Margin="92,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Text="100"/>
             <TextBox x:Name="w_vaule" HorizontalAlignment="Left" Height="16" Margin="149,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Text="100"/>
             <Label Content="h:" HorizontalAlignment="Left" Height="27" Margin="75,9,0,0" VerticalAlignment="Top" Width="19"/>
             <Label Content="w:" HorizontalAlignment="Left" Height="27" Margin="127,9,0,0" VerticalAlignment="Top" Width="24"/>
         </Grid>
         <Grid x:Name="Board" Background="Transparent" Grid.Column="1">
-            <Canvas x:Name="Canvas" HorizontalAlignment="Center" Height="401" Margin="10" VerticalAlignment="Center" Width="380"/>
+            <Canvas x:Name="Canvas" HorizontalAlignment="Center" Height="400" Margin="35,36" VerticalAlignment="Center" Width="400"/>
+            <Slider x:Name="x_slider" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="400" ValueChanged="x_slider_ValueChanged" Maximum="400"/>
+            <Slider x:Name="y_slider" HorizontalAlignment="Left"  VerticalAlignment="Center"  Orientation="Vertical" Height="400" ValueChanged="y_slider_ValueChanged" Maximum="400" RenderTransformOrigin="0.5,0.5">
+                <Slider.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="180"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Slider.RenderTransform>
+            </Slider>
         </Grid>
         <Grid x:Name="Info" Background="Transparent" Grid.Column="2">
             <TextBlock x:Name="log" HorizontalAlignment="Left" Height="348" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" Margin="0,60,0,0" />
