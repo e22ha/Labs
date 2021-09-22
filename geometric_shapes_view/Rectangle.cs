@@ -34,10 +34,10 @@ namespace geometric_shapes_view
             this.w = w;
 
 
-            pointB.shiftX(pointA.getX() + w);
-            pointC.shiftX(pointA.getX() + w);
-            pointC.shiftY(pointA.getY() + h);
-            pointD.shiftY(pointA.getY() + h);
+            pointB.shiftX(w);
+            pointC.shiftX(w);
+            pointC.shiftY(h);
+            pointD.shiftY(h);
         }
 
         public Rectangle(Point2D pointA, Point2D pointB, Point2D pointC, Point2D pointD)
@@ -93,19 +93,19 @@ namespace geometric_shapes_view
         public void shiftX(double value)
         {
             this.pointA.shiftX(value);
-            pointB.shiftX(pointA.getX() + w);
-            pointC.shiftX(pointA.getX() + w);
-            pointD.shiftX(pointA.getX());
+            this.pointB.shiftX(value);
+            this.pointC.shiftX(value);
+            this.pointD.shiftX(value);
 
         }
 
         public void shiftY(double value)
         {
             this.pointA.shiftY(value);
-            pointB.shiftY(pointA.getY());
-            pointC.shiftY(pointA.getY() + h);
-            pointD.shiftY(pointA.getY() + h);
-        }
+            this.pointB.shiftY(value);
+            this.pointC.shiftY(value);
+            this.pointD.shiftY(value);
 
+        }
     }
 }

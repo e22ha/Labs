@@ -36,8 +36,7 @@ namespace geometric_shapes_view
 
         public bool setX(double x)
         {
-            maxX = 380;
-            maxY = 380;
+            maxX = 400;
             if (x < maxX)
                 this.x = x;
             else
@@ -50,6 +49,7 @@ namespace geometric_shapes_view
 
         public bool setY(double y)
         {
+            maxY = 400;
             if (y < maxY)
                 this.y = y;
             else
@@ -73,11 +73,21 @@ namespace geometric_shapes_view
 
         public void shiftX(double value)
         {
-            x = value;
+            if ((x + value) < 0)
+                x = 0;
+            else
+            if ((x + value) > 400)
+                x = 400;
+            else x += value;
         }
-        public void shiftY(double vaule)
+        public void shiftY(double value)
         {
-            y = vaule;
+            if((y + value) < 0)
+                y = 0;
+            else
+            if ((y + value) > 400)
+                y = 400;
+            else y += value;
         }
 
         public double getDistance(Point2D otherPoint)

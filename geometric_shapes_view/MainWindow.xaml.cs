@@ -110,8 +110,8 @@ namespace geometric_shapes_view
             listRec.Add(rec);
             Polygon poly = predrawrec(rec);
             //Canvas.Children.Add(poly);
-            x_slider.Value = (rec.getB().getX() - rec.getA().getX()) / 2 + rec.getA().getX();
-            y_slider.Value = (rec.getD().getY() - rec.getA().getY()) / 2 + rec.getA().getY();
+            x_slider.Value = rec.getA().getX();
+            y_slider.Value = rec.getA().getY();
         }
 
         private Polygon predrawrec(Rectangle rec)
@@ -151,8 +151,8 @@ namespace geometric_shapes_view
 
             listRec.Add(rec);
             Polygon poly = predrawrec(rec);
-            x_slider.Value = (rec.getB().getX() - rec.getA().getX()) / 2 + rec.getA().getX();
-            y_slider.Value = (rec.getD().getY() - rec.getA().getY()) / 2 + rec.getA().getY();
+            x_slider.Value = rec.getA().getX();
+            y_slider.Value = rec.getA().getY();
         }
         private void btn_clean_Click(object sender, RoutedEventArgs e)
         {
@@ -172,8 +172,8 @@ namespace geometric_shapes_view
             {
                 listPoint.Last().shiftX(value);
 
-                drawAllRec();
-                drawAllTri();
+                // drawAllRec();
+                //     drawAllTri();
                 drawAllPoint();
             }
             else if (trilast)
@@ -197,9 +197,13 @@ namespace geometric_shapes_view
         {
             if (dotlast)
             {
+                if (listPoint.Last().getY() + value < 0)
+                    MessageBox.Show("value = " + value.ToString() + " Y =  " + listPoint.Last().getY());
+
                 listPoint.Last().shiftY(value);
 
-                drawAllRec();
+
+                 drawAllRec();
                 drawAllTri();
                 drawAllPoint();
             }
@@ -219,7 +223,6 @@ namespace geometric_shapes_view
                 drawAllTri();
                 drawAllRec();
             }
-
         }
 
 
@@ -249,17 +252,70 @@ namespace geometric_shapes_view
 
         private void y_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            double shift = e.NewValue;
-            Canvas.Children.Clear();
-            shiftY(shift);
-
+            if (dotlast)
+            {
+                if (e.NewValue != listPoint.Last().getY())
+                {
+                    double shift = e.NewValue - e.OldValue;
+                    Canvas.Children.Clear();
+                    shiftY(shift);
+                }
+                else { shiftY(0); }
+            }
+            else if (trilast)
+            {
+                if (e.NewValue != listTri.Last().getA().getY())
+                {
+                    double shift = e.NewValue - e.OldValue;
+                    Canvas.Children.Clear();
+                    shiftY(shift);
+                }
+                else { shiftY(0); }
+            }
+            else if (reclast)
+            {
+                if (e.NewValue != listRec.Last().getA().getY())
+                {
+                    double shift = e.NewValue - e.OldValue;
+                    Canvas.Children.Clear();
+                    shiftY(shift);
+                }
+                else { shiftY(0); }
+            }
         }
 
         private void x_slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            double shift = e.NewValue;
-            Canvas.Children.Clear();
-            shiftX(shift);
+            if (dotlast)
+            {
+                if (e.NewValue != listPoint.Last().getX())
+                {
+                    double shift = e.NewValue - e.OldValue;
+                    Canvas.Children.Clear();
+                    shiftX(shift);
+                }
+                else { shiftX(0); }
+            }
+            else if (trilast)
+            {
+                if (e.NewValue != listTri.Last().getA().getX())
+                {
+                    double shift = e.NewValue - e.OldValue;
+                    Canvas.Children.Clear();
+                    shiftX(shift);
+                }
+                else { shiftX(0); }
+            }
+            else if (reclast)
+            {
+                if (e.NewValue != listRec.Last().getA().getX())
+                {
+                    double shift = e.NewValue - e.OldValue;
+                    Canvas.Children.Clear();
+                    shiftX(shift);
+                }
+                else { shiftX(0); }
+            }
         }
     }
 }

@@ -104,15 +104,15 @@ namespace geometric_shapes_view
         {
 
             this.pointA.shiftX(value);
-            this.pointB.shiftX(pointA.getX() + this.w1);
-            this.pointC.shiftX(pointA.getX() + this.w2);
+            this.pointB.shiftX(value);
+            this.pointC.shiftX(value);
         }
 
         public void shiftY(double value)
         {
             this.pointA.shiftY(value);
-            this.pointB.shiftY(pointA.getY() + this.h1);
-            this.pointC.shiftY(pointA.getY() + this.h2);
+            this.pointB.shiftY(value);
+            this.pointC.shiftY(value);
 
         }
 

@@ -19,23 +19,23 @@ namespace geometric_shapes_view
 
             p.maxX = 400;
 
-            //while (true)
-            //{
+            while (true)
+            {
                 double x = rnd.NextDouble() * 350;
 
-            //if (p.setX(x)) break;
-            //}
-            p.setX(x);
+            if (p.setX(x)) break;
+            }
+            
 
             p.maxY = 400;
 
-            //while (true)
-            //{
+            while (true)
+            {
                 double y = rnd.NextDouble() * 350;
 
-            //    if (p.setY(y)) break;
-            //}
-            p.setY(y);
+                if (p.setY(y)) break;
+            }
+            
 
             return p;
         }
