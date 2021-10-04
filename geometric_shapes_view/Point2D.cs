@@ -73,21 +73,23 @@ namespace geometric_shapes_view
 
         public void shiftX(double value)
         {
-            if ((x + value) < 0)
-                x = 0;
-            else
-            if ((x + value) > 400)
-                x = 400;
-            else x += value;
+            //if ((x + value) < 0)
+            //    x = 0;
+            //else
+            //if ((x + value) > 400)
+            //    x = 400;
+            //else 
+                x += value;
         }
         public void shiftY(double value)
         {
-            if((y + value) < 0)
-                y = 0;
-            else
-            if ((y + value) > 400)
-                y = 400;
-            else y += value;
+            //if((y + value) < 0)
+            //    y = 0;
+            //else
+            //if ((y + value) > 400)
+            //    y = 400;
+            //else 
+                y += value;
         }
 
         public double getDistance(Point2D otherPoint)

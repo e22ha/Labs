@@ -172,8 +172,8 @@ namespace geometric_shapes_view
             {
                 listPoint.Last().shiftX(value);
 
-                // drawAllRec();
-                //     drawAllTri();
+                drawAllRec();
+                drawAllTri();
                 drawAllPoint();
             }
             else if (trilast)
