@@ -16,7 +16,7 @@ namespace _33.Пшы
 
         public Location(string title, PointLatLng point) : base(title)
         {
-
+            this.point = point;
         }
 
         public override double getDistance(PointLatLng point)

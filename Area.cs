@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using GMap.NET;
 using GMap.NET.WindowsPresentation;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace _33.Пшы
 {
@@ -24,19 +19,55 @@ namespace _33.Пшы
 
         public override double getDistance(PointLatLng point)
         {
-            throw new NotImplementedException();
+            DistanceCalculator distance = new DistanceCalculator();
+
+            PointLatLng max = new PointLatLng();
+
+            foreach (var p in points)
+            {
+                if (max.Lat + max.Lng < p.Lat + p.Lng)
+                {
+                    max = p;
+                }
+            }
+
+            PointLatLng min = new PointLatLng(180, 180);
+
+            foreach (var p in points)
+            {
+                if (min.Lat + min.Lng > p.Lat + p.Lng)
+                {
+                    min = p;
+                }
+            }
+
+            return distance.GetMinDistance(max, min, point);
+
         }
 
         public override PointLatLng getFocus()
         {
-            PointLatLng center = new PointLatLng();
+            PointLatLng max = new PointLatLng();
 
-            center.Lat = 0;
-            center.Lng = 0;
+            foreach (var p in points)
+            {
+                if (max.Lat + max.Lng < p.Lat + p.Lng)
+                {
+                    max = p;
+                }
+            }
 
-            //need to code for search center of Area
+            PointLatLng min = new PointLatLng(180, 180);
 
-            return center;
+            foreach (var p in points)
+            {
+                if (min.Lat + min.Lng > p.Lat + p.Lng)
+                {
+                    min = p;
+                }
+            }
+
+            return new PointLatLng((max.Lat + min.Lat) / 2, (max.Lng + min.Lng) / 2);
         }
 
         public override GMapMarker getMarker()
@@ -47,6 +78,7 @@ namespace _33.Пшы
                 {
                     Stroke = Brushes.Black, // стиль обводки
                     Fill = Brushes.Violet, // стиль заливки
+                    ToolTip = this.getTitle(),
                     Opacity = 0.7 // прозрачность
                 }
             };

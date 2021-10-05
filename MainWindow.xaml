@@ -11,11 +11,20 @@
 
         <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown"/>
         <Label x:Name="xy_log" Content="" Margin="662,389,10,10.333"/>
-        <StackPanel HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="783" Grid.Column="4" Orientation="Horizontal">
-            <CheckBox x:Name="Car_ChB" Content="🚕Car" Margin="0,0,0,-0.333" Width="59"/>
-            <CheckBox x:Name="Human_ChB" Content="😀Human" Margin="0,0,0,-0.333" Width="92" />
-            <Button x:Name="btn_loc" Content="My location" Margin="0,0,0,-0.333" Click="btn_loc_Click"/>
+        <StackPanel HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="629" Orientation="Horizontal">
+            <Button x:Name="btn_arrow" Content="↖" Width="24" Click="btn_arrow_Click"/>
+            <Button x:Name="btn_car" Content="🚕Car" Width="89" Click="btn_car_Click"/>
+            <Button x:Name="btn_human" Content="😀Human" Width="88" Click="btn_human_Click" />
+            <Button x:Name="btn_route" Content="↔Route" Width="71" Click="btn_route_Click"/>
+            <Button x:Name="btn_area" Content="⬜Area" Width="71" Click="btn_area_Click"/>
+            <Button x:Name="btn_loc" Content="⨀Locaton" Width="98" Click="btn_loc_Click" />
+            <Button x:Name="btn_back" Content="↶ Назад" Width="71" Click="btn_back_Click"  />
+            <Button x:Name="btn_search" Content="Кто рядом?" Width="71" Click="btn_search_Click"   />
+
 
         </StackPanel>
+        <Label Content="List:" Margin="634,233,105,160"/>
+        <ListBox x:Name="ListofObj" Margin="634,259,0,10" Background="Transparent" SelectionChanged="ListofObj_SelectionChanged"/>
+        <ListBox x:Name="ListSearch" Margin="634,10,10,186" Background="Transparent" SelectionChanged="ListSearch_SelectionChanged"/>
     </Grid>
 </Window>

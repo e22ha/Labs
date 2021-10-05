@@ -13,36 +13,55 @@ namespace _33.Пшы
     class Route : MapObject
     {
 
-        List<PointLatLng> points;
+        private List<PointLatLng> points;
 
-
-        Route(string title, List<PointLatLng> points): base(title){ 
+        public Route(string title, List<PointLatLng> points) : base(title)
+        {
+            this.points = points;
         }
 
         public override double getDistance(PointLatLng point)
         {
-            throw new NotImplementedException();
+            DistanceCalculator distance = new DistanceCalculator();
+
+            return distance.GetMinDistance(this.points.First(), this.points.Last(),point);
         }
 
         public override PointLatLng getFocus()
         {
-            throw new NotImplementedException();
+            PointLatLng max = new PointLatLng();
+
+            foreach (var p in points)
+            {
+                if (max.Lat+max.Lng <p.Lat+p.Lng)
+                {
+                    max = p;
+                }
+            }
+
+            PointLatLng min = new PointLatLng(180,180);
+
+            foreach (var p in points)
+            {
+                if (min.Lat + min.Lng > p.Lat + p.Lng)
+                {
+                    min = p;
+                }
+            }
+
+            return new PointLatLng((max.Lat + min.Lat)/2, (max.Lng + min.Lng)/2);
         }
+
 
         public override GMapMarker getMarker()
         {
-            // координаты точек маршрута
-            List<PointLatLng> points1 = new PointLatLng[] {
-                    new PointLatLng(55.010637, 82.938550),
-                    new PointLatLng(55.012421, 82.940781),
-                    new PointLatLng(55.014613, 82.943497),
-                    new PointLatLng(55.016214, 82.945469) }.ToList();
-            GMapMarker markPath = new GMapRoute(points1)
+            GMapMarker markPath = new GMapRoute(this.points)
             {
                 Shape = new Path()
                 {
                     Stroke = Brushes.DarkBlue, // цвет обводки
                     Fill = Brushes.DarkBlue, // цвет заливки
+                    ToolTip = this.getTitle(),
                     StrokeThickness = 4 // толщина обводки
                 }
             };

@@ -36,14 +36,13 @@ namespace _33.Пшы
 
         public override GMapMarker getMarker()
         {
-
             GMapMarker markCar = new GMapMarker(point)
             {
                 Shape = new Image
                 {
                     Width = 32, // ширина маркера
                     Height = 32, // высота маркера
-                    ToolTip = "Super Car", // всплывающая подсказка
+                    ToolTip = this.getTitle(), // всплывающая подсказка
                     Source = new BitmapImage(new Uri("pack://application:,,,/Resources/car.png")) // картинка
                 }
             };

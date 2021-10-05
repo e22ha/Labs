@@ -14,9 +14,7 @@ namespace _33.Пшы
     {
         PointLatLng point;
 
-        public Human(string title, PointLatLng point) : base(title)
-        {
-        }
+        public Human(string title, PointLatLng point) : base(title) { this.point = point; }
         public override double getDistance(PointLatLng point)
         {
             double dist;
@@ -36,18 +34,17 @@ namespace _33.Пшы
 
         public override GMapMarker getMarker()
         {
-            GMapMarker MarkLoc = new GMapMarker(point)
+            GMapMarker MarkHuman = new GMapMarker(point)
             {
                 Shape = new Image
                 {
                     Width = 32, // ширина маркера
                     Height = 32, // высота маркера
-                    ToolTip = "Human", // всплывающая подсказка
+                    ToolTip = this.getTitle(), // всплывающая подсказка
                     Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Human.png")) // картинка
                 }
             };
-
-            return MarkLoc;
+            return MarkHuman;
         }
     }
 }
