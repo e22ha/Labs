@@ -28,17 +28,14 @@ namespace _33.Пшы
 
         List<PointLatLng> pointsArea = new List<PointLatLng>();
         List<PointLatLng> pointsRoute = new List<PointLatLng>();
-        Dictionary<MapObject, double> DictObjDist = new Dictionary<MapObject, double>();
-        Dictionary<MapObject, double> SortDict = new Dictionary<MapObject, double>();
-        List<MapObject> ListOfAll = new List<MapObject>();
-        int setTool; // 0 - 
+        Dictionary<MapObject, double> distDict = new Dictionary<MapObject, double>();
+        Dictionary<MapObject, double> sortDistDict = new Dictionary<MapObject, double>();
+        List<MapObject> listOfAllObj = new List<MapObject>();
+        int setTool; // 0 - arrow; 1 - car; 2 - human; 3 - route; 4 - area; 5 - search obj&dist; 
+        string searchName = "";
         public MainWindow()
         {
             InitializeComponent();
-
-            PointLatLng point = new PointLatLng(55.016511, 82.946152);
-
-
         }
 
         private void Map_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -49,21 +46,20 @@ namespace _33.Пшы
             switch (setTool)
             {
                 case 0:
-
                     break;
                 case 1:
-                    int lastCar = ListOfAll.FindAll(FindCar).Count();
+                    int lastCar = listOfAllObj.FindAll(FindCar).Count();
                     Car car = new Car($"Car {lastCar + 1}", point);
                     Map.Markers.Add(car.getMarker());
-                    ListOfAll.Add(car);
-                    ListofObj.Items.Add(car.getTitle());
+                    listOfAllObj.Add(car);
+                    lb_objectOnMap.Items.Add(car.getTitle());
                     break;
                 case 2:
-                    int lastHu = ListOfAll.FindAll(FindHu).Count();
+                    int lastHu = listOfAllObj.FindAll(FindHu).Count();
                     Human human = new Human($"Human {lastHu + 1}", point);
                     Map.Markers.Add(human.getMarker());
-                    ListOfAll.Add(human);
-                    ListofObj.Items.Add(human.getTitle());
+                    listOfAllObj.Add(human);
+                    lb_objectOnMap.Items.Add(human.getTitle());
                     break;
                 case 3:
                     pointsRoute.Add(point);
@@ -72,21 +68,19 @@ namespace _33.Пшы
                          "Добавить ещё?",
                          "Сообщение",
                          MessageBoxButtons.YesNo,
-                         MessageBoxIcon.Information);
+                         MessageBoxIcon.Information,
+                         MessageBoxDefaultButton.Button2);
                     if (result == System.Windows.Forms.DialogResult.No)
                     {
-                        int lastRoute = ListOfAll.FindAll(FindRo).Count();
+                        int lastRoute = listOfAllObj.FindAll(FindRo).Count();
                         Route route = new Route($"Route  {lastRoute + 1}", pointsRoute);
                         Map.Markers.Add(route.getMarker());
-                        ListOfAll.Add(route);
-                        ListofObj.Items.Add(route.getTitle());
+                        listOfAllObj.Add(route);
+                        lb_objectOnMap.Items.Add(route.getTitle());
                         setTool = 0;
-
                     }
                     else { setTool = 3; }
-
                     break;
-
                 case 4:
                     pointsArea.Add(point);
                     if (pointsArea.Count < 3) break;
@@ -94,49 +88,34 @@ namespace _33.Пшы
                          "Добавить ещё?",
                          "Сообщение",
                          MessageBoxButtons.YesNo,
-                         MessageBoxIcon.Information);
+                         MessageBoxIcon.Information,
+                         MessageBoxDefaultButton.Button2);
                     if (result1 == System.Windows.Forms.DialogResult.No)
                     {
-                        int lastArea = ListOfAll.FindAll(FindArea).Count();
+                        int lastArea = listOfAllObj.FindAll(FindArea).Count();
                         Area area = new Area($"Area  {lastArea + 1}", pointsArea);
                         Map.Markers.Add(area.getMarker());
-                        ListOfAll.Add(area);
-                        ListofObj.Items.Add(area.getTitle());
+                        listOfAllObj.Add(area);
+                        lb_objectOnMap.Items.Add(area.getTitle());
                         setTool = 0;
                     }
                     else { setTool = 4; }
                     break;
-
                 case 5:
-
-                    ListSearch.Items.Clear();
-
-                    DictObjDist = new Dictionary<MapObject, double>();
-
-                    foreach (MapObject obj in ListOfAll)
+                    lb_searchItmesByDist.Items.Clear();
+                    foreach (MapObject obj in listOfAllObj)
                     {
-                        DictObjDist.Add(
-                        obj,
-                        obj.getDistance(point));
-
+                        distDict.Add(obj, obj.getDistance(point));
                     }
-
-                    SortDict = DictObjDist.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
-
-
-
-                    foreach (MapObject obj in SortDict.Keys)
+                    sortDistDict = distDict.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+                    foreach (MapObject obj in sortDistDict.Keys)
                     {
-                        ListSearch.Items.Add(obj.getTitle() + " " + obj.getDistance(point));
+                        lb_searchItmesByDist.Items.Add(obj.getTitle() + " " + obj.getDistance(point));
                     }
-
                     break;
-
                 default:
                     break;
             }
-
-
         }
 
         private bool FindRo(MapObject obj)
@@ -211,55 +190,61 @@ namespace _33.Пшы
         }
         private void btn_search_Click(object sender, RoutedEventArgs e)
         {
+            distDict = new Dictionary<MapObject, double>();
             setTool = 5;
         }
 
         private void btn_back_Click(object sender, RoutedEventArgs e)
         {
+            lb_searchItmesByDist.Items.Clear();
             Map.Markers.RemoveAt(Map.Markers.Count() - 1);
-            ListOfAll.RemoveAt(ListOfAll.Count() - 1);
-            ListofObj.Items.RemoveAt(ListofObj.Items.Count - 1);
-
+            listOfAllObj.RemoveAt(listOfAllObj.Count() - 1);
+            lb_objectOnMap.Items.RemoveAt(lb_objectOnMap.Items.Count - 1);
         }
 
         private void ListofObj_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListofObj.SelectedIndex == -1) return;
-            Map.Position = ListOfAll.ElementAt(ListofObj.SelectedIndex).getFocus();
-            ListofObj.SelectedIndex = -1;
+            if (lb_objectOnMap.SelectedIndex == -1) return;
+            searchName = lb_objectOnMap.SelectedItem.ToString();
+            Map.Position = listOfAllObj.Find(FindByName).getFocus();
+            lb_objectOnMap.SelectedIndex = -1;
+        }
+
+        private bool FindByName(MapObject obj)
+        {
+            if (obj.getTitle().StartsWith(searchName))
+            {
+                return true;
+            }
+            return false;
         }
 
         private void ListSearch_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListSearch.SelectedIndex == -1) return;
+            if (lb_searchItmesByDist.SelectedIndex == -1) return;
 
-            Map.Position = SortDict.ElementAt(ListSearch.SelectedIndex).Key.getFocus();
-
-
-
+            Map.Position = sortDistDict.ElementAt(lb_searchItmesByDist.SelectedIndex).Key.getFocus();
         }
 
         private void btn_srchByName_Click(object sender, RoutedEventArgs e)
         {
             string nameSerach = tb_Search.Text;
-            ListofObj.Items.Clear();
-            foreach (MapObject obj in ListOfAll)
+            lb_objectOnMap.Items.Clear();
+            foreach (MapObject obj in listOfAllObj)
             {
                 if (obj.getTitle().StartsWith(nameSerach))
                 {
-                    ListofObj.Items.Add(obj.getTitle());
+                    lb_searchItemsByName.Items.Add(obj.getTitle());
                 }
-
-
             }
-
         }
 
         private void ListSearchByName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ListSearchByName.SelectedIndex == -1) return;
-            Map.Position = ListOfAll.Find(this.getTitle()  == ListSearchByName.SelectedItem.ToString()).getFocus();
-            ListofObj.SelectedIndex = -1;
+            if (lb_searchItemsByName.SelectedIndex == -1) return;
+            searchName = lb_objectOnMap.SelectedItem.ToString();
+            Map.Position = listOfAllObj.Find(FindByName).getFocus();
+            lb_objectOnMap.SelectedIndex = -1;
         }
     }
 }

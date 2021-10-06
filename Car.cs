@@ -19,9 +19,6 @@ namespace _33.Пшы
         public Car(string title, PointLatLng point) : base(title) { this.point = point; }
         public override double getDistance(PointLatLng point)
         {
-
-
-
             double dist;
 
             double lat = (double) Math.Abs(point.Lat - this.point.Lat);

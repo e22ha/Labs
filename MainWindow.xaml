@@ -26,8 +26,8 @@
 
         </StackPanel>
         <Label Content="List:" Margin="634,233,105,160"/>
-        <ListBox x:Name="ListofObj" Margin="634,259,269.667,9.667" Background="Transparent" SelectionChanged="ListofObj_SelectionChanged"/>
-        <ListBox x:Name="ListSearch" Margin="634,10,269.667,185.667" Background="Transparent" SelectionChanged="ListSearch_SelectionChanged"/>
-        <ListBox x:Name="ListSearchByName" Margin="856,10,47.667,185.667" Background="Transparent" SelectionChanged="ListSearchByName_SelectionChanged" />
+        <ListBox x:Name="lb_objectOnMap" Margin="634,259,269.667,9.667" Background="Transparent" SelectionChanged="ListofObj_SelectionChanged"/>
+        <ListBox x:Name="lb_searchItmesByDist" Margin="634,10,269.667,185.667" Background="Transparent" SelectionChanged="ListSearch_SelectionChanged"/>
+        <ListBox x:Name="lb_searchItemsByName" Margin="856,10,47.667,185.667" Background="Transparent" SelectionChanged="ListSearchByName_SelectionChanged" />
     </Grid>
 </Window>

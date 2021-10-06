@@ -70,9 +70,7 @@ namespace _33.Пшы
                     StrokeThickness = 4 // толщина обводки
                 }
             };
-
             return markPath;
-
         }
     }
 }
