@@ -228,11 +228,11 @@ namespace _33.Пшы
 
         private void btn_srchByName_Click(object sender, RoutedEventArgs e)
         {
-            string nameSerach = tb_Search.Text;
-            lb_objectOnMap.Items.Clear();
+            lb_searchItemsByName.Items.Clear();
+            string nameSearch = tb_Search.Text;
             foreach (MapObject obj in listOfAllObj)
             {
-                if (obj.getTitle().StartsWith(nameSerach))
+                if (obj.getTitle().StartsWith(nameSearch))
                 {
                     lb_searchItemsByName.Items.Add(obj.getTitle());
                 }
@@ -242,7 +242,7 @@ namespace _33.Пшы
         private void ListSearchByName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lb_searchItemsByName.SelectedIndex == -1) return;
-            searchName = lb_objectOnMap.SelectedItem.ToString();
+            searchName = lb_searchItemsByName.SelectedItem.ToString();
             Map.Position = listOfAllObj.Find(FindByName).getFocus();
             lb_objectOnMap.SelectedIndex = -1;
         }
