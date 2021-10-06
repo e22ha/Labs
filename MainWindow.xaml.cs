@@ -29,6 +29,7 @@ namespace _33.Пшы
         List<PointLatLng> pointsArea = new List<PointLatLng>();
         List<PointLatLng> pointsRoute = new List<PointLatLng>();
         Dictionary<MapObject, double> DictObjDist = new Dictionary<MapObject, double>();
+        Dictionary<MapObject, double> SortDict = new Dictionary<MapObject, double>();
         List<MapObject> ListOfAll = new List<MapObject>();
         int setTool; // 0 - 
         public MainWindow()
@@ -108,6 +109,8 @@ namespace _33.Пшы
 
                 case 5:
 
+                    ListSearch.Items.Clear();
+
                     DictObjDist = new Dictionary<MapObject, double>();
 
                     foreach (MapObject obj in ListOfAll)
@@ -118,14 +121,13 @@ namespace _33.Пшы
 
                     }
 
-                    var items = from pair in DictObjDist
-                                orderby pair.Value ascending,
-                                        pair.Key
-                                select pair;
+                    SortDict = DictObjDist.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
 
-                    foreach (MapObject obj in ListOfAll)
+
+
+                    foreach (MapObject obj in SortDict.Keys)
                     {
-                        ListSearch.Items.Add(obj.getTitle());
+                        ListSearch.Items.Add(obj.getTitle() + " " + obj.getDistance(point));
                     }
 
                     break;
@@ -231,10 +233,33 @@ namespace _33.Пшы
         {
             if (ListSearch.SelectedIndex == -1) return;
 
-            Map.Position = DictObjDist.ElementAt(ListSearch.SelectedIndex).Key.getFocus();
-            
+            Map.Position = SortDict.ElementAt(ListSearch.SelectedIndex).Key.getFocus();
 
-            
+
+
+        }
+
+        private void btn_srchByName_Click(object sender, RoutedEventArgs e)
+        {
+            string nameSerach = tb_Search.Text;
+            ListofObj.Items.Clear();
+            foreach (MapObject obj in ListOfAll)
+            {
+                if (obj.getTitle().StartsWith(nameSerach))
+                {
+                    ListofObj.Items.Add(obj.getTitle());
+                }
+
+
+            }
+
+        }
+
+        private void ListSearchByName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ListSearchByName.SelectedIndex == -1) return;
+            Map.Position = ListOfAll.Find(this.getTitle()  == ListSearchByName.SelectedItem.ToString()).getFocus();
+            ListofObj.SelectedIndex = -1;
         }
     }
 }

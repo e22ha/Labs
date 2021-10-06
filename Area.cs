@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -19,29 +20,14 @@ namespace _33.Пшы
 
         public override double getDistance(PointLatLng point)
         {
-            DistanceCalculator distance = new DistanceCalculator();
+            double dist;
 
-            PointLatLng max = new PointLatLng();
+            double lat = (double)Math.Abs(point.Lat - getFocus().Lat);
+            double lng = (double)Math.Abs(point.Lng - getFocus().Lng);
 
-            foreach (var p in points)
-            {
-                if (max.Lat + max.Lng < p.Lat + p.Lng)
-                {
-                    max = p;
-                }
-            }
+            dist = Math.Sqrt(Math.Pow(lat, 2) + Math.Pow(lng, 2));
 
-            PointLatLng min = new PointLatLng(180, 180);
-
-            foreach (var p in points)
-            {
-                if (min.Lat + min.Lng > p.Lat + p.Lng)
-                {
-                    min = p;
-                }
-            }
-
-            return distance.GetMinDistance(max, min, point);
+            return dist;
 
         }
 

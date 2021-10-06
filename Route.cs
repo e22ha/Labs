@@ -22,9 +22,14 @@ namespace _33.Пшы
 
         public override double getDistance(PointLatLng point)
         {
-            DistanceCalculator distance = new DistanceCalculator();
+            double dist;
 
-            return distance.GetMinDistance(this.points.First(), this.points.Last(),point);
+            double lat = (double)Math.Abs(point.Lat - getFocus().Lat);
+            double lng = (double)Math.Abs(point.Lng - getFocus().Lng);
+
+            dist = Math.Sqrt(Math.Pow(lat, 2) + Math.Pow(lng, 2));
+
+            return dist;
         }
 
         public override PointLatLng getFocus()
