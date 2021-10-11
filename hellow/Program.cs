@@ -11,5 +11,10 @@ namespace hellow
             Console.WriteLine("Add branch test");
             Console.ReadKey();
         }
+
+        static int plus(int A, int B)
+        {
+            return A + B;
+        }
     }
 }
