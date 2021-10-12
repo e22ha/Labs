@@ -25,7 +25,6 @@ namespace _33.Пшы
     /// </summary>
     public partial class MainWindow : Window
     {
-
         List<PointLatLng> pointsArea = new List<PointLatLng>();
         List<PointLatLng> pointsRoute = new List<PointLatLng>();
         Dictionary<MapObject, double> distDict = new Dictionary<MapObject, double>();
@@ -33,6 +32,7 @@ namespace _33.Пшы
         List<MapObject> listOfAllObj = new List<MapObject>();
         int setTool; // 0 - arrow; 1 - car; 2 - human; 3 - route; 4 - area; 5 - search obj&dist; 
         string searchName = "";
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -126,12 +126,10 @@ namespace _33.Пшы
         {
             return obj.getTitle().StartsWith("A");
         }
-
         private bool FindHu(MapObject obj)
         {
             return obj.getTitle().StartsWith("H");
         }
-
         private bool FindCar(MapObject obj)
         {
             return obj.getTitle().StartsWith("C");
@@ -188,6 +186,7 @@ namespace _33.Пшы
             pointsArea = new List<PointLatLng>();
             setTool = 4;
         }
+
         private void btn_search_Click(object sender, RoutedEventArgs e)
         {
             distDict = new Dictionary<MapObject, double>();

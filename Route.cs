@@ -12,7 +12,6 @@ namespace _33.Пшы
 {
     class Route : MapObject
     {
-
         private List<PointLatLng> points;
 
         public Route(string title, List<PointLatLng> points) : base(title)
@@ -57,7 +56,6 @@ namespace _33.Пшы
             return new PointLatLng((max.Lat + min.Lat)/2, (max.Lng + min.Lng)/2);
         }
 
-
         public override GMapMarker getMarker()
         {
             GMapMarker markPath = new GMapRoute(this.points)
@@ -70,6 +68,7 @@ namespace _33.Пшы
                     StrokeThickness = 4 // толщина обводки
                 }
             };
+
             return markPath;
         }
     }

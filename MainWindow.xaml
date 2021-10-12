@@ -6,28 +6,41 @@
         xmlns:local="clr-namespace:_33.Пшы"
         xmlns:WindowsPresentation="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation" x:Class="_33.Пшы.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1097.333">
+        Title="33.Gis" Height="450" Width="1000">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="550"/>
+            <ColumnDefinition Width="450"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Column="0" Grid.ColumnSpan="2">
+            <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown"/>
+        </Grid>
+        
+        <Grid Grid.Column="0">
+            <StackPanel HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Orientation="Horizontal">
+                <Button x:Name="btn_arrow" Content="↖" Width="35" Click="btn_arrow_Click"/>
+                <Button x:Name="btn_car" Content="🚕" Width="35" Click="btn_car_Click" Margin="0,0,0,-0.333"/>
+                <Button x:Name="btn_human" Content="😀" Width="35" Click="btn_human_Click" Margin="0,0,0,-0.333" />
+                <Button x:Name="btn_route" Content="↔" Width="35" Click="btn_route_Click" Margin="0,0,0,-0.333"/>
+                <Button x:Name="btn_area" Content="⬜" Width="35" Click="btn_area_Click" Margin="0,0,0,-0.333"/>
+                <Button x:Name="btn_loc" Content="⨀" Width="35" Click="btn_loc_Click" Margin="0,0,0,-0.333" />
+                <Button x:Name="btn_back" Content="↶" Width="35" Click="btn_back_Click"/>
+                <Button x:Name="btn_search" Content="Кто рядом?" Width="71" Click="btn_search_Click"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1">
+            <TextBox x:Name="tb_Search" Margin="10,0,280,384" Height="35" Width="160"/>
+            <Button x:Name="btn_srchByName" Content="🔍" Height="35" Width="35" Margin="175,0,240,384" Click="btn_srchByName_Click"/>
+            <ListBox x:Name="lb_objectOnMap" Background="Transparent" Width="200" SelectionChanged="ListofObj_SelectionChanged" Margin="10,40,240,99"/>
 
-        <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown"/>
-        <Label x:Name="xy_log" Content="" Margin="662,389,10,10.333"/>
-        <StackPanel HorizontalAlignment="Left" Height="35" VerticalAlignment="Top" Width="629" Orientation="Horizontal">
-            <Button x:Name="btn_arrow" Content="↖" Width="24" Click="btn_arrow_Click"/>
-            <Button x:Name="btn_car" Content="🚕Car" Width="43" Click="btn_car_Click" Margin="0,0,0,-0.333"/>
-            <Button x:Name="btn_human" Content="😀Human" Width="62" Click="btn_human_Click" Margin="0,0,0,-0.333" />
-            <Button x:Name="btn_route" Content="↔Route" Width="50" Click="btn_route_Click" Margin="0,0,0,-0.333"/>
-            <Button x:Name="btn_area" Content="⬜Area" Width="46" Click="btn_area_Click" Margin="0,0,0,-0.333"/>
-            <Button x:Name="btn_loc" Content="⨀Locaton" Width="54" Click="btn_loc_Click" Margin="0,0,0,-0.333" />
-            <Button x:Name="btn_back" Content="↶ Назад" Width="71" Click="btn_back_Click"  />
-            <Button x:Name="btn_search" Content="Кто рядом?" Width="71" Click="btn_search_Click"   />
-            <TextBox x:Name="tb_Search" Width="158" Margin="0,0,0,-0.333"/>
-            <Button x:Name="btn_srchByName" Content="Go🔍" Width="50" Click="btn_srchByName_Click"    />
+            <Label Content="By distant:" Height="35" Width="200" Margin="230,0,20,384" VerticalContentAlignment="Bottom" FontWeight="Medium" FontSize="14"/>
+            <Label Content="By name:"  Height="35" Width="200" Margin="230,162,20,222" VerticalContentAlignment="Bottom" FontWeight="Medium" FontSize="14"/>
+            <ListBox x:Name="lb_searchItmesByDist" Width="200" Background="Transparent" SelectionChanged="ListSearch_SelectionChanged" Margin="230,40,20,262"/>
+            <ListBox x:Name="lb_searchItemsByName" Background="Transparent" SelectionChanged="ListSearchByName_SelectionChanged" Margin="230,202,20,99"/>
 
-
-        </StackPanel>
-        <Label Content="List:" Margin="634,233,105,160"/>
-        <ListBox x:Name="lb_objectOnMap" Margin="634,259,269.667,9.667" Background="Transparent" SelectionChanged="ListofObj_SelectionChanged"/>
-        <ListBox x:Name="lb_searchItmesByDist" Margin="634,10,269.667,185.667" Background="Transparent" SelectionChanged="ListSearch_SelectionChanged"/>
-        <ListBox x:Name="lb_searchItemsByName" Margin="856,10,47.667,185.667" Background="Transparent" SelectionChanged="ListSearchByName_SelectionChanged" />
+            <Label x:Name="xy_log" Content="" Margin="10,364,20,10"/>
+            <Label Content="Log:"  Height="35" Margin="10,324,20,60" VerticalContentAlignment="Bottom" FontWeight="Medium" FontSize="14"/>
+        </Grid>
     </Grid>
 </Window>
