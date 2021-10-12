@@ -23,6 +23,7 @@ namespace CustomUserCard
         public UserCard()
         {
             InitializeComponent();
+            image_avatar.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/image.jpg"));
         }
     }
 }

@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomUserCard"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid/>
+        Title="MainWindow" Height="450" Width="522.032">
+    <Grid Margin="0,0,2,0">
+        <local:UserCard HorizontalAlignment="Left" Height="390" Margin="10,10,0,0" VerticalAlignment="Top"/>
+    </Grid>
 </Window>

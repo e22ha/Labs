@@ -5,14 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CustomUserCard"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" MinWidth="800" MinHeight="450">
+             d:DesignHeight="350" MinWidth="500" MinHeight="350" Width="500">
     <Grid Background="White">
-        <Image x:Name="image_avatar" HorizontalAlignment="Left" Height="200" Margin="590,57,0,0" VerticalAlignment="Top" Width="150"/>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="500" Background="#FFE2E2E2"/>
+        <Image x:Name="image_avatar" HorizontalAlignment="Left" Height="200" Margin="340,57,0,0" VerticalAlignment="Top" Width="150"/>
         <Label x:Name="lb_timeOnline" Content="был в сети 10.10.21 в 13:13" HorizontalAlignment="Left" Margin="35,10,0,0" VerticalAlignment="Top" Width="160" Height="25"/>
         <Label x:Name="lb_name1" Content="Panay" Height="40" Margin="35,57,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="24" FontWeight="Bold"/>
         <Image x:Name="img_online" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.5,0.511"/>
         <Label x:Name="lb_name2" Content="Panos" Height="40" Margin="35,97,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20" FontWeight="SemiBold"/>
         <Label x:Name="lb_position" Content="SEO" Height="40" Margin="35,137,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20"/>
+        <StackPanel HorizontalAlignment="Left" Height="30" Margin="309,10,0,0" VerticalAlignment="Top" Width="150" Orientation="Horizontal">
+            <Button x:Name="btn_copy" Content="" Width="20" Margin="5,5,5,5" ToolTip="Copy"/>
+            <Button x:Name="btn_calendar" Content="" Width="20" Margin="5,5,5,5" ToolTip="Calendar"/>
+            <Button x:Name="btn_chat" Content="" Width="20" Margin="5,5,5,5" ToolTip="Chat"/>
+            <Button x:Name="btn_videocall" Content="" Width="20" Margin="5,5,5,5" ToolTip="Call"/>
+            <Button x:Name="btn_more" Content="" Width="20" Margin="5,5,5,5" ToolTip="More"/> 
+
+
+        </StackPanel>
+        <Button Content="x" HorizontalAlignment="Left" Margin="464,13,0,0" VerticalAlignment="Top" Width="25" Height="25"/>
+        <Label x:Name="lb_position2" Content="SEO" Height="40" Margin="35,137,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20"/>
 
     </Grid>
 </UserControl>
