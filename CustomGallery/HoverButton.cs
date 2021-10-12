@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,8 +27,6 @@ namespace CustomGallery
             base.OnPaint(pe);
             // отрисовка прямоугольника
             pe.Graphics.FillRectangle(new SolidBrush(color), ClientRectangle);
-            // отрисовка текста
-            pe.Graphics.DrawString(Text, Font, new SolidBrush(ForeColor), ClientRectangle);
         }
 
         protected override void OnMouseEnter(EventArgs e)
@@ -41,7 +40,6 @@ namespace CustomGallery
             base.OnMouseLeave(e);
             color = Color.SkyBlue;
         }
-
 
     }
 }
