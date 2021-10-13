@@ -13,6 +13,12 @@ namespace hellow
             Console.ReadKey();
         }
 
+
+        static int div(int A, int B)
+        {
+            return A / B;
+        }
+
         static int plus(int A, int B)
         {
             return A + B;
@@ -26,7 +32,6 @@ namespace hellow
         static int minus(int A, int B)
         { 
             return A-B;
-
         }
     }
 }
