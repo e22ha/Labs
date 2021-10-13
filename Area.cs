@@ -28,6 +28,7 @@ namespace _33.Пшы
             dist = Math.Sqrt(Math.Pow(lat, 2) + Math.Pow(lng, 2));
 
             return dist;
+
         }
 
         public override PointLatLng getFocus()

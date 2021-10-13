@@ -15,7 +15,6 @@ namespace _33.Пшы
         PointLatLng point;
 
         public Human(string title, PointLatLng point) : base(title) { this.point = point; }
-
         public override double getDistance(PointLatLng point)
         {
             double dist;
@@ -45,7 +44,6 @@ namespace _33.Пшы
                     Source = new BitmapImage(new Uri("pack://application:,,,/Resources/Human.png")) // картинка
                 }
             };
-
             return MarkHuman;
         }
     }
