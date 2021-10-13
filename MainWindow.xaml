@@ -6,25 +6,8 @@
         xmlns:local="clr-namespace:_33.Пшы"
         xmlns:WindowsPresentation="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation" x:Class="_33.Пшы.MainWindow"
         mc:Ignorable="d"
-<<<<<<< Updated upstream
         Title="MainWindow" Height="450" Width="1097.333">
     <Grid>
-=======
-        Title="MainWindow" Height="459" Width="600.333">
-    <Grid Margin="0,0,2,0">
-        <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown" HorizontalAlignment="Left" Width="485" Margin="95,10,0,40"/>
-        <Button x:Name="btn_reset" Content="Reset" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="90" Margin="0,17,0,0" Click="btn_reset_Click" />
-        <Button x:Name="btn_deliver_car_create" Content="Generate car" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="90" Margin="0,52,0,0" Click="btn_deliver_car_create_Click" />
-        <CheckBox x:Name="chb_curd" Content="Сырок" HorizontalAlignment="Left" Margin="10,87,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="chb_watermelon" Content="Арбуз" HorizontalAlignment="Left" Margin="10,102,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="chb_milk" Content="Молоко" HorizontalAlignment="Left" Margin="10,117,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="chb_meat" Content="Мясо" HorizontalAlignment="Left" Margin="10,132,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="chb_egg" Content="Яйцо" HorizontalAlignment="Left" Margin="10,147,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="btn_pointB" Content="Куда" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="90" Margin="0,353,0,0" Click="btn_pointB_Click"/>
-        <Button x:Name="btn_go" Content="Поехали!" HorizontalAlignment="Left" Height="30" Margin="0,388,0,0" VerticalAlignment="Top" Width="90" Click="btn_go_Click"/>
-        <ProgressBar HorizontalAlignment="Left" Height="30" Margin="90,388,0,0" VerticalAlignment="Top" Width="500"/>
-        <Button x:Name="btn_test" Content="Куда" HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="90" Margin="0,220,0,0" Click="btn_test_Click" />
->>>>>>> Stashed changes
 
         <WindowsPresentation:GMapControl Name="Map" Loaded="MapLoaded" MouseLeftButtonDown="Map_MouseLeftButtonDown"/>
         <Label x:Name="xy_log" Content="" Margin="662,389,10,10.333"/>

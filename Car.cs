@@ -48,45 +48,5 @@ namespace _33.Пшы
             };
             return markCar;
         }
-<<<<<<< Updated upstream
-=======
-
-        // событие прибытия
-        public event EventHandler Arrived;
-        // метод перемещения по маршруту
-        public void moveTo(PointLatLng endPoint)
-        {
-            this.point = endPoint;
-        }
-        private void MoveByRoute()
-        {
-            PointLatLng prepoint = route.getPoints().First();
-            foreach (var point in route.getPoints())
-            {
-                Application.Current.Dispatcher.Invoke(delegate
-                {
-                    getMarker().Position = point;
-                    this.turnMarker(prepoint ,point);
-                    prepoint = point;
-                });
-                Thread.Sleep(500);
-            }
-            // отправка события о прибытии после достижения последней точки маршрута
-            Arrived?.Invoke(this, null);
-        }
-
-        private void turnMarker(PointLatLng point, PointLatLng nextPoint)
-        {
-            // вычисление разницы между двумя соседними точками по широте и долготе
-            double latDiff = nextPoint.Lat - point.Lat;
-            double lngDiff = nextPoint.Lng - point.Lng;
-            // вычисление угла направления движения
-            // latDiff и lngDiff - катеты прямоугольного треугольника
-            double angle = Math.Atan2(lngDiff, latDiff) * 180.0 / Math.PI;
-            // установка угла поворота маркера
-            getMarker().Shape.RenderTransform = new RotateTransform { Angle = angle };
-        }
-
->>>>>>> Stashed changes
     }
 }
