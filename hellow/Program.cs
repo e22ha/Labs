@@ -13,13 +13,20 @@ namespace hellow
             Console.ReadKey();
         }
 
+        static int plus(int A, int B)
+        {
+            return A + B;
+        }
+      
         static int multi(int A, int B)
         {
             return A * B;
-
+        }
+      
         static int minus(int A, int B)
         { 
             return A-B;
+
         }
     }
 }
