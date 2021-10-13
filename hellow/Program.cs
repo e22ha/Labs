@@ -15,6 +15,10 @@ namespace hellow
         static int multi(int A, int B)
         {
             return A * B;
+
+        static int minus(int A, int B)
+        { 
+            return A-B;
         }
     }
 }
