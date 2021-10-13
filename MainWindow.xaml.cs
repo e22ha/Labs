@@ -143,7 +143,12 @@ namespace _33.Пшы
             GMaps.Instance.Mode = AccessMode.ServerAndCache;
 
             // установка провайдера карт
+<<<<<<< Updated upstream
             Map.MapProvider = GoogleMapProvider.Instance;
+=======
+            Map.MapProvider = BingMapProvider.Instance;
+            BingMapProvider.Instance.ClientKey = "1Jazqtp5FmwbVYDaiNOd~sdjnPhWAQmQg52gklQaIFg~Al0KQvWsEXWfW2d2VYI5rzamw8JVthiEEBuxqZE_KexPsS4By363X9_-XfxbGGkJ";
+>>>>>>> Stashed changes
 
             // установка зума карты
             Map.MinZoom = 2;
@@ -177,6 +182,7 @@ namespace _33.Пшы
             setTool = 2;
         }
 
+<<<<<<< Updated upstream
         private void btn_route_Click(object sender, RoutedEventArgs e)
         {
             pointsRoute = new List<PointLatLng>();
@@ -200,6 +206,37 @@ namespace _33.Пшы
             Map.Markers.RemoveAt(Map.Markers.Count() - 1);
             listOfAllObj.RemoveAt(listOfAllObj.Count() - 1);
             lb_objectOnMap.Items.RemoveAt(lb_objectOnMap.Items.Count - 1);
+=======
+        private void btn_go_Click(object sender, RoutedEventArgs e)
+        {
+            List<PointLatLng> pointsRoute = new List<PointLatLng>();
+            List<MapObject> warehouse = new List<MapObject>();
+            //создание списка пунктов складов
+            pointsRoute.Add(deliveryAddress);
+            if ((bool)chb_curd.IsChecked) { warehouse.Add(warehouse_curd); }
+            if ((bool)chb_egg.IsChecked) { warehouse.Add(warehouse_egg); }
+            if ((bool)chb_milk.IsChecked) { warehouse.Add(warehouse_milk); }
+            if ((bool)chb_meat.IsChecked) { warehouse.Add(warehouse_meat); }
+            if ((bool)chb_watermelon.IsChecked) { warehouse.Add(warehouse_watermelon); }
+            //сортировка списка по расстоянию:
+            ////поиск ближайшей точки к адресу доставки из всех точек складов
+            ////поиск ближайшей точки к последнему в списке пути из всех точек складов
+            while (warehouse.Count > 0)
+            {
+                pointsRoute.Add(searchNearestPoint(pointsRoute.Last(), warehouse));
+            }
+            ////поиск ближайшей машины к последнему в спискепути из всех машин
+            Car deliveryCar = (Car)searchNearestCar(pointsRoute.Last(), listOfAllObj.FindAll(FindCar));
+            pointsRoute.Add(deliveryCar.getFocus());
+            pointsRoute.Reverse();
+            //1) создание Route по этим точкам
+            Route route = new Route("Route", pointsRoute);
+            Map.Markers.Add(route.getMarker());
+            //deliveryCar.moveTo(route.getPoints().Last());
+            
+            //2) создание Route по этим точкам через MapRoute
+
+>>>>>>> Stashed changes
         }
 
         private void ListofObj_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -245,6 +282,11 @@ namespace _33.Пшы
             searchName = lb_searchItemsByName.SelectedItem.ToString();
             Map.Position = listOfAllObj.Find(FindByName).getFocus();
             lb_objectOnMap.SelectedIndex = -1;
+        }
+
+        private void btn_test_Click(object sender, RoutedEventArgs e)
+        {
+            FindRoute(warehouse_curd.getFocus(),warehouse_egg.getFocus());
         }
     }
 }
