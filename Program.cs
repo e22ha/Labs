@@ -6,7 +6,7 @@ namespace TestNa5
     {
         static void Main(string[] args)
         {
-            int a = 0;
+            Calc calc = new();
             string op;
 
             Console.WriteLine("\tConsole Calculator in C#\r");
@@ -19,23 +19,24 @@ namespace TestNa5
             Console.WriteLine("\t4.Calculation of the remainder of division\n");
             op = Console.ReadLine();
 
+            int a;
             if (op == "1")
             {
                 Console.WriteLine("\tEnter length in centimeters:\n");
                 a = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine(Calc.convr(a) + " inches");
+                Console.WriteLine(calc.convr(a) + " inches");
             }
             else if (op == "2")
             {
                 Console.WriteLine("\tEnter the number:\n");
                 a = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine(Calc.Even(a));
+                Console.WriteLine(calc.Even(a));
             }
             else if (op == "3")
             {
                 Console.WriteLine("\tEnter length of array:\n");
                 int l = Convert.ToInt32(Console.ReadLine());
-                int[] mas = new int[l];
+                double[] mas = new double[l];
 
                 Console.WriteLine("\tEnter an array:\n");
                 for (int i = 0; i < l; i++)
@@ -44,7 +45,7 @@ namespace TestNa5
                 }
 
                 Console.WriteLine("\tThe highest number is ");
-                Console.WriteLine(Calc.max(mas, a));
+                Console.WriteLine(calc.max(mas));
             }
             else if (op == "4")
             {
@@ -54,7 +55,7 @@ namespace TestNa5
                 int b = Convert.ToInt32(Console.ReadLine());
 
                 Console.WriteLine("\tThe remainder of dividing " + a + " by " + b);
-                Console.WriteLine(Calc.mod(a, b));
+                Console.WriteLine(calc.mod(a, b));
             }
 
             Console.ReadKey();

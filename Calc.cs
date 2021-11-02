@@ -8,23 +8,23 @@ namespace TestNa5
 {
     class Calc
     {
-        public static double convr(int a)
+        public double convr(double a)
         {
             return a / 2.54;
         }
 
-        public static bool Even(int n)
+        public bool Even(double n)
         {
             return n % 2 == 0;
         }
 
-        public static int max(int[] mas, int a)
+        public double max(double[] mas)
         {
-            a = mas.Max();
+            double a = mas.Max();
             return a;
         }
 
-        public static int mod(int a, int b)
+        public double mod(double a, double b)
         {
             if (b <= 0)
             {
