@@ -26,10 +26,10 @@ namespace TestNa5
 
         public double mod(double a, double b)
         {
-            if (b <= 0)
-            {
-                Console.WriteLine("Enter a value greater than 0");
-            }
+
+            if (b <= 0) throw new ArgumentException("Делитель должен быть >= 0");
+            Console.WriteLine("Enter a value greater than 0");
+
 
             return a % b;
         }
