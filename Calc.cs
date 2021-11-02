@@ -8,28 +8,33 @@ namespace TestNa5
 {
     class Calc
     {
-        public double convr(double a)
+        public static double Convr(double a)
         {
             return a / 2.54;
         }
 
-        public bool Even(double n)
+        public static bool Even(double n)
         {
             return n % 2 == 0;
         }
 
-        public double max(double[] mas)
+        public static double Max(double[] mas)
         {
             double a = mas.Max();
             return a;
         }
 
-        public double mod(double a, double b)
+        public static double Mod(double a, double b)
         {
-
-            if (b <= 0) throw new ArgumentException("Делитель должен быть >= 0");
-            Console.WriteLine("Enter a value greater than 0");
-
+            try
+            {
+                if (b <= 0) throw new ArgumentException("Делитель должен быть >= 0");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"{e}");
+                throw new ArgumentException("Делитель должен быть >= 0");
+            }
 
             return a % b;
         }

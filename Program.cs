@@ -4,9 +4,8 @@ namespace TestNa5
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Calc calc = new();
             string op;
 
             Console.WriteLine("\tConsole Calculator in C#\r");
@@ -24,13 +23,13 @@ namespace TestNa5
             {
                 Console.WriteLine("\tEnter length in centimeters:\n");
                 a = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine(calc.convr(a) + " inches");
+                Console.WriteLine(Calc.Convr(a) + " inches");
             }
             else if (op == "2")
             {
                 Console.WriteLine("\tEnter the number:\n");
                 a = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine(calc.Even(a));
+                Console.WriteLine(Calc.Even(a));
             }
             else if (op == "3")
             {
@@ -45,7 +44,7 @@ namespace TestNa5
                 }
 
                 Console.WriteLine("\tThe highest number is ");
-                Console.WriteLine(calc.max(mas));
+                Console.WriteLine(Calc.Max(mas));
             }
             else if (op == "4")
             {
@@ -55,7 +54,7 @@ namespace TestNa5
                 int b = Convert.ToInt32(Console.ReadLine());
 
                 Console.WriteLine("\tThe remainder of dividing " + a + " by " + b);
-                Console.WriteLine(calc.mod(a, b));
+                Console.WriteLine(Calc.Mod(a, b));
             }
 
             Console.ReadKey();
