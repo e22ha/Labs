@@ -26,15 +26,7 @@ namespace TestNa5
 
         public static double Mod(double a, double b)
         {
-            try
-            {
-                if (b <= 0) throw new ArgumentException("Делитель должен быть >= 0");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"{e}");
-                throw new ArgumentException("Делитель должен быть >= 0");
-            }
+            if (b <= 0) throw new ArgumentException("The divisor must be > 0");
 
             return a % b;
         }

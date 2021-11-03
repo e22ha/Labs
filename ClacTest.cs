@@ -40,7 +40,7 @@ namespace TestNa5
             // получение исключения
             var exception = Assert.Throws<ArgumentException>(() => Calc.Mod(2, 0));
             // сравнение полученного сообщения с ожидаемым
-            Assert.That(exception.Message, Is.EqualTo("Делитель должен быть >= 0"));
+            Assert.That(exception.Message, Is.EqualTo("The divisor must be > 0"));
             // проверка выполняется успешно, если исключение не было сгенерировано
             Assert.DoesNotThrow(() => Calc.Mod(2, 1));
         }

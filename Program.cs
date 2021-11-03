@@ -53,8 +53,17 @@ namespace TestNa5
                 Console.WriteLine("\tEnter the number b:\n");
                 int b = Convert.ToInt32(Console.ReadLine());
 
-                Console.WriteLine("\tThe remainder of dividing " + a + " by " + b);
-                Console.WriteLine(Calc.Mod(a, b));
+                try
+                {
+                    Console.WriteLine("\tThe remainder of dividing " + a + " by " + b + " = "+ Calc.Mod(a, b));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("\t"+e.Message);
+                    Console.WriteLine("\tEnter the number b:\n");
+                    b = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("\tThe remainder of dividing " + a + " by " + b + " = "+ Calc.Mod(a, b));
+                }
             }
 
             Console.ReadKey();
