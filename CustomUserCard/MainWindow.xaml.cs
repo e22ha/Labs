@@ -31,6 +31,12 @@ namespace CustomUserCard
             if (tb_name2.Text != "") UC.lb_name2.Content = tb_name2.Text;
             if (tb_pos.Text != "") UC.lb_position.Content = tb_pos.Text;
             if (tb_company.Text != "") UC.lb_company.Content = tb_company.Text;
+
+            if (_avatar.SelectedIndex == 0) UC.UCAva = "Resources/stand.png";
+            if (_avatar.SelectedIndex == 1) UC.UCAva = "Resources/king.png";
+            if (_avatar.SelectedIndex == 2) UC.UCAva = "Resources/happy.png";
+            if (_avatar.SelectedIndex == 3) UC.UCAva = "Resources/sad.png";
+            if (_avatar.SelectedIndex == 4) UC.UCAva = "Resources/pac.png";
         }
     }
 }

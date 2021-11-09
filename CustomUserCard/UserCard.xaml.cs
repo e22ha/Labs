@@ -98,11 +98,11 @@ namespace CustomUserCard
                 "image_avatar", // имя параметра в разметке
                 typeof(string), // тип данных параметра
                 typeof(UserCard), // тип данных элемента управления
-                 new PropertyMetadata(string.Empty, AvaChanged)); // метаданные - значение параметра поумолчанию и обработчик изменения параметра
+                new PropertyMetadata(string.Empty, AvaChanged)); // метаданные - значение параметра поумолчанию и обработчик изменения параметра
         private static void AvaChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var UCard = obj as UserCard;
-            UCard.image_avatar.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/image.jpg"));
+            UCard.image_avatar.Source = new BitmapImage(new Uri("pack://application:,,,/" + UCard.UCAva));
         }
 
         public string UCOnline
@@ -115,7 +115,7 @@ namespace CustomUserCard
                 "img_online", // имя параметра в разметке
                 typeof(string), // тип данных параметра
                 typeof(UserCard), // тип данных элемента управления
-                 new PropertyMetadata(string.Empty, UCOnlineChanged)); // метаданные - значение параметра поумолчанию и обработчик изменения параметра
+                new PropertyMetadata(string.Empty, UCOnlineChanged)); // метаданные - значение параметра поумолчанию и обработчик изменения параметра
         private static void UCOnlineChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
             var UCard = obj as UserCard;
@@ -136,8 +136,5 @@ namespace CustomUserCard
         //lb_name2.Content = "Name2";
         //lb_position.Content = "SEO";
         //lb_position2.Content = "versal";
-
-
-
     }
 }

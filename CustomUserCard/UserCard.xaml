@@ -4,17 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CustomUserCard"
-             mc:Ignorable="d" Width="224" Height="270">
-    <Grid Background="BlueViolet" Width="224">
-        <Border BorderThickness="1" HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="400" Background="#FFE2E2E2"/>
-        <Image x:Name="image_avatar" Height="120" Margin="131,57,0,0" VerticalAlignment="Top" Source="Resources/image.jpg" HorizontalAlignment="Left" Width="107" />
-        <Label x:Name="lb_name1" Content="Panay" Height="40" Margin="24,49,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="24" FontWeight="Bold"/>
-        <Label x:Name="lb_name2" Content="Panos" Height="40" Margin="24,89,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20" FontWeight="SemiBold"/>
-        <Label x:Name="lb_position" Content="SEO" Height="40" Margin="24,129,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20"/>
-        <Label x:Name="lb_company" Content="Puffik" Height="40" Margin="24,157,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="14"/>
-        <Image x:Name="img_online" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.5,0.511"/>
-        <Label x:Name="lb_timeOnline" Content="был в сети 10.10.21 в 13:13" HorizontalAlignment="Left" Margin="35,10,0,0" VerticalAlignment="Top" Width="219" Height="25"/>
-        <StackPanel Height="30" Margin="23,0,0,10" VerticalAlignment="Bottom" Orientation="Horizontal" Width="178" Background="White" HorizontalAlignment="Left">
+             mc:Ignorable="d" Width="260" Height="270">
+    <Grid Background="BlueViolet">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="239*"/>
+        </Grid.ColumnDefinitions>
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="260" Background="#FFE2E2E2" Grid.ColumnSpan="2"/>
+        <Image x:Name="image_avatar" Height="120" Margin="128,59,0,0" VerticalAlignment="Top" Source="Resources/stand.png" HorizontalAlignment="Left" Width="120
+               " Grid.Column="1" />
+        <Label x:Name="lb_name1" Content="Panay" Height="47" Margin="10,49,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="24" FontWeight="Bold" Grid.Column="1"/>
+        <Label x:Name="lb_name2" Content="Panos" Height="40" Margin="10,89,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20" FontWeight="SemiBold" Grid.Column="1"/>
+        <Label x:Name="lb_position" Content="SEO" Height="40" Margin="10,129,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20" Grid.Column="1"/>
+        <Label x:Name="lb_company" Content="Puffik" Height="40" Margin="10,157,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="14" Grid.Column="1"/>
+        <Image x:Name="img_online" HorizontalAlignment="Left" Height="25" Margin="8,10,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.5,0.511" Grid.Column="1"/>
+        <Label x:Name="lb_timeOnline" Content="был в сети 10.10.21 в 13:13" HorizontalAlignment="Left" Margin="33,10,0,0" VerticalAlignment="Top" Width="189" Height="25" Grid.Column="1"/>
+        <StackPanel Height="30" Margin="14,0,0,15" VerticalAlignment="Bottom" Orientation="Horizontal" Width="178" Background="White" HorizontalAlignment="Left" Grid.Column="1">
             <Button x:Name="btn_copy" Content="" Width="20" Margin="5,5,5,5" ToolTip="Copy" BorderBrush="{x:Null}" Foreground="{x:Null}">
                 <Button.Background>
                     <ImageBrush ImageSource="Resources/copy.png"/>
