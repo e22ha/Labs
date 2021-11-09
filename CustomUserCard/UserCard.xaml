@@ -4,27 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CustomUserCard"
-             mc:Ignorable="d" 
-             d:DesignHeight="350" MinWidth="500" MinHeight="350" Width="500">
-    <Grid Background="White">
-        <Border BorderThickness="1" HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="500" Background="#FFE2E2E2"/>
-        <Image x:Name="image_avatar" HorizontalAlignment="Left" Height="200" Margin="340,57,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label x:Name="lb_timeOnline" Content="был в сети 10.10.21 в 13:13" HorizontalAlignment="Left" Margin="35,10,0,0" VerticalAlignment="Top" Width="160" Height="25"/>
-        <Label x:Name="lb_name1" Content="Panay" Height="40" Margin="35,57,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="24" FontWeight="Bold"/>
+             mc:Ignorable="d" Width="224" Height="270">
+    <Grid Background="BlueViolet" Width="224">
+        <Border BorderThickness="1" HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="400" Background="#FFE2E2E2"/>
+        <Image x:Name="image_avatar" Height="120" Margin="131,57,0,0" VerticalAlignment="Top" Source="Resources/image.jpg" HorizontalAlignment="Left" Width="107" />
+        <Label x:Name="lb_name1" Content="Panay" Height="40" Margin="24,49,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="24" FontWeight="Bold"/>
+        <Label x:Name="lb_name2" Content="Panos" Height="40" Margin="24,89,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20" FontWeight="SemiBold"/>
+        <Label x:Name="lb_position" Content="SEO" Height="40" Margin="24,129,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20"/>
+        <Label x:Name="lb_company" Content="Puffik" Height="40" Margin="24,157,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="14"/>
         <Image x:Name="img_online" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.5,0.511"/>
-        <Label x:Name="lb_name2" Content="Panos" Height="40" Margin="35,97,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20" FontWeight="SemiBold"/>
-        <Label x:Name="lb_position" Content="SEO" Height="40" Margin="35,137,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20"/>
-        <StackPanel HorizontalAlignment="Left" Height="30" Margin="309,10,0,0" VerticalAlignment="Top" Width="150" Orientation="Horizontal">
-            <Button x:Name="btn_copy" Content="" Width="20" Margin="5,5,5,5" ToolTip="Copy"/>
-            <Button x:Name="btn_calendar" Content="" Width="20" Margin="5,5,5,5" ToolTip="Calendar"/>
-            <Button x:Name="btn_chat" Content="" Width="20" Margin="5,5,5,5" ToolTip="Chat"/>
-            <Button x:Name="btn_videocall" Content="" Width="20" Margin="5,5,5,5" ToolTip="Call"/>
-            <Button x:Name="btn_more" Content="" Width="20" Margin="5,5,5,5" ToolTip="More"/> 
-
-
+        <Label x:Name="lb_timeOnline" Content="был в сети 10.10.21 в 13:13" HorizontalAlignment="Left" Margin="35,10,0,0" VerticalAlignment="Top" Width="219" Height="25"/>
+        <StackPanel Height="30" Margin="23,0,0,10" VerticalAlignment="Bottom" Orientation="Horizontal" Width="178" Background="White" HorizontalAlignment="Left">
+            <Button x:Name="btn_copy" Content="" Width="20" Margin="5,5,5,5" ToolTip="Copy" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/copy.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btn_calendar" Content="" Width="20" Margin="5,5,5,5" ToolTip="Calendar" Foreground="{x:Null}" BorderBrush="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/calendar.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btn_call" Content="" Width="20" Margin="5,5,5,5" ToolTip="Call" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/call.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btn_videocall" Content="" Width="20" Margin="5,5,5,5" ToolTip="Call" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/vcall.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btn_more" Content="" Width="20" Margin="5,5,5,5" ToolTip="More" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/more.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="btn_exit" Content="" Margin="5,5,5,5" VerticalAlignment="Top" Height="20" HorizontalAlignment="Left" Width="20" BorderBrush="{x:Null}" Foreground="{x:Null}">
+                <Button.Background>
+                    <ImageBrush ImageSource="Resources/close.png"/>
+                </Button.Background>
+            </Button>
         </StackPanel>
-        <Button Content="x" HorizontalAlignment="Left" Margin="464,13,0,0" VerticalAlignment="Top" Width="25" Height="25"/>
-        <Label x:Name="lb_position2" Content="SEO" Height="40" Margin="35,137,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="130" FontSize="20"/>
-
     </Grid>
 </UserControl>

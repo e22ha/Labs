@@ -5,8 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CustomUserCard"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="522.032">
-    <Grid Margin="0,0,2,0">
-        <local:UserCard HorizontalAlignment="Left" Height="390" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        Title="MainWindow" Height="382" Width="483.532">
+    <Window.Resources>
+
+        <SolidColorBrush x:Key="brushWatermarkBackground" Color="White" />
+        <SolidColorBrush x:Key="brushWatermarkForeground" Color="LightSteelBlue" />
+        <SolidColorBrush x:Key="brushWatermarkBorder" Color="Indigo" />
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <Style x:Key="EntryFieldStyle" TargetType="Grid" >
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="RoundedButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="10" Background="#FF63E463" BorderThickness="1" Padding="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+
+        <TextBlock Text="Имя" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=txtUserEntry, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" Width="200" Height="20" Margin="262,46,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox Name="tb_name" Background="Transparent" BorderBrush="{StaticResource brushWatermarkBorder}" Width="200" Height="20" Margin="262,46,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button x:Name="btn_accept" Content="Accept" Style="{StaticResource RoundedButtonStyle}" HorizontalAlignment="Left" Margin="262,157,0,0" VerticalAlignment="Top" Width="50" Height="40" BorderBrush="{x:Null}" Foreground="White" Background="#FF61E45A" FontSize="14" BorderThickness="1" Click="btn_accept_Click"/>
+        <TextBlock Text="Фамилия" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=txtUserEntry}" Width="200" Height="20" Margin="262,71,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox x:Name="tb_name2" Background="Transparent" BorderBrush="{StaticResource brushWatermarkBorder}" Width="200" Height="20" Margin="262,71,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBlock Text="Position" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=txtUserEntry}" Width="200" Height="20" Margin="262,107,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox x:Name="tb_pos" Background="Transparent" BorderBrush="{StaticResource brushWatermarkBorder}" Width="200" Height="20" Margin="262,107,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBlock Text="Company" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=txtUserEntry}" Width="200" Height="20" Margin="262,132,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox x:Name="tb_company" Background="Transparent" BorderBrush="{StaticResource brushWatermarkBorder}" Width="200" Height="20" Margin="262,132,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <local:UserCard x:Name="UC" HorizontalAlignment="Left" Height="232" Margin="10,10,0,0" VerticalAlignment="Top" Width="225"/>
+
     </Grid>
 </Window>

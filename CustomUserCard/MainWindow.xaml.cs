@@ -24,5 +24,13 @@ namespace CustomUserCard
         {
             InitializeComponent();
         }
+
+        private void btn_accept_Click(object sender, RoutedEventArgs e)
+        {
+            if (tb_name.Text != "") UC.lb_name1.Content = tb_name.Text;
+            if (tb_name2.Text != "") UC.lb_name2.Content = tb_name2.Text;
+            if (tb_pos.Text != "") UC.lb_position.Content = tb_pos.Text;
+            if (tb_company.Text != "") UC.lb_company.Content = tb_company.Text;
+        }
     }
 }
