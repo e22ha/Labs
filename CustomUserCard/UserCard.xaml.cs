@@ -88,22 +88,22 @@ namespace CustomUserCard
             UCard.lb_company.Content = UCard.UCCompany;
         }
 
-        //public string UCAva
-        //{
-        //    get { return (string)GetValue(UCAvaProperty); }
-        //    set { SetValue(UCAvaProperty, value); }
-        //}
+        public string UCAva
+        {
+            get { return (string)GetValue(UCAvaProperty); }
+            set { SetValue(UCAvaProperty, value); }
+        }
 
-        //public static readonly DependencyProperty UCAvaProperty = DependencyProperty.Register(
-        //        "image_avatar", // имя параметра в разметке
-        //        typeof(string), // тип данных параметра
-        //        typeof(UserCard), // тип данных элемента управления
-        //         new PropertyMetadata(string.Empty, AvaChanged)); // метаданные - значение параметра поумолчанию и обработчик изменения параметра
-        //private static void AvaChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-        //{
-        //    var UCard = obj as UserCard;
-        //    UCard.image_avatar.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/image.jpg"));
-        //}
+        public static readonly DependencyProperty UCAvaProperty = DependencyProperty.Register(
+                "image_avatar", // имя параметра в разметке
+                typeof(string), // тип данных параметра
+                typeof(UserCard), // тип данных элемента управления
+                 new PropertyMetadata(string.Empty, AvaChanged)); // метаданные - значение параметра поумолчанию и обработчик изменения параметра
+        private static void AvaChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            var UCard = obj as UserCard;
+            UCard.image_avatar.Source = new BitmapImage(new Uri("pack://application:,,,/Resources/image.jpg"));
+        }
 
         public string UCOnline
         {
@@ -112,7 +112,7 @@ namespace CustomUserCard
         }
 
         public static readonly DependencyProperty UCOnlineProperty = DependencyProperty.Register(
-                "image_avatar", // имя параметра в разметке
+                "img_online", // имя параметра в разметке
                 typeof(string), // тип данных параметра
                 typeof(UserCard), // тип данных элемента управления
                  new PropertyMetadata(string.Empty, UCOnlineChanged)); // метаданные - значение параметра поумолчанию и обработчик изменения параметра
