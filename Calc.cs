@@ -10,7 +10,7 @@ namespace TestNa5
     {
         public static double Convr(double a)
         {
-            if (a <= 0) throw new ArgumentException("The number must be > 0");
+            if (a < 0) throw new ArgumentException("The number must be >= 0");
             return a / 2.54;
         }
 
@@ -22,7 +22,7 @@ namespace TestNa5
         public static double Max(double[] mas)
         {
             
-            if (mas.Count() <= 0) throw new ArgumentException("The count must be > 0");
+            if (mas.Count() <= 0) throw new ArgumentException("The lenght must be > 0");
             double a = mas.Max();
             return a;
         }

@@ -30,7 +30,7 @@ namespace TestNa5
             // получение исключения
             var exception = Assert.Throws<ArgumentException>(() => Calc.Convr(-1));
             // сравнение полученного сообщения с ожидаемым
-            Assert.That(exception.Message, Is.EqualTo("The number must be > 0"));
+            Assert.That(exception.Message, Is.EqualTo("The number must be >= 0"));
             
         }
 
@@ -44,7 +44,7 @@ namespace TestNa5
             mas = new double[] {  };
             var exception = Assert.Throws<ArgumentException>(() => Calc.Max(mas));
             // сравнение полученного сообщения с ожидаемым
-            Assert.That(exception.Message, Is.EqualTo("The count must be > 0"));
+            Assert.That(exception.Message, Is.EqualTo("The lenght must be > 0"));
 
             mas = new double[] { double.MinValue  };
             Assert.AreEqual(double.MinValue, Calc.Max(mas));
