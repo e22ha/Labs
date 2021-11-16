@@ -19,12 +19,19 @@ namespace TestNa5
             // в первом случае оно должно быть истинно, во втором ложно
             Assert.IsTrue(Calc.Even(4));
             Assert.IsFalse(Calc.Even(5));
+
         }
 
         [TestCase]
         public void TestConv()
         {
             Assert.AreEqual(1, Calc.Convr(2.54));
+
+            // получение исключения
+            var exception = Assert.Throws<ArgumentException>(() => Calc.Convr(-1));
+            // сравнение полученного сообщения с ожидаемым
+            Assert.That(exception.Message, Is.EqualTo("The number must be > 0"));
+            
         }
 
         [TestCase]
@@ -32,6 +39,15 @@ namespace TestNa5
         {
             double[] mas = new double[10] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
             Assert.AreEqual(1, Calc.Max(mas));
+
+            // получение исключения
+            mas = new double[] {  };
+            var exception = Assert.Throws<ArgumentException>(() => Calc.Max(mas));
+            // сравнение полученного сообщения с ожидаемым
+            Assert.That(exception.Message, Is.EqualTo("The count must be > 0"));
+
+            mas = new double[] { double.MinValue  };
+            Assert.AreEqual(double.MinValue, Calc.Max(mas));
         }
 
         [TestCase]

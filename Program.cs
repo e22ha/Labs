@@ -22,8 +22,20 @@ namespace TestNa5
             if (op == "1")
             {
                 Console.WriteLine("\tEnter length in centimeters:\n");
-                a = Convert.ToInt32(Console.ReadLine());
-                Console.WriteLine(Calc.Convr(a) + " inches");
+
+                while (true)
+                {
+                    a = Convert.ToInt32(Console.ReadLine());
+                    try
+                    {
+                        Console.WriteLine("\tThe " + a + " in inches = " + Calc.Convr(a));
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("\t" + e.Message);
+                    }
+                }
             }
             else if (op == "2")
             {
@@ -34,35 +46,51 @@ namespace TestNa5
             else if (op == "3")
             {
                 Console.WriteLine("\tEnter length of array:\n");
-                int l = Convert.ToInt32(Console.ReadLine());
-                double[] mas = new double[l];
 
-                Console.WriteLine("\tEnter an array:\n");
-                for (int i = 0; i < l; i++)
+                while (true)
                 {
-                    mas[i] = Convert.ToInt32(Console.ReadLine());
-                }
 
-                Console.WriteLine("\tThe highest number is ");
-                Console.WriteLine(Calc.Max(mas));
+                    int l = Convert.ToInt32(Console.ReadLine());
+                    double[] mas = new double[l];
+
+                    Console.WriteLine("\tEnter an array:\n");
+                    for (int i = 0; i < l; i++)
+                    {
+                        mas[i] = Convert.ToInt32(Console.ReadLine());
+                    }
+                    try
+                    {
+                        Console.WriteLine("\tThe highest number is " + Calc.Max(mas));
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("\t" + e.Message);
+                    }
+                }
             }
             else if (op == "4")
             {
                 Console.WriteLine("\tEnter the number a:\n");
                 a = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("\tEnter the number b:\n");
-                int b = Convert.ToInt32(Console.ReadLine());
 
-                try
+                while (true)
                 {
-                    Console.WriteLine("\tThe remainder of dividing " + a + " by " + b + " = "+ Calc.Mod(a, b));
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("\t"+e.Message);
-                    Console.WriteLine("\tEnter the number b:\n");
-                    b = Convert.ToInt32(Console.ReadLine());
-                    Console.WriteLine("\tThe remainder of dividing " + a + " by " + b + " = "+ Calc.Mod(a, b));
+                    int b = Convert.ToInt32(Console.ReadLine());
+
+                    try
+                    {
+                        Console.WriteLine("\tThe remainder of dividing " + a + " by " + b + " = " + Calc.Mod(a, b));
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("\t" + e.Message);
+                        //Console.WriteLine("\tEnter the number b:\n");
+                        //b = Convert.ToInt32(Console.ReadLine());
+                        //Console.WriteLine("\tThe remainder of dividing " + a + " by " + b + " = "+ Calc.Mod(a, b));
+                    }
                 }
             }
 
