@@ -45,11 +45,11 @@ namespace TestNa5
             }
             else if (op == "3")
             {
-                Console.WriteLine("\tEnter length of array:\n");
 
                 while (true)
                 {
 
+                    Console.WriteLine("\tEnter length of array:\n");
                     int l = Convert.ToInt32(Console.ReadLine());
                     double[] mas = new double[l];
 

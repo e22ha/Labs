@@ -65,9 +65,9 @@ namespace TestNa5
         public void TestReturnMod()
         {
             Assert.AreEqual(1, Calc.Mod(1,2));
-            Assert.AreEqual(0, Calc.Mod(1,1));
-            Assert.AreEqual(1, Calc.Mod(4,3));
-            Assert.AreEqual(2, Calc.Mod(8,3));
+            Assert.AreEqual(0, Calc.Mod(double.MaxValue,1));
+            Assert.AreEqual(0, Calc.Mod(double.MinValue,1));
+            Assert.AreEqual(-2, Calc.Mod(-8,3));
         }
     }
 }
