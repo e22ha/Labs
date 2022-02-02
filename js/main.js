@@ -1,10 +1,18 @@
+console.log("Hello");
+
 // Ссылка на элемент веб страницы в котором будет отображаться графика
 var container;
 // Переменные "камера", "сцена" и "отрисовщик"
 var camera, scene, renderer;
 
+init();
+animate();
+render();
+
 // В этой функции можно добавлять объекты и выполнять их первичную настройку
 function init() {
+    console.log("Hello");
+
     // Получение ссылки на элемент html страницы
     container = document.getElementById('container');
     // Создание "сцены"
