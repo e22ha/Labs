@@ -8,6 +8,7 @@ var camera, scene, renderer;
 init();
 animate();
 render();
+terrain();
 
 // В этой функции можно добавлять объекты и выполнять их первичную настройку
 function init() {
@@ -57,4 +58,42 @@ function animate() {
 function render() {
     // Рисование кадра
     renderer.render(scene, camera);
+}
+
+function terrain() {
+    var vertices = []; // Объявление массива для хранения вершин
+    var faces = []; // Объявление массива для хранения индексов
+
+    var geometry = new THREE.BufferGeometry(); // Создание структуры для хранения геометрии
+
+    vertices.push(1.0, 0.0, 3.0); // Добавление координат первой вершины в массив вершин
+    vertices.push(1.0, 3.0, 0.0); // Добавление координат второй вершины в массив вершин
+    vertices.push(3.0, 0.0, 1.0); // Добавление координат третьей вершины в массив вершин
+
+    faces.push(0, 1, 2); // Добавление индексов (порядок соединения вершин) в массив индексов
+
+    //Добавление вершин и индексов в геометрию
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+    geometry.setIndex(faces);
+
+    var colors = []; // Объявление массива для хранения цветов вершин
+    colors.push(0.8, 0.0, 0.0); // Добавление цвета для первой вершины (красный)
+    colors.push(0.0, 0.8, 0.0); // Добавление цвета для второй вершины (зелёный)
+    colors.push(0.0, 0.0, 0.8); // Добавление цвета для третьей вершины (синий)
+
+    //Добавление цветов вершин в геометрию
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+    var _material = new THREE.MeshBasicMaterial({
+        vertexColors: THREE.VertexColors,
+        wireframe: false,
+        side: THREE.DoubleSide
+    });
+
+    // Создание объекта и установка его в определённую позицию
+    var _mesh = new THREE.Mesh(geometry, _material);
+    _mesh.position.set(0.0, 0.0, 0.0);
+    
+    // Добавление объекта в сцену
+    scene.add(_mesh);
 }
