@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
 
-<body>
+  <body>
+    <div class="chboxes">
+      <div>
+        <label for="f-option" class="l-radio">
+          <input type="radio" id="f-option" name="selector" tabindex="1" />
+          <span>Blue</span>
+        </label>
+        <label for="s-option" class="l-radio">
+          <input type="radio" id="s-option" name="selector" tabindex="2" />
+          <span>Rainbow tri</span>
+        </label>
+        <label for="t-option" class="l-radio">
+          <input type="radio" id="t-option" name="selector" tabindex="3" />
+          <span>PolyGrid</span>
+        </label>
+        <label for="t-option" class="l-radio">
+          <input type="radio" id="f-option" name="selector" tabindex="4" />
+          <span>Third</span>
+        </label>
+        <label for="t-option" class="l-radio">
+          <input type="radio" id="fi-option" name="selector" tabindex="5" />
+          <span>Third</span>
+        </label>
+      </div>
+      <button onclick="choose()">start</button>
+    </div>
     <!--объект веб страницы, в котором будет отображаться графика -->
     <div class="launch" id="container"></div>
 
@@ -15,6 +39,5 @@
 
     <!-- Подключение скрипта с графической программой -->
     <script src="js/main.js"></script>
-</body>
-
+  </body>
 </html>
