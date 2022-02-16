@@ -5,6 +5,7 @@ var camera, scene, renderer;
 
 var keyboard = new THREEx.KeyboardState();
 
+var a;
 var chase = -1;
 
 var angle = Math.PI / 2;
@@ -65,6 +66,9 @@ function init() {
             20,
             1.5666666667,
             0.0043478261,
+            null,
+            "imgs/Меркурий/mercurybump.jpg",
+            null,
             null
         )
     );
@@ -76,6 +80,9 @@ function init() {
             30,
             1.1666666667,
             7.6956521739,
+            null,
+            "imgs/Венера/venusbump.jpg",
+            null,
             null
         )
     );
@@ -87,7 +94,20 @@ function init() {
             45,
             1,
             1,
-            addPlanet(0.7, "imgs/Земля/Луна/moonmap1k.jpg", 6, 0.4, 0.1, null)
+            addPlanet(
+                0.7,
+                "imgs/Земля/Луна/moonmap1k.jpg",
+                6,
+                0.4,
+                0.1,
+                null,
+                "imgs/Земля/Луна/moonbump1k.jpg",
+                null,
+                null
+            ),
+            "imgs/Земля/earthbump1k.jpg",
+            "imgs/Земля/earthlights1k.jpg",
+            createEarthCloud()
         )
     );
 
@@ -98,9 +118,16 @@ function init() {
             60,
             0.8043333333,
             1.0869565217,
+            null,
+            "imgs/Марс/marsbump1k.jpg",
+            null,
             null
         )
     );
+
+    // planets.push(
+    //   createEarthCloud(45,12,1,1)
+    // );
 }
 
 function onWindowResize() {
@@ -178,6 +205,23 @@ function animate() {
 
             planets[i].sat.traj.position.copy(pos);
         }
+
+        if (planets[i].clouds != null) {
+            var cm = new THREE.Matrix4();
+            var cm1 = new THREE.Matrix4();
+
+            // var mm = new THREE.Matrix4();
+            // mm.copyPosition(m);
+            //получение позиции из матрицы позиции
+            // var pos = new THREE.Vector3(0, 0, 0);
+            // pos.setFromMatrixPosition(mm);
+            // cm.setPosition(pos);
+
+            // a += 2 * delta;
+            // cm.makeRotationY(a);
+            planets[i].clouds.matrix = cm1.multiplyMatrices(cm, planets[i].sphere.matrix);
+            planets[i].clouds.matrixAutoUpdate = false;
+        }
     }
 
     // Добавление функции на вызов, при перерисовки браузером страницы
@@ -206,24 +250,32 @@ function addSphere(r, tname) {
     scene.add(sphere);
 }
 
-function addPlanet(r, tname, x, s1, s2, sat) {
+function addPlanet(r, tname, x, s1, s2, sat, bname, sname, clouds) {
     //создание геометрии сферы
     var geometry = new THREE.SphereGeometry(r, 32, 32);
     //загрузка текстуры
     var tex = new THREE.TextureLoader().load(tname);
     tex.minFilter = THREE.NearestFilter;
+    //загрузка карты высот
+    var bump = new THREE.TextureLoader().load(bname);
+    var spec = new THREE.TextureLoader().load(sname);
     //создание материала
     var material = new THREE.MeshPhongMaterial({
         map: tex,
+        bumpMap: bump,
+        specularMap: spec,
+        specular: new THREE.Color("grey"),
+        bumpScale: 0.05,
         side: THREE.DoubleSide,
     });
-    //создание объекта
+
     var sphere = new THREE.Mesh(geometry, material);
+    //создание объекта
     sphere.position.x = x;
     //размещение объекта в сцене
     scene.add(sphere);
-
     var planet = {};
+
     planet.sphere = sphere;
     planet.x = x;
     planet.r = r;
@@ -233,6 +285,7 @@ function addPlanet(r, tname, x, s1, s2, sat) {
     planet.a2 = 0.0;
     planet.sat = sat;
     planet.traj = traj(x);
+    planet.clouds = clouds;
 
     return planet;
 }
@@ -305,6 +358,7 @@ function keys(delta) {
         camera.lookAt(new THREE.Vector3(0, 0.0, 0));
     }
 }
+
 function keysAngle(delta) {
     if (keyboard.pressed("9")) {
         angle += Math.PI / 20;
@@ -312,6 +366,85 @@ function keysAngle(delta) {
 
     if (keyboard.pressed("8")) {
         angle -= Math.PI / 90;
-    }   
+    }
     keys(delta);
+}
+
+function createEarthCloud() {
+    // create destination canvas
+    var canvasResult = document.createElement("canvas");
+    canvasResult.width = 1024;
+    canvasResult.height = 512;
+    var contextResult = canvasResult.getContext("2d");
+    // load earthcloudmap
+    var imageMap = new Image();
+    imageMap.addEventListener(
+        "load",
+        function () {
+            // create dataMap ImageData for earthcloudmap
+            var canvasMap = document.createElement("canvas");
+            canvasMap.width = imageMap.width;
+            canvasMap.height = imageMap.height;
+            var contextMap = canvasMap.getContext("2d");
+            contextMap.drawImage(imageMap, 0, 0);
+            var dataMap = contextMap.getImageData(
+                0,
+                0,
+                canvasMap.width,
+                canvasMap.height
+            );
+            // load earthcloudmaptrans
+            var imageTrans = new Image();
+            imageTrans.addEventListener("load", function () {
+                // create dataTrans ImageData for earthcloudmaptrans
+                var canvasTrans = document.createElement("canvas");
+                canvasTrans.width = imageTrans.width;
+                canvasTrans.height = imageTrans.height;
+                var contextTrans = canvasTrans.getContext("2d");
+                contextTrans.drawImage(imageTrans, 0, 0);
+                var dataTrans = contextTrans.getImageData(
+                    0,
+                    0,
+                    canvasTrans.width,
+                    canvasTrans.height
+                );
+                // merge dataMap + dataTrans into dataResult
+                var dataResult = contextMap.createImageData(
+                    canvasMap.width,
+                    canvasMap.height
+                );
+                for (var y = 0, offset = 0; y < imageMap.height; y++)
+                    for (var x = 0; x < imageMap.width; x++, offset += 4) {
+                        dataResult.data[offset + 0] = dataMap.data[offset + 0];
+                        dataResult.data[offset + 1] = dataMap.data[offset + 1];
+                        dataResult.data[offset + 2] = dataMap.data[offset + 2];
+                        dataResult.data[offset + 3] =
+                            255 - dataTrans.data[offset + 0];
+                    }
+                // update texture with result
+                contextResult.putImageData(dataResult, 0, 0);
+                material.map.needsUpdate = true;
+            });
+
+            imageTrans.src = "imgs/Земля/earthcloudmaptrans.jpg";
+        },
+        false
+    );
+
+    imageMap.src = "imgs/Земля/earthcloudmap.jpg";
+    var geometry = new THREE.SphereGeometry(4.5, 32, 32);
+
+    var material = new THREE.MeshPhongMaterial({
+        map: new THREE.Texture(canvasResult),
+        side: THREE.DoubleSide,
+        transparent: true,
+        opacity: 0.8,
+    });
+
+    var mesh = new THREE.Mesh(geometry, material);
+
+    //размещение объекта в сцене
+    scene.add(mesh);
+
+    return mesh;
 }
