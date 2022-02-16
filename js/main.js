@@ -136,7 +136,16 @@ function loadModel(path, oname, mname) {
                         });
 
                         object.castShadow = true;
-                        scene.add(object.clone());
+
+                        for (var i = 0; i< 9; i++){
+                            object.position.x = 100 + Math.random()*100;
+                            object.position.z = 100 + Math.random()*100;
+
+                            object.scale.set(0.5,0.5,0.5);
+
+                            scene.add(object.clone());
+
+                        }
                     },
                     onProgress,
                     onError
