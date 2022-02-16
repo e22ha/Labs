@@ -59,12 +59,12 @@ function init() {
     plane.position.x = 250;
     plane.position.z = 250;
     plane.rotation.x = Math.PI / 2;
-    scene.add(plane);
     plane.receiveShadow = true;
+    scene.add(plane);
 
     //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
     //создание точечного источника освещения заданного цвета
-    var spotlight = new THREE.PointLight(0xffffff);
+    var spotlight = new THREE.SpotLight(0xffffff);
     //установка позиции источника освещения
     spotlight.position.set(300, 200, 128);
     spotlight.castShadow = true; //включение расчёта теней от источника освещения
@@ -135,11 +135,10 @@ function loadModel(path, oname, mname) {
                             }
                         });
 
-                        object.castShadow = true;
 
                         for (var i = 0; i< 9; i++){
-                            object.position.x = 100 + Math.random()*100;
-                            object.position.z = 100 + Math.random()*100;
+                            object.position.x = 150 + Math.random()*200;
+                            object.position.z = 120 + Math.random()*200;
 
                             object.scale.set(0.5,0.5,0.5);
 
