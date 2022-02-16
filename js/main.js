@@ -144,7 +144,6 @@ function loadModel(path, oname, mname) {
                             object.scale.set(0.5,0.5,0.5);
 
                             scene.add(object.clone());
-
                         }
                     },
                     onProgress,
