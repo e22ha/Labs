@@ -5,7 +5,7 @@ import * as THREE from "./lib/three.module.js";
 import { MTLLoader } from "./lib/MTLLoader.js";
 import { OBJLoader } from "./lib/OBJLoader.js";
 
-import { GLTFLoader } from './lib/GLTFLoader.js';
+import { GLTFLoader } from "./lib/GLTFLoader.js";
 
 // Ссылка на элемент веб страницы в котором будет отображаться графика
 var container;
@@ -72,13 +72,11 @@ function init() {
     plane.receiveShadow = true;
     //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
     //создание точечного источника освещения заданного цвета
-    var light = new THREE.PointLight(0xffffff, 1, 1000);
-    //установка позиции источника освещения
-    light.position.set(300, 200, 128);
+    //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
+    const light = new THREE.PointLight(0xffffff, 1, 1000);
+    light.position.set(300, 200, 128); //позиция источника освещения
     light.castShadow = true; //включение расчёта теней от источника освещения
-    //добавление источника в сцену
-    scene.add(light);
-
+    scene.add(light); //добавление источника освещения в сцену
     //настройка расчёта теней от источника освещения
     light.shadow.mapSize.width = 512; //ширина карты теней в пикселях
     light.shadow.mapSize.height = 512; //высота карты теней в пикселях
