@@ -5,10 +5,18 @@ import * as THREE from "./lib/three.module.js";
 import { MTLLoader } from "./lib/MTLLoader.js";
 import { OBJLoader } from "./lib/OBJLoader.js";
 
+import { GLTFLoader } from './lib/GLTFLoader.js';
+
 // Ссылка на элемент веб страницы в котором будет отображаться графика
 var container;
 // Переменные "камера", "сцена" и "отрисовщик"
 var camera, scene, renderer;
+
+var clock = new THREE.Clock();
+
+var mixer,
+    morphs = [];
+mixer = new THREE.AnimationMixer(scene);
 
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
 init();
@@ -32,10 +40,10 @@ function init() {
         4000
     );
     // Установка позиции камеры
-    camera.position.set(128, 300, 510);
+    camera.position.set(128, 255, 510);
 
     // Установка точки, на которую камера будет смотреть
-    camera.lookAt(new THREE.Vector3(255, 0.0, 255));
+    camera.lookAt(new THREE.Vector3(128, 0.0, 128));
     // Создание отрисовщика
     renderer = new THREE.WebGLRenderer({ antialias: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -47,7 +55,7 @@ function init() {
     // Добавление функции обработки события изменения размеров окна
     window.addEventListener("resize", onWindowResize, false);
 
-    const geometry = new THREE.PlaneGeometry(255, 255, 255, 255);
+    const geometry = new THREE.PlaneGeometry(255, 255, 10, 10);
     const material = new THREE.MeshBasicMaterial({
         color: 0x008800,
         side: THREE.DoubleSide,
@@ -56,29 +64,31 @@ function init() {
 
     const plane = new THREE.Mesh(geometry, material);
 
-    plane.position.x = 250;
-    plane.position.z = 250;
+    plane.position.x = 128;
+    plane.position.z = 128;
     plane.rotation.x = Math.PI / 2;
-    plane.receiveShadow = true;
     scene.add(plane);
 
+    plane.receiveShadow = true;
     //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
     //создание точечного источника освещения заданного цвета
-    var spotlight = new THREE.SpotLight(0xffffff);
+    var light = new THREE.PointLight(0xffffff, 1, 1000);
     //установка позиции источника освещения
-    spotlight.position.set(300, 200, 128);
-    spotlight.castShadow = true; //включение расчёта теней от источника освещения
+    light.position.set(300, 200, 128);
+    light.castShadow = true; //включение расчёта теней от источника освещения
     //добавление источника в сцену
-    scene.add(spotlight);
+    scene.add(light);
 
     //настройка расчёта теней от источника освещения
-    spotlight.shadow.mapSize.width = 512; //ширина карты теней в пикселях
-    spotlight.shadow.mapSize.height = 512; //высота карты теней в пикселях
-    spotlight.shadow.camera.near = 0.5; //расстояние, ближе которого не будет теней
-    spotlight.shadow.camera.far = 1500; //расстояние, дальше которого не будет теней
+    light.shadow.mapSize.width = 512; //ширина карты теней в пикселях
+    light.shadow.mapSize.height = 512; //высота карты теней в пикселях
+    light.shadow.camera.near = 0.5; //расстояние, ближе которого не будет теней
+    light.shadow.camera.far = 1500; //расстояние, дальше которого не будет теней
 
     // вызов функции загрузки модели (в функции Init)
     loadModel("models/", "Tree.obj", "Tree.mtl");
+
+    loadAnimatedModel("models/Parrot.glb");
 }
 
 function onWindowResize() {
@@ -91,6 +101,10 @@ function onWindowResize() {
 
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
+    var delta = clock.getDelta();
+
+    mixer.update(delta);
+
     // Добавление функции на вызов, при перерисовки браузером страницы
     requestAnimationFrame(animate);
     render();
@@ -122,25 +136,17 @@ function loadModel(path, oname, mname) {
                 .load(
                     oname,
                     function (object) {
-                        //название модели
-                        //позиция модели по координате X
-                        object.position.x = 300;
-                        object.position.z = 200;
-                        //масштаб модели
-                        object.scale.set(0.5, 0.5, 0.5);
-                        //добавление модели в сцену
                         object.traverse(function (child) {
                             if (child instanceof THREE.Mesh) {
                                 child.castShadow = true;
                             }
                         });
 
+                        for (var i = 0; i < 4; i++) {
+                            object.position.x = 1 + Math.random() * 200;
+                            object.position.z = 1 + Math.random() * 200;
 
-                        for (var i = 0; i< 9; i++){
-                            object.position.x = 150 + Math.random()*200;
-                            object.position.z = 120 + Math.random()*200;
-
-                            object.scale.set(0.5,0.5,0.5);
+                            object.scale.set(0.5, 0.5, 0.5);
 
                             scene.add(object.clone());
                         }
@@ -149,4 +155,29 @@ function loadModel(path, oname, mname) {
                     onError
                 );
         });
+}
+
+function loadAnimatedModel(path) {
+    var loader = new GLTFLoader();
+    loader.load(path, function (gltf) {
+        var mesh = gltf.scene.children[0];
+        var clip = gltf.animations[0];
+
+        mixer.clipAction(clip, mesh).setDuration(1).startAt(0).play();
+
+        for (var i = 0; i < 4; i++) {
+            mesh.position.set(
+                1 + Math.random() * 200,
+                20,
+                1 + Math.random() * 200
+            );
+            mesh.rotation.y = Math.PI / 8;
+            mesh.scale.set(0.5, 0.5, 0.5);
+
+            mesh.castShadow = true;
+
+            scene.add(mesh.clone());
+            morphs.push(mesh.clone());
+        }
+    });
 }
