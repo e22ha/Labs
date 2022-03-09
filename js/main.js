@@ -1,9 +1,8 @@
 //импорт библиотеки three.js
 import * as THREE from "./lib/three.module.js";
-
 //импорт библиотек для загрузки моделей и материалов
-import { MTLLoader } from "./lib/MTLLoader.js";
-import { OBJLoader } from "./lib/OBJLoader.js";
+import { MTLLoader } from './lib/MTLLoader.js';
+import { OBJLoader } from './lib/OBJLoader.js';
 
 import { GLTFLoader } from "./lib/GLTFLoader.js";
 
@@ -55,8 +54,22 @@ function init() {
     // Добавление функции обработки события изменения размеров окна
     window.addEventListener("resize", onWindowResize, false);
 
+    //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
+    //создание точечного источника освещения заданного цвета
+    //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
+    const light = new THREE.PointLight(0xffffff, 1, 1000);
+    light.position.set(300, 200, 128); //позиция источника освещения
+    light.castShadow = true; //включение расчёта теней от источника освещения
+    scene.add(light); //добавление источника освещения sв сцену
+    //настройка расчёта теней от источника освещения
+    light.shadow.mapSize.width = 1024; //ширина карты теней в пикселях
+    light.shadow.mapSize.height = 1024; //высота карты теней в пикселях
+    light.shadow.camera.near = 1; //расстояние, ближе которого не будет теней
+    light.shadow.camera.far = 3000; //расстояние, дальше которого не будет теней
+ 
+
     const geometry = new THREE.PlaneGeometry(255, 255, 10, 10);
-    const material = new THREE.MeshBasicMaterial({
+    const material = new THREE.MeshLambertMaterial({
         color: 0x008800,
         side: THREE.DoubleSide,
         wireframe: false,
@@ -68,21 +81,10 @@ function init() {
     plane.position.z = 128;
     plane.rotation.x = Math.PI / 2;
     scene.add(plane);
-
     plane.receiveShadow = true;
-    //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
-    //создание точечного источника освещения заданного цвета
-    //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
-    const light = new THREE.PointLight(0xffffff, 1, 1000);
-    light.position.set(300, 200, 128); //позиция источника освещения
-    light.castShadow = true; //включение расчёта теней от источника освещения
-    scene.add(light); //добавление источника освещения в сцену
-    //настройка расчёта теней от источника освещения
-    light.shadow.mapSize.width = 512; //ширина карты теней в пикселях
-    light.shadow.mapSize.height = 512; //высота карты теней в пикселях
-    light.shadow.camera.near = 0.5; //расстояние, ближе которого не будет теней
-    light.shadow.camera.far = 1500; //расстояние, дальше которого не будет теней
+   // plane.castShadow = true;
 
+    
     // вызов функции загрузки модели (в функции Init)
     loadModel("models/", "Tree.obj", "Tree.mtl");
 
@@ -99,9 +101,13 @@ function onWindowResize() {
 
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
+    // воспроизведение анимаций (в функции animate)
     var delta = clock.getDelta();
-
     mixer.update(delta);
+    console.log(mixer);
+    for (var i = 0; i < morphs.length; i++) {
+        var morph = morphs[i];
+    }
 
     // Добавление функции на вызов, при перерисовки браузером страницы
     requestAnimationFrame(animate);
@@ -156,12 +162,13 @@ function loadModel(path, oname, mname) {
 }
 
 function loadAnimatedModel(path) {
+    //где path – путь и название модели
     var loader = new GLTFLoader();
     loader.load(path, function (gltf) {
         var mesh = gltf.scene.children[0];
         var clip = gltf.animations[0];
-
-        mixer.clipAction(clip, mesh).setDuration(1).startAt(0).play();
+        //установка параметров анимации (скорость воспроизведения и стартовый фрейм)
+        
 
         for (var i = 0; i < 4; i++) {
             mesh.position.set(
@@ -174,8 +181,11 @@ function loadAnimatedModel(path) {
 
             mesh.castShadow = true;
 
-            scene.add(mesh.clone());
-            morphs.push(mesh.clone());
+            var clone = mesh.clone();
+
+            scene.add(clone);
+            morphs.push(clone);
+            mixer.clipAction(clip, clone).setDuration(1).startAt(0).play();
         }
     });
 }
