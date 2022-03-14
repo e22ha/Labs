@@ -1,8 +1,8 @@
 //импорт библиотеки three.js
 import * as THREE from "./lib/three.module.js";
 //импорт библиотек для загрузки моделей и материалов
-import { MTLLoader } from './lib/MTLLoader.js';
-import { OBJLoader } from './lib/OBJLoader.js';
+import { MTLLoader } from "./lib/MTLLoader.js";
+import { OBJLoader } from "./lib/OBJLoader.js";
 
 import { GLTFLoader } from "./lib/GLTFLoader.js";
 
@@ -24,6 +24,7 @@ animate();
 
 // В этой функции можно добавлять объекты и выполнять их первичную настройку
 function init() {
+
     // Получение ссылки на элемент html страницы
     container = document.getElementById("container");
     // Создание "сцены"
@@ -40,7 +41,7 @@ function init() {
     );
     // Установка позиции камеры
     camera.position.set(128, 255, 510);
-
+    
     // Установка точки, на которую камера будет смотреть
     camera.lookAt(new THREE.Vector3(128, 0.0, 128));
     // Создание отрисовщика
@@ -53,7 +54,7 @@ function init() {
     container.appendChild(renderer.domElement);
     // Добавление функции обработки события изменения размеров окна
     window.addEventListener("resize", onWindowResize, false);
-
+    
     //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
     //создание точечного источника освещения заданного цвета
     //создание точечного источника освещения, параметры: цвет, интенсивность, дальность
@@ -66,7 +67,6 @@ function init() {
     light.shadow.mapSize.height = 1024; //высота карты теней в пикселях
     light.shadow.camera.near = 1; //расстояние, ближе которого не будет теней
     light.shadow.camera.far = 3000; //расстояние, дальше которого не будет теней
- 
 
     const geometry = new THREE.PlaneGeometry(255, 255, 10, 10);
     const material = new THREE.MeshLambertMaterial({
@@ -74,21 +74,21 @@ function init() {
         side: THREE.DoubleSide,
         wireframe: false,
     });
-
+    
     const plane = new THREE.Mesh(geometry, material);
-
+    
     plane.position.x = 128;
     plane.position.z = 128;
     plane.rotation.x = Math.PI / 2;
     scene.add(plane);
     plane.receiveShadow = true;
-   // plane.castShadow = true;
-
+    // plane.castShadow = true;
     
     // вызов функции загрузки модели (в функции Init)
     loadModel("models/", "Tree.obj", "Tree.mtl");
-
+    
     loadAnimatedModel("models/Parrot.glb");
+    curveCreator();
 }
 
 function onWindowResize() {
@@ -168,7 +168,6 @@ function loadAnimatedModel(path) {
         var mesh = gltf.scene.children[0];
         var clip = gltf.animations[0];
         //установка параметров анимации (скорость воспроизведения и стартовый фрейм)
-        
 
         for (var i = 0; i < 4; i++) {
             mesh.position.set(
@@ -188,4 +187,46 @@ function loadAnimatedModel(path) {
             mixer.clipAction(clip, clone).setDuration(1).startAt(0).play();
         }
     });
+}
+
+function curveCreator() {
+    var curve1 = new THREE.CubicBezierCurve3(
+        new THREE.Vector3(50, 0, 128), //P0
+        new THREE.Vector3(50, 0, 0), //P1
+        new THREE.Vector3(200, 0, 0), //P2
+        new THREE.Vector3(200, 0, 128) //P3
+    );
+    var vertices = [];
+    var curve2 = new THREE.CubicBezierCurve3(
+        new THREE.Vector3(50, 0, 128), //P0
+        new THREE.Vector3(50, 0, 256), //P1
+        new THREE.Vector3(200, 0, 256), //P2
+        new THREE.Vector3(200, 0, 128) //P3
+    );
+
+
+    vertices = curve1.getPoints(20);
+    vertices = vertices.concat(curve2.getPoints(20));
+
+    // создание кривой по списку точек
+    var path = new THREE.CatmullRomCurve3(vertices);
+    // является ли кривая замкнутой (зацикленной)
+    path.closed = true;
+
+    //создание геометрии из точек кривой
+    var geometry = new THREE.BufferGeometry().setFromPoints(vertices);
+    var material = new THREE.LineBasicMaterial({ color: 0xaaff00 });
+
+    //создание объекта
+    var curveObject = new THREE.Line(geometry, material);
+    scene.add(curveObject); //добавление объекта в сцену
+}
+
+function moveByPath(){
+    //Для нахождения такой точки может быть использован метод кривой getPointAt:
+    var pos = new THREE.Vector3();
+    pos.copy(path.getPointAt(t / T));
+    var nextPoint = new THREE.Vector3();
+    nextPoint.copy(path.getPointAt((t + 0.1) / T));
+    object.lookAt(nextPoint);
 }
