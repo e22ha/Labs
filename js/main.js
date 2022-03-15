@@ -111,6 +111,7 @@ function getPixel(imagedata, x, y) {
 
 var T = 8.0;
 var t = 0.0;
+var folowBird = true;
 
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
@@ -122,7 +123,7 @@ function animate() {
     for (var i = 0; i < morphs.length; i++) {
         var morph = morphs[i];
 
-        if (t >= T) t = 0.0;
+        if (t + 0.001 >= T) t = 0.0;
 
         var pos = new THREE.Vector3();
         pos.copy(BirdPath.getPointAt(t / T));
@@ -133,6 +134,23 @@ function animate() {
         nextpoint.copy(BirdPath.getPointAt((t + 0.001) / T));
 
         morph.lookAt(nextpoint);
+
+        if (folowBird == true) {
+            // установка смещения камеры относительно объекта
+            var relativeCameraOffset = new THREE.Vector3(0, 30, -100);
+            var m1 = new THREE.Matrix4();
+            var m2 = new THREE.Matrix4();
+            // получение поворота объекта
+            m1.extractRotation(morph.matrixWorld);
+            // получение позиции объекта
+            m2.extractPosition(morph.matrixWorld);
+            m1.multiplyMatrices(m2, m1);
+            // получение смещения позиции камеры относительно объекта
+            var cameraOffset = relativeCameraOffset.applyMatrix4(m1);
+            // установка позиции и направления взгляда камеры
+            camera.position.copy(cameraOffset);
+            camera.lookAt(morph.position);
+        }
     }
 
     // Добавление функции на вызов, при перерисовки браузером страницы
@@ -288,21 +306,21 @@ function loadAnimatedModel(path) {
 
 function curveCreator() {
     var curve1 = new THREE.CubicBezierCurve3(
-        new THREE.Vector3(100, 200, 256), //P0
-        new THREE.Vector3(100, 190, 0), //P1
-        new THREE.Vector3(400, 110, 0), //P2
-        new THREE.Vector3(400, 100, 256) //P3
+        new THREE.Vector3(100, 150, 256), //P0
+        new THREE.Vector3(100, 140, 0), //P1
+        new THREE.Vector3(400, 60, 0), //P2
+        new THREE.Vector3(400, 50, 256) //P3
     );
     var vertices = [];
     var curve2 = new THREE.CubicBezierCurve3(
-        new THREE.Vector3(400, 100, 256), //P3
-        new THREE.Vector3(400, 100, 512), //P2
-        new THREE.Vector3(100, 190, 512), //P1
-        new THREE.Vector3(100, 200, 256) //P0
+        new THREE.Vector3(400, 50, 256), //P3
+        new THREE.Vector3(400, 50, 512), //P2
+        new THREE.Vector3(100, 140, 512), //P1
+        new THREE.Vector3(100, 150, 256) //P0
     );
 
-    vertices = curve1.getPoints(30);
-    vertices = vertices.concat(curve2.getPoints(30));
+    vertices = curve1.getPoints(100);
+    vertices = vertices.concat(curve2.getPoints(100));
 
     // создание кривой по списку точек
     var path = new THREE.CatmullRomCurve3(vertices);
