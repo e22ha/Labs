@@ -18,7 +18,7 @@ var imagedata;
 var clock = new THREE.Clock();
 
 var bird;
-var path;
+var BirdPath;
 
 var geometry;
 
@@ -78,7 +78,8 @@ function init() {
     loadModel("models/", "Tree.obj", "Tree.mtl");
 
     loadAnimatedModel("models/Parrot.glb");
-    curveCreator();
+
+    BirdPath = curveCreator();
 }
 
 function addLight() {
@@ -108,14 +109,31 @@ function getPixel(imagedata, x, y) {
     return data[position];
 }
 
+var T = 8.0;
+var t = 0.0;
+
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
     // воспроизведение анимаций (в функции animate)
     var delta = clock.getDelta();
-    // mixer.update(delta);
-    // for (var i = 0; i < morphs.length; i++) {
-    //     var morph = morphs[i];
-    // }
+    t += delta;
+
+    mixer.update(delta);
+    for (var i = 0; i < morphs.length; i++) {
+        var morph = morphs[i];
+
+        if (t >= T) t = 0.0;
+
+        var pos = new THREE.Vector3();
+        pos.copy(BirdPath.getPointAt(t / T));
+
+        morph.position.copy(pos);
+
+        var nextpoint = new THREE.Vector3();
+        nextpoint.copy(BirdPath.getPointAt((t + 0.001) / T));
+
+        morph.lookAt(nextpoint);
+    }
 
     // Добавление функции на вызов, при перерисовки браузером страницы
     requestAnimationFrame(animate);
@@ -186,7 +204,6 @@ function terrain() {
     var vertices = []; // Объявление массива для хранения вершин
     var faces = []; // Объявление массива для хранения индексов
     var uvs = []; // Массив для хранения текстурных координат
-
 
     for (var i = 0; i < N; i++)
         for (var j = 0; j < N; j++) {
@@ -271,8 +288,8 @@ function loadAnimatedModel(path) {
 
 function curveCreator() {
     var curve1 = new THREE.CubicBezierCurve3(
-        new THREE.Vector3(100, 100, 256), //P0
-        new THREE.Vector3(100, 80, 0), //P1
+        new THREE.Vector3(100, 200, 256), //P0
+        new THREE.Vector3(100, 190, 0), //P1
         new THREE.Vector3(400, 110, 0), //P2
         new THREE.Vector3(400, 100, 256) //P3
     );
@@ -280,12 +297,12 @@ function curveCreator() {
     var curve2 = new THREE.CubicBezierCurve3(
         new THREE.Vector3(400, 100, 256), //P3
         new THREE.Vector3(400, 100, 512), //P2
-        new THREE.Vector3(100, 100, 512), //P1
-        new THREE.Vector3(100, 100, 256) //P0
+        new THREE.Vector3(100, 190, 512), //P1
+        new THREE.Vector3(100, 200, 256) //P0
     );
 
-    vertices = curve1.getPoints(20);
-    vertices = vertices.concat(curve2.getPoints(20));
+    vertices = curve1.getPoints(30);
+    vertices = vertices.concat(curve2.getPoints(30));
 
     // создание кривой по списку точек
     var path = new THREE.CatmullRomCurve3(vertices);
@@ -299,14 +316,5 @@ function curveCreator() {
     //создание объекта
     var curveObject = new THREE.Line(geometry, material);
     scene.add(curveObject); //добавление объекта в сцену
-    return curveObject;
-}
-
-function moveByPath(object, path) {
-    //Для нахождения такой точки может быть использован метод кривой getPointAt:
-    // var pos = new THREE.Vector3();
-    // pos.copy(path.getPointAt(1 / 10));
-    // var nextPoint = new THREE.Vector3();
-    // nextPoint.copy(path.getPointAt((1 + 0.1) / 10));
-    // object.lookAt(nextPoint);
+    return path;
 }
