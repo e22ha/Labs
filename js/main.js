@@ -11,6 +11,9 @@ var camera, scene, renderer;
 
 var N = 100;
 
+var cursor;
+var mouse = { x: 0, y: 0 };
+var targetList = [];
 var imagedata, geometry;
 
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
@@ -35,10 +38,10 @@ function init() {
         4000
     );
     // Установка позиции камеры
-    camera.position.set(N/2, N, N*1.5);
+    camera.position.set(N / 2, N, N * 1.5);
 
     // Установка точки, на которую камера будет смотреть
-    camera.lookAt(new THREE.Vector3(N/2, 0.0, N/2));
+    camera.lookAt(new THREE.Vector3(N / 2, 0.0, N / 6));
     // Создание отрисовщика
     renderer = new THREE.WebGLRenderer({ antialias: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -49,8 +52,20 @@ function init() {
     // Добавление функции обработки события изменения размеров окна
     window.addEventListener("resize", onWindowResize, false);
 
-    addLight();
+    renderer.domElement.addEventListener(
+        "mousedown",
+        onDocumentMouseDown,
+        false
+    );
+    renderer.domElement.addEventListener("mouseup", onDocumentMouseUp, false);
+    renderer.domElement.addEventListener(
+        "mousemove",
+        onDocumentMouseMove,
+        false
+    );
+    renderer.domElement.addEventListener("wheel", onDocumentMouseScroll, false);
 
+    addLight();
 
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
@@ -66,6 +81,7 @@ function init() {
     // Загрузка изображения с картой высот
     img.src = "img/plateau.jpg";
 
+    cursor = addCursor();
 }
 
 function addLight() {
@@ -166,4 +182,41 @@ function terrain() {
     // Добавление объекта в сцену
     mesh.receiveShadow = true;
     scene.add(mesh);
+
+    targetList.push(mesh);
+}
+
+function onDocumentMouseScroll(event) {}
+function onDocumentMouseMove(event) {
+    //определение позиции мыши
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    //создание луча, исходящего из позиции камеры и проходящего сквозь позицию курсора мыши
+    var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+    vector.unproject(camera);
+    var ray = new THREE.Raycaster(
+        camera.position,
+        vector.sub(camera.position).normalize()
+    );
+    // создание массива для хранения объектов, с которыми пересечётся луч
+    var intersects = ray.intersectObjects(targetList);
+
+    // если луч пересёк какой-либо объект из списка targetList
+    if (intersects.length > 0) {
+        //печать списка полей объекта
+        console.log(intersects[0]);
+    }
+}
+function onDocumentMouseDown(event) {}
+function onDocumentMouseUp(event) {}
+
+function addCursor() {
+    //параметры цилиндра: диаметр вершины, диаметр основания, высота, число сегментов
+    var geometry = new THREE.CylinderGeometry(1.5, 0, 5, 64);
+    var cyMaterial = new THREE.MeshLambertMaterial({ color: 0x888888 });
+    var cylinder = new THREE.Mesh(geometry, cyMaterial);
+    scene.add(cylinder);
+
+    return cylinder;
 }
