@@ -119,10 +119,9 @@ function onWindowResize() {
 
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
-    
-    var delta = clock.getDelta(); 
+    var delta = clock.getDelta();
 
-    if(isPressed == true) hsphere(1,delta);
+    if (isPressed == true) hsphere(1, delta);
     // Добавление функции на вызов, при перерисовки браузером страницы
     requestAnimationFrame(animate);
     render();
@@ -221,15 +220,39 @@ function onDocumentMouseMove(event) {
     if (intersects.length > 0) {
         //печать списка полей объекта
         console.log(intersects[0]);
+
         cursor.position.copy(intersects[0].point);
+        
         circle.position.copy(intersects[0].point);
+        for (var i = 0;i < circle.geometry.attributes.position.array.length - 1;i += 3)
+        {
+            //получение позиции в локальной системе координат
+            var pos = new THREE.Vector3();
+
+            pos.x = circle.geometry.attributes.position.array[i];
+            pos.y = circle.geometry.attributes.position.array[i + 1];
+            pos.z = circle.geometry.attributes.position.array[i + 2];
+            //нахождение позиции в глобальной системе координат
+            pos.applyMatrix4(circle.matrixWorld);
+
+            var x = Math.round(pos.x);
+            var z = Math.round(pos.z);
+
+            var ind = (z+x*N)*3;
+
+            if(ind >=0 && ind < geometry.attributes.position.array.length)
+                circle.geometry.attributes.position.array[i + 1] = geometry.attributes.position.array[ind+1];
+
+
+        }
+        circle.geometry.attributes.position.needsUpdate = true;
+
         cursor.position.y += 2.5;
-        circle.position.y += 2.5;
+        circle.position.y = 0.2;
     }
 }
 var isPressed = false;
 function onDocumentMouseDown(event) {
-
     isPressed = true;
 }
 function onDocumentMouseUp(event) {
@@ -269,22 +292,21 @@ function addCircle(l) {
     return line;
 }
 
-function hsphere(k, delta)
-{
+function hsphere(k, delta) {
     var pos = new THREE.Vector3();
     pos.copy(cursor.position);
-
 
     var vertices = geometry.getAttribute("position"); //получение массива вершин плоскости
     for (var i = 0; i < vertices.array.length; i += 3) {
         var x = vertices.array[i]; //получение координат вершин по X
         var z = vertices.array[i + 2]; //получение координат вершин по Z
 
-        var h = (radius*radius)- (((x-pos.x)*(x-pos.x))+((z-pos.z)*(z-pos.z)));
+        var h =
+            radius * radius -
+            ((x - pos.x) * (x - pos.x) + (z - pos.z) * (z - pos.z));
 
-        if(h >0){
-
-            vertices.array[i + 1] += Math.sqrt(h)* k* delta; //изменение координат по Y
+        if (h > 0) {
+            vertices.array[i + 1] += Math.sqrt(h) * k * delta; //изменение координат по Y
         }
     }
     geometry.setAttribute("position", vertices); //установка изменённых вершин
