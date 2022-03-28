@@ -8,10 +8,15 @@ import { OBJLoader } from "./lib/OBJLoader.js";
 var container;
 // Переменные "камера", "сцена" и "отрисовщик"
 var camera, scene, renderer;
+var clock = new THREE.Clock();
 
 var N = 100;
 
 var cursor;
+var L = 32;
+
+var circle;
+var radius = 10;
 var mouse = { x: 0, y: 0 };
 var targetList = [];
 var imagedata, geometry;
@@ -82,6 +87,7 @@ function init() {
     img.src = "img/plateau.jpg";
 
     cursor = addCursor();
+    circle = addCircle(L);
 }
 
 function addLight() {
@@ -113,6 +119,10 @@ function onWindowResize() {
 
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
+    
+    var delta = clock.getDelta(); 
+
+    if(isPressed == true) hsphere(1,delta);
     // Добавление функции на вызов, при перерисовки браузером страницы
     requestAnimationFrame(animate);
     render();
@@ -186,7 +196,12 @@ function terrain() {
     targetList.push(mesh);
 }
 
-function onDocumentMouseScroll(event) {}
+function onDocumentMouseScroll(event) {
+    if (event.wheelDelta > 0) radius++;
+    if (event.wheelDelta < 0) radius--;
+
+    circle.scale.set(radius, 1, radius);
+}
 function onDocumentMouseMove(event) {
     //определение позиции мыши
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -207,11 +222,19 @@ function onDocumentMouseMove(event) {
         //печать списка полей объекта
         console.log(intersects[0]);
         cursor.position.copy(intersects[0].point);
-        cursor.position.y+=2.5;
+        circle.position.copy(intersects[0].point);
+        cursor.position.y += 2.5;
+        circle.position.y += 2.5;
     }
 }
-function onDocumentMouseDown(event) {}
-function onDocumentMouseUp(event) {}
+var isPressed = false;
+function onDocumentMouseDown(event) {
+
+    isPressed = true;
+}
+function onDocumentMouseUp(event) {
+    isPressed = false;
+}
 
 function addCursor() {
     //параметры цилиндра: диаметр вершины, диаметр основания, высота, число сегментов
@@ -221,4 +244,51 @@ function addCursor() {
     scene.add(cylinder);
 
     return cylinder;
+}
+
+function addCircle(l) {
+    //создание материала для пунктирной линии
+    var dashed_material = new THREE.LineBasicMaterial({
+        color: 0xffff00, //цвет линии
+    });
+    var points = []; //массив для хранения координат сегментов
+
+    var k = 360 / l;
+    for (var i = 0; i < l; i++) {
+        var x = Math.cos((k * i * Math.PI) / 180);
+        var z = Math.sin((k * i * Math.PI) / 180);
+        points.push(new THREE.Vector3(x, 0, z)); //начало линии
+    }
+    var geometry = new THREE.BufferGeometry().setFromPoints(points); //создание геометрии
+    var line = new THREE.Line(geometry, dashed_material); //создание модели
+
+    line.computeLineDistances(); //вычисление дистанции между сегментами
+    line.scale.set(radius, 1, radius);
+    scene.add(line); //добавление модели в сцену
+
+    return line;
+}
+
+function hsphere(k, delta)
+{
+    var pos = new THREE.Vector3();
+    pos.copy(cursor.position);
+
+
+    var vertices = geometry.getAttribute("position"); //получение массива вершин плоскости
+    for (var i = 0; i < vertices.array.length; i += 3) {
+        var x = vertices.array[i]; //получение координат вершин по X
+        var z = vertices.array[i + 2]; //получение координат вершин по Z
+
+        var h = (radius*radius)- (((x-pos.x)*(x-pos.x))+((z-pos.z)*(z-pos.z)));
+
+        if(h >0){
+
+            vertices.array[i + 1] += Math.sqrt(h)* k* delta; //изменение координат по Y
+        }
+    }
+    geometry.setAttribute("position", vertices); //установка изменённых вершин
+    geometry.computeVertexNormals(); //пересчёт нормалей
+    geometry.attributes.position.needsUpdate = true; //обновление вершин
+    geometry.attributes.normal.needsUpdate = true; //обновление нормалей
 }
