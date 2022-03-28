@@ -206,6 +206,8 @@ function onDocumentMouseMove(event) {
     if (intersects.length > 0) {
         //печать списка полей объекта
         console.log(intersects[0]);
+        cursor.position.copy(intersects[0].point);
+        cursor.position.y+=2.5;
     }
 }
 function onDocumentMouseDown(event) {}
