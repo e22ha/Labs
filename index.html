@@ -10,8 +10,19 @@
  <!--объект веб страницы, в котором будет отображаться графика-->
  <div id="container" style="position: fixed; overflow-y:scroll}" ></div>
 
+ <script type="importmap">
+    {
+        "imports": {
+            "three": "./js/lib/three.module.js"
+        }
+    }
+</script>
  <!--подключение скрипта с графической программой-->
  <script type="module" src="js/main.js"></script>
+ <script src="js/lib/threex.keyboardstate.js"></script>
+
+
+
 
  </body>
 </html>

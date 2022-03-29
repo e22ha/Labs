@@ -1,16 +1,25 @@
 //импорт библиотеки three.js
-import * as THREE from "./lib/three.module.js";
+// import * as THREE from "";
+import * as THREE from "three";
 //импорт библиотек для загрузки моделей и материалов
 import { MTLLoader } from "./lib/MTLLoader.js";
 import { OBJLoader } from "./lib/OBJLoader.js";
+
+import { OrbitControls } from "./lib/OrbitControls.js";
 
 // Ссылка на элемент веб страницы в котором будет отображаться графика
 var container;
 // Переменные "камера", "сцена" и "отрисовщик"
 var camera, scene, renderer;
+
+var controls;
+var controlsState;
+
+var keyboard = new THREEx.KeyboardState();
+
 var clock = new THREE.Clock();
 
-var N = 100;
+var N = 150;
 
 var cursor;
 var L = 32;
@@ -32,6 +41,8 @@ function init() {
     container = document.getElementById("container");
     // Создание "сцены"
     scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0xcccccc, 0.002);
+
     // Установка параметров камеры
     // 45 - угол обзора
     // window.innerWidth / window.innerHeight - соотношение сторон
@@ -40,7 +51,7 @@ function init() {
         45,
         window.innerWidth / window.innerHeight,
         1,
-        4000
+        600
     );
     // Установка позиции камеры
     camera.position.set(N / 2, N, N * 1.5);
@@ -49,6 +60,8 @@ function init() {
     camera.lookAt(new THREE.Vector3(N / 2, 0.0, N / 6));
     // Создание отрисовщика
     renderer = new THREE.WebGLRenderer({ antialias: false });
+    renderer.setPixelRatio(window.devicePixelRatio);
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
@@ -71,6 +84,24 @@ function init() {
     renderer.domElement.addEventListener("wheel", onDocumentMouseScroll, false);
 
     addLight();
+    // controls
+
+    controls = new OrbitControls(camera, renderer.domElement);
+    //controls.listenToKeyEvents( window ); // optional
+
+    controls.addEventListener("change", render); // call this only in static scenes (i.e., if there is no animation loop)
+
+    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    controls.dampingFactor = 0.05;
+
+    controls.screenSpacePanning = false;
+
+    controls.minDistance = 100;
+    controls.maxDistance = 500;
+
+    controls.maxPolarAngle = Math.PI / 2;
+
+    controlsOn();
 
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
@@ -90,23 +121,38 @@ function init() {
     circle = addCircle(L);
 }
 
+function controlsOn() {
+    controls.enabled = true;
+    controls.rotate = true;
+}
+
+function controlsOff() {
+    controls.enabled = false;
+    controls.rotate = false;
+}
+
 function addLight() {
-    const light = new THREE.PointLight(0xffffff);
-    light.position.set(10, 300, 250); //позиция источника освещения
-    // light.target = new THREE.Object3D();
-    // light.target.position.set(N/2, 0, N/2)
-    // scene.add(light.target);
-    light.castShadow = true; //включение расчёта теней от источника освещения
-    scene.add(light); //добавление источника освещения sв сцену
+    const dirLight1 = new THREE.DirectionalLight(0xffffff);
+    dirLight1.position.set(1, 1, 1);
+    scene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0x002288);
+    dirLight2.position.set(-1, -1, -1);
+    scene.add(dirLight2);
+
+    const ambientLight = new THREE.AmbientLight(0x222222);
+    scene.add(ambientLight);
 
     //настройка расчёта теней от источника освещения
-    light.shadow.mapSize.width = 1024; //ширина карты теней в пикселях
-    light.shadow.mapSize.height = 1024; //высота карты теней в пикселях
-    light.shadow.camera.near = 1; //расстояние, ближе которого не будет теней
-    light.shadow.camera.far = 3000;
-
-    var helper = new THREE.CameraHelper(light.shadow.camera);
-    scene.add(helper);
+    dirLight1.shadow.mapSize.width = 1024; //ширина карты теней в пикселях
+    dirLight1.shadow.mapSize.height = 1024; //высота карты теней в пикселях
+    dirLight1.shadow.camera.near = 1; //расстояние, ближе которого не будет теней
+    dirLight1.shadow.camera.far = 3000;
+    //настройка расчёта теней от источника освещения
+    dirLight2.shadow.mapSize.width = 1024; //ширина карты теней в пикселях
+    dirLight2.shadow.mapSize.height = 1024; //высота карты теней в пикселях
+    dirLight2.shadow.camera.near = 1; //расстояние, ближе которого не будет теней
+    dirLight2.shadow.camera.far = 3000;
 }
 
 function onWindowResize() {
@@ -120,10 +166,15 @@ function onWindowResize() {
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
     var delta = clock.getDelta();
-    var d = 0;//если не определять, то он будет стирать поле
-    if(whichButton == 1) d = 1;
-    else if(whichButton == 3) d = -1;
-    if (isPressed == true) hsphere(d, delta);
+
+    if (keyboard.pressed("shift")) controlsOn();
+    else {
+        controlsOff();
+        var d = 0; //если не определять, то он будет стирать поле
+        if (whichButton == 1) d = 1;
+        else if (whichButton == 3) d = -1;
+        if (isPressed == true) hsphere(d, delta);
+    }
     // Добавление функции на вызов, при перерисовки браузером страницы
     requestAnimationFrame(animate);
     render();
@@ -221,13 +272,16 @@ function onDocumentMouseMove(event) {
     // если луч пересёк какой-либо объект из списка targetList
     if (intersects.length > 0) {
         //печать списка полей объекта
-        console.log(intersects[0]);
+        //console.log(intersects[0]);
 
         cursor.position.copy(intersects[0].point);
-        
+
         circle.position.copy(intersects[0].point);
-        for (var i = 0;i < circle.geometry.attributes.position.array.length - 1;i += 3)
-        {
+        for (
+            var i = 0;
+            i < circle.geometry.attributes.position.array.length - 1;
+            i += 3
+        ) {
             //получение позиции в локальной системе координат
             var pos = new THREE.Vector3();
 
@@ -240,12 +294,11 @@ function onDocumentMouseMove(event) {
             var x = Math.round(pos.x);
             var z = Math.round(pos.z);
 
-            var ind = (z+x*N)*3;
+            var ind = (z + x * N) * 3;
 
-            if(ind >=0 && ind < geometry.attributes.position.array.length)
-                circle.geometry.attributes.position.array[i + 1] = geometry.attributes.position.array[ind+1];
-
-
+            if (ind >= 0 && ind < geometry.attributes.position.array.length)
+                circle.geometry.attributes.position.array[i + 1] =
+                    geometry.attributes.position.array[ind + 1];
         }
         circle.geometry.attributes.position.needsUpdate = true;
 
@@ -255,19 +308,19 @@ function onDocumentMouseMove(event) {
 }
 
 var isPressed = false;
-var whichButton;//1 - left, 2 - wheel 3 - right
+var whichButton; //1 - left, 2 - wheel 3 - right
 
 function onDocumentMouseDown(event) {
     isPressed = true;
-    if(event.which == 1) whichButton = 1;
-    if(event.which == 2) whichButton = 2;
-    if(event.which == 3) whichButton = 3;
+    if (event.which == 1) whichButton = 1;
+    if (event.which == 2) whichButton = 2;
+    if (event.which == 3) whichButton = 3;
 }
 function onDocumentMouseUp(event) {
     isPressed = false;
-    if(event.which == 1) whichButton = 1;
-    if(event.which == 2) whichButton = 2;
-    if(event.which == 3) whichButton = 3;
+    if (event.which == 1) whichButton = 1;
+    if (event.which == 2) whichButton = 2;
+    if (event.which == 3) whichButton = 3;
 }
 
 function addCursor() {
