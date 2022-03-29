@@ -1,11 +1,14 @@
 //импорт библиотеки three.js
 // import * as THREE from "";
 import * as THREE from "three";
+
 //импорт библиотек для загрузки моделей и материалов
 import { MTLLoader } from "./lib/MTLLoader.js";
 import { OBJLoader } from "./lib/OBJLoader.js";
 
 import { OrbitControls } from "./lib/OrbitControls.js";
+
+
 
 // Ссылка на элемент веб страницы в котором будет отображаться графика
 var container;
@@ -30,6 +33,7 @@ var mouse = { x: 0, y: 0 };
 var targetList = [];
 var imagedata, geometry;
 
+var stats = new Stats();
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
 init();
 // Обновление данных по таймеру браузера
@@ -39,6 +43,9 @@ animate();
 function init() {
     // Получение ссылки на элемент html страницы
     container = document.getElementById("container");
+
+    stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild( stats.dom );
     // Создание "сцены"
     scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0xcccccc, 0.002);
@@ -119,6 +126,51 @@ function init() {
 
     cursor = addCursor();
     circle = addCircle(L);
+
+    //объект интерфейса и его ширина
+    var gui = new dat.GUI();
+    gui.width = 200;
+    //массив переменных, ассоциированных с интерфейсом
+    var params = {
+        sx: 0,
+        sy: 0,
+        sz: 0,
+        brush: false,
+        addHouse: function () {
+            addMesh();
+        },
+        del: function () {
+            delMesh();
+        },
+    };
+    //создание вкладки
+    var folder1 = gui.addFolder("Scale");
+    //ассоциирование переменных отвечающих за масштабирование
+    //в окне интерфейса они будут представлены в виде слайдера
+    //минимальное значение - 1, максимальное – 100, шаг – 1
+    //listen означает, что изменение переменных будет отслеживаться
+    var meshSX = folder1.add(params, "sx").min(1).max(100).step(1).listen();
+    var meshSY = folder1.add(params, "sy").min(1).max(100).step(1).listen();
+    var meshSZ = folder1.add(params, "sz").min(1).max(100).step(1).listen();
+    //при запуске программы папка будет открыта
+    folder1.open();
+    //описание действий совершаемых при изменении ассоциированных значений
+    5;
+    meshSX.onChange(function (value) {});
+    meshSY.onChange(function (value) {});
+    meshSZ.onChange(function (value) {});
+    //добавление чек бокса с именем brush
+    var cubeVisible = gui.add(params, "brush").name("brush").listen();
+    cubeVisible.onChange(function (value) {
+        // value принимает значения true и false
+    });
+    //добавление кнопок, при нажатии которых будут вызываться функции addMesh
+    //и delMesh соответственно. Функции описываются самостоятельно.
+    gui.add(params, "addHouse").name("add house");
+    gui.add(params, "del").name("delete");
+
+    //при запуске программы интерфейс будет раскрыт
+    gui.open();
 }
 
 function controlsOn() {
@@ -176,6 +228,14 @@ function animate() {
         if (isPressed == true) hsphere(d, delta);
     }
     // Добавление функции на вызов, при перерисовки браузером страницы
+
+	stats.begin();
+
+	// monitored code goes here
+
+	stats.end();
+
+
     requestAnimationFrame(animate);
     render();
 }
