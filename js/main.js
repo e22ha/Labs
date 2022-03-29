@@ -8,8 +8,6 @@ import { OBJLoader } from "./lib/OBJLoader.js";
 
 import { OrbitControls } from "./lib/OrbitControls.js";
 
-
-
 // Ссылка на элемент веб страницы в котором будет отображаться графика
 var container;
 // Переменные "камера", "сцена" и "отрисовщик"
@@ -22,7 +20,7 @@ var keyboard = new THREEx.KeyboardState();
 
 var clock = new THREE.Clock();
 
-var N = 150;
+var N = 200;
 
 var cursor;
 var L = 32;
@@ -44,8 +42,8 @@ function init() {
     // Получение ссылки на элемент html страницы
     container = document.getElementById("container");
 
-    stats.showPanel( 1 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-    document.body.appendChild( stats.dom );
+    stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(stats.dom);
     // Создание "сцены"
     scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0xcccccc, 0.002);
@@ -64,9 +62,9 @@ function init() {
     camera.position.set(N / 2, N, N * 1.5);
 
     // Установка точки, на которую камера будет смотреть
-    camera.lookAt(new THREE.Vector3(N / 2, 0.0, N / 6));
+    camera.lookAt(new THREE.Vector3(N / 2, 0.0, N / 2));
     // Создание отрисовщика
-    renderer = new THREE.WebGLRenderer({ antialias: false });
+    renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
 
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -74,6 +72,27 @@ function init() {
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.setClearColor(0x001e1e1e, 1);
     container.appendChild(renderer.domElement);
+    // controls
+
+    controls = new OrbitControls(camera, renderer.domElement);
+    controlsOn();
+    //controls.listenToKeyEvents( window ); // optional
+
+    controls.addEventListener("change", render); // call this only in static scenes (i.e., if there is no animation loop)
+
+    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    controls.dampingFactor = 0.05;
+
+    controls.screenSpacePanning = false;
+
+    controls.minDistance = 10;
+    controls.maxDistance = 1000;
+
+    controls.maxPolarAngle = Math.PI / 2;
+
+    // var effect = new THREE.AsciiEffect(renderer);
+    // effect.setSize(window.innerWidth, window.innerHeight);
+    // container.append(effect.domElement);
     // Добавление функции обработки события изменения размеров окна
     window.addEventListener("resize", onWindowResize, false);
 
@@ -91,24 +110,6 @@ function init() {
     renderer.domElement.addEventListener("wheel", onDocumentMouseScroll, false);
 
     addLight();
-    // controls
-
-    controls = new OrbitControls(camera, renderer.domElement);
-    //controls.listenToKeyEvents( window ); // optional
-
-    controls.addEventListener("change", render); // call this only in static scenes (i.e., if there is no animation loop)
-
-    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    controls.dampingFactor = 0.05;
-
-    controls.screenSpacePanning = false;
-
-    controls.minDistance = 100;
-    controls.maxDistance = 500;
-
-    controls.maxPolarAngle = Math.PI / 2;
-
-    controlsOn();
 
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
@@ -229,12 +230,11 @@ function animate() {
     }
     // Добавление функции на вызов, при перерисовки браузером страницы
 
-	stats.begin();
+    stats.begin();
 
-	// monitored code goes here
+    // monitored code goes here
 
-	stats.end();
-
+    stats.end();
 
     requestAnimationFrame(animate);
     render();
