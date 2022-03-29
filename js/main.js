@@ -120,8 +120,10 @@ function onWindowResize() {
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
     var delta = clock.getDelta();
-
-    if (isPressed == true) hsphere(1, delta);
+    var d = 0;//если не определять, то он будет стирать поле
+    if(whichButton == 1) d = 1;
+    else if(whichButton == 3) d = -1;
+    if (isPressed == true) hsphere(d, delta);
     // Добавление функции на вызов, при перерисовки браузером страницы
     requestAnimationFrame(animate);
     render();
@@ -251,12 +253,21 @@ function onDocumentMouseMove(event) {
         circle.position.y = 0.2;
     }
 }
+
 var isPressed = false;
+var whichButton;//1 - left, 2 - wheel 3 - right
+
 function onDocumentMouseDown(event) {
     isPressed = true;
+    if(event.which == 1) whichButton = 1;
+    if(event.which == 2) whichButton = 2;
+    if(event.which == 3) whichButton = 3;
 }
 function onDocumentMouseUp(event) {
     isPressed = false;
+    if(event.which == 1) whichButton = 1;
+    if(event.which == 2) whichButton = 2;
+    if(event.which == 3) whichButton = 3;
 }
 
 function addCursor() {
