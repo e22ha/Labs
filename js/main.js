@@ -8,6 +8,14 @@ import { OBJLoader } from "./lib/OBJLoader.js";
 
 import { OrbitControls } from "./lib/OrbitControls.js";
 
+
+let model3D =[
+    {name: "house", path: "js/model/House/", oname: "Cyprys_House.obj", pname: "Cyprys_House.mtl"},
+    {name: "bush", path: "./model", oname: "./Bush/Bush1.obj", pname: "Bush/Bush1.mtl"},
+    {name: "", path: "model/", oname: "", pname: ""},
+]
+
+
 // Ссылка на элемент веб страницы в котором будет отображаться графика
 var container;
 // Переменные "камера", "сцена" и "отрисовщик"
@@ -30,6 +38,7 @@ var radius = 10;
 var mouse = { x: 0, y: 0 };
 var targetList = [];
 var imagedata, geometry;
+var brushState = true;
 
 var stats = new Stats();
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
@@ -136,9 +145,10 @@ function init() {
         sx: 0,
         sy: 0,
         sz: 0,
-        brush: false,
+        brush: true,
         addHouse: function () {
-            addMesh();
+            console.log(cursor);
+            cursor = addMesh(model3D[0].path,model3D[0].oname,model3D[0].pname);
         },
         del: function () {
             delMesh();
@@ -162,8 +172,10 @@ function init() {
     meshSZ.onChange(function (value) {});
     //добавление чек бокса с именем brush
     var cubeVisible = gui.add(params, "brush").name("brush").listen();
-    cubeVisible.onChange(function (value) {
-        // value принимает значения true и false
+    cubeVisible.onChange(function (brushState) {
+        if (brushState == true) brushState = false;
+        else if (brushState == false) brushState = true;
+        console.log(brushState);
     });
     //добавление кнопок, при нажатии которых будут вызываться функции addMesh
     //и delMesh соответственно. Функции описываются самостоятельно.
@@ -219,8 +231,12 @@ function onWindowResize() {
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
     var delta = clock.getDelta();
-
-    if (keyboard.pressed("shift")) controlsOn();
+    if (brushState == false) {
+        controlsOff();
+        circle.material = new THREE.LineBasicMaterial({
+            color: 0xff0000, //цвет линии
+        });
+    } else if (keyboard.pressed("shift")) controlsOn();
     else {
         controlsOff();
         var d = 0; //если не определять, то он будет стирать поле
@@ -315,7 +331,8 @@ function onDocumentMouseScroll(event) {
     circle.scale.set(radius, 1, radius);
 }
 function onDocumentMouseMove(event) {
-    //определение позиции мыши
+
+    
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -332,7 +349,7 @@ function onDocumentMouseMove(event) {
     // если луч пересёк какой-либо объект из списка targetList
     if (intersects.length > 0) {
         //печать списка полей объекта
-        //console.log(intersects[0]);
+        // console.log(cursor);
 
         cursor.position.copy(intersects[0].point);
 
@@ -395,9 +412,11 @@ function addCursor() {
 
 function addCircle(l) {
     //создание материала для пунктирной линии
+
     var dashed_material = new THREE.LineBasicMaterial({
         color: 0xffff00, //цвет линии
     });
+
     var points = []; //массив для хранения координат сегментов
 
     var k = 360 / l;
@@ -437,4 +456,57 @@ function hsphere(k, delta) {
     geometry.computeVertexNormals(); //пересчёт нормалей
     geometry.attributes.position.needsUpdate = true; //обновление вершин
     geometry.attributes.normal.needsUpdate = true; //обновление нормалей
+}
+
+
+function addMesh(path, oname, mname) {
+    //где path – путь к папке с моделями
+    const onProgress = function (xhr) {
+        //выполняющаяся в процессе загрузки
+        if (xhr.lengthComputable) {
+            const percentComplete = (xhr.loaded / xhr.total) * 100;
+            console.log(Math.round(percentComplete, 2) + "% downloaded");
+        }
+    };
+    const onError = function () {}; //выполняется в случае возникновения ошибки
+    const manager = new THREE.LoadingManager();
+    new MTLLoader(manager)
+        .setPath(path) //путь до модели
+        .load(mname, function (materials) {
+            //название материала
+            materials.preload();
+            new OBJLoader(manager)
+                .setMaterials(materials) //установка материала
+                .setPath(path) //путь до модели
+                .load(
+                    oname,
+                    function (object) {
+                        object.traverse(function (child) {
+                            if (child instanceof THREE.Mesh) {
+                                child.castShadow = true;
+                            }
+                        });
+
+                            var X = Math.random();
+                            var Z = Math.random();
+                            object.position.x = X;
+                            object.position.z = Z;
+                            var h = getPixel(imagedata,Math.round(X),Math.round(Z));
+                            object.position.y = h/5;
+
+                            object.rotation.y = Math.PI * 8;
+                            var s = Math.random() * 100 + 100;
+                            s /= N;
+                            object.scale.set(s, s, s);
+
+                            scene.add(object.clone());
+                            
+                            
+                            console.log();
+                            return object.clone();
+                        },
+                    onProgress,
+                    onError
+                );
+        });
 }
