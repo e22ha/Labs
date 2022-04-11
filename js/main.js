@@ -8,7 +8,7 @@ import { OBJLoader } from "./lib/OBJLoader.js";
 
 import { OrbitControls } from "./lib/OrbitControls.js";
 
-let model3D = [
+let ListModel = [
     {
         name: "house",
         path: "js/model/House/",
@@ -17,12 +17,19 @@ let model3D = [
     },
     {
         name: "bush",
-        path: "./model",
-        oname: "./Bush/Bush1.obj",
-        pname: "Bush/Bush1.mtl",
+        path: "js/model/Bush/",
+        oname: "Bush1.obj",
+        pname: "Bush1.mtl",
     },
-    { name: "", path: "model/", oname: "", pname: "" },
+    {
+        name: "grade",
+        path: "js/model/Grade/",
+        oname: "grade.obj",
+        pname: "grade.mtl",
+    },
 ];
+
+let loadedModels = new Map();
 
 // Ссылка на элемент веб страницы в котором будет отображаться графика
 var container;
@@ -30,7 +37,6 @@ var container;
 var camera, scene, renderer;
 
 var controls;
-var controlsState;
 
 var keyboard = new THREEx.KeyboardState();
 
@@ -46,7 +52,6 @@ var radius = 10;
 var mouse = { x: 0, y: 0 };
 var targetList = [];
 var imagedata, geometry;
-var brushState = true;
 var cursorMode = true;
 
 var stats = new Stats();
@@ -156,12 +161,19 @@ function init() {
         sz: 0,
         brush: true,
         addHouse: function () {
-            console.log(cursor);
-            cursor = addMesh(
-                model3D[0].path,
-                model3D[0].oname,
-                model3D[0].pname
-            );
+            var object = loadedModels.get("house").clone();
+            var X = Math.random() * N;
+            var Z = Math.random() * N;
+            object.position.x = X;
+            object.position.z = Z;
+            var h = getPixel(imagedata,Math.round(X),Math.round(Z));
+            object.position.y = h/5;
+
+            object.rotation.y = Math.PI * 8;
+            var s = Math.random() * 100 + 100;
+            s /= N;
+            object.scale.set(s, s, s);
+            scene.add(object.clone());
         },
         del: function () {
             delMesh();
@@ -198,6 +210,13 @@ function init() {
 
     //при запуске программы интерфейс будет раскрыт
     gui.open();
+
+    for (let i = 0; i < 3; i++) {
+       // loadedModels.push(
+         //   [
+            addMesh(ListModel[i].name, ListModel[i].path, ListModel[i].oname, ListModel[i].pname)
+        //]);
+    }
 }
 
 function controlsOn(state) {
@@ -246,14 +265,12 @@ function animate() {
         circle.material = new THREE.LineBasicMaterial({
             color: 0xff0000, //цвет линии
         });
-    } else if (keyboard.pressed("shift")) 
-    {
+    } else if (keyboard.pressed("shift")) {
         controlsOn(true);
         circle.material = new THREE.LineBasicMaterial({
             color: 0xff0000, //цвет линии
         });
-    }
-    else {
+    } else {
         controlsOn(false);
         var d = 0; //если не определять, то он будет стирать поле
         if (whichButton == 1) d = 1;
@@ -262,7 +279,6 @@ function animate() {
         circle.material = new THREE.LineBasicMaterial({
             color: 0xffff00, //цвет линии
         });
-        
     }
     // Добавление функции на вызов, при перерисовки браузером страницы
 
@@ -476,7 +492,7 @@ function hsphere(k, delta) {
     geometry.attributes.normal.needsUpdate = true; //обновление нормалей
 }
 
-function addMesh(path, oname, mname) {
+function addMesh(name, path, oname, mname) {
     //где path – путь к папке с моделями
     const onProgress = function (xhr) {
         //выполняющаяся в процессе загрузки
@@ -504,14 +520,12 @@ function addMesh(path, oname, mname) {
                             }
                         });
 
-                        var X = Math.random();
-                        var Z = Math.random();
-                        object.position.x = X;
-                        object.position.z = Z;
+                        object.position.x = 0;
+                        object.position.z = 0;
                         var h = getPixel(
                             imagedata,
-                            Math.round(X),
-                            Math.round(Z)
+                            Math.round(0),
+                            Math.round(0)
                         );
                         object.position.y = h / 5;
 
@@ -520,10 +534,11 @@ function addMesh(path, oname, mname) {
                         s /= N;
                         object.scale.set(s, s, s);
 
-                        scene.add(object.clone());
 
-                        console.log();
-                        return object.clone();
+                        loadedModels.set(name, object);
+                        console.log(loadedModels);
+
+                        //return object.clone();
                     },
                     onProgress,
                     onError
