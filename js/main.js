@@ -8,13 +8,21 @@ import { OBJLoader } from "./lib/OBJLoader.js";
 
 import { OrbitControls } from "./lib/OrbitControls.js";
 
-
-let model3D =[
-    {name: "house", path: "js/model/House/", oname: "Cyprys_House.obj", pname: "Cyprys_House.mtl"},
-    {name: "bush", path: "./model", oname: "./Bush/Bush1.obj", pname: "Bush/Bush1.mtl"},
-    {name: "", path: "model/", oname: "", pname: ""},
-]
-
+let model3D = [
+    {
+        name: "house",
+        path: "js/model/House/",
+        oname: "Cyprys_House.obj",
+        pname: "Cyprys_House.mtl",
+    },
+    {
+        name: "bush",
+        path: "./model",
+        oname: "./Bush/Bush1.obj",
+        pname: "Bush/Bush1.mtl",
+    },
+    { name: "", path: "model/", oname: "", pname: "" },
+];
 
 // Ссылка на элемент веб страницы в котором будет отображаться графика
 var container;
@@ -39,6 +47,7 @@ var mouse = { x: 0, y: 0 };
 var targetList = [];
 var imagedata, geometry;
 var brushState = true;
+var cursorMode = true;
 
 var stats = new Stats();
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
@@ -84,7 +93,7 @@ function init() {
     // controls
 
     controls = new OrbitControls(camera, renderer.domElement);
-    controlsOn();
+    controlsOn(true);
     //controls.listenToKeyEvents( window ); // optional
 
     controls.addEventListener("change", render); // call this only in static scenes (i.e., if there is no animation loop)
@@ -148,7 +157,11 @@ function init() {
         brush: true,
         addHouse: function () {
             console.log(cursor);
-            cursor = addMesh(model3D[0].path,model3D[0].oname,model3D[0].pname);
+            cursor = addMesh(
+                model3D[0].path,
+                model3D[0].oname,
+                model3D[0].pname
+            );
         },
         del: function () {
             delMesh();
@@ -170,13 +183,14 @@ function init() {
     meshSX.onChange(function (value) {});
     meshSY.onChange(function (value) {});
     meshSZ.onChange(function (value) {});
+    var ctrlPanel = gui.addFolder("Cursor Mode");
     //добавление чек бокса с именем brush
-    var cubeVisible = gui.add(params, "brush").name("brush").listen();
-    cubeVisible.onChange(function (brushState) {
-        if (brushState == true) brushState = false;
-        else if (brushState == false) brushState = true;
-        console.log(brushState);
+    var cubeVisible = ctrlPanel.add(params, "brush").name("brush").listen();
+    cubeVisible.onChange(function (value) {
+        cursorMode = value;
     });
+    ctrlPanel.open();
+
     //добавление кнопок, при нажатии которых будут вызываться функции addMesh
     //и delMesh соответственно. Функции описываются самостоятельно.
     gui.add(params, "addHouse").name("add house");
@@ -186,14 +200,9 @@ function init() {
     gui.open();
 }
 
-function controlsOn() {
-    controls.enabled = true;
-    controls.rotate = true;
-}
-
-function controlsOff() {
-    controls.enabled = false;
-    controls.rotate = false;
+function controlsOn(state) {
+    controls.enabled = state;
+    controls.rotate = state;
 }
 
 function addLight() {
@@ -231,18 +240,29 @@ function onWindowResize() {
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
     var delta = clock.getDelta();
-    if (brushState == false) {
-        controlsOff();
+    //console.log("CursorMode: " + cursorMode);
+    if (cursorMode == false) {
+        controlsOn(true);
         circle.material = new THREE.LineBasicMaterial({
             color: 0xff0000, //цвет линии
         });
-    } else if (keyboard.pressed("shift")) controlsOn();
+    } else if (keyboard.pressed("shift")) 
+    {
+        controlsOn(true);
+        circle.material = new THREE.LineBasicMaterial({
+            color: 0xff0000, //цвет линии
+        });
+    }
     else {
-        controlsOff();
+        controlsOn(false);
         var d = 0; //если не определять, то он будет стирать поле
         if (whichButton == 1) d = 1;
         else if (whichButton == 3) d = -1;
         if (isPressed == true) hsphere(d, delta);
+        circle.material = new THREE.LineBasicMaterial({
+            color: 0xffff00, //цвет линии
+        });
+        
     }
     // Добавление функции на вызов, при перерисовки браузером страницы
 
@@ -331,8 +351,6 @@ function onDocumentMouseScroll(event) {
     circle.scale.set(radius, 1, radius);
 }
 function onDocumentMouseMove(event) {
-
-    
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -458,7 +476,6 @@ function hsphere(k, delta) {
     geometry.attributes.normal.needsUpdate = true; //обновление нормалей
 }
 
-
 function addMesh(path, oname, mname) {
     //где path – путь к папке с моделями
     const onProgress = function (xhr) {
@@ -487,24 +504,27 @@ function addMesh(path, oname, mname) {
                             }
                         });
 
-                            var X = Math.random();
-                            var Z = Math.random();
-                            object.position.x = X;
-                            object.position.z = Z;
-                            var h = getPixel(imagedata,Math.round(X),Math.round(Z));
-                            object.position.y = h/5;
+                        var X = Math.random();
+                        var Z = Math.random();
+                        object.position.x = X;
+                        object.position.z = Z;
+                        var h = getPixel(
+                            imagedata,
+                            Math.round(X),
+                            Math.round(Z)
+                        );
+                        object.position.y = h / 5;
 
-                            object.rotation.y = Math.PI * 8;
-                            var s = Math.random() * 100 + 100;
-                            s /= N;
-                            object.scale.set(s, s, s);
+                        object.rotation.y = Math.PI * 8;
+                        var s = Math.random() * 100 + 100;
+                        s /= N;
+                        object.scale.set(s, s, s);
 
-                            scene.add(object.clone());
-                            
-                            
-                            console.log();
-                            return object.clone();
-                        },
+                        scene.add(object.clone());
+
+                        console.log();
+                        return object.clone();
+                    },
                     onProgress,
                     onError
                 );
