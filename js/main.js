@@ -41,7 +41,7 @@ var controls;
 var keyboard = new THREEx.KeyboardState();
 
 var clock = new THREE.Clock();
-
+var ringLoad;
 var N = 200;
 
 var cursor;
@@ -58,7 +58,6 @@ var stats = new Stats();
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
 init();
 // Обновление данных по таймеру браузера
-animate();
 
 // В этой функции можно добавлять объекты и выполнять их первичную настройку
 function init() {
@@ -81,22 +80,17 @@ function init() {
         1,
         600
     );
-    // Установка позиции камеры
-    camera.position.set(N / 2, N, N * 1.5);
-
-    // Установка точки, на которую камера будет смотреть
-    camera.lookAt(new THREE.Vector3(N / 2, 0.0, N / 2));
     // Создание отрисовщика
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
-
+    
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.setClearColor(0x001e1e1e, 1);
     container.appendChild(renderer.domElement);
     // controls
-
+    
     controls = new OrbitControls(camera, renderer.domElement);
     controlsOn(true);
     //controls.listenToKeyEvents( window ); // optional
@@ -105,13 +99,19 @@ function init() {
 
     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
     controls.dampingFactor = 0.05;
-
+    
     controls.screenSpacePanning = false;
-
+    
     controls.minDistance = 10;
     controls.maxDistance = 1000;
-
+    
     controls.maxPolarAngle = Math.PI / 2;
+    
+    // Установка позиции камеры
+    camera.position.set(1.5*N, N*0.8, N/2);
+
+    // Установка точки, на которую камера будет смотреть
+    camera.lookAt(new THREE.Vector3(N/2, 0, N/2));
 
     // var effect = new THREE.AsciiEffect(renderer);
     // effect.setSize(window.innerWidth, window.innerHeight);
@@ -134,6 +134,28 @@ function init() {
 
     addLight();
 
+    // const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+    // const material = new THREE.MeshBasicMaterial({ color: 0xf00f00 });
+    // ringLoad = new THREE.Mesh(geometry, material);
+    // ringLoad.castShadow = true;
+    // ringLoad.receiveShadow = true;
+    // ringLoad.position.set(N/2, 0, N/2);
+    // scene.add(ringLoad);
+
+    for (let i = 0; i < ListModel.length; i++) {
+        // loadedModels.push(
+        //   [
+        addMesh(
+            ListModel[i].name,
+            ListModel[i].path,
+            ListModel[i].oname,
+            ListModel[i].pname
+        );
+        //]);
+    }
+}
+
+function loadScene() {
     var canvas = document.createElement("canvas");
     var context = canvas.getContext("2d");
     var img = new Image();
@@ -161,19 +183,13 @@ function init() {
         sz: 0,
         brush: true,
         addHouse: function () {
-            var object = loadedModels.get("house").clone();
-            var X = Math.random() * N;
-            var Z = Math.random() * N;
-            object.position.x = X;
-            object.position.z = Z;
-            var h = getPixel(imagedata,Math.round(X),Math.round(Z));
-            object.position.y = h/5;
-
-            object.rotation.y = Math.PI * 8;
-            var s = Math.random() * 100 + 100;
-            s /= N;
-            object.scale.set(s, s, s);
-            scene.add(object.clone());
+            addObj("house");
+        },
+        addBush: function () {
+            addObj("bush");
+        },
+        addGrade: function () {
+            addObj("grade");
         },
         del: function () {
             delMesh();
@@ -206,17 +222,32 @@ function init() {
     //добавление кнопок, при нажатии которых будут вызываться функции addMesh
     //и delMesh соответственно. Функции описываются самостоятельно.
     gui.add(params, "addHouse").name("add house");
+    gui.add(params, "addBush").name("add bush");
+    gui.add(params, "addGrade").name("add grade");
     gui.add(params, "del").name("delete");
 
     //при запуске программы интерфейс будет раскрыт
     gui.open();
 
-    for (let i = 0; i < 3; i++) {
-       // loadedModels.push(
-         //   [
-            addMesh(ListModel[i].name, ListModel[i].path, ListModel[i].oname, ListModel[i].pname)
-        //]);
-    }
+    animate();
+}
+
+function addObj(type) {
+    var object = loadedModels.get(type).clone();
+    var X = Math.random() * N;
+    var Z = Math.random() * N;
+    object.position.x = X;
+    object.position.z = Z;
+    var h = getPixel(imagedata, Math.round(X), Math.round(Z));
+    object.position.y = h / 5;
+
+    object.rotation.y = Math.PI * 8;
+    var s = Math.random() * 100 + 100;
+    s /= N;
+    if (type == "bush") s =(Math.random() * 100+1000)/N;
+    
+    object.scale.set(s, s, s);
+    scene.add(object.clone());
 }
 
 function controlsOn(state) {
@@ -491,7 +522,7 @@ function hsphere(k, delta) {
     geometry.attributes.position.needsUpdate = true; //обновление вершин
     geometry.attributes.normal.needsUpdate = true; //обновление нормалей
 }
-
+var I = 0; //count model
 function addMesh(name, path, oname, mname) {
     //где path – путь к папке с моделями
     const onProgress = function (xhr) {
@@ -522,21 +553,18 @@ function addMesh(name, path, oname, mname) {
 
                         object.position.x = 0;
                         object.position.z = 0;
-                        var h = getPixel(
-                            imagedata,
-                            Math.round(0),
-                            Math.round(0)
-                        );
-                        object.position.y = h / 5;
+
+                        object.position.y = 0;
 
                         object.rotation.y = Math.PI * 8;
                         var s = Math.random() * 100 + 100;
                         s /= N;
                         object.scale.set(s, s, s);
-
-
                         loadedModels.set(name, object);
                         console.log(loadedModels);
+                        I++;
+                        if (I >= ListModel.length) loadScene();
+                        console.log(I);
 
                         //return object.clone();
                     },
