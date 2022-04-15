@@ -9,12 +9,12 @@ import { OBJLoader } from "./lib/OBJLoader.js";
 import { OrbitControls } from "./lib/OrbitControls.js";
 
 let ListModel = [
-    {
-        name: "house",
-        path: "js/model/House/",
-        oname: "Cyprys_House.obj",
-        pname: "Cyprys_House.mtl",
-    },
+    // {
+    //     name: "house",
+    //     path: "js/model/House/",
+    //     oname: "Cyprys_House.obj",
+    //     pname: "Cyprys_House.mtl",
+    // },
     {
         name: "bush",
         path: "js/model/Bush/",
@@ -44,15 +44,24 @@ var clock = new THREE.Clock();
 var ringLoad;
 var N = 200;
 
+
+
 var cursor;
 var L = 32;
 
 var circle;
 var radius = 10;
 var mouse = { x: 0, y: 0 };
+
 var targetList = [];
+var objectlist = [];
+
 var imagedata, geometry;
-var cursorMode = true;
+var brushMode = true;
+var toolMode = false;
+var orbitMode = false;
+
+var selected = null;
 
 var stats = new Stats();
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
@@ -182,6 +191,8 @@ function loadScene() {
         sy: 0,
         sz: 0,
         brush: true,
+        tool: false,
+        orbit: false,
         addHouse: function () {
             addObj("house");
         },
@@ -215,7 +226,35 @@ function loadScene() {
     //добавление чек бокса с именем brush
     var cubeVisible = ctrlPanel.add(params, "brush").name("brush").listen();
     cubeVisible.onChange(function (value) {
-        cursorMode = value;
+        brushMode = value;
+        params.tool = false;
+        toolMode = false;
+        params.orbit = false;
+        orbitMode = false;
+    });
+    //добавление чек бокса с именем brush
+    var cubeVisible_1 = ctrlPanel.add(params, "tool").name("tool").listen();
+    cubeVisible_1.onChange(function (value) {
+        toolMode = value;
+        params.brush = false;
+        brushMode = false;
+        params.orbit = false;
+        orbitMode = false;
+
+    });
+    //добавление чек бокса с именем orbit
+    var cubeVisible_2 = ctrlPanel.add(params, "orbit").name("orbit").listen();
+    cubeVisible_2.onChange(function (value) {
+        orbitMode = value;
+        params.brush = false;
+        brushMode = false;
+        params.tool = false;
+        toolMode = false;
+
+        console.log("bMode: "+ brushMode);
+        console.log("tMode: "+ toolMode);
+        console.log("oMode: "+ orbitMode);
+
     });
     ctrlPanel.open();
 
@@ -290,8 +329,8 @@ function onWindowResize() {
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
     var delta = clock.getDelta();
-    //console.log("CursorMode: " + cursorMode);
-    if (cursorMode == false) {
+    //console.log("CursorMode: brush;
+    if (brushMode == false) {
         controlsOn(true);
         circle.material = new THREE.LineBasicMaterial({
             color: 0xff0000, //цвет линии
