@@ -101,7 +101,7 @@ function init() {
     // controls
     
     controls = new OrbitControls(camera, renderer.domElement);
-    controlsOn(true);
+    controlsOn(false);
     //controls.listenToKeyEvents( window ); // optional
 
     controls.addEventListener("change", render); // call this only in static scenes (i.e., if there is no animation loop)
@@ -183,6 +183,12 @@ function loadScene() {
     circle = addCircle(L);
 
     //объект интерфейса и его ширина
+    gui();
+
+    animate();
+}
+
+function gui() {
     var gui = new dat.GUI();
     gui.width = 200;
     //массив переменных, ассоциированных с интерфейсом
@@ -219,9 +225,9 @@ function loadScene() {
     folder1.open();
     //описание действий совершаемых при изменении ассоциированных значений
     5;
-    meshSX.onChange(function (value) {});
-    meshSY.onChange(function (value) {});
-    meshSZ.onChange(function (value) {});
+    meshSX.onChange(function (value) { });
+    meshSY.onChange(function (value) { });
+    meshSZ.onChange(function (value) { });
     var ctrlPanel = gui.addFolder("Cursor Mode");
     //добавление чек бокса с именем brush
     var cubeVisible = ctrlPanel.add(params, "brush").name("brush").listen();
@@ -231,6 +237,9 @@ function loadScene() {
         toolMode = false;
         params.orbit = false;
         orbitMode = false;
+        
+        curVis(brushMode);
+        controlsOn(orbitMode);
     });
     //добавление чек бокса с именем brush
     var cubeVisible_1 = ctrlPanel.add(params, "tool").name("tool").listen();
@@ -241,6 +250,8 @@ function loadScene() {
         params.orbit = false;
         orbitMode = false;
 
+        curVis(brushMode);
+        controlsOn(orbitMode);
     });
     //добавление чек бокса с именем orbit
     var cubeVisible_2 = ctrlPanel.add(params, "orbit").name("orbit").listen();
@@ -251,9 +262,12 @@ function loadScene() {
         params.tool = false;
         toolMode = false;
 
-        console.log("bMode: "+ brushMode);
-        console.log("tMode: "+ toolMode);
-        console.log("oMode: "+ orbitMode);
+        console.log("bMode: " + brushMode);
+        console.log("tMode: " + toolMode);
+        console.log("oMode: " + orbitMode);
+        
+        controlsOn(orbitMode);
+        curVis(brushMode);
 
     });
     ctrlPanel.open();
@@ -267,8 +281,6 @@ function loadScene() {
 
     //при запуске программы интерфейс будет раскрыт
     gui.open();
-
-    animate();
 }
 
 function addObj(type) {
@@ -292,6 +304,16 @@ function addObj(type) {
 function controlsOn(state) {
     controls.enabled = state;
     controls.rotate = state;
+
+}
+
+function curVis(state){
+    if (circle != null) 
+    // circle.material = new THREE.LineBasicMaterial({
+    //     color: 0xff0000, //цвет линии
+    // });
+    
+    circle.visible = state;
 }
 
 function addLight() {
@@ -330,18 +352,7 @@ function onWindowResize() {
 function animate() {
     var delta = clock.getDelta();
     //console.log("CursorMode: brush;
-    if (brushMode == false) {
-        controlsOn(true);
-        circle.material = new THREE.LineBasicMaterial({
-            color: 0xff0000, //цвет линии
-        });
-    } else if (keyboard.pressed("shift")) {
-        controlsOn(true);
-        circle.material = new THREE.LineBasicMaterial({
-            color: 0xff0000, //цвет линии
-        });
-    } else {
-        controlsOn(false);
+    if (brushMode){
         var d = 0; //если не определять, то он будет стирать поле
         if (whichButton == 1) d = 1;
         else if (whichButton == 3) d = -1;
@@ -349,7 +360,9 @@ function animate() {
         circle.material = new THREE.LineBasicMaterial({
             color: 0xffff00, //цвет линии
         });
+    
     }
+        
     // Добавление функции на вызов, при перерисовки браузером страницы
 
     stats.begin();
