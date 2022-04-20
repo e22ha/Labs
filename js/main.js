@@ -44,8 +44,6 @@ var clock = new THREE.Clock();
 var ringLoad;
 var N = 200;
 
-
-
 var cursor;
 var L = 32;
 
@@ -92,14 +90,14 @@ function init() {
     // Создание отрисовщика
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
-    
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.setClearColor(0x001e1e1e, 1);
     container.appendChild(renderer.domElement);
     // controls
-    
+
     controls = new OrbitControls(camera, renderer.domElement);
     controlsOn(false);
     //controls.listenToKeyEvents( window ); // optional
@@ -108,19 +106,19 @@ function init() {
 
     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
     controls.dampingFactor = 0.05;
-    
+
     controls.screenSpacePanning = false;
-    
+
     controls.minDistance = 10;
     controls.maxDistance = 1000;
-    
+
     controls.maxPolarAngle = Math.PI / 2;
-    
+
     // Установка позиции камеры
-    camera.position.set(1.5*N, N*0.8, N/2);
+    camera.position.set(1.5 * N, N * 0.8, N / 2);
 
     // Установка точки, на которую камера будет смотреть
-    camera.lookAt(new THREE.Vector3(N/2, 0, N/2));
+    camera.lookAt(new THREE.Vector3(N / 2, 0, N / 2));
 
     // var effect = new THREE.AsciiEffect(renderer);
     // effect.setSize(window.innerWidth, window.innerHeight);
@@ -193,9 +191,9 @@ function gui() {
     gui.width = 200;
     //массив переменных, ассоциированных с интерфейсом
     var params = {
-        sx: 0,
-        sy: 0,
-        sz: 0,
+        rx: 0,
+        ry: 0,
+        rz: 0,
         brush: true,
         tool: false,
         orbit: false,
@@ -209,25 +207,56 @@ function gui() {
             addObj("grade");
         },
         del: function () {
-            delMesh();
+            if (selected.userData.cube != null) {
+                //поиск индекса эллемента link в массиве draworder
+                var ind = objectlist.indexOf(selected.userData.cube);
+                //если такой индекс существует, удаление одного эллемента из массива
+                if (~ind) objectlist.splice(ind, 1);
+                //удаление из сцены объекта, на который ссылается link
+                scene.remove(selected.userData.cube.userData.model);
+                scene.remove(selected.userData.cube);
+
+                console.log("O: " + objectlist);
+            }
         },
     };
     //создание вкладки
-    var folder1 = gui.addFolder("Scale");
+    var folder1 = gui.addFolder("Rotate");
     //ассоциирование переменных отвечающих за масштабирование
     //в окне интерфейса они будут представлены в виде слайдера
     //минимальное значение - 1, максимальное – 100, шаг – 1
     //listen означает, что изменение переменных будет отслеживаться
-    var meshSX = folder1.add(params, "sx").min(1).max(100).step(1).listen();
-    var meshSY = folder1.add(params, "sy").min(1).max(100).step(1).listen();
-    var meshSZ = folder1.add(params, "sz").min(1).max(100).step(1).listen();
+    var meshRX = folder1.add(params, "rx").min(1).max(360).step(1).listen();
+    var meshRY = folder1.add(params, "ry").min(1).max(360).step(1).listen();
+    var meshRZ = folder1.add(params, "rz").min(1).max(100).step(1).listen();
     //при запуске программы папка будет открыта
     folder1.open();
     //описание действий совершаемых при изменении ассоциированных значений
     5;
-    meshSX.onChange(function (value) { });
-    meshSY.onChange(function (value) { });
-    meshSZ.onChange(function (value) { });
+    meshRX.onChange(function (value) {
+        if (selected != null) {
+            selected.userData.cube.userData.model.rotation.x =
+                (value * Math.PI) / 180;
+            selected.userData.cube.rotation.x =
+                selected.userData.cube.userData.model.rotation.x;
+        }
+    });
+    meshRY.onChange(function (value) {
+        if (selected != null) {
+            selected.userData.cube.userData.model.rotation.y =
+                (value * Math.PI) / 180;
+            selected.userData.cube.rotation.y =
+                selected.userData.cube.userData.model.rotation.y;
+        }
+    });
+    meshRZ.onChange(function (value) {
+        if (selected != null) {
+            selected.userData.cube.userData.model.rotation.z =
+                (value * Math.PI) / 180;
+            selected.userData.cube.rotation.z =
+                selected.userData.cube.userData.model.rotation.z;
+        }
+    });
     var ctrlPanel = gui.addFolder("Cursor Mode");
     //добавление чек бокса с именем brush
     var cubeVisible = ctrlPanel.add(params, "brush").name("brush").listen();
@@ -237,7 +266,7 @@ function gui() {
         toolMode = false;
         params.orbit = false;
         orbitMode = false;
-        
+
         curVis(brushMode);
         controlsOn(orbitMode);
     });
@@ -265,10 +294,9 @@ function gui() {
         console.log("bMode: " + brushMode);
         console.log("tMode: " + toolMode);
         console.log("oMode: " + orbitMode);
-        
+
         controlsOn(orbitMode);
         curVis(brushMode);
-
     });
     ctrlPanel.open();
 
@@ -295,25 +323,54 @@ function addObj(type) {
     object.rotation.y = Math.PI * 8;
     var s = Math.random() * 100 + 100;
     s /= N;
-    if (type == "bush") s =(Math.random() * 100+1000)/N;
-    
+    if (type == "bush") s = (Math.random() * 100 + 1000) / N;
     object.scale.set(s, s, s);
-    scene.add(object.clone());
+
+    var model = object.clone();
+
+    scene.add(model);
+
+    //создание объекта Box3 и установка его вокруг объекта object
+    model.userData.bbox = new THREE.Box3();
+    model.userData.bbox.setFromObject(model);
+    //создание куба единичного размера
+    var geometry = new THREE.BoxGeometry(1, 1, 1);
+    var material = new THREE.MeshBasicMaterial({
+        color: 0x00ff00,
+        wireframe: true,
+    });
+
+    model.userData.cube = new THREE.Mesh(geometry, material);
+
+    //получение позиции центра объекта
+    var pos = new THREE.Vector3();
+    model.userData.bbox.getCenter(pos);
+
+    //получение размеров объекта
+    var size = new THREE.Vector3();
+    model.userData.bbox.getSize(size);
+    //установка позиции и размера объекта в куб
+    model.userData.cube.position.copy(pos);
+    model.userData.cube.scale.set(size.x, size.y, size.z);
+
+    model.userData.cube.userData.model = model;
+    scene.add(model.userData.cube);
+    objectlist.push(model.userData.cube);
 }
 
 function controlsOn(state) {
     controls.enabled = state;
     controls.rotate = state;
-
 }
 
-function curVis(state){
-    if (circle != null) 
-    // circle.material = new THREE.LineBasicMaterial({
-    //     color: 0xff0000, //цвет линии
-    // });
-    
-    circle.visible = state;
+function curVis(state) {
+    if (circle != null)
+        // circle.material = new THREE.LineBasicMaterial({
+        //     color: 0xff0000, //цвет линии
+        // });
+
+        circle.visible = state;
+    cursor.visible = state;
 }
 
 function addLight() {
@@ -352,17 +409,24 @@ function onWindowResize() {
 function animate() {
     var delta = clock.getDelta();
     //console.log("CursorMode: brush;
-    if (brushMode){
+    if (brushMode) {
         var d = 0; //если не определять, то он будет стирать поле
         if (whichButton == 1) d = 1;
         else if (whichButton == 3) d = -1;
-        if (isPressed == true) hsphere(d, delta);
+        if (isPressed == true) {
+            hsphere(d, delta);
+            // targetList.forEach(element => {
+
+            //         var h = getPixel(imagedata, cursor.position.x, cursor.position.z);
+            //         element.position.y = h / 5;
+
+            // });
+        }
         circle.material = new THREE.LineBasicMaterial({
             color: 0xffff00, //цвет линии
         });
-    
     }
-        
+
     // Добавление функции на вызов, при перерисовки браузером страницы
 
     stats.begin();
@@ -444,10 +508,12 @@ function terrain() {
 }
 
 function onDocumentMouseScroll(event) {
-    if (event.wheelDelta > 0) radius++;
-    if (event.wheelDelta < 0) radius--;
+    if (brushMode) {
+        if (event.wheelDelta > 0) radius++;
+        if (event.wheelDelta < 0) radius--;
 
-    circle.scale.set(radius, 1, radius);
+        circle.scale.set(radius, 1, radius);
+    }
 }
 function onDocumentMouseMove(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -460,44 +526,55 @@ function onDocumentMouseMove(event) {
         camera.position,
         vector.sub(camera.position).normalize()
     );
+
     // создание массива для хранения объектов, с которыми пересечётся луч
     var intersects = ray.intersectObjects(targetList);
 
-    // если луч пересёк какой-либо объект из списка targetList
-    if (intersects.length > 0) {
-        //печать списка полей объекта
-        // console.log(cursor);
+    if (brushMode) {
+        if (intersects.length > 0) {
+            cursor.position.copy(intersects[0].point);
 
-        cursor.position.copy(intersects[0].point);
+            circle.position.copy(intersects[0].point);
+            for (
+                var i = 0;
+                i < circle.geometry.attributes.position.array.length - 1;
+                i += 3
+            ) {
+                //получение позиции в локальной системе координат
+                var pos = new THREE.Vector3();
 
-        circle.position.copy(intersects[0].point);
-        for (
-            var i = 0;
-            i < circle.geometry.attributes.position.array.length - 1;
-            i += 3
-        ) {
-            //получение позиции в локальной системе координат
-            var pos = new THREE.Vector3();
+                pos.x = circle.geometry.attributes.position.array[i];
+                pos.y = circle.geometry.attributes.position.array[i + 1];
+                pos.z = circle.geometry.attributes.position.array[i + 2];
+                //нахождение позиции в глобальной системе координат
+                pos.applyMatrix4(circle.matrixWorld);
 
-            pos.x = circle.geometry.attributes.position.array[i];
-            pos.y = circle.geometry.attributes.position.array[i + 1];
-            pos.z = circle.geometry.attributes.position.array[i + 2];
-            //нахождение позиции в глобальной системе координат
-            pos.applyMatrix4(circle.matrixWorld);
+                var x = Math.round(pos.x);
+                var z = Math.round(pos.z);
 
-            var x = Math.round(pos.x);
-            var z = Math.round(pos.z);
+                var ind = (z + x * N) * 3;
 
-            var ind = (z + x * N) * 3;
+                if (ind >= 0 && ind < geometry.attributes.position.array.length)
+                    circle.geometry.attributes.position.array[i + 1] =
+                        geometry.attributes.position.array[ind + 1];
+            }
+            circle.geometry.attributes.position.needsUpdate = true;
 
-            if (ind >= 0 && ind < geometry.attributes.position.array.length)
-                circle.geometry.attributes.position.array[i + 1] =
-                    geometry.attributes.position.array[ind + 1];
+            cursor.position.y += 2.5;
+            circle.position.y = 0.2;
         }
-        circle.geometry.attributes.position.needsUpdate = true;
+    }
 
-        cursor.position.y += 2.5;
-        circle.position.y = 0.2;
+    if (toolMode) {
+        if (intersects.length > 0)
+            if (selected != null)
+                if (isPressed) {
+                    selected.position.copy(intersects[0].point);
+                    selected.userData.bbox.setFromObject(selected);
+                    selected.userData.bbox.getCenter(
+                        selected.userData.cube.position
+                    );
+                }
     }
 }
 
@@ -506,9 +583,31 @@ var whichButton; //1 - left, 2 - wheel 3 - right
 
 function onDocumentMouseDown(event) {
     isPressed = true;
-    if (event.which == 1) whichButton = 1;
-    if (event.which == 2) whichButton = 2;
-    if (event.which == 3) whichButton = 3;
+    if (brushMode) {
+        if (event.which == 1) whichButton = 1;
+        if (event.which == 2) whichButton = 2;
+        if (event.which == 3) whichButton = 3;
+    }
+
+    if (toolMode) {
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+        //создание луча, исходящего из позиции камеры и проходящего сквозь позицию курсора мыши
+        var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
+        vector.unproject(camera);
+        var ray = new THREE.Raycaster(
+            camera.position,
+            vector.sub(camera.position).normalize()
+        );
+
+        // создание массива для хранения объектов, с которыми пересечётся луч
+        var intersects = ray.intersectObjects(objectlist, true);
+
+        if (intersects.length > 0) {
+            selected = intersects[0].object.userData.model;
+        }
+    }
 }
 function onDocumentMouseUp(event) {
     isPressed = false;
@@ -569,6 +668,21 @@ function hsphere(k, delta) {
             vertices.array[i + 1] += Math.sqrt(h) * k * delta; //изменение координат по Y
         }
     }
+
+    for (var i = 0; i < objectlist.length; i++) {
+        var x =  objectlist[i].userData.model.position.x; //получение координат объекта по X
+        var z =  objectlist[i].userData.model.position.z; //получение координат объекта по Z
+
+        var h =
+            radius * radius -
+            ((x - pos.x) * (x - pos.x) + (z - pos.z) * (z - pos.z));
+        if (h > 0) {
+            objectlist[i].userData.model.position.y += Math.sqrt(h) * k * delta;
+            objectlist[i].position.y += Math.sqrt(h) * k * delta;
+            // console.log("h in ol:  " + Math.sqrt(h));
+        }
+    }
+
     geometry.setAttribute("position", vertices); //установка изменённых вершин
     geometry.computeVertexNormals(); //пересчёт нормалей
     geometry.attributes.position.needsUpdate = true; //обновление вершин
@@ -600,8 +714,11 @@ function addMesh(name, path, oname, mname) {
                         object.traverse(function (child) {
                             if (child instanceof THREE.Mesh) {
                                 child.castShadow = true;
+                                child.parent = object;
                             }
                         });
+
+                        object.parent = object;
 
                         object.position.x = 0;
                         object.position.z = 0;
