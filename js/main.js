@@ -340,6 +340,12 @@ function addObj(type) {
         wireframe: true,
     });
 
+    var obb = {};
+    //структура состоит из матрицы поворота, позиции и половины размера
+    obb.basis = new THREE.Matrix4();
+    obb.halfSize = new THREE.Vector3();
+    obb.position = new THREE.Vector3();
+
     model.userData.cube = new THREE.Mesh(geometry, material);
 
     //получение позиции центра объекта
@@ -356,6 +362,16 @@ function addObj(type) {
     model.userData.cube.material.visible = false;
 
     model.userData.cube.userData.model = model;
+
+    //получение позиции центра объекта
+    model.userData.bbox.getCenter(obb.position);
+    //получение размеров объекта
+    model.userData.bbox.getSize(obb.halfSize).multiplyScalar(0.5);
+    //получение матрицы поворота объекта
+    obb.basis.extractRotation(model.matrixWorld);
+    //структура хранится в поле userData объекта
+    model.userData.obb = obb;
+
     scene.add(model.userData.cube);
     objectlist.push(model.userData.cube);
 }
@@ -577,23 +593,23 @@ function onDocumentMouseMove(event) {
                         selected.userData.cube.position
                     );
 
-                    // //перебор всех OBB объектов сцены
-                    // for (var i = 0; i < objectlist.length; i++) {
-                    //     if (objectlist[i] !== selected) {
-                    //         objectlist[i].material.visible = false;
-                    //         intr = intersect(
-                    //             selected.userData,
-                    //             objectlist[i].userData
-                    //         );
+                    //перебор всех OBB объектов сцены
+                    for (var i = 0; i < objectlist.length; i++) {
+                        if (objectlist[i] !== selected) {
+                            objectlist[i].material.visible = false;
+                            intr = intersect(
+                                selected.userData,
+                                objectlist[i].userData
+                            );
 
-                    //         //объект пересечение с которым было обнаружено
-                    //         //становится видимым
-                    //         if (intr) {
-                    //             objectlist[i].userData.material.visible = true;
-                    //             break;
-                    //         }
-                    //     }
-                    // }
+                            //объект пересечение с которым было обнаружено
+                            //становится видимым
+                            if (intr) {
+                                objectlist[i].material.visible = true;
+                                break;
+                            }
+                        }
+                    }
                 }
     }
 }
@@ -625,7 +641,7 @@ function onDocumentMouseDown(event) {
         var intersects = ray.intersectObjects(objectlist, true);
 
         if (intersects.length > 0) {
-            if(selected) selected.userData.cube.material.visible = false;
+            if (selected) selected.userData.cube.material.visible = false;
             selected = intersects[0].object.userData.model;
             selected.userData.cube.material.visible = true;
         }
