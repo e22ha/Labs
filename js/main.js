@@ -353,6 +353,8 @@ function addObj(type) {
     model.userData.cube.position.copy(pos);
     model.userData.cube.scale.set(size.x, size.y, size.z);
 
+    model.userData.cube.material.visible = false;
+
     model.userData.cube.userData.model = model;
     scene.add(model.userData.cube);
     objectlist.push(model.userData.cube);
@@ -574,6 +576,24 @@ function onDocumentMouseMove(event) {
                     selected.userData.bbox.getCenter(
                         selected.userData.cube.position
                     );
+
+                    // //перебор всех OBB объектов сцены
+                    // for (var i = 0; i < objectlist.length; i++) {
+                    //     if (objectlist[i] !== selected) {
+                    //         objectlist[i].material.visible = false;
+                    //         intr = intersect(
+                    //             selected.userData,
+                    //             objectlist[i].userData
+                    //         );
+
+                    //         //объект пересечение с которым было обнаружено
+                    //         //становится видимым
+                    //         if (intr) {
+                    //             objectlist[i].userData.material.visible = true;
+                    //             break;
+                    //         }
+                    //     }
+                    // }
                 }
     }
 }
@@ -605,7 +625,9 @@ function onDocumentMouseDown(event) {
         var intersects = ray.intersectObjects(objectlist, true);
 
         if (intersects.length > 0) {
+            if(selected) selected.userData.cube.material.visible = false;
             selected = intersects[0].object.userData.model;
+            selected.userData.cube.material.visible = true;
         }
     }
 }
@@ -670,8 +692,8 @@ function hsphere(k, delta) {
     }
 
     for (var i = 0; i < objectlist.length; i++) {
-        var x =  objectlist[i].userData.model.position.x; //получение координат объекта по X
-        var z =  objectlist[i].userData.model.position.z; //получение координат объекта по Z
+        var x = objectlist[i].userData.model.position.x; //получение координат объекта по X
+        var z = objectlist[i].userData.model.position.z; //получение координат объекта по Z
 
         var h =
             radius * radius -
@@ -741,4 +763,203 @@ function addMesh(name, path, oname, mname) {
                     onError
                 );
         });
+}
+
+//оригинал алгоритма и реализацию класса OBB можно найти по ссылке:
+//https://github.com/Mugen87/yume/blob/master/src/javascript/engine/etc/OBB.js
+function intersect(ob1, ob2) {
+    var xAxisA = new THREE.Vector3();
+    var yAxisA = new THREE.Vector3();
+    var zAxisA = new THREE.Vector3();
+    var xAxisB = new THREE.Vector3();
+    var yAxisB = new THREE.Vector3();
+
+    var zAxisB = new THREE.Vector3();
+    var translation = new THREE.Vector3();
+    var vector = new THREE.Vector3();
+
+    var axisA = [];
+    var axisB = [];
+    var rotationMatrix = [[], [], []];
+    var rotationMatrixAbs = [[], [], []];
+    var _EPSILON = 1e-3;
+
+    var halfSizeA, halfSizeB;
+    var t, i;
+
+    ob1.obb.basis.extractBasis(xAxisA, yAxisA, zAxisA);
+    ob2.obb.basis.extractBasis(xAxisB, yAxisB, zAxisB);
+
+    // push basis vectors into arrays, so you can access them via indices
+    axisA.push(xAxisA, yAxisA, zAxisA);
+    axisB.push(xAxisB, yAxisB, zAxisB);
+    // get displacement vector
+    vector.subVectors(ob2.obb.position, ob1.obb.position);
+    // express the translation vector in the coordinate frame of the current
+    // OBB (this)
+    for (i = 0; i < 3; i++) {
+        translation.setComponent(i, vector.dot(axisA[i]));
+    }
+    // generate a rotation matrix that transforms from world space to the
+    // OBB's coordinate space
+    for (i = 0; i < 3; i++) {
+        for (var j = 0; j < 3; j++) {
+            rotationMatrix[i][j] = axisA[i].dot(axisB[j]);
+            rotationMatrixAbs[i][j] = Math.abs(rotationMatrix[i][j]) + _EPSILON;
+        }
+    }
+    // test the three major axes of this OBB
+    for (i = 0; i < 3; i++) {
+        vector.set(
+            rotationMatrixAbs[i][0],
+            rotationMatrixAbs[i][1],
+            rotationMatrixAbs[i][2]
+        );
+        halfSizeA = ob1.obb.halfSize.getComponent(i);
+        halfSizeB = ob2.obb.halfSize.dot(vector);
+
+        if (Math.abs(translation.getComponent(i)) > halfSizeA + halfSizeB) {
+            return false;
+        }
+    }
+    // test the three major axes of other OBB
+    for (i = 0; i < 3; i++) {
+        vector.set(
+            rotationMatrixAbs[0][i],
+            rotationMatrixAbs[1][i],
+            rotationMatrixAbs[2][i]
+        );
+        halfSizeA = ob1.obb.halfSize.dot(vector);
+        halfSizeB = ob2.obb.halfSize.getComponent(i);
+        vector.set(
+            rotationMatrix[0][i],
+            rotationMatrix[1][i],
+            rotationMatrix[2][i]
+        );
+        t = translation.dot(vector);
+        if (Math.abs(t) > halfSizeA + halfSizeB) {
+            return false;
+        }
+    }
+    // test the 9 different cross-axes
+    // A.x <cross> B.x
+    halfSizeA =
+        ob1.obb.halfSize.y * rotationMatrixAbs[2][0] +
+        ob1.obb.halfSize.z * rotationMatrixAbs[1][0];
+    halfSizeB =
+        ob2.obb.halfSize.y * rotationMatrixAbs[0][2] +
+        ob2.obb.halfSize.z * rotationMatrixAbs[0][1];
+    t =
+        translation.z * rotationMatrix[1][0] -
+        translation.y * rotationMatrix[2][0];
+    if (Math.abs(t) > halfSizeA + halfSizeB) {
+        return false;
+    }
+    // A.x < cross> B.y
+    halfSizeA =
+        ob1.obb.halfSize.y * rotationMatrixAbs[2][1] +
+        ob1.obb.halfSize.z * rotationMatrixAbs[1][1];
+    halfSizeB =
+        ob2.obb.halfSize.x * rotationMatrixAbs[0][2] +
+        ob2.obb.halfSize.z * rotationMatrixAbs[0][0];
+    t =
+        translation.z * rotationMatrix[1][1] -
+        translation.y * rotationMatrix[2][1];
+    if (Math.abs(t) > halfSizeA + halfSizeB) {
+        return false;
+    }
+
+    // A.x <cross> B.z
+    halfSizeA =
+        ob1.obb.halfSize.y * rotationMatrixAbs[2][2] +
+        ob1.obb.halfSize.z * rotationMatrixAbs[1][2];
+    halfSizeB =
+        ob2.obb.halfSize.x * rotationMatrixAbs[0][1] +
+        ob2.obb.halfSize.y * rotationMatrixAbs[0][0];
+    t =
+        translation.z * rotationMatrix[1][2] -
+        translation.y * rotationMatrix[2][2];
+    if (Math.abs(t) > halfSizeA + halfSizeB) {
+        return false;
+    }
+    // A.y <cross> B.x
+    halfSizeA =
+        ob1.obb.halfSize.x * rotationMatrixAbs[2][0] +
+        ob1.obb.halfSize.z * rotationMatrixAbs[0][0];
+    halfSizeB =
+        ob2.obb.halfSize.y * rotationMatrixAbs[1][2] +
+        ob2.obb.halfSize.z * rotationMatrixAbs[1][1];
+    t =
+        translation.x * rotationMatrix[2][0] -
+        translation.z * rotationMatrix[0][0];
+    if (Math.abs(t) > halfSizeA + halfSizeB) {
+        return false;
+    }
+    // A.y <cross> B.y
+    halfSizeA =
+        ob1.obb.halfSize.x * rotationMatrixAbs[2][1] +
+        ob1.obb.halfSize.z * rotationMatrixAbs[0][1];
+    halfSizeB =
+        ob2.obb.halfSize.x * rotationMatrixAbs[1][2] +
+        ob2.obb.halfSize.z * rotationMatrixAbs[1][0];
+    t =
+        translation.x * rotationMatrix[2][1] -
+        translation.z * rotationMatrix[0][1];
+    if (Math.abs(t) > halfSizeA + halfSizeB) {
+        return false;
+    }
+    // A.y <cross> B.z
+    halfSizeA =
+        ob1.obb.halfSize.x * rotationMatrixAbs[2][2] +
+        ob1.obb.halfSize.z * rotationMatrixAbs[0][2];
+    halfSizeB =
+        ob2.obb.halfSize.x * rotationMatrixAbs[1][1] +
+        ob2.obb.halfSize.y * rotationMatrixAbs[1][0];
+    t =
+        translation.x * rotationMatrix[2][2] -
+        translation.z * rotationMatrix[0][2];
+    if (Math.abs(t) > halfSizeA + halfSizeB) {
+        return false;
+    }
+    // A.z <cross> B.x
+    halfSizeA =
+        ob1.obb.halfSize.x * rotationMatrixAbs[1][0] +
+        ob1.obb.halfSize.y * rotationMatrixAbs[0][0];
+    halfSizeB =
+        ob2.obb.halfSize.y * rotationMatrixAbs[2][2] +
+        ob2.obb.halfSize.z * rotationMatrixAbs[2][1];
+    t =
+        translation.y * rotationMatrix[0][0] -
+        translation.x * rotationMatrix[1][0];
+    if (Math.abs(t) > halfSizeA + halfSizeB) {
+        return false;
+    }
+    // A.z <cross> B.y
+    halfSizeA =
+        ob1.obb.halfSize.x * rotationMatrixAbs[1][1] +
+        ob1.obb.halfSize.y * rotationMatrixAbs[0][1];
+    halfSizeB =
+        ob2.obb.halfSize.x * rotationMatrixAbs[2][2] +
+        ob2.obb.halfSize.z * rotationMatrixAbs[2][0];
+    t =
+        translation.y * rotationMatrix[0][1] -
+        translation.x * rotationMatrix[1][1];
+    if (Math.abs(t) > halfSizeA + halfSizeB) {
+        return false;
+    }
+    // A.z <cross> B.z
+    halfSizeA =
+        ob1.obb.halfSize.x * rotationMatrixAbs[1][2] +
+        ob1.obb.halfSize.y * rotationMatrixAbs[0][2];
+    halfSizeB =
+        ob2.obb.halfSize.x * rotationMatrixAbs[2][1] +
+        ob2.obb.halfSize.y * rotationMatrixAbs[2][0];
+    t =
+        translation.y * rotationMatrix[0][2] -
+        translation.x * rotationMatrix[1][2];
+    if (Math.abs(t) > halfSizeA + halfSizeB) {
+        return false;
+    }
+    // no separating axis exists, so the two OBB don't intersect
+    return true;
 }
