@@ -533,6 +533,8 @@ function onDocumentMouseScroll(event) {
         circle.scale.set(radius, 1, radius);
     }
 }
+var intr;
+
 function onDocumentMouseMove(event) {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -593,19 +595,20 @@ function onDocumentMouseMove(event) {
                         selected.userData.cube.position
                     );
 
+
                     //перебор всех OBB объектов сцены
                     for (var i = 0; i < objectlist.length; i++) {
                         if (objectlist[i] !== selected) {
-                            objectlist[i].material.visible = false;
+                            objectlist[i].userData.model.userData.cube.material.visible = false;
                             intr = intersect(
                                 selected.userData,
-                                objectlist[i].userData
+                                objectlist[i].userData.model.userData
                             );
 
                             //объект пересечение с которым было обнаружено
                             //становится видимым
                             if (intr) {
-                                objectlist[i].material.visible = true;
+                                objectlist[i].userData.model.userData.cube.material.visible = true;
                                 break;
                             }
                         }
