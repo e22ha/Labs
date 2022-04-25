@@ -228,33 +228,61 @@ function gui() {
     //listen означает, что изменение переменных будет отслеживаться
     var meshRX = folder1.add(params, "rx").min(1).max(360).step(1).listen();
     var meshRY = folder1.add(params, "ry").min(1).max(360).step(1).listen();
-    var meshRZ = folder1.add(params, "rz").min(1).max(100).step(1).listen();
+    var meshRZ = folder1.add(params, "rz").min(1).max(360).step(1).listen();
     //при запуске программы папка будет открыта
     folder1.open();
     //описание действий совершаемых при изменении ассоциированных значений
     5;
     meshRX.onChange(function (value) {
         if (selected != null) {
+            var ang = new THREE.Vector3();
+            ang.copy(selected.userData.cube.userData.model.rotation);
+            
             selected.userData.cube.userData.model.rotation.x =
                 (value * Math.PI) / 180;
+            
             selected.userData.cube.rotation.x =
                 selected.userData.cube.userData.model.rotation.x;
+
+            selected.userData.bbox.setFromObject(selected);
+            selected.userData.bbox.getCenter(selected.userData.cube.position);
+            
+            selected.userData.bbox.getCenter(selected.userData.obb.position);
+            selected.userData.obb.basis.extractRotation(selected.matrixWorld);
+            
+            rerotate(ang);
         }
     });
     meshRY.onChange(function (value) {
         if (selected != null) {
+            var ang = new THREE.Vector3();
+            ang.copy(selected.userData.cube.userData.model.rotation);
             selected.userData.cube.userData.model.rotation.y =
-                (value * Math.PI) / 180;
+            (value * Math.PI) / 180;
             selected.userData.cube.rotation.y =
-                selected.userData.cube.userData.model.rotation.y;
+            selected.userData.cube.userData.model.rotation.y;
+            selected.userData.bbox.setFromObject(selected);
+            selected.userData.obb.setFromObject(selected);
+            selected.userData.obb.basis.extractRotation(selected.matrixWorld);
+            selected.userData.bbox.getCenter(selected.userData.cube.position);
+            selected.userData.obb.getCenter(selected.userData.cube.position);
+            rerotate(ang);
         }
     });
     meshRZ.onChange(function (value) {
         if (selected != null) {
+            var ang = new THREE.Vector3();
+            ang.copy(selected.userData.cube.rotation);
             selected.userData.cube.userData.model.rotation.z =
-                (value * Math.PI) / 180;
+            (value * Math.PI) / 180;
             selected.userData.cube.rotation.z =
-                selected.userData.cube.userData.model.rotation.z;
+            selected.userData.cube.userData.model.rotation.z;
+            selected.userData.bbox.setFromObject(selected);
+            selected.userData.obb.setFromObject(selected);
+            selected.userData.obb.basis.extractRotation(selected.matrixWorld);
+            selected.userData.bbox.getCenter(selected.userData.cube.position);
+            selected.userData.obb.getCenter(selected.userData.cube.position);
+            rerotate(ang);
         }
     });
     var ctrlPanel = gui.addFolder("Cursor Mode");
@@ -309,6 +337,31 @@ function gui() {
 
     //при запуске программы интерфейс будет раскрыт
     gui.open();
+}
+
+function rerotate(oldAng){
+    for (var i = 0; i < objectlist.length; i++) {
+        if (objectlist[i].userData.model != selected) {
+            objectlist[i].userData.model.userData.cube.material.visible = false;
+            intr = intersect(
+                selected.userData,
+                objectlist[i].userData.model.userData
+            );
+
+            //объект пересечение с которым было обнаружено
+            //становится видимым
+            if (intr) {
+                objectlist[i].userData.model.userData.cube.material.visible = true;
+                selected.userData.cube.userData.model.rotation.copy(oldAng);
+                selected.userData.bbox.setFromObject(selected);
+                selected.userData.obb.setFromObject(selected);
+                selected.userData.obb.basis.extractRotation(selected.matrixWorld);
+                selected.userData.bbox.getCenter(selected.userData.cube.position);
+                selected.userData.obb.getCenter(selected.userData.cube.position);
+                break;
+            } 
+        }
+    }
 }
 
 function addObj(type) {
@@ -533,6 +586,11 @@ function onDocumentMouseScroll(event) {
         circle.scale.set(radius, 1, radius);
     }
 }
+
+
+
+
+
 var intr;
 
 function onDocumentMouseMove(event) {
@@ -589,16 +647,21 @@ function onDocumentMouseMove(event) {
         if (intersects.length > 0)
             if (selected != null)
                 if (isPressed) {
+                    var oldPos = new THREE.Vector3();
+                    oldPos.copy(selected.position);
+
                     selected.position.copy(intersects[0].point);
-                    selected.userData.bbox.setFromObject(selected);
-                    selected.userData.bbox.getCenter(
-                        selected.userData.cube.position
-                    );
+                                selected.userData.bbox.setFromObject(selected);
+                                selected.userData.bbox.getCenter(
+                                    selected.userData.cube.position
+                                );
 
-
+                                selected.userData.bbox.getCenter(
+                                    selected.userData.obb.position
+                                );
                     //перебор всех OBB объектов сцены
                     for (var i = 0; i < objectlist.length; i++) {
-                        if (objectlist[i] !== selected) {
+                        if (objectlist[i].userData.model != selected) {
                             objectlist[i].userData.model.userData.cube.material.visible = false;
                             intr = intersect(
                                 selected.userData,
@@ -609,8 +672,12 @@ function onDocumentMouseMove(event) {
                             //становится видимым
                             if (intr) {
                                 objectlist[i].userData.model.userData.cube.material.visible = true;
+                                selected.position.copy(oldPos);
+                                selected.userData.bbox.setFromObject(selected);
+                                selected.userData.bbox.getCenter(selected.userData.cube.position);
+                                selected.userData.bbox.getCenter( selected.userData.obb.position);
                                 break;
-                            }
+                            } 
                         }
                     }
                 }
@@ -647,6 +714,9 @@ function onDocumentMouseDown(event) {
             if (selected) selected.userData.cube.material.visible = false;
             selected = intersects[0].object.userData.model;
             selected.userData.cube.material.visible = true;
+        } else if (intersects.length == 0) {
+            if (selected) selected.userData.cube.material.visible = false;
+            selected = null;
         }
     }
 }
