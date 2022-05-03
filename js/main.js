@@ -2,7 +2,10 @@
 var container;
 // Переменные "камера", "сцена" и "отрисовщик"
 var camera, scene, renderer;
+var cameraOrtho, sceneOrtho;
 
+var sw = window.innerWidth;
+var sh = window.innerHeight;
 var keyboard = new THREEx.KeyboardState();
 
 var a;
@@ -13,6 +16,19 @@ var angle = Math.PI / 2;
 var planets = [];
 
 var clock = new THREE.Clock();
+
+const loader = new THREE.TextureLoader();
+
+
+let desc = [
+    "imgs/tex/MainDesc.png",
+    "imgs/tex/MercDesc.png",
+    "imgs/tex/VenusDesc.png",
+    "imgs/tex/EarthDesc.png",
+    "imgs/tex/MarsDesc.png"
+];
+
+var info;
 
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
 init();
@@ -40,6 +56,8 @@ function init() {
 
     // Установка точки, на которую камера будет смотреть
     camera.lookAt(new THREE.Vector3(0, 0.0, 0));
+
+    
     // Создание отрисовщика
     renderer = new THREE.WebGLRenderer({ antialias: false });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -48,7 +66,9 @@ function init() {
     container.appendChild(renderer.domElement);
     // Добавление функции обработки события изменения размеров окна
     window.addEventListener("resize", onWindowResize, false);
-
+    
+    ortoCamera();
+    
     const lightAmbient = new THREE.AmbientLight(0x202020); // soft white light
     scene.add(lightAmbient);
 
@@ -128,6 +148,19 @@ function init() {
     // planets.push(
     //   createEarthCloud(45,12,1,1)
     // );
+
+
+    var spritey = makeTextSprite(" World! ", {
+        fontsize:32,
+        fontface: "Georgia",
+        borderColor: { r: 0, g: 0, b: 255, a: 1.0 },
+    });
+    spritey.position.set(0, 0, 0);
+    scene.add(spritey);
+
+    info = addSprite();
+
+    sceneOrtho.add(info.sprite);
 }
 
 function onWindowResize() {
@@ -219,7 +252,10 @@ function animate() {
 
             // a += 2 * delta;
             // cm.makeRotationY(a);
-            planets[i].clouds.matrix = cm1.multiplyMatrices(cm, planets[i].sphere.matrix);
+            planets[i].clouds.matrix = cm1.multiplyMatrices(
+                cm,
+                planets[i].sphere.matrix
+            );
             planets[i].clouds.matrixAutoUpdate = false;
         }
     }
@@ -229,8 +265,12 @@ function animate() {
     render();
 }
 function render() {
-    // Рисование кадра
+    //функция render
+    //процесс отрисовки сцены и объектов в экранных координатах
+    renderer.clear();
     renderer.render(scene, camera);
+    renderer.clearDepth();
+    renderer.render(sceneOrtho, cameraOrtho);
 }
 
 function addSphere(r, tname) {
@@ -320,19 +360,24 @@ function traj(x0) {
 function keys(delta) {
     if (keyboard.pressed("0")) {
         chase = -1;
+        updateSp(0);
     }
-
+    
     if (keyboard.pressed("1")) {
         chase = 0;
+        updateSp(1);
     }
     if (keyboard.pressed("2")) {
         chase = 1;
+        updateSp(2);
     }
     if (keyboard.pressed("3")) {
         chase = 2;
+        updateSp(3);
     }
     if (keyboard.pressed("4")) {
         chase = 3;
+        updateSp(4);
     }
 
     if (chase > -1) {
@@ -350,6 +395,8 @@ function keys(delta) {
 
         camera.position.set(x, 0, z);
         camera.lookAt(pos);
+
+        
     } else {
         // Установка позиции камеры
         camera.position.set(0, 150, 0);
@@ -447,4 +494,175 @@ function createEarthCloud() {
     scene.add(mesh);
 
     return mesh;
+}
+
+function ortoCamera() {
+    //создание ортогональной камеры
+    width = window.innerWidth;
+    height = window.innerHeight;
+    cameraOrtho = new THREE.OrthographicCamera(
+        -width / 2,
+        width / 2,
+        height / 2,
+        -height / 2,
+        1,
+        10
+    );
+    cameraOrtho.position.z = 10;
+    //сцена для хранения списка объектов размещаемых в экранных координатах
+    sceneOrtho = new THREE.Scene();
+    //отключение авто очистки рендера
+    renderer.autoClear = false;
+
+}
+var sprite = new THREE.Sprite();
+
+//функция для создания спрайта
+function addSprite() {
+    //загрузка текстуры спрайта
+    var descSprite = {};
+    descSprite.m = [];
+
+    desc.forEach(element => {
+        
+        var texture = loader.load(element);
+        var material = new THREE.SpriteMaterial({ map: texture });
+        descSprite.m.push(material);
+        
+    });
+
+    //создание спрайта
+    sprite = new THREE.Sprite();
+    //центр и размер спрайта
+    sprite.center.set(0.0, 1.0);
+    sprite.scale.set(250, 170, 1);
+    //позиция спрайта (центр экрана)
+    sprite.position.set(-sw/2.0, sh/2.0, 1);
+    
+    sprite.material = descSprite.m[0];
+
+    descSprite.sprite = sprite;
+    
+    
+    return descSprite;
+}
+
+function updateSp(k) {
+    info.sprite.material = info.m[k];    
+}
+//функция для обновления позиции спрайта
+function updateHUDSprite(sprite) {
+    var width = window.innerWidth / 2;
+    var height = window.innerHeight / 2;
+
+    sprite.position.set(-width, height, 1); // левый верхний угол экрана
+}
+
+//sourse https://github.com/stemkoski/stemkoski.github.com/blob/master/Three.js/Sprite-Text-Labels.html
+/*example use
+var spritey = makeTextSprite( " World! ", 
+{ fontsize: 32, fontface: "Georgia", borderColor: {r:0, g:0, b:255, a:1.0} } );
+spritey.position.set(55,105,55);
+scene.add( spritey );
+*/
+
+function makeTextSprite(message, parameters) {
+    if (parameters === undefined) parameters = {};
+
+    var fontface = parameters.hasOwnProperty("fontface")
+        ? parameters["fontface"]
+        : "Arial";
+
+    var fontsize = parameters.hasOwnProperty("fontsize")
+        ? parameters["fontsize"]
+        : 18;
+
+    var borderThickness = parameters.hasOwnProperty("borderThickness")
+        ? parameters["borderThickness"]
+        : 4;
+
+    var borderColor = parameters.hasOwnProperty("borderColor")
+        ? parameters["borderColor"]
+        : { r: 0, g: 0, b: 0, a: 1.0 };
+
+    var backgroundColor = parameters.hasOwnProperty("backgroundColor")
+        ? parameters["backgroundColor"]
+        : { r: 255, g: 255, b: 255, a: 1.0 };
+
+
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+    context.font = "Bold " + fontsize + "px " + fontface;
+
+    // get size data (height depends only on font size)
+    var metrics = context.measureText(message);
+    var textWidth = metrics.width;
+
+    // background color
+    context.fillStyle =
+        "rgba(" +
+        backgroundColor.r +
+        "," +
+        backgroundColor.g +
+        "," +
+        backgroundColor.b +
+        "," +
+        backgroundColor.a +
+        ")";
+    // border color
+    context.strokeStyle =
+        "rgba(" +
+        borderColor.r +
+        "," +
+        borderColor.g +
+        "," +
+        borderColor.b +
+        "," +
+        borderColor.a +
+        ")";
+
+    context.lineWidth = borderThickness;
+    roundRect(
+        context,
+        borderThickness / 2,
+        borderThickness / 2,
+        textWidth + borderThickness,
+        fontsize * 1.4 + borderThickness,
+        6
+    );
+    // 1.4 is extra height factor for text below baseline: g,j,p,q.
+
+    // text color
+    context.fillStyle = "rgba(0, 0, 0, 1.0)";
+
+    context.fillText(message, borderThickness, fontsize + borderThickness);
+
+    // canvas contents will be used for a texture
+    var texture = new THREE.Texture(canvas);
+    texture.needsUpdate = true;
+
+    var spriteMaterial = new THREE.SpriteMaterial({
+        map: texture,
+        useScreenCoordinates: false,
+    });
+    var sprite = new THREE.Sprite(spriteMaterial);
+    sprite.scale.set(100, 50, 1.0);
+    return sprite;
+}
+
+// function for drawing rounded rectangles
+function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
 }
