@@ -3,10 +3,16 @@
 import * as THREE from "three";
 
 //импорт библиотек для загрузки моделей и материалов
-import { MTLLoader } from "./lib/MTLLoader.js";
-import { OBJLoader } from "./lib/OBJLoader.js";
+import {
+    MTLLoader
+} from "./lib/MTLLoader.js";
+import {
+    OBJLoader
+} from "./lib/OBJLoader.js";
 
-import { OrbitControls } from "./lib/OrbitControls.js";
+import {
+    OrbitControls
+} from "./lib/OrbitControls.js";
 
 let ListModel = [
     // {
@@ -36,6 +42,8 @@ var container;
 // Переменные "камера", "сцена" и "отрисовщик"
 var camera, scene, renderer;
 
+var cameraOrtho, sceneOrtho;
+
 var controls;
 
 var keyboard = new THREEx.KeyboardState();
@@ -49,7 +57,10 @@ var L = 32;
 
 var circle;
 var radius = 10;
-var mouse = { x: 0, y: 0 };
+var mouse = {
+    x: 0,
+    y: 0
+};
 
 var targetList = [];
 var objectlist = [];
@@ -62,6 +73,9 @@ var orbitMode = false;
 var selected = null;
 
 var stats = new Stats();
+
+const loader = new THREE.TextureLoader();
+
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
 init();
 // Обновление данных по таймеру браузера
@@ -87,9 +101,25 @@ function init() {
         1,
         600
     );
+
+    // Установка позиции камеры
+    camera.position.set(1.5 * N, N * 0.8, N / 2);
+
+    // Установка точки, на которую камера будет смотреть
+    camera.lookAt(new THREE.Vector3(N / 2, 0, N / 2));
+
+    cameraOrtho = new THREE.OrthographicCamera(-innerWidth / 2, innerWidth / 2, innerHeight/ 2, -innerHeight / 2, 1, 10);
+    cameraOrtho.position.z = 10;
+
+    sceneOrtho = new THREE.Scene();
+
     // Создание отрисовщика
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
     renderer.setPixelRatio(window.devicePixelRatio);
+
+    renderer.autoClear = false;
 
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
@@ -113,12 +143,6 @@ function init() {
     controls.maxDistance = 1000;
 
     controls.maxPolarAngle = Math.PI / 2;
-
-    // Установка позиции камеры
-    camera.position.set(1.5 * N, N * 0.8, N / 2);
-
-    // Установка точки, на которую камера будет смотреть
-    camera.lookAt(new THREE.Vector3(N / 2, 0, N / 2));
 
     // var effect = new THREE.AsciiEffect(renderer);
     // effect.setSize(window.innerWidth, window.innerHeight);
@@ -160,6 +184,10 @@ function init() {
         );
         //]);
     }
+    
+    hudSprites('img/f_d.png');
+    hudSprites('img/h_d.png');
+    hudSprites('img/b_d.png');
 }
 
 function loadScene() {
@@ -237,19 +265,19 @@ function gui() {
         if (selected != null) {
             var ang = new THREE.Vector3();
             ang.copy(selected.userData.cube.userData.model.rotation);
-            
+
             selected.userData.cube.userData.model.rotation.x =
                 (value * Math.PI) / 180;
-            
+
             selected.userData.cube.rotation.x =
                 selected.userData.cube.userData.model.rotation.x;
 
             selected.userData.bbox.setFromObject(selected);
             selected.userData.bbox.getCenter(selected.userData.cube.position);
-            
+
             selected.userData.bbox.getCenter(selected.userData.obb.position);
             selected.userData.obb.basis.extractRotation(selected.matrixWorld);
-            
+
             rerotate(ang);
         }
     });
@@ -258,9 +286,9 @@ function gui() {
             var ang = new THREE.Vector3();
             ang.copy(selected.userData.cube.userData.model.rotation);
             selected.userData.cube.userData.model.rotation.y =
-            (value * Math.PI) / 180;
+                (value * Math.PI) / 180;
             selected.userData.cube.rotation.y =
-            selected.userData.cube.userData.model.rotation.y;
+                selected.userData.cube.userData.model.rotation.y;
             selected.userData.bbox.setFromObject(selected);
             selected.userData.obb.setFromObject(selected);
             selected.userData.obb.basis.extractRotation(selected.matrixWorld);
@@ -274,9 +302,9 @@ function gui() {
             var ang = new THREE.Vector3();
             ang.copy(selected.userData.cube.rotation);
             selected.userData.cube.userData.model.rotation.z =
-            (value * Math.PI) / 180;
+                (value * Math.PI) / 180;
             selected.userData.cube.rotation.z =
-            selected.userData.cube.userData.model.rotation.z;
+                selected.userData.cube.userData.model.rotation.z;
             selected.userData.bbox.setFromObject(selected);
             selected.userData.obb.setFromObject(selected);
             selected.userData.obb.basis.extractRotation(selected.matrixWorld);
@@ -339,7 +367,7 @@ function gui() {
     gui.open();
 }
 
-function rerotate(oldAng){
+function rerotate(oldAng) {
     for (var i = 0; i < objectlist.length; i++) {
         if (objectlist[i].userData.model != selected) {
             objectlist[i].userData.model.userData.cube.material.visible = false;
@@ -359,7 +387,7 @@ function rerotate(oldAng){
                 selected.userData.bbox.getCenter(selected.userData.cube.position);
                 selected.userData.obb.getCenter(selected.userData.cube.position);
                 break;
-            } 
+            }
         }
     }
 }
@@ -469,11 +497,25 @@ function addLight() {
 }
 
 function onWindowResize() {
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    
     // Изменение соотношения сторон для виртуальной камеры
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    // Изменение соотношения сторон рендера
-    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    cameraOrtho.left = - width / 2;
+    cameraOrtho.right = width / 2;
+    cameraOrtho.top = height / 2;
+    cameraOrtho.bottom = - height / 2;
+    cameraOrtho.updateProjectionMatrix();
+    
+    update_hudSprites();
+    
+    // Изменение соотношения сторон рендера 
+    renderer.setSize(width, height);
+
 }
 
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
@@ -509,9 +551,15 @@ function animate() {
     requestAnimationFrame(animate);
     render();
 }
+
 function render() {
-    // Рисование кадра
+
+    renderer.clear();
     renderer.render(scene, camera);
+    
+    renderer.clearDepth();
+    renderer.render(sceneOrtho, cameraOrtho);
+
 }
 
 function getPixel(imagedata, x, y) {
@@ -587,10 +635,6 @@ function onDocumentMouseScroll(event) {
     }
 }
 
-
-
-
-
 var intr;
 
 function onDocumentMouseMove(event) {
@@ -614,9 +658,7 @@ function onDocumentMouseMove(event) {
 
             circle.position.copy(intersects[0].point);
             for (
-                var i = 0;
-                i < circle.geometry.attributes.position.array.length - 1;
-                i += 3
+                var i = 0; i < circle.geometry.attributes.position.array.length - 1; i += 3
             ) {
                 //получение позиции в локальной системе координат
                 var pos = new THREE.Vector3();
@@ -634,7 +676,7 @@ function onDocumentMouseMove(event) {
 
                 if (ind >= 0 && ind < geometry.attributes.position.array.length)
                     circle.geometry.attributes.position.array[i + 1] =
-                        geometry.attributes.position.array[ind + 1];
+                    geometry.attributes.position.array[ind + 1];
             }
             circle.geometry.attributes.position.needsUpdate = true;
 
@@ -651,14 +693,14 @@ function onDocumentMouseMove(event) {
                     oldPos.copy(selected.position);
 
                     selected.position.copy(intersects[0].point);
-                                selected.userData.bbox.setFromObject(selected);
-                                selected.userData.bbox.getCenter(
-                                    selected.userData.cube.position
-                                );
+                    selected.userData.bbox.setFromObject(selected);
+                    selected.userData.bbox.getCenter(
+                        selected.userData.cube.position
+                    );
 
-                                selected.userData.bbox.getCenter(
-                                    selected.userData.obb.position
-                                );
+                    selected.userData.bbox.getCenter(
+                        selected.userData.obb.position
+                    );
                     //перебор всех OBB объектов сцены
                     for (var i = 0; i < objectlist.length; i++) {
                         if (objectlist[i].userData.model != selected) {
@@ -675,9 +717,9 @@ function onDocumentMouseMove(event) {
                                 selected.position.copy(oldPos);
                                 selected.userData.bbox.setFromObject(selected);
                                 selected.userData.bbox.getCenter(selected.userData.cube.position);
-                                selected.userData.bbox.getCenter( selected.userData.obb.position);
+                                selected.userData.bbox.getCenter(selected.userData.obb.position);
                                 break;
-                            } 
+                            }
                         }
                     }
                 }
@@ -720,6 +762,7 @@ function onDocumentMouseDown(event) {
         }
     }
 }
+
 function onDocumentMouseUp(event) {
     isPressed = false;
     if (event.which == 1) whichButton = 1;
@@ -730,7 +773,9 @@ function onDocumentMouseUp(event) {
 function addCursor() {
     //параметры цилиндра: диаметр вершины, диаметр основания, высота, число сегментов
     var geometry = new THREE.CylinderGeometry(1.5, 0, 5, 64);
-    var cyMaterial = new THREE.MeshLambertMaterial({ color: 0x888888 });
+    var cyMaterial = new THREE.MeshLambertMaterial({
+        color: 0x888888
+    });
     var cylinder = new THREE.Mesh(geometry, cyMaterial);
     scene.add(cylinder);
 
@@ -799,7 +844,9 @@ function hsphere(k, delta) {
     geometry.attributes.position.needsUpdate = true; //обновление вершин
     geometry.attributes.normal.needsUpdate = true; //обновление нормалей
 }
+
 var I = 0; //count model
+
 function addMesh(name, path, oname, mname) {
     //где path – путь к папке с моделями
     const onProgress = function (xhr) {
@@ -869,8 +916,16 @@ function intersect(ob1, ob2) {
 
     var axisA = [];
     var axisB = [];
-    var rotationMatrix = [[], [], []];
-    var rotationMatrixAbs = [[], [], []];
+    var rotationMatrix = [
+        [],
+        [],
+        []
+    ];
+    var rotationMatrixAbs = [
+        [],
+        [],
+        []
+    ];
     var _EPSILON = 1e-3;
 
     var halfSizeA, halfSizeB;
@@ -1051,4 +1106,55 @@ function intersect(ob1, ob2) {
     }
     // no separating axis exists, so the two OBB don't intersect
     return true;
+}
+
+var spriteHouse, spriteBush, spriteGrade;
+
+function hudSprites(name1, name2, name3) {
+
+    var texture1 = loader.load(name1);
+    var material1 = new THREE.SpriteMaterial({
+        map: texture1
+    });
+
+    var texture2 = loader.load(name2);
+    var material2 = new THREE.SpriteMaterial({
+        map: texture2
+    });
+
+    var texture3 = loader.load(name3);
+    var material3 = new THREE.SpriteMaterial({
+        map: texture3
+    });
+
+    const width = 75;
+    const height = 75;
+
+    spriteHouse = new THREE.Sprite(material1);
+    spriteHouse.center.set(0.0, 1.0);
+    spriteHouse.scale.set(width, height, 1);
+    sceneOrtho.add(spriteHouse);
+
+    spriteBush = new THREE.Sprite(material2);
+    spriteBush.center.set(0.0, 1.0);
+    spriteBush.scale.set(width, height, 1);
+    sceneOrtho.add(spriteBush);
+
+    spriteGrade = new THREE.Sprite(material3);
+    spriteGrade.center.set(0.0, 1.0);
+    spriteGrade.scale.set(width, height, 1);
+    sceneOrtho.add(spriteGrade);
+
+    update_hudSprites();
+}
+
+function update_hudSprites() {
+
+    const width = window.innerWidth / 2;
+    const height = window.innerHeight / 2;
+
+    spriteBush.position.set(-width, height, 1); // top left
+    spriteHouse.position.set(-width + 150, height, 1); // top right
+    spriteGrade.position.set(-width + 150, height, 1); // bottom left
+
 }
