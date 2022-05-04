@@ -62,6 +62,8 @@ var mouse = {
     y: 0
 };
 
+var button;
+
 var targetList = [];
 var objectlist = [];
 
@@ -75,6 +77,9 @@ var selected = null;
 var stats = new Stats();
 
 const loader = new THREE.TextureLoader();
+
+var spriteHouse, spriteBush, spriteGrade;
+var buttonHouse, buttobBush, buttonGrade;
 
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
 init();
@@ -108,7 +113,7 @@ function init() {
     // Установка точки, на которую камера будет смотреть
     camera.lookAt(new THREE.Vector3(N / 2, 0, N / 2));
 
-    cameraOrtho = new THREE.OrthographicCamera(-innerWidth / 2, innerWidth / 2, innerHeight/ 2, -innerHeight / 2, 1, 10);
+    cameraOrtho = new THREE.OrthographicCamera(-innerWidth / 2, innerWidth / 2, innerHeight / 2, -innerHeight / 2, 1, 10);
     cameraOrtho.position.z = 10;
 
     sceneOrtho = new THREE.Scene();
@@ -184,10 +189,8 @@ function init() {
         );
         //]);
     }
-    
-    hudSprites('img/f_d.png');
-    hudSprites('img/h_d.png');
-    hudSprites('img/b_d.png');
+
+    button = hudSprites('img/h_d.png', 'img/f_d.png', 'img/b_d.png','img/h_a.png','img/b_a.png','img/f_a.png');
 }
 
 function loadScene() {
@@ -500,19 +503,19 @@ function onWindowResize() {
 
     const width = window.innerWidth;
     const height = window.innerHeight;
-    
+
     // Изменение соотношения сторон для виртуальной камеры
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
 
-    cameraOrtho.left = - width / 2;
+    cameraOrtho.left = -width / 2;
     cameraOrtho.right = width / 2;
     cameraOrtho.top = height / 2;
-    cameraOrtho.bottom = - height / 2;
+    cameraOrtho.bottom = -height / 2;
     cameraOrtho.updateProjectionMatrix();
-    
+
     update_hudSprites();
-    
+
     // Изменение соотношения сторон рендера 
     renderer.setSize(width, height);
 
@@ -556,7 +559,7 @@ function render() {
 
     renderer.clear();
     renderer.render(scene, camera);
-    
+
     renderer.clearDepth();
     renderer.render(sceneOrtho, cameraOrtho);
 
@@ -686,6 +689,13 @@ function onDocumentMouseMove(event) {
     }
 
     if (toolMode) {
+        if (buttonHover(event.clientx, event.clientY, button))
+        {
+            console.log('!!');
+            button.sprite.material = button.mat2;
+        }else{
+            button.sprite.material = button.mat1;
+        }
         if (intersects.length > 0)
             if (selected != null)
                 if (isPressed) {
@@ -1108,9 +1118,7 @@ function intersect(ob1, ob2) {
     return true;
 }
 
-var spriteHouse, spriteBush, spriteGrade;
-
-function hudSprites(name1, name2, name3) {
+function hudSprites(name1, name2, name3, name1_, name2_, name3_, scaleH, scaleW) {
 
     var texture1 = loader.load(name1);
     var material1 = new THREE.SpriteMaterial({
@@ -1125,6 +1133,10 @@ function hudSprites(name1, name2, name3) {
     var texture3 = loader.load(name3);
     var material3 = new THREE.SpriteMaterial({
         map: texture3
+    });
+    var texture3_ = loader.load(name3_);
+    var material3_ = new THREE.SpriteMaterial({
+        map: texture3_
     });
 
     const width = 75;
@@ -1145,7 +1157,21 @@ function hudSprites(name1, name2, name3) {
     spriteGrade.scale.set(width, height, 1);
     sceneOrtho.add(spriteGrade);
 
+    var spr= {};
+
+    spr.sprite = spriteGrade;
+    spr.mat1 = material3;
+    spr.mat2 = material3_;
+
+    spr.w = scaleW;
+    spr.h = scaleH;
+    spr.left = spriteGrade.position.x;
+    spr.up = spriteGrade.position.y;
+
     update_hudSprites();
+    return spr;
+
+
 }
 
 function update_hudSprites() {
@@ -1154,7 +1180,21 @@ function update_hudSprites() {
     const height = window.innerHeight / 2;
 
     spriteBush.position.set(-width, height, 1); // top left
-    spriteHouse.position.set(-width + 150, height, 1); // top right
+    spriteHouse.position.set(-width + 75, height, 1); // top right
     spriteGrade.position.set(-width + 150, height, 1); // bottom left
+
+    console.log(spriteHouse.position);
+    console.log(spriteBush.position);
+    console.log(spriteGrade.position);
+}
+
+function buttonHover(mouseX, mouseY, button) {
+
+    if (button.left < mouseX && mouseX < (button.left + button.w))
+    if ((button.up) > mouseY && mouseY > (button.up - button.h))
+    {
+        return true;
+    }
+    return false;
 
 }
