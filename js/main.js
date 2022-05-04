@@ -27,8 +27,15 @@ let desc = [
     "imgs/tex/EarthDesc.png",
     "imgs/tex/MarsDesc.png"
 ];
-
 var info;
+let nameOfPlanet = [
+    "Меркурий",
+    "Венера",
+    "Земля",
+    "Марс",
+];
+
+let names = [];
 
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
 init();
@@ -150,25 +157,48 @@ function init() {
     // );
 
 
-    var spritey = makeTextSprite(" World! ", {
-        fontsize:32,
+    var spritey = makeTextSprite("Солнце", {
+        fontsize:10,
         fontface: "Georgia",
         borderColor: { r: 0, g: 0, b: 255, a: 1.0 },
     });
-    spritey.position.set(0, 0, 0);
+    spritey.position.set(-sw/40.0, -sh/40.0, 0);
     scene.add(spritey);
-
+    
     info = addSprite();
-
+    
     sceneOrtho.add(info.sprite);
+    addNameOfPlanet(planets);
+    
+    names.forEach(element => {
+        scene.add(element);
+    });
 }
 
 function onWindowResize() {
     // Изменение соотношения сторон для виртуальной камеры
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
+    updateHUDSprite(info.sprite);
     // Изменение соотношения сторон рендера
     renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function addNameOfPlanet(planets){
+    var i = 0;
+    planets.forEach(element => {
+        var spritey = makeTextSprite(nameOfPlanet[i], {
+            fontsize:12,
+            fontface: "Georgia",
+            borderColor: { r: 0, g: 0, b: 255, a: 1.0 },
+        });
+        spritey.position.copy(element.sphere.position);
+        console.log(spritey.position);
+
+        
+        names.push(spritey);   
+        i++;   
+    });
 }
 
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
@@ -200,6 +230,13 @@ function animate() {
 
         //установка m в качестве матрицы преобразований объекта object
         planets[i].sphere.matrix = m;
+        
+        var p = new THREE.Vector3();
+        p.setFromMatrixPosition(m);
+        names[i].position.x = (sw/70 - p.x) *-1;
+        names[i].position.z = (-sh/70 - p.z) *-1;
+        
+                
         planets[i].sphere.matrixAutoUpdate = false;
 
         if (planets[i].sat != null) {
@@ -361,6 +398,9 @@ function keys(delta) {
     if (keyboard.pressed("0")) {
         chase = -1;
         updateSp(0);
+        names.forEach(element => {
+            element.visible = true;
+        });
     }
     
     if (keyboard.pressed("1")) {
@@ -381,6 +421,9 @@ function keys(delta) {
     }
 
     if (chase > -1) {
+        names.forEach(element => {
+            element.visible = false;
+        });
         //получение матрицы позиции из матрицы объекта
         var mm = new THREE.Matrix4();
         mm.copyPosition(planets[chase].sphere.matrix);
@@ -408,7 +451,7 @@ function keys(delta) {
 
 function keysAngle(delta) {
     if (keyboard.pressed("9")) {
-        angle += Math.PI / 20;
+        angle += Math.PI / 90;
     }
 
     if (keyboard.pressed("8")) {
@@ -506,8 +549,9 @@ function ortoCamera() {
         height / 2,
         -height / 2,
         1,
-        10
+        100
     );
+    
     cameraOrtho.position.z = 10;
     //сцена для хранения списка объектов размещаемых в экранных координатах
     sceneOrtho = new THREE.Scene();
@@ -579,7 +623,7 @@ function makeTextSprite(message, parameters) {
 
     var borderThickness = parameters.hasOwnProperty("borderThickness")
         ? parameters["borderThickness"]
-        : 4;
+        : 1;
 
     var borderColor = parameters.hasOwnProperty("borderColor")
         ? parameters["borderColor"]
