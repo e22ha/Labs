@@ -155,15 +155,6 @@ function init() {
     // planets.push(
     //   createEarthCloud(45,12,1,1)
     // );
-
-
-    var spritey = makeTextSprite("Солнце", {
-        fontsize:10,
-        fontface: "Georgia",
-        borderColor: { r: 0, g: 0, b: 255, a: 1.0 },
-    });
-    spritey.position.set(-sw/40.0, -sh/40.0, 0);
-    scene.add(spritey);
     
     info = addSprite();
     
@@ -179,7 +170,7 @@ function onWindowResize() {
     // Изменение соотношения сторон для виртуальной камеры
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    updateHUDSprite(info.sprite);
+    //updateHUDSprite(info.sprite);
     // Изменение соотношения сторон рендера
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
@@ -193,7 +184,7 @@ function addNameOfPlanet(planets){
             borderColor: { r: 0, g: 0, b: 255, a: 1.0 },
         });
         spritey.position.copy(element.sphere.position);
-        console.log(spritey.position);
+        console.log(spritey.scale);
 
         
         names.push(spritey);   
@@ -233,8 +224,10 @@ function animate() {
         
         var p = new THREE.Vector3();
         p.setFromMatrixPosition(m);
-        names[i].position.x = (sw/70 - p.x) *-1;
-        names[i].position.z = (-sh/70 - p.z) *-1;
+        names[i].position.x =p.x;
+        names[i].position.z =p.z;
+        names[i].position.y = planets[i].r;
+        
         
                 
         planets[i].sphere.matrixAutoUpdate = false;
@@ -690,7 +683,8 @@ function makeTextSprite(message, parameters) {
         useScreenCoordinates: false,
     });
     var sprite = new THREE.Sprite(spriteMaterial);
-    sprite.scale.set(100, 50, 1.0);
+    sprite.center.set(0, 1);
+    sprite.scale.set(100, 50, 1);
     return sprite;
 }
 
