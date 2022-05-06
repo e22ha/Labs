@@ -193,7 +193,7 @@ function init() {
 
     add_sprite("img/h_d.png", "img/h_a.png", "house");
     add_sprite("img/b_d.png", "img/b_a.png", "bush");
-    add_sprite("img/f_d.png", "img/f_a.png", "fence");
+    add_sprite("img/f_d.png", "img/f_a.png", "grade");
 }
 
 function loadScene() {
@@ -770,6 +770,12 @@ function onDocumentMouseDown(event) {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
+        for (let index = 0; index < btn_spr.length; index++) {
+            
+            if (buttonHover(- window.innerWidth/2 +event.clientX, window.innerHeight/2 - event.clientY, btn_spr[index])) {
+                addObj(btn_spr[index].type)
+            } 
+        }
         //создание луча, исходящего из позиции камеры и проходящего сквозь позицию курсора мыши
         var vector = new THREE.Vector3(mouse.x, mouse.y, 1);
         vector.unproject(camera);
@@ -1130,8 +1136,6 @@ function intersect(ob1, ob2) {
 }
 
 function add_sprite(name, name_, type, scaleH = 75, scaleW = 75) {
-    const width = window.innerWidth / 2;
-    const height = window.innerHeight / 2;
 
 
     var texture = loader.load(name);
