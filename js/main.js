@@ -3,16 +3,10 @@
 import * as THREE from "three";
 
 //импорт библиотек для загрузки моделей и материалов
-import {
-    MTLLoader
-} from "./lib/MTLLoader.js";
-import {
-    OBJLoader
-} from "./lib/OBJLoader.js";
+import { MTLLoader } from "./lib/MTLLoader.js";
+import { OBJLoader } from "./lib/OBJLoader.js";
 
-import {
-    OrbitControls
-} from "./lib/OrbitControls.js";
+import { OrbitControls } from "./lib/OrbitControls.js";
 
 let ListModel = [
     // {
@@ -59,10 +53,10 @@ var circle;
 var radius = 10;
 var mouse = {
     x: 0,
-    y: 0
+    y: 0,
 };
 
-var button;
+let btn_spr = [];
 
 var targetList = [];
 var objectlist = [];
@@ -113,14 +107,21 @@ function init() {
     // Установка точки, на которую камера будет смотреть
     camera.lookAt(new THREE.Vector3(N / 2, 0, N / 2));
 
-    cameraOrtho = new THREE.OrthographicCamera(-innerWidth / 2, innerWidth / 2, innerHeight / 2, -innerHeight / 2, 1, 10);
+    cameraOrtho = new THREE.OrthographicCamera(
+        -innerWidth / 2,
+        innerWidth / 2,
+        innerHeight / 2,
+        -innerHeight / 2,
+        1,
+        10
+    );
     cameraOrtho.position.z = 10;
 
     sceneOrtho = new THREE.Scene();
 
     // Создание отрисовщика
     renderer = new THREE.WebGLRenderer({
-        antialias: true
+        antialias: true,
     });
     renderer.setPixelRatio(window.devicePixelRatio);
 
@@ -190,7 +191,9 @@ function init() {
         //]);
     }
 
-    button = hudSprites('img/h_d.png', 'img/f_d.png', 'img/b_d.png','img/h_a.png','img/b_a.png','img/f_a.png');
+    add_sprite("img/h_d.png", "img/h_a.png", "house");
+    add_sprite("img/b_d.png", "img/b_a.png", "bush");
+    add_sprite("img/f_d.png", "img/f_a.png", "fence");
 }
 
 function loadScene() {
@@ -382,13 +385,21 @@ function rerotate(oldAng) {
             //объект пересечение с которым было обнаружено
             //становится видимым
             if (intr) {
-                objectlist[i].userData.model.userData.cube.material.visible = true;
+                objectlist[
+                    i
+                ].userData.model.userData.cube.material.visible = true;
                 selected.userData.cube.userData.model.rotation.copy(oldAng);
                 selected.userData.bbox.setFromObject(selected);
                 selected.userData.obb.setFromObject(selected);
-                selected.userData.obb.basis.extractRotation(selected.matrixWorld);
-                selected.userData.bbox.getCenter(selected.userData.cube.position);
-                selected.userData.obb.getCenter(selected.userData.cube.position);
+                selected.userData.obb.basis.extractRotation(
+                    selected.matrixWorld
+                );
+                selected.userData.bbox.getCenter(
+                    selected.userData.cube.position
+                );
+                selected.userData.obb.getCenter(
+                    selected.userData.cube.position
+                );
                 break;
             }
         }
@@ -500,7 +511,6 @@ function addLight() {
 }
 
 function onWindowResize() {
-
     const width = window.innerWidth;
     const height = window.innerHeight;
 
@@ -516,9 +526,8 @@ function onWindowResize() {
 
     update_hudSprites();
 
-    // Изменение соотношения сторон рендера 
+    // Изменение соотношения сторон рендера
     renderer.setSize(width, height);
-
 }
 
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
@@ -556,13 +565,11 @@ function animate() {
 }
 
 function render() {
-
     renderer.clear();
     renderer.render(scene, camera);
 
     renderer.clearDepth();
     renderer.render(sceneOrtho, cameraOrtho);
-
 }
 
 function getPixel(imagedata, x, y) {
@@ -661,7 +668,9 @@ function onDocumentMouseMove(event) {
 
             circle.position.copy(intersects[0].point);
             for (
-                var i = 0; i < circle.geometry.attributes.position.array.length - 1; i += 3
+                var i = 0;
+                i < circle.geometry.attributes.position.array.length - 1;
+                i += 3
             ) {
                 //получение позиции в локальной системе координат
                 var pos = new THREE.Vector3();
@@ -679,7 +688,7 @@ function onDocumentMouseMove(event) {
 
                 if (ind >= 0 && ind < geometry.attributes.position.array.length)
                     circle.geometry.attributes.position.array[i + 1] =
-                    geometry.attributes.position.array[ind + 1];
+                        geometry.attributes.position.array[ind + 1];
             }
             circle.geometry.attributes.position.needsUpdate = true;
 
@@ -689,13 +698,15 @@ function onDocumentMouseMove(event) {
     }
 
     if (toolMode) {
-        if (buttonHover(event.clientx, event.clientY, button))
-        {
-            console.log('!!');
-            button.sprite.material = button.mat2;
-        }else{
-            button.sprite.material = button.mat1;
+        for (let index = 0; index < btn_spr.length; index++) {
+            
+            if (buttonHover(- window.innerWidth/2 +event.clientX, window.innerHeight/2 - event.clientY, btn_spr[index])) {
+                btn_spr[index].sprite.material = btn_spr[index].mat2;
+            } else {
+                btn_spr[index].sprite.material = btn_spr[index].mat1;
+            }
         }
+
         if (intersects.length > 0)
             if (selected != null)
                 if (isPressed) {
@@ -714,7 +725,9 @@ function onDocumentMouseMove(event) {
                     //перебор всех OBB объектов сцены
                     for (var i = 0; i < objectlist.length; i++) {
                         if (objectlist[i].userData.model != selected) {
-                            objectlist[i].userData.model.userData.cube.material.visible = false;
+                            objectlist[
+                                i
+                            ].userData.model.userData.cube.material.visible = false;
                             intr = intersect(
                                 selected.userData,
                                 objectlist[i].userData.model.userData
@@ -723,11 +736,17 @@ function onDocumentMouseMove(event) {
                             //объект пересечение с которым было обнаружено
                             //становится видимым
                             if (intr) {
-                                objectlist[i].userData.model.userData.cube.material.visible = true;
+                                objectlist[
+                                    i
+                                ].userData.model.userData.cube.material.visible = true;
                                 selected.position.copy(oldPos);
                                 selected.userData.bbox.setFromObject(selected);
-                                selected.userData.bbox.getCenter(selected.userData.cube.position);
-                                selected.userData.bbox.getCenter(selected.userData.obb.position);
+                                selected.userData.bbox.getCenter(
+                                    selected.userData.cube.position
+                                );
+                                selected.userData.bbox.getCenter(
+                                    selected.userData.obb.position
+                                );
                                 break;
                             }
                         }
@@ -784,7 +803,7 @@ function addCursor() {
     //параметры цилиндра: диаметр вершины, диаметр основания, высота, число сегментов
     var geometry = new THREE.CylinderGeometry(1.5, 0, 5, 64);
     var cyMaterial = new THREE.MeshLambertMaterial({
-        color: 0x888888
+        color: 0x888888,
     });
     var cylinder = new THREE.Mesh(geometry, cyMaterial);
     scene.add(cylinder);
@@ -926,16 +945,8 @@ function intersect(ob1, ob2) {
 
     var axisA = [];
     var axisB = [];
-    var rotationMatrix = [
-        [],
-        [],
-        []
-    ];
-    var rotationMatrixAbs = [
-        [],
-        [],
-        []
-    ];
+    var rotationMatrix = [[], [], []];
+    var rotationMatrixAbs = [[], [], []];
     var _EPSILON = 1e-3;
 
     var halfSizeA, halfSizeB;
@@ -1118,83 +1129,62 @@ function intersect(ob1, ob2) {
     return true;
 }
 
-function hudSprites(name1, name2, name3, name1_, name2_, name3_, scaleH, scaleW) {
-
-    var texture1 = loader.load(name1);
-    var material1 = new THREE.SpriteMaterial({
-        map: texture1
-    });
-
-    var texture2 = loader.load(name2);
-    var material2 = new THREE.SpriteMaterial({
-        map: texture2
-    });
-
-    var texture3 = loader.load(name3);
-    var material3 = new THREE.SpriteMaterial({
-        map: texture3
-    });
-    var texture3_ = loader.load(name3_);
-    var material3_ = new THREE.SpriteMaterial({
-        map: texture3_
-    });
-
-    const width = 75;
-    const height = 75;
-
-    spriteHouse = new THREE.Sprite(material1);
-    spriteHouse.center.set(0.0, 1.0);
-    spriteHouse.scale.set(width, height, 1);
-    sceneOrtho.add(spriteHouse);
-
-    spriteBush = new THREE.Sprite(material2);
-    spriteBush.center.set(0.0, 1.0);
-    spriteBush.scale.set(width, height, 1);
-    sceneOrtho.add(spriteBush);
-
-    spriteGrade = new THREE.Sprite(material3);
-    spriteGrade.center.set(0.0, 1.0);
-    spriteGrade.scale.set(width, height, 1);
-    sceneOrtho.add(spriteGrade);
-
-    var spr= {};
-
-    spr.sprite = spriteGrade;
-    spr.mat1 = material3;
-    spr.mat2 = material3_;
-
-    spr.w = scaleW;
-    spr.h = scaleH;
-    spr.left = spriteGrade.position.x;
-    spr.up = spriteGrade.position.y;
-
-    update_hudSprites();
-    return spr;
-
-
-}
-
-function update_hudSprites() {
-
+function add_sprite(name, name_, type, scaleH = 75, scaleW = 75) {
     const width = window.innerWidth / 2;
     const height = window.innerHeight / 2;
 
-    spriteBush.position.set(-width, height, 1); // top left
-    spriteHouse.position.set(-width + 75, height, 1); // top right
-    spriteGrade.position.set(-width + 150, height, 1); // bottom left
 
-    console.log(spriteHouse.position);
-    console.log(spriteBush.position);
-    console.log(spriteGrade.position);
+    var texture = loader.load(name);
+    var material = new THREE.SpriteMaterial({
+        map: texture,
+    });
+
+    var texture_ = loader.load(name_);
+    var material_ = new THREE.SpriteMaterial({
+        map: texture_,
+    });
+
+    var sprite = new THREE.Sprite(material);
+    sprite.center.set(0.0, 1.0);
+    sprite.scale.set(scaleW, scaleH, 1);
+    sprite.position.set(0, 0, 1);
+    sceneOrtho.add(sprite);
+    
+    var spr = {};
+    
+    spr.sprite = sprite;
+    spr.type = type;
+    spr.mat1 = material;
+    spr.mat2 = material_;
+    
+    spr.w = scaleW;
+    spr.h = scaleH;
+    spr.left = sprite.position.x;
+    spr.up = sprite.position.y;
+    
+    btn_spr.push(spr);
+    update_hudSprites();
+
+    return spr;
 }
 
-function buttonHover(mouseX, mouseY, button) {
+function update_hudSprites() {
+    const width = window.innerWidth / 2;
+    const height = window.innerHeight / 2;
+    var i = 0;
+    btn_spr.forEach((element) => {
+        element.sprite.position.set(-width + i, height, 1);
+        element.left = element.sprite.position.x;
+        element.up = element.sprite.position.y;
+        i += 75;
+    });
+}
 
-    if (button.left < mouseX && mouseX < (button.left + button.w))
-    if ((button.up) > mouseY && mouseY > (button.up - button.h))
-    {
-        return true;
-    }
+function buttonHover(mouseX, mouseY, spr) {
+    
+    if (spr.left < mouseX && mouseX < (spr.left + spr.w))
+        if (spr.up > mouseY && mouseY > (spr.up - spr.h)) {
+            return true;
+        }
     return false;
-
 }
