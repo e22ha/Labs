@@ -46,6 +46,10 @@ var clock = new THREE.Clock();
 var ringLoad;
 var N = 200;
 
+var particles = [];
+var MAX_PARTICLES = 10000;
+var PARTICLES_PER_SECOND = 2000;
+
 var cursor;
 var L = 32;
 
@@ -72,9 +76,11 @@ var stats = new Stats();
 
 const loader = new THREE.TextureLoader();
 
-var spriteHouse, spriteBush, spriteGrade;
-var buttonHouse, buttobBush, buttonGrade;
+var rainMat = null;
+var rainVis = false;
 
+var grav = new THREE.Vector3(0, -9.8, 0);
+var wind = new THREE.Vector3(0.0, 0.0, 0.0);
 // Функция инициализации камеры, отрисовщика, объектов сцены и т.д.
 init();
 // Обновление данных по таймеру браузера
@@ -171,14 +177,6 @@ function init() {
 
     addLight();
 
-    // const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-    // const material = new THREE.MeshBasicMaterial({ color: 0xf00f00 });
-    // ringLoad = new THREE.Mesh(geometry, material);
-    // ringLoad.castShadow = true;
-    // ringLoad.receiveShadow = true;
-    // ringLoad.position.set(N/2, 0, N/2);
-    // scene.add(ringLoad);
-
     for (let i = 0; i < ListModel.length; i++) {
         // loadedModels.push(
         //   [
@@ -194,6 +192,16 @@ function init() {
     add_sprite("img/h_d.png", "img/h_a.png", "house");
     add_sprite("img/b_d.png", "img/b_a.png", "bush");
     add_sprite("img/f_d.png", "img/f_a.png", "grade");
+    rainMat = createSpriteMaterial("img/rain.png");
+}
+
+function createSpriteMaterial(name)
+{
+    //загрузка текстуры спрайта
+    var texture = loader.load(name);
+    var material = new THREE.SpriteMaterial( { map: texture } );
+
+    return material;     
 }
 
 function loadScene() {
@@ -228,9 +236,11 @@ function gui() {
         rx: 0,
         ry: 0,
         rz: 0,
+        wind: 0,
         brush: true,
         tool: false,
         orbit: false,
+        rain: false,
         addHouse: function () {
             addObj("house");
         },
@@ -362,6 +372,23 @@ function gui() {
     });
     ctrlPanel.open();
 
+    var Windfolder = gui.addFolder('Wind');
+    var windSX = Windfolder.add( params, 'wind' ).min(-100).max(100).step(1).listen();
+    
+    windSX.onChange(function(value) {
+        if (rainVis)
+        {
+            wind.x = value;
+        }
+    });
+    
+    var rainVisible = gui.add( params, 'rain' ).name('rain').listen();
+    rainVisible.onChange(function(value)
+    {
+        rainVis = value;
+    });
+    
+    Windfolder.open();
     //добавление кнопок, при нажатии которых будут вызываться функции addMesh
     //и delMesh соответственно. Функции описываются самостоятельно.
     gui.add(params, "addHouse").name("add house");
@@ -532,44 +559,119 @@ function onWindowResize() {
 
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
+
+    // Добавление функции на вызов, при перерисовки браузером страницы
+    stats.begin();
+    // monitored code goes here
+    stats.end();
+
     var delta = clock.getDelta();
     //console.log("CursorMode: brush;
     if (brushMode) {
         var d = 0; //если не определять, то он будет стирать поле
         if (whichButton == 1) d = 1;
         else if (whichButton == 3) d = -1;
-        if (isPressed == true) {
-            hsphere(d, delta);
-            // targetList.forEach(element => {
-
-            //         var h = getPixel(imagedata, cursor.position.x, cursor.position.z);
-            //         element.position.y = h / 5;
-
-            // });
-        }
+        if (isPressed == true) hsphere(d, delta);
         circle.material = new THREE.LineBasicMaterial({
             color: 0xffff00, //цвет линии
         });
     }
 
-    // Добавление функции на вызов, при перерисовки браузером страницы
-
-    stats.begin();
-
-    // monitored code goes here
-
-    stats.end();
-
+    if (rainVis)
+    {
+        emitter(delta);
+    }
+    else 
+    {
+        if (particles.length > 0)
+        {
+            for (var i = 0; i < particles.length; i++)
+            {
+                scene.remove(particles[i].sprite);
+                particles.splice(i,1);
+            }
+        }
+    }
     requestAnimationFrame(animate);
     render();
 }
 
 function render() {
+    
     renderer.clear();
     renderer.render(scene, camera);
 
     renderer.clearDepth();
     renderer.render(sceneOrtho, cameraOrtho);
+}
+
+function emitter(delta)
+{   
+    var current_particles = Math.ceil(PARTICLES_PER_SECOND * delta);
+
+    for (var i = 0; i < current_particles; i++)
+    {
+        if (particles.length < MAX_PARTICLES)
+        {
+            var x = Math.random() * (N + 400) - 200;
+            var z = Math.random() * N;
+    
+            var lifetime = (Math.random() * 2) + 3;
+    
+            var pos = new THREE.Vector4(x, 200 , z);
+            var particle = addParticlesRain(rainMat, pos, lifetime);
+    
+            particles.push(particle);
+        }
+    }   
+
+    for (var i = 0; i < particles.length; i++)
+    {
+        particles[i].lifetime -= delta;
+
+        if (particles[i].lifetime <= 0)
+        {
+            scene.remove(particles[i].sprite);
+            particles.splice(i,1);
+            continue;
+        }
+
+        var gs = new THREE.Vector3();
+        gs.copy(grav);
+        gs.multiplyScalar(particles[i].m);
+
+        gs.multiplyScalar(delta);
+        particles[i].v.add(gs);
+
+        var v = new THREE.Vector3(0, 0, 0);
+        var w = new THREE.Vector3(0, 0, 0);
+
+        w.copy(wind);
+        w.multiplyScalar(delta);
+
+        v.copy(particles[i].v);
+        v.add(w);
+
+        particles[i].sprite.position.add(v);
+    }
+}
+
+function addParticlesRain(mat, pos, lifetime)
+{
+    var sprite = new THREE.Sprite(mat);
+    sprite.center.set( 0.5, 0.5 );
+    sprite.scale.set( 2.5, 2, 1 );
+    sprite.position.copy(pos);
+
+    scene.add(sprite);
+
+    var sprt = {};
+    sprt.sprite = sprite;
+    sprt.v = new THREE.Vector3(0, 0, 0);
+    sprt.m = (Math.random() * 0.1) + 0.01;
+    sprt.lifetime = lifetime;
+
+    return sprt;
 }
 
 function getPixel(imagedata, x, y) {
