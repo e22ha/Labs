@@ -23,41 +23,70 @@
         <!-- ============================VertexShader========================================= -->
         <script id="vertexShader" type="x-shader/x-vertex">
                 attribute float displacement; //смещение для вершины
+                
                 uniform vec3 lightPosition; //позиция источника освещения
                 
                 varying vec3 vNormal; //переменная для передачи нормали
                 varying vec3 lightDir;
                 
                 varying vec2 vUv; //текстурные координаты
+                 
+                varying vec3 FragPos; //позиция вершин//смещение для вершины
 
                 void main() {
                     vUv = uv;
                     vec3 vPos = vec3(modelMatrix * vec4(position, 1.0)); //позиции вершины
                     lightDir = /*lightPosition*/vec3(10000.0, 0.0, 0.0) - vPos;
                     lightDir = normalize(lightDir);
-                    vNormal = normalize(vec3(modelMatrix * vec4(normal, 1.0))); //нормаль                    vec3 vPos = vec3(modelMatrix * vec4(position, 1.0)); //позиции вершины
+                    vNormal = vec3(modelMatrix * vec4(normal, 1.0)); //нормаль                    
+                    vNormal.y = 0.0; //устранение влияния отклонения нормалей по оси y
+                    vNormal = normalize(vNormal);     
                     
-                    vec3 newPosition = position + normal * vec3(displacement); //смещение вершины
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
+                    FragPos = vec3(modelMatrix * vec4(position, 1.0));
+               
+                    //vec3 newPosition = position + normal ;//* vec3(displacement); //смещение вершины
+                    //vec3 newPosition = position + normal * vec3(displacement*amp); //смещение вершины
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
                 }
         </script>
         
         <!-- ============================FragmentShader======================================= -->
         <script id="fragmentShader" type="x-shader/x-fragment">
+            uniform sampler2D dTex; //текстура
+            uniform sampler2D nTex; //текстура для ночной стороны
+            uniform vec3 lightPosition; //позиция источника освещения
+            varying vec2 vUv;
+            varying vec3 FragPos;
+
+
+            
             uniform vec4 color; //цвет объекта
             uniform vec4 lightColor; //цвет света
             uniform vec4 ambientColor; //цвет фонового освещения
             
             varying vec3 vNormal;
             varying vec3 lightDir;
+
             
             void main() {
-                vec3 lightDir = vec3(1.0, 0.0, 0.0); //направление света
-                lightDir = normalize(lightDir);
+                vec3 dColor = texture2D( dTex, vUv ).rgb; 
+                vec3 nColor = texture2D( nTex, vUv ).rgb; 
+                vec3 lightDir = vec3(1.0, 1.0, 100.0); //направление света
+
+                lightDir = normalize(lightDir-FragPos);
                 float k = max(0.0, dot(vNormal, lightDir)); //коэффициент освещения
+                //сolor = texture2D( dTex, vUv );
                 //vec3 color = vec3(1.0, 1.0, 1.0) * k; //цвет объекта с учётом освещения
                 //gl_FragColor = vec4(color, 1.0);
-                gl_FragColor = color * (lightColor * k + ambientColor);
+                //смешивание текстур в зависимости от коэффициента освещения
+                vec3 color = (dColor * k) + (nColor * (1.0-k)); 
+                
+                //gl_FragColor = texture2D( dTex, vUv ) * (lightColor * k + ambientColor);
+
+                if (k > 0.0) //вывод цвета в зависимости от коэффициента освещения
+                    gl_FragColor = vec4(color, 1);
+                else
+                    gl_FragColor = vec4(nColor, 1);
 
             }
         </script>
