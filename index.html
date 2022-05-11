@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            http-equiv="X-UA-Compatible"
+            content="IE=edge"
+        />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>Lab-5</title>
+    </head>
+    <body>
+        <!--объект веб страницы, в котором будет отображаться графика -->
+        <div class="launch" id="container"></div>
+
+        <!-- Подключение библиотеки ThreeJS -->
+        <script src="js/libs/three.min.js"></script>
+
+        <!-- ==========================Lighting Shader======================================== -->
+        <!-- ============================VertexShader========================================= -->
+        <script id="vertexShader" type="x-shader/x-vertex">
+                attribute float displacement; //смещение для вершины
+                uniform vec3 lightPosition; //позиция источника освещения
+                
+                varying vec3 vNormal; //переменная для передачи нормали
+                varying vec3 lightDir;
+                
+                varying vec2 vUv; //текстурные координаты
+
+                void main() {
+                    vUv = uv;
+                    vec3 vPos = vec3(modelMatrix * vec4(position, 1.0)); //позиции вершины
+                    lightDir = /*lightPosition*/vec3(10000.0, 0.0, 0.0) - vPos;
+                    lightDir = normalize(lightDir);
+                    vNormal = normalize(vec3(modelMatrix * vec4(normal, 1.0))); //нормаль                    vec3 vPos = vec3(modelMatrix * vec4(position, 1.0)); //позиции вершины
+                    
+                    vec3 newPosition = position + normal * vec3(displacement); //смещение вершины
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition,1.0);
+                }
+        </script>
+        
+        <!-- ============================FragmentShader======================================= -->
+        <script id="fragmentShader" type="x-shader/x-fragment">
+            uniform vec4 color; //цвет объекта
+            uniform vec4 lightColor; //цвет света
+            uniform vec4 ambientColor; //цвет фонового освещения
+            
+            varying vec3 vNormal;
+            varying vec3 lightDir;
+            
+            void main() {
+                vec3 lightDir = vec3(1.0, 0.0, 0.0); //направление света
+                lightDir = normalize(lightDir);
+                float k = max(0.0, dot(vNormal, lightDir)); //коэффициент освещения
+                //vec3 color = vec3(1.0, 1.0, 1.0) * k; //цвет объекта с учётом освещения
+                //gl_FragColor = vec4(color, 1.0);
+                gl_FragColor = color * (lightColor * k + ambientColor);
+
+            }
+        </script>
+        <!-- ================================================================================= -->
+
+        <script type="module" src="js/main.js"></script>
+
+        <!--подключение скрипта с графической программой-->
+    </body>
+</html>
