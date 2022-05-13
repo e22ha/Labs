@@ -64,14 +64,23 @@ function init() {
         var rand = Math.random() * 2 - 1; //случайное значение в диапазоне от -1 до 1
         displacement[i] = rand;
     }
-
+    
     geometry.computeTangents();
+    
+    for (
+        var i = 0;
+        i < geometry.attributes.tangent.array.length;
+        i++
+    ) {
+        geometry.attributes.tangent.array[i] =
+            -geometry.attributes.tangent.array[i];
+    }
+
     //установка списка смещений в качестве атрибута геометрии
     geometry.setAttribute(
         "displacement",
         new THREE.BufferAttribute(displacement, 1)
     );
-    
 
     //загрузка текстуры
     var earthTex = new THREE.TextureLoader().load(
@@ -84,18 +93,13 @@ function init() {
     var earthTex_norm = new THREE.TextureLoader().load(
         "img/earth_normal_2048.jpg"
     );
-    
-
 
     var shaderMaterial = new THREE.ShaderMaterial({
         uniforms: {
             dTex: { value: earthTex }, //текстура
             nTex: { value: earthTex_ },
-            normTex: {value: earthTex_norm}, //текстура
-            lightPosition: {
-                value: new THREE.Vector3(10000.0, 0.0, 0.0),
-            },
-            color: {
+            normTex: { value: earthTex_norm }, //текстура
+            lightPosition: { value: new THREE.Vector3(10000.0, 0.0, 0.0) },            color: {
                 value: new THREE.Vector4(
                     1.0,
                     1.0,
@@ -105,9 +109,9 @@ function init() {
             },
             ambientColor: {
                 value: new THREE.Vector4(
-                    0.2,
-                    0.2,
-                    0.2,
+                    0.5,
+                    0.5,
+                    0.5,
                     1.0
                 ),
             },
@@ -118,7 +122,7 @@ function init() {
                     1.0,
                     1.0
                 ),
-            }
+            },
             //,
             //amp: { value: 1.0 }, //аплитуда
         },
@@ -131,8 +135,8 @@ function init() {
     });
 
     sphere = new THREE.Mesh(geometry, shaderMaterial);
-    sphere.rotation.y = Math.PI/2;
-    sphere.rotation.x = Math.PI/-4;
+    sphere.rotation.y = Math.PI / -1.5;
+    sphere.rotation.x = Math.PI / -4;
     scene.add(sphere);
 }
 

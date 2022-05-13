@@ -23,19 +23,13 @@
         <!-- ============================VertexShader========================================= -->
         <script id="vertexShader" type="x-shader/x-vertex">
                 attribute float displacement; //смещение для вершины
-                
                 uniform vec3 lightPosition; //позиция источника освещения
-                
                 varying vec3 vNormal; //переменная для передачи нормали
                 varying vec3 lightDir;
-                
                 varying vec2 vUv; //текстурные координаты
-
                 varying vec3 L; //вектор до источника освещения
-                
                 varying mat3 tbn; //матрица тангент/бинормаль/нормаль
-                attribute vec3 tangent; //тангент вершины
-                 
+                attribute vec3 tangent; //тангент вершин
                 varying vec3 FragPos; //позиция вершин//смещение для вершины
 
                 void main() {
@@ -46,7 +40,6 @@
                     vNormal = vec3(modelMatrix * vec4(normal, 1.0)); //нормаль                    
                     vNormal.y = 0.0; //устранение влияния отклонения нормалей по оси y
                     vNormal = normalize(vNormal);     
-                    
                     FragPos = vec3(modelMatrix * vec4(position, 1.0));
 
                     vec3 mvPosition = (modelMatrix * vec4(position,1.0)).xyz;
@@ -75,8 +68,6 @@
             uniform sampler2D normTex; //карта нормалей
             varying vec3 L;
             varying mat3 tbn;
-
-
             
             uniform vec4 color; //цвет объекта
             uniform vec3 lightColor; //цвет света
@@ -90,7 +81,7 @@
                 vec3 totalDiffuse = vec3(0.0);
 
                 //цвет не может быть отрицательным, нормаль может
-                vec3 normalMapValue = 2.0 * texture2D(normTex, vUv).rgb - 1.0;
+                vec3 normalMapValue = 2.0 * texture2D(normTex, vUv).rgb- 1.0;
 
                 //в некоторых случаях, необходимо инвертировать r или g компоненту карты нормалей
                 normalMapValue.r = -normalMapValue.r;
@@ -104,25 +95,23 @@
 
                 vec3 dColor = texture2D( dTex, vUv ).rgb; 
                 vec3 nColor = texture2D( nTex, vUv ).rgb; 
-                vec3 lightDir = vec3(1.0, 0.0, 0.0); //направление света
-
-
-
-                lightDir = normalize(lightDir-FragPos);
+                vec3 lightDir = lightPosition - FragPos;
+                lightDir = normalize(lightDir);
                 float k = max(0.0, dot(vNormal, lightDir)); //коэффициент освещения
+                vec3 color = (dColor * k) + (nColor * (1.0-k));
+
+                totalDiffuse = ambientColor + (brightness * lightColor);
+                vec4 textureColour = texture2D(dTex,vUv); //вычисление цвета
+                vec4 textureColour_ = texture2D(nTex,vUv); //вычисление цвета
+                
                 //сolor = texture2D( dTex, vUv );
                 //vec3 color = vec3(1.0, 1.0, 1.0) * k; //цвет объекта с учётом освещения
                 //gl_FragColor = vec4(color, 1.0);
                 //смешивание текстур в зависимости от коэффициента освещения
-                vec3 color = (dColor * k) + (nColor * (1.0-k)); 
-                
-                //gl_FragColor = texture2D( dTex, vUv ) * (lightColor * k + ambientColor);
-
                 if (k > 0.0) //вывод цвета в зависимости от коэффициента освещения
-                    gl_FragColor =  vec4(vec3(totalDiffuse),1.0) * vec4(color, 1);
+                    gl_FragColor = vec4(vec3(totalDiffuse),1.0) * vec4(color, 1);
                 else
-                    gl_FragColor =  vec4(vec3(totalDiffuse),1.0) * vec4(nColor, 1);
-
+                    gl_FragColor = vec4(vec3(totalDiffuse),1.0) * vec4(nColor, 1);
             }
         </script>
         <!-- ================================================================================= -->
