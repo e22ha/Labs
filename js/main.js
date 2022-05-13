@@ -151,6 +151,7 @@ function onWindowResize() {
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
     var time = clock.getDelta();
+    sphere.rotation.y += (Math.PI /1.5*time);
     //sphere.material.uniforms.amp.value = Math.cos(time) * 5;
     // Добавление функции на вызов, при перерисовки браузером страницы
     requestAnimationFrame(animate);
