@@ -47,7 +47,7 @@ function init() {
     );
 
     //add sphere
-    var geometry = new THREE.SphereGeometry(15, 64, 64);
+    var geometry = new THREE.SphereGeometry(35, 64, 64);
     // var material = new THREE.MeshBasicMaterial({ color: 0xffffff });
     // var sphere = new THREE.Mesh(geometry, material);
     // scene.add(sphere);
@@ -151,7 +151,7 @@ function onWindowResize() {
 // В этой функции можно изменять параметры объектов и обрабатывать действия пользователя
 function animate() {
     var time = clock.getDelta();
-    sphere.rotation.y += (Math.PI /1.5*time);
+    sphere.rotation.y += (Math.PI /4*time);
     //sphere.material.uniforms.amp.value = Math.cos(time) * 5;
     // Добавление функции на вызов, при перерисовки браузером страницы
     requestAnimationFrame(animate);
