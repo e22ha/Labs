@@ -27,7 +27,7 @@ function init() {
         4000
     );
     // Установка позиции камеры
-    camera.position.set(0, 100, 0);
+    camera.position.set(-100, 0, 0);
 
     // Установка точки, на которую камера будет смотреть
     camera.lookAt(new THREE.Vector3(0, 0.0, 0));
@@ -47,7 +47,7 @@ function init() {
     );
 
     //add sphere
-    var geometry = new THREE.SphereGeometry(35, 64, 64);
+    var geometry = new THREE.SphereGeometry(32, 64, 64);
     // var material = new THREE.MeshBasicMaterial({ color: 0xffffff });
     // var sphere = new THREE.Mesh(geometry, material);
     // scene.add(sphere);
@@ -99,7 +99,8 @@ function init() {
             dTex: { value: earthTex }, //текстура
             nTex: { value: earthTex_ },
             normTex: { value: earthTex_norm }, //текстура
-            lightPosition: { value: new THREE.Vector3(10000.0, 0.0, 0.0) },            color: {
+            lightPosition: { value: new THREE.Vector3(0.0, 0.0, 10000.0) },            
+            color: {
                 value: new THREE.Vector4(
                     1.0,
                     1.0,
@@ -135,8 +136,6 @@ function init() {
     });
 
     sphere = new THREE.Mesh(geometry, shaderMaterial);
-    sphere.rotation.y = Math.PI / -1.5;
-    sphere.rotation.x = Math.PI / -4;
     scene.add(sphere);
 }
 
