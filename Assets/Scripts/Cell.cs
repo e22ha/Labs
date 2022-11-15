@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Cell : MonoBehaviour
 {
-    public GameObject Left;
-    public GameObject Right;
-    public GameObject Up;
-    public GameObject Bottom;
+    public GameObject left;
+    public GameObject right;
+    public GameObject up;
+    public GameObject bottom;
 
     public TMP_Text distance;
     

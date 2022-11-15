@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -6,52 +5,41 @@ public class Spawner : MonoBehaviour
     public Camera cam;
     public GameObject mazeHandler;
 
-    public Cell CellPrefub;
-    public Vector2 CellSize = new(1, 1);
+    public Cell cellPrefub;
+    public Vector2 cellSize = new(1, 1);
 
-    public int Width = 10;
-    public int Height = 10;
+    public int width = 10;
+    public int height = 10;
 
     public void GenerateMaze()
     {
         foreach (Transform child in mazeHandler.transform)
-            GameObject.Destroy(child.gameObject);
+            Destroy(child.gameObject);
 
         var generator = new Generator();
-        var maze = generator.GenerateMaze(Width, Height);
+        var maze = generator.GenerateMaze(width, height);
 
-        for (var x = 0; x < maze.cells.GetLength(0); x++)
+        for (var x = 0; x < maze.Cells.GetLength(0); x++)
         {
-            for (var z = 0; z < maze.cells.GetLength(1); z++)
+            for (var z = 0; z < maze.Cells.GetLength(1); z++)
             {
-                var c = Instantiate(CellPrefub, new Vector3(x * CellSize.x, 0, z * CellSize.y), Quaternion.identity);
+                var c = Instantiate(cellPrefub, new Vector3(x * cellSize.x, 0, z * cellSize.y), Quaternion.identity);
                 
-                if (maze.cells[x, z].Left == false)
-                    Destroy(c.Left);
-                if (maze.cells[x, z].Right == false)
-                    Destroy(c.Right);
-                if (maze.cells[x, z].Up == false)
-                    Destroy(c.Up);
-                if (maze.cells[x, z].Bottom == false)
-                    Destroy(c.Bottom);
+                if (maze.Cells[x, z].left == false)
+                    Destroy(c.left);
+                if (maze.Cells[x, z].right == false)
+                    Destroy(c.right);
+                if (maze.Cells[x, z].up == false)
+                    Destroy(c.up);
+                if (maze.Cells[x, z].bottom == false)
+                    Destroy(c.bottom);
 
                 c.transform.parent = mazeHandler.transform;
+                c.distance.text = maze.Cells[x, z].distance.ToString();
             }
         }
 
         cam.transform.position =
-            new Vector3((Width * CellSize.x) / 2, Mathf.Max(Width, Height) * 8, (Height * CellSize.y) / 2);
-    }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+            new Vector3((width * cellSize.x) / 2, Mathf.Max(width, height) * 2, (height * cellSize.y) / 2);
     }
 }

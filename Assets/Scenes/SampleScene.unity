@@ -154,10 +154,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 963194227}
   mazeHandler: {fileID: 200995168}
-  CellPrefub: {fileID: 8112051375376967131, guid: 42eb8f54f6d0b3f44a189932777676bb, type: 3}
-  CellSize: {x: 4, y: 4}
-  Width: 10
-  Height: 10
+  cellPrefub: {fileID: 8112051375376967131, guid: 42eb8f54f6d0b3f44a189932777676bb, type: 3}
+  cellSize: {x: 2, y: 2}
+  width: 4
+  height: 4
 --- !u!4 &200995170
 Transform:
   m_ObjectHideFlags: 0
@@ -210,7 +210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -471, y: -244}
+  m_AnchoredPosition: {x: -338, y: 161}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &208715098

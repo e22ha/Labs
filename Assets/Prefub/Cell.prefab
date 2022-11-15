@@ -148,10 +148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5dd106a2e113b8488f688d2e9d7c188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Left: {fileID: 5036899406254125830}
-  Right: {fileID: 5036899406669003408}
-  Up: {fileID: 5036899405983447492}
-  Bottom: {fileID: 5036899405820934477}
+  left: {fileID: 5036899406254125830}
+  right: {fileID: 5036899406669003408}
+  up: {fileID: 5036899405983447492}
+  bottom: {fileID: 5036899405820934477}
   distance: {fileID: 5036899406661781115}
 --- !u!1 &5036899405820934477
 GameObject:
