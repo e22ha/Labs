@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -27,10 +28,79 @@ public class Generator : MonoBehaviour
 
         RemoveWalls(maze);
         AddCycling(maze);
+        ReCalcDist(maze);
 
         generateMaze.Cells = maze;
 
         return generateMaze;
+    }
+
+    private void ReCalcDist(MazeCell[,] maze)
+    {
+        var unnameCells = new List<MazeCell>();
+        foreach (var cell in maze)
+        {
+            cell.Visited = cell.Distance == 0;
+            if (cell.Distance > 0) cell.Distance = -1;
+            
+        }
+
+        var k = 0;
+        do
+        {
+            var cellList = GetCellWDist(maze, k);
+            foreach (var start in cellList)
+            {
+                if (!start.Bottom && start.Y >= 0 && !maze[start.X, start.Y - 1].Visited)
+                {
+                    maze[start.X, start.Y - 1].Distance = start.Distance + 1;
+                    maze[start.X, start.Y - 1].Visited = true;
+                }
+
+                if (!start.Up && start.Y <= _height - 1 && !maze[start.X, start.Y + 1].Visited)
+                {
+                    maze[start.X, start.Y + 1].Distance = start.Distance + 1;
+                    maze[start.X, start.Y + 1].Visited = true;
+                }
+
+                if (!start.Left && start.X >= 0 && !maze[start.X - 1, start.Y].Visited)
+                {
+                    maze[start.X - 1, start.Y].Distance = start.Distance + 1;
+                    maze[start.X - 1, start.Y].Visited = true;
+                }
+
+                if (!start.Right && start.Y <= _width && !maze[start.X + 1, start.Y].Visited)
+                {
+                    maze[start.X + 1, start.Y].Distance = start.Distance + 1;
+                    maze[start.X + 1, start.Y].Visited = true;
+                }
+
+            }
+
+            k++;
+            Debug.Log("!: " + GetCellWDist(maze, k).Count);
+        } while (GetCellWDist(maze, k).Count>0);
+    }
+
+    private static List<MazeCell> GetCellWDist(MazeCell[,] maze, int k)
+    {
+        var CellList = new List<MazeCell>();
+        foreach (var cell in maze)
+        {
+            if (cell.Distance == k) CellList.Add(cell);
+        }
+
+        return CellList;
+    }
+
+    private bool GCountUnNameCell(MazeCell[,] m)
+    {
+        foreach (var c in m)
+        {
+            if (c.Distance == -1) return true;
+        }
+
+        return false;
     }
 
     private void RemoveWalls(MazeCell[,] maze)
@@ -93,8 +163,7 @@ public class Generator : MonoBehaviour
             if (!gWall.Item2) continue;
             var chu = GCellByWall(gWall.Item1, cur, maze);
             if (Math.Abs(cur.Distance - chu.Distance) < 4) continue;
-            Debug.Log("cur: " + cur.X + " " + cur.Y + " dist: " + cur.Distance );
-            Debug.Log("chu: " + chu.X + " " + chu.Y + " dist: " + chu.Distance );
+
             RemoveWall(cur, chu);
             countWallRemove--;
         } while (countWallRemove > 0);
@@ -129,7 +198,6 @@ public class Generator : MonoBehaviour
 
     private static MazeCell GCellByWall(int i, MazeCell current, MazeCell[,] maze)
     {
-        Debug.Log("cur: " + current.X + " " + current.Y + " dist: " + current.Distance + " i: " + i);
 
         return i switch
         {
