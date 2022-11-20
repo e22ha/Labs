@@ -1,20 +1,15 @@
-﻿using System;
-using TMPro;
-using UnityEngine;
-
-
-public class MazeCell : MonoBehaviour
+﻿public class MazeCell
     {
-        public int x;
-        public int y;
+        public int X;
+        public int Y;
 
-        public bool left = true;
-        public bool right = true;
-        public bool up = true;
-        public bool bottom = true;
+        public bool Left = true;
+        public bool Right = true;
+        public bool Up = true;
+        public bool Bottom = true;
         
         
 
-        public bool visited = false;
-        public int distance;
+        public bool Visited = false;
+        public int Distance;
     }

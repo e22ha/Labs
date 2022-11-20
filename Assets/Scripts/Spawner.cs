@@ -25,17 +25,17 @@ public class Spawner : MonoBehaviour
             {
                 var c = Instantiate(cellPrefub, new Vector3(x * cellSize.x, 0, z * cellSize.y), Quaternion.identity);
                 
-                if (maze.Cells[x, z].left == false)
+                if (maze.Cells[x, z].Left == false)
                     Destroy(c.left);
-                if (maze.Cells[x, z].right == false)
+                if (maze.Cells[x, z].Right == false)
                     Destroy(c.right);
-                if (maze.Cells[x, z].up == false)
+                if (maze.Cells[x, z].Up == false)
                     Destroy(c.up);
-                if (maze.Cells[x, z].bottom == false)
+                if (maze.Cells[x, z].Bottom == false)
                     Destroy(c.bottom);
 
                 c.transform.parent = mazeHandler.transform;
-                c.distance.text = maze.Cells[x, z].distance.ToString();
+                c.distance.text = maze.Cells[x, z].Distance.ToString();
             }
         }
 

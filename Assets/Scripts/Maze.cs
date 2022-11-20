@@ -1,8 +1,4 @@
-using UnityEngine;
-
-public class Maze : MonoBehaviour
+public class Maze
 {
-
     public MazeCell[,] Cells;
-    
 }
