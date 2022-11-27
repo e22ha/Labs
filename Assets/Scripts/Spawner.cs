@@ -11,6 +11,7 @@ public class Spawner : MonoBehaviour
     public int width = 10;
     public int height = 10;
 
+
     public void GenerateMaze()
     {
         foreach (Transform child in mazeHandler.transform)
@@ -19,12 +20,28 @@ public class Spawner : MonoBehaviour
         var generator = new Generator();
         var maze = generator.GenerateMaze(width, height);
 
+        GenRealMaze(maze);
+    }
+    
+    public void GenerateMaze_AldousBroder()
+    {
+        foreach (Transform child in mazeHandler.transform)
+            Destroy(child.gameObject);
+
+        var generator = new Generator();
+        var maze = generator.GenerateMaze_AldousBroder(width, height);
+
+        GenRealMaze(maze);
+    }
+
+    private void GenRealMaze(Maze maze)
+    {
         for (var x = 0; x < maze.Cells.GetLength(0); x++)
         {
             for (var z = 0; z < maze.Cells.GetLength(1); z++)
             {
                 var c = Instantiate(cellPrefub, new Vector3(x * cellSize.x, 0, z * cellSize.y), Quaternion.identity);
-                
+
                 if (maze.Cells[x, z].Left == false)
                     Destroy(c.left);
                 if (maze.Cells[x, z].Right == false)
