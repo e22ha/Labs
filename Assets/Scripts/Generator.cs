@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -53,10 +54,80 @@ public class Generator : MonoBehaviour
 
         modefideAldousBroder(maze);
         ReCalcDist(maze);
+        createExit(maze);
 
         generateMaze.Cells = maze;
 
         return generateMaze;
+    }
+
+    private void createExit(MazeCell[,] maze)
+    {
+        var founded = false;
+        var c = new MazeCell();
+        var maxD = (from MazeCell cell in maze select cell.Distance).Prepend(0).Max();
+
+        foreach (var cell in maze)
+        {
+            if (cell.Distance != maxD) continue;
+            var w = -1;
+            Debug.Log("x: " + cell.X + "; y: " + cell.Y + ";");
+            Debug.Log("D: " + cell.Distance + ";");
+            if (cell.X == _width - 1)
+            {
+                if (cell.Y == 0)
+                {
+                    w = Random.Range(0, 2) switch
+                    {
+                        0 => 1,
+                        1 => 2
+                    };
+                }
+                else if (cell.Y == _height - 1)
+                {
+                    w = Random.Range(0, 2) switch
+                    {
+                        0 => 1,
+                        1 => 0
+                    };
+                }
+                else
+                {
+                    w = 1;
+                }
+            }
+            else if (cell.X == 0)
+            {
+                if (cell.Y == 0)
+                {
+                    w = Random.Range(0, 2) switch
+                    {
+                        0 => 3,
+                        1 => 2
+                    };
+                }
+                else if (cell.Y == _height - 1)
+                {
+                    w = Random.Range(0, 2) switch
+                    {
+                        0 => 3,
+                        1 => 0
+                    };
+                }
+                else
+                {
+                    w = 3;
+                }
+            }
+
+            if (0 < cell.X && cell.X < _width)
+            {
+                if (cell.Y == 0) w = 2;
+                else if (cell.Y == _height - 1) w = 0;
+            }
+            
+            RemoveWall(cell, w);
+        }
     }
 
 
@@ -84,7 +155,6 @@ public class Generator : MonoBehaviour
 
 
             if (k > 0 && !current.Visited) continue;
-            
 
 
             var gWall = GWall(current);
@@ -297,6 +367,28 @@ public class Generator : MonoBehaviour
             4 => maze[current.X - 1, current.Y],
             _ => throw new ArgumentOutOfRangeException(nameof(i), i, null)
         };
+    }
+
+    private static void RemoveWall(MazeCell current, int w)
+    {
+        switch (w)
+        {
+            case 0:
+                current.Up = false;
+                break;
+            case 1:
+                current.Right = false;
+                break;
+            case 2:
+                current.Bottom = false;
+                break;
+            case 3:
+                current.Left = false;
+                break;
+            default:
+                Debug.Log("kek");
+                break;
+        }
     }
 
     private static void RemoveWall(MazeCell current, MazeCell choose)
