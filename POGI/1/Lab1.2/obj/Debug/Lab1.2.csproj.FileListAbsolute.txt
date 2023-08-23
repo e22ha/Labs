@@ -1,6 +1,0 @@
-D:\Code\L\Lab1.2\bin\Debug\Lab1.2.exe.config
-D:\Code\L\Lab1.2\bin\Debug\Lab1.2.exe
-D:\Code\L\Lab1.2\bin\Debug\Lab1.2.pdb
-D:\Code\L\Lab1.2\obj\Debug\Lab1.2.csproj.CoreCompileInputs.cache
-D:\Code\L\Lab1.2\obj\Debug\Lab1.2.exe
-D:\Code\L\Lab1.2\obj\Debug\Lab1.2.pdb
