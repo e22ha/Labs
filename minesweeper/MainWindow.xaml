@@ -1,0 +1,65 @@
+﻿<Window x:Class="minesweeper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:minesweeper"
+        mc:Ignorable="d" 
+        SizeToContent="WidthAndHeight"
+        ResizeMode="CanMinimize" x:Name="GameWindow" WindowStartupLocation="CenterScreen"
+        Title="Minesweeper" Icon="Images/icon.ico">
+    <Window.Resources>
+
+    </Window.Resources>
+    <StackPanel>
+        <Menu>
+            <MenuItem Header="Игра">
+                <MenuItem x:Name="_NewGame" Header="Новая игра"/>
+                <Separator />
+                <MenuItem x:Name="low" Header="Начинающий●" Click="low_click"/>
+                <MenuItem x:Name="mid" Header="Продвинутый" Click="mid_click"/>
+                <MenuItem x:Name="high" Header="Эксперт" Click="high_click"/>
+                <Separator />
+                <MenuItem Header="Выход"/>
+            </MenuItem>
+            <MenuItem x:Name="Leaderboard" Header="Рекорды" Click="records_click">
+            </MenuItem>
+        </Menu>
+        <Border BorderThickness="3 3 0 0" BorderBrush="White">
+            <StackPanel Background="LightGray">
+                <Border Margin="6" BorderBrush="DarkGray" BorderThickness="2,2,0,0" ClipToBounds="True" >
+                    <Border BorderBrush="White" BorderThickness="0 0 2 2">
+                        <Grid Margin="6" Height="25">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border BorderThickness="0 0 1 1" BorderBrush="White">
+                                <StackPanel x:Name="Counter">
+                                    <Label x:Name="cnt"/>
+                                </StackPanel>
+                            </Border>
+                            
+                            <Border BorderThickness="0 0 1 1" BorderBrush="White" Grid.Column="2" >
+                                <StackPanel x:Name="_Timer">
+                                    <Label x:Name="tim"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Border>
+                <Border Margin="6 2 6 6" BorderBrush="DarkGray" BorderThickness="3,3,0,0" ClipToBounds="True" >
+                    <Border BorderBrush="White" BorderThickness="0 0 3 3">
+                        <Border.Background>
+                            <ImageBrush ImageSource="Images\фон_победителя.png" Stretch="Uniform"/>
+                        </Border.Background>
+                        <UniformGrid x:Name="ugr">
+
+                        </UniformGrid>
+                    </Border>
+                </Border>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</Window>
