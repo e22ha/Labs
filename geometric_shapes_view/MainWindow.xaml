@@ -1,0 +1,131 @@
+﻿<Window x:Class="geometric_shapes_view.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:geometric_shapes_view"
+        mc:Ignorable="d"
+        Title="GetShapes" Height="500" Width="850" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="MinHeight" Value="23"/>
+            <Setter Property="MinWidth" Value="75"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="Border" CornerRadius="2" BorderThickness="1"
+                    Background="Transparent"
+                    BorderBrush="Transparent">
+                            <ContentPresenter Margin="2" 
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" 
+                                 RecognizesAccessKey="True"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                <Setter TargetName="Border" 
+                          Property="BorderBrush" Value="Transparent" />
+                            </Trigger>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter TargetName="Border" 
+                          Property="BorderBrush" Value="Transparent" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" 
+                          Property="Background" Value="Transparent" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" 
+                          Property="Background" Value="Transparent" />
+                                <Setter TargetName="Border" 
+                          Property="BorderBrush" Value="Transparent" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Border" 
+                          Property="Background" Value="Transparent" />
+                                <Setter TargetName="Border" 
+                          Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="Foreground" Value="Transparent"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="450"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name="Console" Background="Transparent" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="95"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="Logo" Grid.Row="0"/>
+            <Grid x:Name="Buttons" Grid.Row="1">
+                <Image x:Name="Circle" Source="Source/point.png"
+                       Height="125" Width="125" Margin="38,-17,37,93"/>
+                <Image x:Name="Tri" Source="Source/tri.png"
+                       Height="90" Width="90" Margin="74,51,36,60" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="45"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image x:Name="Quad" Source="Source/quad.png"
+                       Height="125" Width="125" Margin="37,95,38,-19"/>
+                <Button x:Name="btn_point" Content="Point" Click="btn_point_Click" Height="35" Margin="51,27,51,139" BorderBrush="Transparent" Background="Transparent"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
+                <Button x:Name="btn_tri" Content="Triangle" Click="btn_tri_Click" Height="35" Margin="66,83" BorderBrush="Transparent" Background="Transparent"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
+                <Button x:Name="btn_recRnd" Content="Quadrangle" Click="btn_recRnd_Click" Height="35" Margin="51,139,51,27" BorderBrush="Transparent" Background="Transparent"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
+            </Grid>
+            <Grid x:Name="DeadAll" Grid.Row="2">
+                <Image x:Name="Burn" Source="Source/burn.png"
+                       Height="90" Width="90" Margin="64,-6,46,12"/>
+                <Button x:Name="btn_clean" Content="Clean" Click="btn_clean_Click" Height="35" Margin="70,34,71,22" BorderBrush="Transparent" Background="Transparent" Foreground="White"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Medium"/>
+            </Grid>
+            <Button x:Name="btn_rec" Content="rectangle" HorizontalAlignment="Left" Margin="3,10,0,0" VerticalAlignment="Top" Width="30" Click="btn_rec_Click"/>
+            <TextBox x:Name="h_vaule" HorizontalAlignment="Left" Height="16" Margin="92,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Text="100"/>
+            <TextBox x:Name="w_vaule" HorizontalAlignment="Left" Height="16" Margin="149,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Text="100"/>
+            <Label Content="h:" HorizontalAlignment="Left" Height="27" Margin="75,9,0,0" VerticalAlignment="Top" Width="19"/>
+            <Label Content="w:" HorizontalAlignment="Left" Height="27" Margin="127,9,0,0" VerticalAlignment="Top" Width="24"/>
+        </Grid>
+        <Grid x:Name="Board" Background="Transparent" Grid.Column="1">
+            <Canvas x:Name="Canvas" HorizontalAlignment="Center" Height="400" Margin="35,36" VerticalAlignment="Center" Width="400"/>
+            <Slider x:Name="x_slider" HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="400" ValueChanged="x_slider_ValueChanged" Maximum="400"/>
+            <Slider x:Name="y_slider" HorizontalAlignment="Left"  VerticalAlignment="Center"  Orientation="Vertical" Height="400" ValueChanged="y_slider_ValueChanged" Maximum="400" RenderTransformOrigin="0.5,0.5">
+                <Slider.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="180"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Slider.RenderTransform>
+            </Slider>
+        </Grid>
+        <Grid x:Name="Info" Background="Transparent" Grid.Column="2">
+            <TextBlock x:Name="log" HorizontalAlignment="Left" Height="348" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" Margin="0,60,0,0" />
+            <TextBlock Height="34" Margin="0,20,30,0" VerticalAlignment="Top"
+                     Text="Info:" FontSize="18" FontWeight="Medium"/>
+        </Grid>
+    </Grid>
+
+
+</Window>
