@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<<<<<<< HEAD
+<html>
+
+<head>
+    <!--заголовок страницы-->
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+</head>
+
+<body>
+    <!--объект веб страницы, в котором будет отображаться графика-->
+    <div id="container" style="position: fixed; overflow-y:scroll"></div>
+
+    <script type="importmap">
+        {
+        "imports": {
+            "three": "./js/lib/three.module.js"
+        }
+    }
+</script>
+    <!--подключение скрипта с графической программой-->
+    <script type="module" src="js/main.js"></script>
+    <script src="js/lib/threex.keyboardstate.js"></script>
+    <script src="js/lib/dat.gui.min.js"></script>
+    <script src="js/lib/stats.min.js"></script>
+
+</body>
+
+</html>
+=======
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta
+            http-equiv="X-UA-Compatible"
+            content="IE=edge"
+        />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <title>Lab-5</title>
+    </head>
+    <body>
+        <!--объект веб страницы, в котором будет отображаться графика -->
+        <div class="launch" id="container"></div>
+
+        <!-- Подключение библиотеки ThreeJS -->
+        <script src="js/libs/three.min.js"></script>
+
+        <!-- ==========================Lighting Shader======================================== -->
+        <!-- ============================VertexShader========================================= -->
+        <script id="vertexShader" type="x-shader/x-vertex">
+                attribute float displacement; //смещение для вершины
+                uniform vec3 lightPosition; //позиция источника освещения
+                varying vec3 vNormal; //переменная для передачи нормали
+                varying vec3 lightDir;
+                varying vec2 vUv; //текстурные координаты
+                varying vec3 L; //вектор до источника освещения
+                varying mat3 tbn; //матрица тангент/бинормаль/нормаль
+                attribute vec3 tangent; //тангент вершин
+                varying vec3 FragPos; //позиция вершин//смещение для вершины
+
+                void main() {
+                    vUv = uv;
+                    vec3 vPos = vec3(modelMatrix * vec4(position, 1.0)); //позиции вершины
+                    lightDir = lightPosition - vPos;
+                    lightDir = normalize(lightDir);
+                    vNormal = vec3(modelMatrix * vec4(normal, 1.0)); //нормаль                    
+                    vNormal.y = 0.0; //устранение влияния отклонения нормалей по оси y
+                    vNormal = normalize(vNormal);     
+                    FragPos = vec3(modelMatrix * vec4(position, 1.0));
+
+                    vec3 mvPosition = (modelMatrix * vec4(position,1.0)).xyz;
+                     //вычисление бинормали и применение преобразований к системе координат
+                    vec3 norm = normalize((modelMatrix * vec4(normal,0.0)).xyz);
+                    vec3 tang = normalize((modelMatrix * vec4(tangent, 0.0)).xyz);
+                    vec3 bitang = normalize((modelMatrix * vec4(cross(norm, tang), 0.0)).xyz);
+                    tbn = mat3( tang, bitang, norm );
+                    L = normalize(lightPosition - mvPosition);
+
+               
+                    //vec3 newPosition = position + normal ;//* vec3(displacement); //смещение вершины
+                    //vec3 newPosition = position + normal * vec3(displacement*amp); //смещение вершины
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+                }
+        </script>
+        
+        <!-- ============================FragmentShader======================================= -->
+        <script id="fragmentShader" type="x-shader/x-fragment">
+            uniform sampler2D dTex; //текстура
+            uniform sampler2D nTex; //текстура для ночной стороны
+            uniform vec3 lightPosition; //позиция источника освещения
+            varying vec2 vUv;
+            varying vec3 FragPos;
+
+            uniform sampler2D normTex; //карта нормалей
+            varying vec3 L;
+            varying mat3 tbn;
+            
+            uniform vec4 color; //цвет объекта
+            uniform vec3 lightColor; //цвет света
+            uniform vec3 ambientColor; //цвет фонового освещения
+            
+            varying vec3 vNormal;
+            varying vec3 lightDir;
+
+            
+            void main() {
+                vec3 totalDiffuse = vec3(0.0);
+
+                //цвет не может быть отрицательным, нормаль может
+                vec3 normalMapValue = 2.0 * texture2D(normTex, vUv).rgb- 1.0;
+
+                //в некоторых случаях, необходимо инвертировать r или g компоненту карты нормалей
+                normalMapValue.r = -normalMapValue.r;
+                vec3 unitNormal = normalize(normalMapValue);
+                unitNormal = unitNormal * tbn; //применение преобразований к нормали
+
+                float nDotl = dot(unitNormal, L);
+                float brightness = max(nDotl,0.0); //вычисление коэффициента освещения
+
+                totalDiffuse = ambientColor + (max(nDotl,0.0) * lightColor);
+
+                vec3 dColor = texture2D( dTex, vUv ).rgb; 
+                vec3 nColor = texture2D( nTex, vUv ).rgb; 
+                vec3 lightDir = lightPosition - FragPos;
+                lightDir = normalize(lightDir);
+                float k = max(0.0, dot(vNormal, lightDir)); //коэффициент освещения
+                vec3 color = (dColor * k) + (nColor * (1.0-k));
+
+                totalDiffuse = ambientColor + (brightness * lightColor);
+                vec4 textureColour = texture2D(dTex,vUv); //вычисление цвета
+                vec4 textureColour_ = texture2D(nTex,vUv); //вычисление цвета
+                
+                //сolor = texture2D( dTex, vUv );
+                //vec3 color = vec3(1.0, 1.0, 1.0) * k; //цвет объекта с учётом освещения
+                //gl_FragColor = vec4(color, 1.0);
+                //смешивание текстур в зависимости от коэффициента освещения
+                if (k > 0.0) //вывод цвета в зависимости от коэффициента освещения
+                    gl_FragColor = vec4(vec3(totalDiffuse),1.0) * vec4(color, 1);
+                else
+                    gl_FragColor = vec4(vec3(totalDiffuse),1.0) * vec4(nColor, 1);
+            }
+        </script>
+        <!-- ================================================================================= -->
+
+        <script type="module" src="js/main.js"></script>
+
+        <!--подключение скрипта с графической программой-->
+    </body>
+</html>
+>>>>>>> js_GLSL/master
